@@ -30,4 +30,5 @@ export const EQUATIONS: Record<string, Eq> = {
   SM1: { tex: String.raw`N(t)=\frac{N_0}{1+\tfrac12K_cN_0t},\ \ d(t)=d_0\left(\frac{N_0}{N}\right)^{1/3}`, text: "Smoluchowski coagulation", ref: "seinfeld-pandis" },
   SM2: { tex: String.raw`K_c=\frac{8k_BT}{3\mu}C_c,\ C_c=1+Kn\left(1.257+0.4e^{-1.1/Kn}\right)`, text: "Brownian kernel with slip correction", ref: "seinfeld-pandis" },
   SM3: { tex: String.raw`d_{10}=d_ge^{\frac12\ln^2\sigma_g},\ d_{43}=d_ge^{\frac72\ln^2\sigma_g}`, text: "Self-preserving lognormal moments", ref: "seinfeld-pandis" },
+  SM4: { tex: String.raw`v_s=\frac{\rho_p\, g\, d^2\, C_c(d)}{18\,\mu}`, text: "Stokes settling with slip correction (bounded estimate in partial g)", ref: "seinfeld-pandis" },
 };

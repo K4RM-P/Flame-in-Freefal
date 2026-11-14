@@ -89,7 +89,8 @@ export default function Console() {
         layout={{ margin: { l: 0, r: 0, t: 4, b: 0 }, xaxis: { visible: false }, yaxis: { visible: false }, showlegend: false }} config={{ staticPlot: true }} />
     </ResultCard>,
     smoke: <ResultCard key="smoke" testid="card-smoke" title="Smoke at detector (2 min)" r={r.smoke} unit="nm"
-      meaning={<>Favoured: {String(r.smoke.extra.favoured_detector)}. SAME-R measured averages mostly 200–400 nm <SourcePill id="same-r" />.</>} />,
+      meaning={<>Favoured: {String(r.smoke.extra.favoured_detector)}. SAME-R measured averages mostly 200–400 nm <SourcePill id="same-r" />.{" "}
+        <span data-testid="smoke-settling">{s.gravity_g > 0 ? <>At {sig(s.gravity_g, 2)} g the largest band particles (d43) settle {sig(r.smoke.extra.settling_mm_s as number, 2)} mm/s, about {sig(r.smoke.extra.settled_mm_over_transport as number, 2)} mm in 2 min, so they stay airborne to the detector (unit density, to verify; bounded estimate).</> : <>No gravitational settling in µg.</>}</span></>} />,
   };
 
   const implications = [

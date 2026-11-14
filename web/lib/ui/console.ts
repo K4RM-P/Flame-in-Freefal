@@ -16,7 +16,7 @@ export function computeScenario(s: Scenario, agent: string, fire: { Q_kW: number
     supp: runSuppression(m.id, s.x_o2, s.P_kPa, agent, 120),
     suppRef: runSuppression("n-heptane", s.x_o2, s.P_kPa, agent, 120),
     hab: runHabitat(m.id, s.x_o2, s.P_kPa, s.V_m3, fire.Q_kW, fire.t_s, 1800, 0, false, 20),
-    smoke: runSmoke(120, undefined, undefined, s.P_kPa),
+    smoke: runSmoke(120, undefined, undefined, s.P_kPa, s.gravity_g),
   };
 }
 

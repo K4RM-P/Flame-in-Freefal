@@ -618,6 +618,14 @@
    "note": "photoelectric (scattering) favours d > ~0.3 um",
    "source": "same-r",
    "status": "TODO_VERIFY"
+  },
+  "particle_density": {
+   "value": 1000.0,
+   "units": "kg/m3",
+   "note": "unit-density convention used in the PSI-47 DAFT workbook (density 1.0 g/cm3); real smoke/soot densities differ",
+   "source": "PSI-47",
+   "locator": "PSI-47_Analyzed Data_DAFT Retrieved Data Summary.xls, sheet 'Logged Data Summary', cell D20",
+   "status": "TODO_VERIFY"
   }
  },
  "habitat": {

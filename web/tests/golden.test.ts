@@ -56,6 +56,7 @@ describe("golden vectors (Python emberphys == TS port)", () => {
       close(G.buoyantVelocity(gi.g, gi.x, gi.P, gi.T_f, Tinf), G_.gravity[k].out.u_b, RTOL, "u_b");
       const si = G_.smoke[k].in, so = G_.smoke[k].out, s = SM.age(si.t, si.N0, si.d0, Tinf, si.P);
       for (const key of ["N", "d30", "d10", "d43", "K_c"]) close((s as any)[key], so[key], RTOL, key);
+      close(SM.settlingVelocity(si.d0, si.g, Tinf, si.P), so.v_s, RTOL, "v_s");
     });
   });
   it("habitat ODE (rtol 1e-3)", () => {

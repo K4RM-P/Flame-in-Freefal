@@ -88,3 +88,12 @@ test("A3: ticking two test points shows only the conditions that changed", async
   await expect(d).toContainText("What changed · FLEX-001 → FLEX-002");
   await expect(d).toContainText("initial droplet diameter");
 });
+
+test("A2: lunar Console smoke card reports gravitational settling (bounded estimate)", async ({ page }) => {
+  await page.goto("/start");
+  await page.getByTestId("role-safety").click();
+  await page.getByTestId("start-env-LunarHabitat").click();
+  await page.getByTestId("start-mat-sibal").click();
+  await expect(page.getByTestId("smoke-settling")).toContainText("settle");
+  await expect(page.getByTestId("smoke-settling")).toContainText("bounded estimate");
+});

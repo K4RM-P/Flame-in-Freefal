@@ -170,19 +170,21 @@ export function runHabitat(material: string, x_o2: number, P_kPa: number, V_m3: 
   };
 }
 
-export function runSmoke(transport_s: number, N0?: number, d0_nm?: number, P_kPa = 101.3): ModelResult {
+export function runSmoke(transport_s: number, N0?: number, d0_nm?: number, P_kPa = 101.3, gravity_g = 0): ModelResult {
   const n0 = N0 ?? prop("smoke", "N0_default");
   const d0 = (d0_nm ?? prop("smoke", "d0_default_nm")) * 1e-9;
   const r = SM.age(transport_s, n0, d0, T_AMB, P_kPa * 1e3);
+  const vS = SM.settlingVelocity(r.d43, gravity_g, T_AMB, P_kPa * 1e3); // largest band diameter settles fastest
   return {
     model_id: "smoke", value: r.d30 * 1e9, units: "nm (volume-mean diameter)",
     uncertainty: { p05: r.d10 * 1e9, p50: r.d30 * 1e9, p95: r.d43 * 1e9 },
-    inputs: { transport_s, N0_m3: n0, d0_nm: d0 * 1e9, P_kPa }, equation_ids: SM.EQ,
+    inputs: { transport_s, N0_m3: n0, d0_nm: d0 * 1e9, P_kPa, gravity_g }, equation_ids: SM.EQ,
     assumptions: ["monodisperse-equivalent Brownian coagulation with constant K_c(d0)", "self-preserving lognormal width σ_g for d10/d43 (band shows d10–d43, not MC)",
-      "N0, d0 UNCALIBRATED (SAME-R fit pending)"],
+      "N0, d0 UNCALIBRATED (SAME-R fit pending)", "settling: Stokes + slip at d43, unit particle density (TODO_VERIFY); partial gravity = bounded estimate"],
     validity: { in_envelope: false, nearest_data_distance: null, calibrated: false, note: "Uncalibrated — theory only; SAME-R reports averages mostly 200–400 nm" },
     sources: ["seinfeld-pandis", "same-r"],
-    extra: { d10_nm: r.d10 * 1e9, d43_nm: r.d43 * 1e9, N_m3: r.N, K_c: r.K_c, favoured_detector: SM.favouredDetector(r.d43) },
+    extra: { d10_nm: r.d10 * 1e9, d43_nm: r.d43 * 1e9, N_m3: r.N, K_c: r.K_c, favoured_detector: SM.favouredDetector(r.d43),
+      settling_mm_s: vS * 1e3, settled_mm_over_transport: vS * transport_s * 1e3 },
   };
 }
 

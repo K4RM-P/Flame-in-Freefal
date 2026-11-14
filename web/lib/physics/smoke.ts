@@ -1,16 +1,22 @@
 // SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
-// Port of emberphys/smoke.py (SM1-SM3).
+// Port of emberphys/smoke.py (SM1-SM4).
 import { prop } from "./data";
 import { R, mixM, muAir } from "./thermo";
 
-export const EQ = ["SM1", "SM2", "SM3"];
-export function coagCoeff(d: number, T: number, P: number): number {
+export const EQ = ["SM1", "SM2", "SM3", "SM4"];
+export function slip(d: number, T: number, P: number): number {
   const mu = muAir(T);
   const M = mixM({ O2: 0.21, N2: 0.79 });
   const lam = (2 * mu) / (P * Math.sqrt((8 * M) / (Math.PI * R * T)));
   const Kn = (2 * lam) / d;
-  const Cc = 1 + Kn * (1.257 + 0.4 * Math.exp(-1.1 / Kn));
-  return ((8 * prop("constants", "k_B") * T) / (3 * mu)) * Cc;
+  return 1 + Kn * (1.257 + 0.4 * Math.exp(-1.1 / Kn));
+}
+export function coagCoeff(d: number, T: number, P: number): number {
+  return ((8 * prop("constants", "k_B") * T) / (3 * muAir(T))) * slip(d, T, P);
+}
+/** SM4: Stokes settling speed (m/s) with slip correction at g_rel × standard gravity. */
+export function settlingVelocity(d: number, gRel: number, T: number, P: number, rhoP: number = prop("smoke", "particle_density")): number {
+  return (rhoP * gRel * prop("constants", "g0") * d ** 2 * slip(d, T, P)) / (18 * muAir(T));
 }
 export function age(t: number, N0: number, d0: number, T: number, P: number) {
   const K = coagCoeff(d0, T, P);
