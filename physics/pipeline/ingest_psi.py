@@ -396,13 +396,24 @@ def smoke_measures() -> dict:
         dust.append({"sample": f"Arizona Road Dust (ARD Fine), {bag}", "ptrak_n_cm3": float(d.iloc[4, c]), "dusttrak_mg_m3": float(d.iloc[4, c + 1]),
                      "d_um_mass_number_equiv": float(d.iloc[8, c]), "source_id": "PSI-47",
                      "locator": f"PSI-47_{dname}, sheet 'Logged Data Summary', rows 5 and 9 (bag averages; source note: 'Data is from other sheet')"})
+    # Per-material medians over flight tests with a recorded signal (M0 > 0), and each material's rank by each measure.
+    df = pd.DataFrame(rows)
+    sig = df[(df.m0.fillna(0) > 0) & df.dusttrak_b_mg_m3.notna()]
+    agg = sig.groupby("material").agg(n=("test", "size"), m0=("m0", "median"), m1=("m1", "median"),
+                                      dusttrak_b_mg_m3=("dusttrak_b_mg_m3", "median"), cmd_um=("cmd_um", "median"), dam_um=("dam_um", "median"))
+    for c in ("m0", "m1", "dusttrak_b_mg_m3"):
+        agg[f"rank_{c}"] = agg[c].rank(ascending=False, method="min").astype(int)
+    no_signal = df[df.m0.fillna(0) <= 0].groupby("material").size().to_dict()
+    by_material = agg.reset_index().to_dict(orient="records")
     labels = {"m0": "M0, number concentration (column 'M0 best Diameter', as tabulated)", "m1": "M1, first moment (mm/cm³) — ionization-type signal",
               "mpass3": "MPASS third moment (offset and dilution corrected; no unit in header) — mass/volume-type signal",
               "dusttrak_b_mg_m3": "DustTrak B, light-scattering mass (mg/m³, calibrated, dilution-corrected)",
               "cmd_um": "M1/M0 count-mean diameter (µm)", "dam_um": "diameter of average mass (µm)"}
-    return {"rows": rows, "dust": dust, "labels": labels,
-            "dust_note": "DAFT diameters are mass/number-equivalent values computed in the source workbook (DustTrak/P-Trak with density 1.0); "
-                         "they are not the same definition as the SAME/SAME-R count-mean diameter.",
+    return {"rows": rows, "dust": dust, "labels": labels, "by_material": by_material, "no_signal_tests": no_signal,
+            "aggregation": "median over SAME and SAME-R flight tests with M0 > 0 and a DustTrak B value; rank 1 = largest",
+            "dust_note": "DAFT diameters are mass/number-equivalent diameters (diameter of average mass) computed in the source workbook "
+                         "from DustTrak mass / P-Trak number with density 1.0 g/cm3; the SAME/SAME-R sheet's 'Diameter of Average mass' is the same "
+                         "definition, but its assumed particle density is not stated in the sheet. Count-mean diameters (M1/M0) are a different definition.",
             "alarm_note": "The SAME/SAME-R workbook gives detector scatter voltages but no alarm thresholds or alarm states, "
                           "so no alarm result is stated.",
             "source_ids": ["PSI-101", "PSI-47"]}

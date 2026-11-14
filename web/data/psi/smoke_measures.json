@@ -2653,7 +2653,74 @@
   "cmd_um": "M1/M0 count-mean diameter (\u00b5m)",
   "dam_um": "diameter of average mass (\u00b5m)"
  },
- "dust_note": "DAFT diameters are mass/number-equivalent values computed in the source workbook (DustTrak/P-Trak with density 1.0); they are not the same definition as the SAME/SAME-R count-mean diameter.",
+ "by_material": [
+  {
+   "material": "Kapton",
+   "n": 33,
+   "m0": 1151405.4928839717,
+   "m1": 150.78802566833693,
+   "dusttrak_b_mg_m3": 4.6785825,
+   "cmd_um": 0.11797700268537473,
+   "dam_um": 0.1761433869212854,
+   "rank_m0": 4,
+   "rank_m1": 5,
+   "rank_dusttrak_b_mg_m3": 5
+  },
+  {
+   "material": "Lampwick",
+   "n": 25,
+   "m0": 1343413.4028339714,
+   "m1": 287.9516460795371,
+   "dusttrak_b_mg_m3": 28.967369521896455,
+   "cmd_um": 0.18575397529201682,
+   "dam_um": 0.3551212014658097,
+   "rank_m0": 3,
+   "rank_m1": 3,
+   "rank_dusttrak_b_mg_m3": 3
+  },
+  {
+   "material": "Pyrell",
+   "n": 20,
+   "m0": 1524855.3066602289,
+   "m1": 613.6647983748303,
+   "dusttrak_b_mg_m3": 115.96111720426035,
+   "cmd_um": 0.3016229801437754,
+   "dam_um": 0.5360924396318456,
+   "rank_m0": 2,
+   "rank_m1": 1,
+   "rank_dusttrak_b_mg_m3": 2
+  },
+  {
+   "material": "Silicone",
+   "n": 29,
+   "m0": 1666662.2131405217,
+   "m1": 512.4517731892392,
+   "dusttrak_b_mg_m3": 145.69428037442378,
+   "cmd_um": 0.27610024306330005,
+   "dam_um": 0.5533111925741597,
+   "rank_m0": 1,
+   "rank_m1": 2,
+   "rank_dusttrak_b_mg_m3": 1
+  },
+  {
+   "material": "Teflon",
+   "n": 23,
+   "m0": 1010553.8850986513,
+   "m1": 232.37147658869438,
+   "dusttrak_b_mg_m3": 21.533279999999998,
+   "cmd_um": 0.17780543707723964,
+   "dam_um": 0.2672082375696318,
+   "rank_m0": 5,
+   "rank_m1": 4,
+   "rank_dusttrak_b_mg_m3": 4
+  }
+ ],
+ "no_signal_tests": {
+  "DBP": 20,
+  "Kapton": 3
+ },
+ "aggregation": "median over SAME and SAME-R flight tests with M0 > 0 and a DustTrak B value; rank 1 = largest",
+ "dust_note": "DAFT diameters are mass/number-equivalent diameters (diameter of average mass) computed in the source workbook from DustTrak mass / P-Trak number with density 1.0 g/cm3; the SAME/SAME-R sheet's 'Diameter of Average mass' is the same definition, but its assumed particle density is not stated in the sheet. Count-mean diameters (M1/M0) are a different definition.",
  "alarm_note": "The SAME/SAME-R workbook gives detector scatter voltages but no alarm thresholds or alarm states, so no alarm result is stated.",
  "source_ids": [
   "PSI-101",

@@ -5,6 +5,10 @@ import { useMission } from "@/lib/store";
 import { runDroplet, runGravity, runHabitat, runSmoke, runSpread, runSuppression } from "@/lib/physics/models";
 import { ModelLink, SourcePill, fmt } from "@/components/bits";
 import { Caveat } from "@/components/Nav";
+import { SmokeMeasures } from "@/components/SmokeMeasures";
+import sm from "@/data/psi/smoke_measures.json";
+
+const SMOKE = sm as unknown as { by_material: { cmd_um: number }[] };
 
 export default function Implications() {
   const m = useMission();
@@ -25,8 +29,8 @@ export default function Implications() {
       text: `De Ris theory gives SIBAL spread ${fmt(r.sp.value)} mm/s here vs ${fmt(r.sp21.value)} mm/s at ISS air (×${fmt(r.sp.value / r.sp21.value, 2)}). Thin-fuel spread scales with flame temperature, which rises with O₂ mass fraction; pressure enters only through thick fuels.`,
       src: ["de-ris-1969", "quintiere-ffp"] },
     { pillar: "Detection", conf: "low (uncalibrated)", model: "smoke",
-      text: `After 2 min transport, coagulation moves the size distribution only modestly (d43 ≈ ${fmt(r.sm.extra.d43_nm as number)} nm at default N₀). SAME/SAME-R measured averages mostly in 200–400 nm, so detectors should be qualified across that range; photoelectric sensing favours sizes above ≈300 nm.`,
-      src: ["same-r", "seinfeld-pandis"] },
+      text: `After 2 min transport, coagulation moves the size distribution only modestly (d43 ≈ ${fmt(r.sm.extra.d43_nm as number)} nm at default N₀). SAME/SAME-R flight medians of the count-mean diameter span ${fmt(Math.min(...SMOKE.by_material.map((x) => x.cmd_um)), 2)}–${fmt(Math.max(...SMOKE.by_material.map((x) => x.cmd_um)), 2)} µm across materials, so detectors should be qualified across that range (see "one smoke, three signals" below).`,
+      src: ["PSI-101", "seinfeld-pandis"] },
     { pillar: "Detection", conf: "low (uncalibrated)", model: "habitat",
       text: `A 10 kW, 5 min cotton fire in ${m.V_m3} m³ raises cabin temperature by ≈${fmt(r.hab.value)} K and pressure by ${fmt(r.hab.extra.peak_dP_kPa as number)} kPa; CO peaks at ${fmt(r.hab.extra.peak_co_ppm as number)} ppm against a 1 h SMAC of 425 ppm. Pressure-rise and CO sensing are complementary detection channels.`,
       src: ["huggett-1980", "jsc-20584-revC"] },
@@ -41,6 +45,7 @@ export default function Implications() {
     <div className="space-y-4">
       <h1 className="text-2xl font-semibold">Design implications</h1>
       <Caveat />
+      <SmokeMeasures />
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {cards.map((c) => (
           <article key={c.text} className="card space-y-2 text-sm">

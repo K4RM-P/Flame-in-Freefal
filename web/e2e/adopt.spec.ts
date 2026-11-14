@@ -61,3 +61,12 @@ test("B8: PSI Combustion Science resource link on landing and Methods; Limitatio
   const l = page.getByTestId("limitations");
   for (const t of ["Small n", "Like-for-like", "Calculated vs measured", "No partial-gravity data in PSI", "digitized"]) await expect(l).toContainText(t);
 });
+
+test("B5: Implications shows number, first-moment and mass smoke measures with dust overlap and no alarm claim", async ({ page }) => {
+  await page.goto("/implications");
+  const s = page.getByTestId("smoke-measures");
+  await expect(s).toContainText("one smoke, three signals");
+  await expect(s).toContainText("ionization-type");
+  await expect(s).toContainText("Arizona Road Dust");
+  await expect(s).toContainText("no alarm result is stated");
+});
