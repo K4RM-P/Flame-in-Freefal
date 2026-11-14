@@ -12,7 +12,7 @@
    - **1 g T_crit:** derived from the n-heptane cup-burner N₂ MEC (candidate 32%, NFPA 2001/Senecal 2005). Confirm the MEC value.
    - Fuel properties (Turns App. B; NIST), species conductivities (Incropera Table A.4), Westbrook–Dryer activation energies, PMMA/cellulose properties (Quintiere), SIBAL thickness and areal density, CO yields (SFPE/Tewarson), mission free volumes.
    - Investigation cards (`investigations.yaml`): confirm years, hardware, fuels, ranges against PSI pages.
-6. **Keys/accounts:** provide `ANTHROPIC_API_KEY` (Vercel env) and the Vercel account/team.
+6. **Keys/accounts:** provide `OPENAI_API_KEY` (+ optional `OPENAI_MODEL`) as Vercel env vars, never `NEXT_PUBLIC_` and the Vercel account/team.
 7. **Video:** record the 30-second video on the production URL (script in PRD §13), English subtitles.
 - Drop-tower suppressant study (PRD §2): supply the full citation for `drop-tower-suppressant` in sources.yaml.
 
@@ -32,6 +32,3 @@ Open each file from psi.nasa.gov (or `physics/data/raw/psi/`) and compare the li
 - **saffire**: `PSI-100_Experimental table_SAFFIRE-3.csv` lines 2, 3; `PSI-98_Experimental table_SAFFIRE-1.csv` lines 2, 3; `PSI-99_Experimental table_SAFFIRE-2.csv` lines 2, 3, 4, 5, 6, 7, 8, 9, 10
 - **same_r**: `PSI-101_Experimental table_SAME-R.csv` lines 3, 9, 15, 18, 24, 27, 30, 32, 58, 60, 67, 69, 71, 73, 77, 79, 84, 90, 92, 98
 - **spice**: `PSI-107_Experimental table_Spice.csv` lines 5, 41, 50, 51, 59, 133, 137, 142, 167, 174, 179, 192, 204, 252, 291, 299, 375, 382, 385, 444
-
-- [ ] TODO_VERIFY: realistic cabin ventilation flow range used by the "Acceptable margin" verdict rule (currently 0–30 cm/s from the review spec, `web/lib/review/rules.ts`). Data instance: move to physics/data with a source.
-- [ ] Record the 30 s video per docs/PITCH.md + docs/VIDEO_SHOTLIST.md; deploy; set ANTHROPIC_API_KEY for Ask EmberAtlas.

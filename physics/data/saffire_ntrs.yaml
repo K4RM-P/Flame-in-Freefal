@@ -1,0 +1,32 @@
+# SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
+# Saffire flight results transcribed from the cited NASA papers (not PSI tables). Values exactly as printed; units SI-suffixed.
+# Transcribed 2026-11-14 from pdftotext of the NTRS PDFs; verified=false until the human spot-check (docs/HUMAN_TASKS.md).
+ntrs-20180005168:
+  title: "Saffire: A Novel Approach to Study of Spacecraft Fire Safety Using Un-Manned Spacecraft (Urban et al.)"
+  url: "https://ntrs.nasa.gov/citations/20180005168"
+  locator_conditions: "PDF p.30, Table 1. Summary of Samples, Test Conditions, and Selected Results"
+  locator_results: "PDF p.31, Table 1 (continued)"
+  # sample, material, width_cm, thickness_mm, length_cm, flow_cm_s, direction, O2 % (start, end; one value = '~'),
+  # burn_duration_s (null = 'Insignificant'), ug_spread_mm_s (null = n/a / note), ug_burn_length_raw
+  samples:
+    - {sample: I-1,   psi: PSI-98,  material: sibal,    width_cm: 40.6, thickness_mm: 0.37, length_cm: 94, flow_cm_s: 20, direction: concurrent, o2_pct: [21.7, 21.5], burn_duration_s: 420, ug_spread_mm_s: 1.8,  ug_burn_length_raw: "~ 84 cm"}
+    - {sample: I-2,   psi: PSI-98,  material: sibal,    width_cm: 40.6, thickness_mm: 0.37, length_cm: 10, flow_cm_s: 20, direction: opposed,    o2_pct: [21.5],       burn_duration_s: 70,  ug_spread_mm_s: 1.3,  ug_burn_length_raw: "~ 10 cm"}
+    - {sample: II-1,  psi: PSI-99,  material: silicone, width_cm: 5,    thickness_mm: 0.27, length_cm: 29, flow_cm_s: 20, direction: concurrent, o2_pct: [22.1],       burn_duration_s: null, ug_spread_mm_s: null, ug_burn_length_raw: "~0"}
+    - {sample: II-2,  psi: PSI-99,  material: silicone, width_cm: 5,    thickness_mm: 0.61, length_cm: 29, flow_cm_s: 20, direction: concurrent, o2_pct: [22.1],       burn_duration_s: null, ug_spread_mm_s: null, ug_burn_length_raw: "~0"}
+    - {sample: II-3,  psi: PSI-99,  material: silicone, width_cm: 5,    thickness_mm: 1.03, length_cm: 29, flow_cm_s: 20, direction: concurrent, o2_pct: [22.1],       burn_duration_s: null, ug_spread_mm_s: null, ug_burn_length_raw: "~0"}
+    - {sample: II-4,  psi: PSI-99,  material: silicone, width_cm: 5,    thickness_mm: 0.37, length_cm: 29, flow_cm_s: 20, direction: opposed,    o2_pct: [22.1],       burn_duration_s: null, ug_spread_mm_s: null, ug_burn_length_raw: "~0"}
+    - {sample: II-5,  psi: PSI-99,  material: sibal,    width_cm: 5,    thickness_mm: 0.37, length_cm: 29, flow_cm_s: 20, direction: concurrent, o2_pct: [22.1],       burn_duration_s: 145, ug_spread_mm_s: 2.1,  ug_burn_length_raw: "29 cm"}
+    - {sample: II-6,  psi: PSI-99,  material: sibal,    width_cm: 5,    thickness_mm: 0.37, length_cm: 29, flow_cm_s: 25, direction: concurrent, o2_pct: [22.1],       burn_duration_s: 115, ug_spread_mm_s: 2.6,  ug_burn_length_raw: "29 cm"}
+    - {sample: III-1, psi: PSI-100, material: sibal,    width_cm: 40.6, thickness_mm: 0.37, length_cm: 94, flow_cm_s: 25, direction: concurrent, o2_pct: [21.2, 21.0], burn_duration_s: 300, ug_spread_mm_s: 2.3,  ug_burn_length_raw: "~ 84 cm"}
+    - {sample: III-2, psi: PSI-100, material: sibal,    width_cm: 40.6, thickness_mm: 0.37, length_cm: 10, flow_cm_s: 25, direction: opposed,    o2_pct: [21.2, 21.0], burn_duration_s: 60,  ug_spread_mm_s: 0.98, ug_burn_length_raw: "~ 10 cm"}
+  flame_power:
+    - {flight: Saffire-I,  value_W: 1200, pm_W: 300, locator: "PDF p.23 ('Average flame power: Saffire 1: 1200 +/- 300 W')"}
+    - {flight: Saffire-II, value_W: 200,  pm_W: 50,  locator: "PDF p.23"}
+ntrs-20210011521:
+  title: "Fire Safety Implications of Preliminary Results from Saffire IV and V Experiments on Large Scale Spacecraft Fires (ICES-2021-266)"
+  url: "https://ntrs.nasa.gov/citations/20210011521"
+  vehicle_volumes:
+    - {flight: Saffire-IV, pressurized_m3: 18.7, free_m3: 17.9, locator: "PDF p.3, Table 1 (Pressurized Volume / Free volume)"}
+    - {flight: Saffire-V,  pressurized_m3: 19.2, free_m3: 19.0, locator: "PDF p.3, Table 1"}
+  sibal_areal_density: {value_kg_m2: 0.1805, raw: "18.05 mg/cm2", locator: "PDF p.4, sample description"}
+  note: "Saffire-III's Cygnus free volume is not stated in either paper; the Saffire-IV value is the nearest sourced Cygnus free volume (proxy, TODO_VERIFY)."

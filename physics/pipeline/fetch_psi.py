@@ -8,7 +8,7 @@ API (psi.nasa.gov, guide shared on Space Apps Connect #2157):
   doi       /geode-py/ws/repo/investigations/PSI-{ID}?fields=accession,doi
   download  https://psi.nasa.gov + remote_url
 
-Rules: never download zips/videos/raw data; only "Experimental table" files plus named small reference/analyzed
+Rules: never download zips/videos/raw image data; only "Experimental table" files plus named small reference/analyzed
 spreadsheets, each checked against MAX_BYTES before download. Idempotent (cached files are reused when the size
 matches; JSON responses are cache-first, `--refresh` re-pulls). Fail soft: when PSI is unreachable, the exact files are listed in docs/HUMAN_TASKS.md for a browser download.
 
@@ -50,6 +50,7 @@ EXTRA = {
     25: ["PSI-25_Reference Data_Fan calibration data.xlsx", "PSI-25_Science Documents_BASS-II_Test.Matrices.xlsx"],
     26: ["PSI-26_Science Documents_As Run_Test Matrix.xlsx"],
     47: ["PSI-47_Analyzed Data_DAFT Retrieved Data Summary.xls"],
+    100: ["PSI-100_Raw Data_Raw telemetry file.csv"],
     101: ["PSI-101_Analyzed Data_SAME, SAME-R_Results.xlsx"],
 }
 SKIP_EXT = (".zip", ".mp4", ".mov", ".avi", ".tif", ".tiff")

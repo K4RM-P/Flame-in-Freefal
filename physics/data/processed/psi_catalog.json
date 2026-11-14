@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-11-14T17:22:56+00:00",
+ "fetched_at": "2026-11-14T19:09:25+00:00",
  "api": "https://psi.nasa.gov/geode-py/ws",
  "investigations": {
   "PSI-26": {
@@ -138,6 +138,15 @@
    "file_count": 87,
    "files_listed": true,
    "manifest": [
+    {
+     "accession": "PSI-100",
+     "file": "PSI-100_Raw Data_Raw telemetry file.csv",
+     "category": "Raw Data",
+     "bytes": 1656916,
+     "sha256": "dfb204ce3bdf8b1749652549afcbad31d180902bc268dfbe782c70fa38d170a2",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-100/download?source=datamanager&file=PSI-100_Raw+Data_Raw+telemetry+file.csv",
+     "fetched_at": "2026-11-14T19:09:25+00:00"
+    },
     {
      "accession": "PSI-100",
      "file": "PSI-100_Experimental table_SAFFIRE-3.csv",
@@ -547,8 +556,8 @@
    "title": "Effect of External Thermo-Convective Perturbation on Cool Flame Dynamics: A Multidimensional Multi-Physics CFD Analysis",
    "objective": "The objective of this ground investigation was to use flight data obtained from PSI through NASA’s Flame Extinguishment Experiment (FLEX) to quantify how externally imposed thermal and convective perturbations regulated the dynamics and ultimate fate of already established droplet cool flames, and to explain run-to-run variability by isolating the roles of deliberate heating and unintentional drift-induced convection. Focusing on both small and large droplets, the work mapped stability windows for ignition, sustained oscillation, transitions to hot ignition and warm-flame behavior, and extinction under microgravity. By leveraging and extending the FLEX data in the PSI, this study produced reusable models and sensitivity analyses that coupled low-temperature chemistry with transport and radiative effects.",
    "public_release_date": "10-Jun-2026",
-   "doi": null,
-   "psi_url": "https://psi.nasa.gov",
+   "doi": "10.60555/gz0q-b577",
+   "psi_url": "https://doi.org/10.60555/gz0q-b577",
    "file_count": 16,
    "files_listed": true,
    "manifest": []
@@ -561,8 +570,8 @@
    "title": "Utilization of the Smoke Aerosol Measurement Experiment Data for Advanced Modeling and Simulation of Smoke Generation in Micro-Gravity",
    "objective": "The objective of this investigation was to use numerical simulation to explore the influence of gravity on pyrolysis smoke growth from a fundamental perspective. The intention of this effort is to quantify the differences between microgravity and Earth gravity smoke, and to identify the fluid dynamic mechanisms that cause the differences.",
    "public_release_date": "18-Sep-2024",
-   "doi": null,
-   "psi_url": "https://psi.nasa.gov",
+   "doi": "10.60555/q0v5-1v28",
+   "psi_url": "https://doi.org/10.60555/q0v5-1v28",
    "file_count": 47,
    "files_listed": true,
    "manifest": []
@@ -575,8 +584,8 @@
    "title": "Concurrent Flame Spread Modeling using Flamelet Generated Manifolds in Microgravity with Comparison to BASS Experiments using Two-Color Tomography",
    "objective": "The objective of this research was to develop and validate new flamelet generated manifold (FGM) modeling techniques for concurrent flame spread in microgravity. Concurrent flame spread presented one of the greatest modeling challenges in combustion science due to the intricate coupling between heat transfer, mass transport, and chemical kinetics near the solid-vapor interface. Traditional modeling strategies often relied on hybridized turbulence and chemistry models that were not fully consistent and failed to capture important intermediate reaction pathways.\nTo overcome these shortcomings, this PSI grant advanced the use of an unsteady flamelet generated manifold (UFGM) framework that reduced the complexity of reacting systems by mapping them into lower-dimensional manifolds. The research aimed to leverage this methodology to simulate solid fuel combustion processes with high fidelity, using the NASA Burning and Suppression of Solids (BASS and BASS-II) experiments as benchmarks. Ultimately, the long-term goal was to enable accurate prediction of flammability limits for spacecraft materials and to provide a tool that could also serve as a subgrid-scale model in large-eddy simulations of fires, supporting spacecraft safety and hazard mitigation.",
    "public_release_date": "14-Nov-2025",
-   "doi": null,
-   "psi_url": "https://psi.nasa.gov",
+   "doi": "10.60555/e9xp-ex83",
+   "psi_url": "https://doi.org/10.60555/e9xp-ex83",
    "file_count": 1,
    "files_listed": true,
    "manifest": []
@@ -589,8 +598,8 @@
    "title": "Computational and Experimental Analysis of SPICE Data Sets",
    "objective": "This ground investigation  sought to increase understanding of the issues that control the large discrepancy between soot formation in 1g and in 0g flames.  The objective of this investigation was to integrate computational and experimental methods to derive temperature distributions and soot volume fractions from the Smoke Point in Coflow Experiment (SPICE) data available in PSI. By analyzing over 1600 raw DSLR images and incorporating advanced soot models, the study sought to improve understanding of soot formation, oxidation, radiative re-absorption, and aggregate growth in heavily sooting flames. The work further aimed to reconcile microgravity and normal gravity flame behavior, identify key physical and chemical processes influencing smoke point development, and provide a framework for evaluating model parameter sensitivity.",
    "public_release_date": "30-Sep-2025",
-   "doi": null,
-   "psi_url": "https://psi.nasa.gov",
+   "doi": "10.60555/mzjm-yv57",
+   "psi_url": "https://doi.org/10.60555/mzjm-yv57",
    "file_count": 1,
    "files_listed": true,
    "manifest": []

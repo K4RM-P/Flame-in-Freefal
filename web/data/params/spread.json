@@ -1,0 +1,105 @@
+{
+ "model_id": "spread",
+ "version": "0.2.0",
+ "calibrated": true,
+ "params": {
+  "f_T": 0.690345970577126,
+  "mu": null,
+  "b": 1.0
+ },
+ "param_sd": null,
+ "materials": {
+  "sibal": {
+   "params": {
+    "f_T": 0.690345970577126,
+    "mu": null,
+    "b": 1.0
+   }
+  }
+ },
+ "split": {
+  "group": "flight",
+  "train_ids": [
+   "I-2"
+  ],
+  "test_ids": [
+   "III-2"
+  ]
+ },
+ "metrics": {
+  "train": [
+   {
+    "sample": "I-2",
+    "obs_mm_s": 1.3,
+    "pred_mm_s": 1.3,
+    "rel_err": -0.0,
+    "direction": "opposed"
+   }
+  ],
+  "test": [
+   {
+    "sample": "III-2",
+    "obs_mm_s": 0.98,
+    "pred_mm_s": 1.2669,
+    "rel_err": 0.2928,
+    "direction": "opposed"
+   }
+  ],
+  "test_mape_pct": 29.3,
+  "theory_f_T_1_test": [
+   {
+    "sample": "III-2",
+    "obs_mm_s": 0.98,
+    "pred_mm_s": 2.4509,
+    "rel_err": 1.5009,
+    "direction": "opposed"
+   }
+  ],
+  "concurrent_not_modelled": [
+   {
+    "sample": "I-1",
+    "obs_mm_s": 1.8,
+    "pred_mm_s": 1.3083,
+    "rel_err": -0.2732,
+    "direction": "concurrent"
+   },
+   {
+    "sample": "II-5",
+    "obs_mm_s": 2.1,
+    "pred_mm_s": 1.3498,
+    "rel_err": -0.3572,
+    "direction": "concurrent"
+   },
+   {
+    "sample": "II-6",
+    "obs_mm_s": 2.6,
+    "pred_mm_s": 1.3498,
+    "rel_err": -0.4808,
+    "direction": "concurrent"
+   },
+   {
+    "sample": "III-1",
+    "obs_mm_s": 2.3,
+    "pred_mm_s": 1.2669,
+    "rel_err": -0.4492,
+    "direction": "concurrent"
+   }
+  ]
+ },
+ "sources": [
+  {
+   "source_id": "ntrs-20180005168",
+   "locator": "PDF p.30, Table 1. Summary of Samples, Test Conditions, and Selected Results; PDF p.31, Table 1 (continued)"
+  },
+  {
+   "source_id": "PSI-98",
+   "locator": "PSI-98_Experimental table_SAFFIRE-1.csv, line 3 (S2, opposed)"
+  },
+  {
+   "source_id": "PSI-100",
+   "locator": "PSI-100_Experimental table_SAFFIRE-3.csv, line 3 (S2, opposed)"
+  }
+ ],
+ "applies_to": "sibal (thin fabric), opposed flow, ~21% O2, 100 kPa, \u00b5g. Other materials/conditions stay theory-only (f_T = 1).",
+ "note": "Calibrated on ONE opposed-flow flight test (I-2), tested on ONE (III-2). BASS-II tables have no spread rates. Concurrent spread (I-1, II-5, II-6, III-1) is outside the de Ris opposed-flow model and is reported only."
+}
