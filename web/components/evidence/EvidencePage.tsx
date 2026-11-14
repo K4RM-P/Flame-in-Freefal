@@ -23,7 +23,7 @@ export function EvidencePage() {
         <h1 className="display mt-2 text-[clamp(2rem,5vw,3.6rem)] leading-none">What NASA has tested, and where it stops.</h1>
       </header>
 
-      <section aria-labelledby="evo-h" className="space-y-3">
+      <section id="earth-vs-orbit" aria-labelledby="evo-h" className="space-y-3 scroll-mt-20">
         <h2 id="evo-h" className="text-[22px] font-semibold">Does the Earth test hold up in orbit?</h2>
         <div data-testid="evo-counts" className="panel p-3 text-[16px]">
           <span className="num">{counts.n}</span> like-for-like SAFFIRE-II samples: <span className="num">{counts.better}</span> less flammable in orbit, <span className="num">{counts.same}</span> the same, <span className="num">{counts.worse}</span> worse
@@ -34,7 +34,7 @@ export function EvidencePage() {
             <tbody>
               {evo.rows.map((r, i) => (
                 <tr key={`${r.sample}-${i}`} title={[r.source_id, r.locator].filter(Boolean).join(" · ")}>
-                  <td className="num">{r.sample}</td><td>{r.material}</td><td className="num">{r.thickness}</td>
+                  <td className="num">{r.sample}</td><td>{r.material}</td><td className="num">{r.thickness}{/^0\d/.test(String(r.thickness)) && <span className="text-warn" title="Raw PSI-99 cell, shown as written (decimal point likely missing)"> †</span>}</td>
                   <td className="num">{r.x_o2_lo === r.x_o2_hi || r.x_o2_hi == null ? pct(r.x_o2_lo) : `${pct(r.x_o2_lo)}–${pct(r.x_o2_hi)}`}%</td>
                   <td className="num">{r.flow_cm_s == null ? "—" : sig(r.flow_cm_s, 3)} cm/s {String(r.flow_direction ?? "").toLowerCase()}</td>
                   <td>{[r.g1_burn_length, r.g1_spread_rate].filter((x) => x != null && x !== "").join(" · ") || "—"}</td>
@@ -48,10 +48,11 @@ export function EvidencePage() {
         </div>
         <p className="text-[12px] text-warn">SAFFIRE-II, PSI-99, like-for-like samples, small n</p>
         {evo.caveats.length > 0 && <ul className="list-disc space-y-0.5 pl-5 text-[12px] text-mute">{evo.caveats.map((c, i) => <li key={i}>{c}</li>)}</ul>}
+        {evo.rows.some((r: { thickness?: unknown }) => /^0\d/.test(String(r.thickness))) && <p className="text-[12px] text-faint"><span className="text-warn">†</span> Raw PSI-99 cell shown as written; the decimal point looks missing (likely 0.37 mm). Not corrected here.</p>}
         {evo.source_ids.length > 0 && <p className="text-[12px] text-faint">Sources: {evo.source_ids.join(", ")}</p>}
       </section>
 
-      <section aria-labelledby="stops-h" className="space-y-3">
+      <section id="where-evidence-stops" aria-labelledby="stops-h" className="space-y-3 scroll-mt-20">
         <h2 id="stops-h" className="text-[22px] font-semibold">Where the evidence stops</h2>
         <p className="text-[14px] text-mute">
           {m.name}: <span className="num">{pct(m.x_o2)}% O₂ · {sig(m.P_Pa / 1e3, 3)} kPa · {sig(m.flow_m_s * 100, 3)} cm/s · {sig(m.gravity_g, 3)} g</span>.
@@ -78,7 +79,7 @@ export function EvidencePage() {
         {stops.bre_note && <p className="text-[12px] text-mute">{stops.bre_note}</p>}
       </section>
 
-      <section aria-label="Mission to experiment match" className="border-t border-line pt-6">
+      <section id="experiment-match" aria-label="Mission to experiment match" className="scroll-mt-20 border-t border-line pt-6">
         <ExperimentMatch />
       </section>
     </div>

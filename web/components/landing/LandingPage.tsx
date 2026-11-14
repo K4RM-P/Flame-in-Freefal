@@ -66,7 +66,7 @@ export function LandingPage() {
         <section className="border border-line bg-panel p-5" aria-labelledby="f2-title">
           <p className="label">Finding 2</p>
           <h2 id="f2-title" className="display mt-2 text-xl">Where the evidence stops</h2>
-          <p className="mt-3 text-[15px]">Highest O₂ any solid was burned at in PSI: <span className="num">{maxSolid == null ? "no data" : pct(maxSolid)}</span>. The lunar habitat breathes <span className="num text-warn">{pct(lunarO2)}</span>.</p>
+          <p className="mt-3 text-[15px]">Highest O₂ at which any solid was burned in PSI: <span className="num">{maxSolid == null ? "no data" : pct(maxSolid)}</span>. The lunar habitat breathes <span className="num text-warn">{pct(lunarO2)}</span>.</p>
           <p className="mt-3 text-[12px] text-faint">{stops.bre_note}</p>
         </section>
         <section className="border border-line bg-panel p-5" aria-labelledby="f3-title">

@@ -82,3 +82,12 @@ describe("tolerant envelope and next test", () => {
     expect(outOfEnvelope(b).map((o) => o.param)).toEqual(expect.arrayContaining(["x_o2", "P_Pa", "gravity_g"]));
   });
 });
+
+describe("next test phrasing", () => {
+  it("proposes one ISS-flyable condition and flags partial gravity separately", () => {
+    const { b } = pair();
+    const nt = nextTest(b)!;
+    expect(nt.condition).toMatch(/^Fly SIBAL Fabric at 34% O₂ and 56\.5 kPa; 1\/6 g needs a partial-gravity platform$/);
+    expect(nt.reason).toMatch(/^x_O₂ 34% is 12 points above the highest PSI test of SIBAL Fabric \(22%\)\.$/);
+  });
+});

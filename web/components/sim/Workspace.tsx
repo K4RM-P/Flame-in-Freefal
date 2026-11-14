@@ -107,7 +107,7 @@ function usePlayback() {
 /* ---------- toolbar ---------- */
 function Toolbar({ inspectorOpen, onToggleInspector }: { inspectorOpen: boolean; onToggleInspector: () => void }) {
   const { a, b, ra, rb, editing, running, playing, frame, view, set } = useSim();
-  // Shared with /dashboard: ea.project = { name, description } (a legacy plain string is still read).
+  // ea.project = { name, description } (a legacy plain string is still read).
   const [project, setProject] = useState("Untitled project");
   const [desc, setDesc] = useState("");
   useEffect(() => {
@@ -302,7 +302,7 @@ function Assumptions({ sc, r }: { sc: Scenario; r: SimResult | null }) {
 function Dock() {
   const { a, ra, rb, frame, replay, dockTab, set } = useSim();
   if (!a) return null;
-  const tabs: [string, string][] = [...CHARTS.map((c) => [c.lines[0].f, c.title] as [string, string]), ...(replay ? [["replay", "Replay vs telemetry"] as [string, string]] : [])];
+  const tabs: [string, string][] = [...CHARTS.map((c) => [c.lines[0].f, c.title] as [string, string]), ...(replay ? [["replay", "Replay: cabin-scale sanity check"] as [string, string]] : [])];
   const err = replay && ra && TELEMETRY ? replayError(ra, TELEMETRY) : null;
   return (
     <div className="flex h-[230px] shrink-0 flex-col border-t border-line" data-testid="dock">
@@ -425,7 +425,7 @@ function DeltaCard({ a, b, ra, rb, openInspector }: { a: Scenario; b: Scenario; 
       </p>}
       <p className="flex flex-wrap items-center gap-2 text-[13px]">
         <button type="button" className="btn px-2 py-0.5 text-[12px]" onClick={goNext}>Next test to fly →</button>
-        <span className="text-mute">{nt ? nt.condition : "Inside the tested envelope, no new test needed for this scenario"}</span>
+        <span className="text-mute">{nt ? <><b className="text-ink">{nt.condition}.</b> {nt.reason}</> : "Inside the tested envelope, no new test needed for this scenario"}</span>
       </p>
     </section>
   );

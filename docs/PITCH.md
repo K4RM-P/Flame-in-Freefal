@@ -22,7 +22,7 @@ Beat 3 and beat 5 must match what the app shows on recording day (counts and rat
 
 ## Judge map
 - **Impact:** `/` story and `/simulator?preset=iss-vs-lunar&run=1` (one-click lunar result plus next test).
-- **Creativity:** `/evidence` Earth vs orbit and "where the evidence stops" tables.
+- **Creativity:** `/evidence#earth-vs-orbit` and `/evidence#where-evidence-stops` tables.
 - **Validity:** `/methods#validation` (held-out FLEX, SIBAL spread, cabin-scale sanity check) and `/methods#limitations`.
 - **Relevance:** `/evidence` and `/methods#data`: every PSI accession, file and row used.
 - **Presentation:** `/` (10-second read) and the Compare delta card in `/simulator`.

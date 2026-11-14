@@ -6,8 +6,8 @@ import { ENVELOPE_SCALE, MATERIALS, SOLID_ENVELOPE, insideRange, tolerantRange }
 import type { Scenario, SimResult } from "./types";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
-export interface OutOfEnvelope { param: "x_o2" | "P_Pa" | "flow_m_s" | "gravity_g" | "thickness_m"; label: string; text: string; why: string; distance: number }
-export interface NextTest { condition: string; why: string; rig: string; investigations: string[]; distance: number; param: string; label: string }
+export interface OutOfEnvelope { param: "x_o2" | "P_Pa" | "flow_m_s" | "gravity_g" | "thickness_m"; label: string; text: string; why: string; at: string; distance: number }
+export interface NextTest { condition: string; reason: string; why: string; rig: string; investigations: string[]; distance: number; param: string; label: string }
 const INV = investigationsJ as Record<string, any>;
 const pct = (x: number, d = 0) => `${(x * 100).toFixed(d)}%`;
 const kPa = (x: number, d = 1) => `${(x / 1e3).toFixed(d)} kPa`;
@@ -25,7 +25,7 @@ export function outOfEnvelope(s: Scenario): OutOfEnvelope[] {
   if (o2r && !insideRange(s.cabin.x_o2, tolerantRange(o2r, "x_o2"))) {
     const above = s.cabin.x_o2 > o2r[1];
     const edge = above ? o2r[1] : o2r[0];
-    out.push({ param: "x_o2", label: "O₂", distance: Math.abs(s.cabin.x_o2 - edge) / ENVELOPE_SCALE.x_o2,
+    out.push({ param: "x_o2", label: "O₂", at: `${pct(s.cabin.x_o2)} O₂`, distance: Math.abs(s.cabin.x_o2 - edge) / ENVELOPE_SCALE.x_o2,
       text: `O₂ ${pct(s.cabin.x_o2)} vs tested ${above ? "≤ " : "≥ "}${pct(edge)}`,
       why: `x_O₂ ${pct(s.cabin.x_o2)} is ${((s.cabin.x_o2 - edge) * 100 * (above ? 1 : -1)).toFixed(0)} points ${above ? "above the highest" : "below the lowest"} PSI test of ${name} (${pct(edge)})` });
   }
@@ -33,7 +33,7 @@ export function outOfEnvelope(s: Scenario): OutOfEnvelope[] {
   if (pr && !insideRange(s.cabin.P_Pa, tolerantRange(pr, "P_Pa"))) {
     const above = s.cabin.P_Pa > pr[1];
     const edge = above ? pr[1] : pr[0];
-    out.push({ param: "P_Pa", label: "pressure", distance: Math.abs(s.cabin.P_Pa - edge) / ENVELOPE_SCALE.P_Pa,
+    out.push({ param: "P_Pa", label: "pressure", at: kPa(s.cabin.P_Pa), distance: Math.abs(s.cabin.P_Pa - edge) / ENVELOPE_SCALE.P_Pa,
       text: `${kPa(s.cabin.P_Pa)} vs tested ${rangeText(pr, (x) => kPa(x, 0), "~")}`,
       why: `${kPa(s.cabin.P_Pa)} is ${kPa(Math.abs(s.cabin.P_Pa - edge))} ${above ? "above the highest" : "below the lowest"} PSI solid-fuel test (${kPa(edge, 0)})` });
   }
@@ -41,19 +41,19 @@ export function outOfEnvelope(s: Scenario): OutOfEnvelope[] {
   if (fr && !insideRange(s.cabin.flow_m_s, tolerantRange(fr, "flow_m_s"))) {
     const above = s.cabin.flow_m_s > fr[1];
     const edge = above ? fr[1] : fr[0];
-    out.push({ param: "flow_m_s", label: "flow", distance: Math.abs(s.cabin.flow_m_s - edge) / ENVELOPE_SCALE.flow_m_s,
+    out.push({ param: "flow_m_s", label: "flow", at: `${cms(s.cabin.flow_m_s)} flow`, distance: Math.abs(s.cabin.flow_m_s - edge) / ENVELOPE_SCALE.flow_m_s,
       text: `flow ${cms(s.cabin.flow_m_s)} vs tested ${rangeText(fr, (x) => cms(x), above ? "≤ " : "≥ ")}`,
       why: `flow ${cms(s.cabin.flow_m_s, 1)} is ${above ? "above the fastest" : "below the slowest"} PSI test of ${name} (${cms(edge, 1)})` });
   }
   const g = s.cabin.gravity_g;
-  if (g > 0 && g < 1) out.push({ param: "gravity_g", label: "gravity", distance: Math.min(g, 1 - g) / ENVELOPE_SCALE.gravity_g,
+  if (g > 0 && g < 1) out.push({ param: "gravity_g", label: "gravity", at: gText(g), distance: Math.min(g, 1 - g) / ENVELOPE_SCALE.gravity_g,
     text: `${gText(g)} bounded`, why: `${gText(g)}: PSI has no partial-gravity fire data; the result is bounded between µg (ISS) and 1 g ground tests` });
   if (m?.thicknesses_m.length) {
     const lo = Math.min(...m.thicknesses_m), hi = Math.max(...m.thicknesses_m);
     const it = s.items[0];
     if (it && (it.thickness_m < lo * 0.999 || it.thickness_m > hi * 1.001)) {
       const edge = it.thickness_m > hi ? hi : lo;
-      out.push({ param: "thickness_m", label: "thickness", distance: Math.abs(it.thickness_m - edge) / Math.max(edge, 1e-6),
+      out.push({ param: "thickness_m", label: "thickness", at: `${(it.thickness_m * 1e3).toFixed(2)} mm thick`, distance: Math.abs(it.thickness_m - edge) / Math.max(edge, 1e-6),
         text: `${(it.thickness_m * 1e3).toFixed(2)} mm vs tested ${(lo * 1e3).toFixed(2)}–${(hi * 1e3).toFixed(2)} mm`,
         why: `${name} at ${(it.thickness_m * 1e3).toFixed(2)} mm was never tested (PSI: ${(lo * 1e3).toFixed(2)}–${(hi * 1e3).toFixed(2)} mm)` });
     }
@@ -75,10 +75,16 @@ export function nextTest(s: Scenario, _r?: SimResult | null): NextTest | null {
   const m = MATERIALS.find((x) => x.material_key === s.items[0]?.material_key);
   const top = out[0];
   const { rig, inv } = rigFor(top.param);
+  const name = m?.display_name ?? "this material";
+  // One flight test covers every input an ISS rig can set (O₂, pressure, flow, thickness); partial gravity cannot be flown on the ISS.
+  const flyable = out.filter((o) => o.param !== "gravity_g");
+  const gravity = out.find((o) => o.param === "gravity_g");
+  const condition = flyable.length
+    ? `Fly ${name} at ${flyable.map((o) => o.at).join(" and ")}${gravity ? `; ${gravity.at} needs a partial-gravity platform` : ""}`
+    : `Test ${name} at ${gravity!.at} on a partial-gravity platform`;
   const rest = out.slice(1).map((o) => o.text).join(" · ");
   return {
-    param: top.param, label: top.label, distance: top.distance,
-    condition: `Fly ${m?.display_name ?? "this material"} at ${top.text}`,
+    param: top.param, label: top.label, distance: top.distance, condition, reason: `${top.why}.`,
     why: `${top.why}: the input farthest outside the PSI envelope${rest ? ` (also outside: ${rest})` : ""}.`,
     rig, investigations: inv,
   };

@@ -54,7 +54,8 @@ export function Charts({ ra, rb, sa, frame, replay, only, height = 220 }: { ra: 
             {!only && <p className="px-1 text-[13px] font-medium">{c.title}</p>}
             <Plot data={data} height={height} label={`${c.title} versus time`}
               layout={{
-                margin: { l: 48, r: c.lines.some((l) => l.y2) ? 48 : 12, t: 8, b: 36 },
+                margin: { l: 48, r: c.lines.some((l) => l.y2) ? 48 : 12, t: 28, b: 40 },
+                legend: { orientation: "h", x: 0, xanchor: "left", y: 1.02, yanchor: "bottom", font: { size: 11 } },
                 xaxis: { title: { text: "time (s)" } }, yaxis: { title: { text: c.unit } },
                 ...(c.lines.some((l) => l.y2) && { yaxis2: { overlaying: "y", side: "right", title: { text: "CO ppm" }, showgrid: false } }),
                 showlegend: true,

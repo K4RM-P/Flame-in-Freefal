@@ -24,7 +24,17 @@ function useDeepLink() {
     const p = PRESETS.find((x) => x.id === q.get("preset"));
     if (!p) return;
     applyPreset(p);
-    if (q.get("run") === "1" && p.required.length === 0) void runAll();
+    if (q.get("run") !== "1" || p.required.length !== 0) return;
+    void runAll().then(() => {
+      // Open on the moment of peak heat release (the fire, not the burned-out last frame), and bring the result into view on narrow screens.
+      const { ra, rb, set } = useSim.getState();
+      const r = rb ?? ra;
+      if (!r) return;
+      let k = 0;
+      r.state.forEach((x, i) => { if (x.Q_W > r.state[k].Q_W) k = i; });
+      set({ frame: k });
+      if (window.innerWidth < 1024) requestAnimationFrame(() => document.querySelector('[data-testid="delta-card"]')?.scrollIntoView({ block: "start", behavior: "smooth" }));
+    });
   }, []);
 }
 

@@ -163,7 +163,7 @@ export function CabinView({ sc, r, frame, label, compact = false }: { sc: Scenar
   });
 
   const scaleLen = NICE.find((n) => n * s >= 60) ?? NICE[NICE.length - 1];
-  const summary = `${label} at t = ${sig(t, 3)} s: ${items.map((x) => `${x.name} ${x.status}`).join(", ")}; detector ${alarmed ? "in alarm" : noThreshold ? "no threshold (no data)" : "monitoring"}${fanOff ? "; fan off" : ""}${released ? `; ${sc.suppression.agent} released` : ""}`;
+  const summary = `${label} at t = ${sig(t, 3)} s: ${items.map((x) => `${x.name} ${x.status}`).join(", ")}; detector ${alarmed ? "in alarm" : noThreshold ? "no data (no sourced detector threshold)" : "monitoring"}${fanOff ? "; fan off" : ""}${released ? `; ${sc.suppression.agent} released` : ""}`;
 
   return (
     <div className="flex h-full min-h-0 w-full flex-col overflow-hidden" data-testid="cabin-view">
@@ -271,7 +271,7 @@ export function CabinView({ sc, r, frame, label, compact = false }: { sc: Scenar
             <rect x={-16} y={-9} width={32} height={18} rx={4} fill={alarmed ? "rgb(var(--bad))" : "rgb(var(--surface2))"} stroke={noThreshold ? "rgb(var(--faint))" : "rgb(var(--ink))"} strokeDasharray={noThreshold ? "3 3" : undefined} />
             <text y={4} fontSize={11} textAnchor="middle" fill={alarmed ? "rgb(var(--bg))" : "rgb(var(--ink))"}>{alarmed ? "▲" : noThreshold ? "∅" : "○"}</text>
             <text y={26} fontSize={11} textAnchor="middle" fill={alarmed ? "rgb(var(--bad))" : "rgb(var(--mute))"}>
-              {alarmed ? `ALARM · ${sig(F!.tAlarm!, 3)} s` : noThreshold ? "No data: no threshold" : `${sc.detection.type} · monitoring`}</text>
+              {alarmed ? `ALARM · ${sig(F!.tAlarm!, 3)} s` : noThreshold ? "No data (no sourced detector threshold)" : `${sc.detection.type} · monitoring`}</text>
             <text y={40} fontSize={10} textAnchor="middle" fill="rgb(var(--faint))">{!r ? "" : F?.noYield ? "smoke: ∅ No data" : sensed ? "smoke at detector" : "no smoke at detector"}</text>
           </g>
         </g>}

@@ -23,7 +23,7 @@ export default function About() {
         <h2 id="team-title" className="display mb-4 text-2xl">Meet the team</h2>
         <ul className="grid gap-4 sm:grid-cols-2">
           {team.map(({ name, initials, focus, bio, portrait }) => (
-            <li key={name} className="card space-y-3 border-t-2 border-t-accent md:p-6">
+            <li key={name} className="card space-y-3 md:p-6">
               <div className="grid aspect-square w-24 place-items-center overflow-hidden rounded-lg border border-line bg-surface2 md:w-28" aria-hidden="true">
                 {portrait
                   ? <img className="h-full w-full object-cover" src={portrait} alt="" loading="lazy" />
