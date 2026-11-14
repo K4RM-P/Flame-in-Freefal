@@ -5,6 +5,7 @@ import { DEFAULT_WEIGHTS, INVESTIGATIONS, rank, type Weights } from "@/lib/ranki
 import { TEST_POINTS } from "@/lib/testPoints";
 import { SourcePill, fmt } from "@/components/bits";
 import { download } from "@/lib/report";
+import { PSI_FETCHED_AT, PSI_LIST, psiEntries } from "@/lib/psi";
 
 export default function Evidence() {
   const m = useMission();
@@ -38,7 +39,7 @@ export default function Evidence() {
           <ol className="mt-2 space-y-1">{ranked.map((r, i) => (
             <li key={r.id} className="flex items-center gap-2 text-sm" title={Object.entries(r.parts).map(([k, p]) => `${k}: ${p.s.toFixed(2)} — ${p.why}`).join("\n")}>
               <span className="num w-5 text-mute">{i + 1}</span>
-              <button className={`w-40 truncate text-left ${sel.includes(r.id) ? "text-ink" : ""}`} onClick={() => setSel((s) => (s.includes(r.id) ? s.filter((x) => x !== r.id) : [...s, r.id].slice(-3)))}>{r.id}</button>
+              <button className={`w-40 truncate text-left ${sel.includes(r.id) ? "text-ink" : ""}`} onClick={() => setSel((s) => (s.includes(r.id) ? s.filter((x) => x !== r.id) : [...s, r.id].slice(-3)))} title={r.name}>{r.id}{r.accession ? <span className="num ml-1 text-xs text-mute">{r.accession}</span> : null}</button>
               <div className="h-3 flex-1 rounded bg-line"><div className="h-3 rounded bg-mute" style={{ width: `${r.score * 100}%` }} /></div>
               <span className="num w-12 text-right">{r.score.toFixed(2)}</span>
               <span className="num w-16 text-right text-xs text-mute">{r.n_points} pts</span>
@@ -50,7 +51,14 @@ export default function Evidence() {
           <article key={c.id} className="card space-y-2 text-sm">
             <div className="flex items-start justify-between"><h3 className="font-semibold">{c.name}</h3><span className="chip bg-warn/15 text-warn" title="Card content awaiting science-checker confirmation">{c.status}</span></div>
             <p className="text-xs text-mute">{c.id} · {c.years} · {c.platform}</p>
-            <Field k="Objective" v={c.objective} /><Field k="Approach" v={c.approach} /><Field k="Hardware" v={c.hardware} />
+            {psiEntries(c.psi_accessions).map((p) => (
+              <div key={p.accession} className="rounded border border-line p-2" data-testid="psi-live">
+                <span className="label">Live PSI record · {p.accession}{p.public_release_date ? ` · released ${p.public_release_date}` : ""}</span>
+                <p className="font-medium">{p.title}</p>
+                {p.objective && <p className="whitespace-pre-line text-mute">{p.objective}</p>}
+                <p className="text-xs">{p.doi ? <a className="text-ink underline" href={`https://doi.org/${p.doi}`}>doi:{p.doi}</a> : "DOI: not returned by the PSI API"} · {p.file_count} files in PSI</p>
+              </div>))}
+            <Field k="Objective (card summary)" v={c.objective} /><Field k="Approach" v={c.approach} /><Field k="Hardware" v={c.hardware} />
             <Field k="Fuels" v={c.fuels.join(", ")} />
             <Field k="Conditions" v={`O₂ ${c.o2_range?.join("–") ?? "n/t"} · P ${c.p_range_kpa?.join("–") ?? "n/t"} kPa · flow ${c.flow_range_cm_s?.join("–") ?? "n/t"} cm/s · diluents ${c.diluents.join(", ")}`} />
             <Field k="Varied" v={c.variables_varied.join("; ")} /><Field k="Held constant" v={c.held_constant.join("; ")} /><Field k="Sensors" v={c.sensors.join("; ")} />
@@ -58,6 +66,16 @@ export default function Evidence() {
             <div>{c.sources.map((s) => <SourcePill key={s} id={s} />)}</div>
           </article>
         ))}
+      </section>
+      <section className="card text-sm" data-testid="psi-catalog">
+        <span className="label">NASA PSI combustion catalog · live API, fetched {PSI_FETCHED_AT.slice(0, 10)}</span>
+        <div className="mt-2 max-h-80 overflow-auto">
+          <table className="data"><thead><tr><th>accession</th><th>investigation (PSI title)</th><th>group</th><th>DOI</th><th>files in PSI</th><th>tables ingested</th></tr></thead>
+            <tbody>{PSI_LIST.map((p) => (
+              <tr key={p.accession}><td className="num">{p.accession}</td><td>{p.title}</td><td>{p.group}</td>
+                <td className="text-xs">{p.doi ? <a className="underline" href={`https://doi.org/${p.doi}`}>{p.doi}</a> : "—"}</td>
+                <td className="num">{p.files_listed ? p.file_count : "API error"}</td><td className="text-xs text-mute">{p.manifest.map((f) => f.file.replace(`${p.accession}_`, "")).join("; ") || "—"}</td></tr>))}</tbody></table>
+        </div>
       </section>
       <section className="card">
         <div className="mb-2 flex flex-wrap items-center gap-2 text-sm">

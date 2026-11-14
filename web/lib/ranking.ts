@@ -1,6 +1,7 @@
 // Relevance ranking (PRD v1 formula): weighted sum of six [0,1] criteria, each explained.
 import inv from "@/data/investigations.json";
 import { TEST_POINTS } from "./testPoints";
+import { psiEntries } from "./psi";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export interface Investigation {
@@ -8,7 +9,7 @@ export interface Investigation {
   approach: string; hardware: string; fuels: string[]; o2_range: number[] | null; p_range_kpa: number[] | null; flow_range_cm_s: number[] | null;
   diluents: string[]; variables_varied: string[]; held_constant: string[]; sensors: string[];
   key_findings: { text: string; source_id: string; locator: string }[]; pillars: string[]; psi_url: string; dois: string[]; sources: string[];
-  scale: number; status: string;
+  scale: number; status: string; psi_accessions: string[];
 }
 export const INVESTIGATIONS: Investigation[] = Object.entries(inv as any).map(([id, v]: [string, any]) => ({ id, ...v }));
 
@@ -38,6 +39,7 @@ export function rank(m: MissionLike, w: Weights = DEFAULT_WEIGHTS) {
     const data = { s: Math.min(1, Math.log10(1 + n) / Math.log10(401)), why: `${n} verified test points in EmberAtlas` };
     const parts = { atmosphere, flow, fuel, scale, pillar: pil, data };
     const score = (Object.keys(parts) as (keyof Weights)[]).reduce((acc, k) => acc + (w[k] * parts[k].s) / total, 0);
-    return { id: iv.id, name: iv.name, score, parts, n_points: n };
+    const live = psiEntries(iv.psi_accessions)[0];
+    return { id: iv.id, name: live?.title ?? iv.name, accession: live?.accession ?? null, score, parts, n_points: n };
   }).sort((a, b) => b.score - a.score);
 }

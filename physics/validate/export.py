@@ -1,6 +1,7 @@
 """Export web JSON: data files, fitted params, verified test points, investigations, coverage."""
 from __future__ import annotations
 
+import json
 import sys
 from pathlib import Path
 
@@ -17,8 +18,17 @@ WEB = ROOT / "web" / "data"
 
 
 def main() -> None:
-    for name in ("sources", "properties", "missions", "limits", "validation_targets", "investigations", "verification"):
+    for name in ("properties", "missions", "limits", "validation_targets", "investigations", "verification"):
         save_json(WEB / f"{name}.json", load_yaml(name))
+    # Live PSI catalog (fetch_psi.py): every PSI accession becomes a citable source "PSI-xx" (title + DOI from the API).
+    sources = load_yaml("sources")
+    cat_path = PARAMS.parent / "psi_catalog.json"
+    catalog = json.loads(cat_path.read_text()) if cat_path.exists() else {"investigations": {}}
+    for acc, c in catalog["investigations"].items():
+        sources.setdefault(acc, {"type": "psi", "title": f"NASA {acc}: {c['title']}" + (f" (DOI {c['doi']})" if c.get("doi") else ""),
+                                 "url": c["psi_url"], "doi": c.get("doi")})
+    save_json(WEB / "sources.json", sources)
+    save_json(WEB / "psi_catalog.json", catalog)
     save_json(WEB / "thermo.json", {
         "source": "gri30 (thermo30.dat); He constant cp = 5/2 R (nist-webbook-he)",
         "nasa7": {s: {"T_mid": v[0], "high": v[1], "low": v[2]} for s, v in thermo.nasa7().items()},

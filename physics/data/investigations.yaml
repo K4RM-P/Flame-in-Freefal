@@ -1,5 +1,6 @@
 # Investigation cards. Summaries of public NASA descriptions; status TODO_VERIFY until the science
 # checker confirms each field against the PSI page / cited paper. fuel_class: solid | liquid | gas.
+# psi_accessions link a card to live PSI metadata (title, objective, DOI) in data/processed/psi_catalog.json.
 # o2/p/flow ranges are the nominal test-matrix spans reported in the cited source (null = not tabulated yet).
 FLEX:
   name: "Flame Extinguishment Experiment"
@@ -24,6 +25,7 @@ FLEX:
     - {text: "Large heptane droplets continued burning with a cool flame after radiative extinction of the hot flame.", source_id: dietrich-2014, locator: abstract}
   pillars: [suppression, prevention]
   psi_url: "https://psi.nasa.gov"
+  psi_accessions: [PSI-69]  # live PSI API (fetch_psi.py); [] = not a PSI accession
   dois: ["10.1007/s12217-014-9372-2"]
   sources: [ntrs-20150023456, dietrich-2014]
   scale: 0.15
@@ -48,6 +50,7 @@ FLEX-2:
   key_findings: []
   pillars: [prevention]
   psi_url: "https://psi.nasa.gov"
+  psi_accessions: [PSI-68]  # live PSI API (fetch_psi.py); [] = not a PSI accession
   dois: []
   sources: [psi]
   scale: 0.15
@@ -72,6 +75,7 @@ CFI:
   key_findings: []
   pillars: [prevention]
   psi_url: "https://psi.nasa.gov"
+  psi_accessions: [PSI-39]  # live PSI API (fetch_psi.py); [] = not a PSI accession
   dois: []
   sources: [psi]
   scale: 0.15
@@ -96,6 +100,7 @@ BASS:
   key_findings: []
   pillars: [prevention, suppression]
   psi_url: "https://psi.nasa.gov"
+  psi_accessions: [PSI-26]  # live PSI API (fetch_psi.py); [] = not a PSI accession
   dois: []
   sources: [psi]
   scale: 0.35
@@ -122,6 +127,7 @@ BASS-II:
     - {text: "Opposed spread rate peaks at intermediate flow; flames are sensitive to flow below about 5 cm/s.", source_id: bass2-sci-rep-2017, locator: "TODO_VERIFY"}
   pillars: [prevention]
   psi_url: "https://psi.nasa.gov"
+  psi_accessions: [PSI-25]  # live PSI API (fetch_psi.py); [] = not a PSI accession
   dois: ["10.1038/s41598-017-18398-4"]
   sources: [bass2-sci-rep-2017, ntrs-20160000593, ntrs-20150008962]
   scale: 0.35
@@ -147,6 +153,7 @@ SAME:
     - {text: "Average smoke particle sizes mostly fell in the 200-400 nm range (to verify against the SAME-R paper).", source_id: same-r, locator: "TODO_VERIFY"}
   pillars: [detection]
   psi_url: "https://psi.nasa.gov"
+  psi_accessions: [PSI-102, PSI-101]  # live PSI API (fetch_psi.py); [] = not a PSI accession
   dois: []
   sources: [same-r]
   scale: 0.2
@@ -171,6 +178,7 @@ Saffire-I-III:
   key_findings: []
   pillars: [prevention]
   psi_url: "https://psi.nasa.gov"
+  psi_accessions: [PSI-98, PSI-99, PSI-100]  # live PSI API (fetch_psi.py); [] = not a PSI accession
   dois: []
   sources: [ntrs-20180005168]
   scale: 1.0
@@ -195,6 +203,7 @@ Saffire-IV-VI:
   key_findings: []
   pillars: [detection, suppression]
   psi_url: "https://psi.nasa.gov"
+  psi_accessions: []  # live PSI API (fetch_psi.py); [] = not a PSI accession
   dois: []
   sources: [ntrs-20210011521, ices-2024-365]
   scale: 1.0
@@ -220,6 +229,7 @@ ACME-BRE:
     - {text: "Flames extinguished at 21% O2 within about 40 s; steady flames were observed at 26.5, 34 and 40% O2 (to verify).", source_id: dehghani-bre, locator: "TODO_VERIFY"}
   pillars: [prevention]
   psi_url: "https://psi.nasa.gov"
+  psi_accessions: [PSI-20]  # live PSI API (fetch_psi.py); [] = not a PSI accession
   dois: []
   sources: [dehghani-bre]
   scale: 0.2
@@ -244,6 +254,7 @@ ACME-sFlame:
   key_findings: []
   pillars: [prevention]
   psi_url: "https://psi.nasa.gov"
+  psi_accessions: [PSI-23]  # live PSI API (fetch_psi.py); [] = not a PSI accession
   dois: []
   sources: [psi]
   scale: 0.1
@@ -268,6 +279,7 @@ ACME-CLD:
   key_findings: []
   pillars: [prevention]
   psi_url: "https://psi.nasa.gov"
+  psi_accessions: [PSI-21]  # live PSI API (fetch_psi.py); [] = not a PSI accession
   dois: []
   sources: [psi]
   scale: 0.1
@@ -292,6 +304,7 @@ ACME-FlameDesign:
   key_findings: []
   pillars: [prevention]
   psi_url: "https://psi.nasa.gov"
+  psi_accessions: [PSI-10]  # live PSI API (fetch_psi.py); [] = not a PSI accession
   dois: []
   sources: [psi]
   scale: 0.1
@@ -316,6 +329,7 @@ ACME-EFIT:
   key_findings: []
   pillars: [suppression]
   psi_url: "https://psi.nasa.gov"
+  psi_accessions: [PSI-22]  # live PSI API (fetch_psi.py); [] = not a PSI accession
   dois: []
   sources: [psi]
   scale: 0.1
@@ -340,6 +354,7 @@ SoFIE:
   key_findings: []
   pillars: [prevention]
   psi_url: "https://psi.nasa.gov"
+  psi_accessions: []  # live PSI API (fetch_psi.py); [] = not a PSI accession
   dois: []
   sources: [psi]
   scale: 0.35
@@ -364,6 +379,7 @@ SPICE:
   key_findings: []
   pillars: [detection]
   psi_url: "https://psi.nasa.gov"
+  psi_accessions: [PSI-107]  # live PSI API (fetch_psi.py); [] = not a PSI accession
   dois: []
   sources: [psi]
   scale: 0.1
@@ -388,6 +404,7 @@ SLICE:
   key_findings: []
   pillars: [suppression]
   psi_url: "https://psi.nasa.gov"
+  psi_accessions: [PSI-106]  # live PSI API (fetch_psi.py); [] = not a PSI accession
   dois: []
   sources: [psi]
   scale: 0.1

@@ -67,6 +67,9 @@
    "prevention"
   ],
   "psi_url": "https://psi.nasa.gov",
+  "psi_accessions": [
+   "PSI-69"
+  ],
   "dois": [
    "10.1007/s12217-014-9372-2"
   ],
@@ -115,6 +118,9 @@
    "prevention"
   ],
   "psi_url": "https://psi.nasa.gov",
+  "psi_accessions": [
+   "PSI-68"
+  ],
   "dois": [],
   "sources": [
    "psi"
@@ -165,6 +171,9 @@
    "prevention"
   ],
   "psi_url": "https://psi.nasa.gov",
+  "psi_accessions": [
+   "PSI-39"
+  ],
   "dois": [],
   "sources": [
    "psi"
@@ -221,6 +230,9 @@
    "suppression"
   ],
   "psi_url": "https://psi.nasa.gov",
+  "psi_accessions": [
+   "PSI-26"
+  ],
   "dois": [],
   "sources": [
    "psi"
@@ -284,6 +296,9 @@
    "prevention"
   ],
   "psi_url": "https://psi.nasa.gov",
+  "psi_accessions": [
+   "PSI-25"
+  ],
   "dois": [
    "10.1038/s41598-017-18398-4"
   ],
@@ -346,6 +361,10 @@
    "detection"
   ],
   "psi_url": "https://psi.nasa.gov",
+  "psi_accessions": [
+   "PSI-102",
+   "PSI-101"
+  ],
   "dois": [],
   "sources": [
    "same-r"
@@ -402,6 +421,11 @@
    "prevention"
   ],
   "psi_url": "https://psi.nasa.gov",
+  "psi_accessions": [
+   "PSI-98",
+   "PSI-99",
+   "PSI-100"
+  ],
   "dois": [],
   "sources": [
    "ntrs-20180005168"
@@ -454,6 +478,7 @@
    "suppression"
   ],
   "psi_url": "https://psi.nasa.gov",
+  "psi_accessions": [],
   "dois": [],
   "sources": [
    "ntrs-20210011521",
@@ -514,6 +539,9 @@
    "prevention"
   ],
   "psi_url": "https://psi.nasa.gov",
+  "psi_accessions": [
+   "PSI-20"
+  ],
   "dois": [],
   "sources": [
    "dehghani-bre"
@@ -563,6 +591,9 @@
    "prevention"
   ],
   "psi_url": "https://psi.nasa.gov",
+  "psi_accessions": [
+   "PSI-23"
+  ],
   "dois": [],
   "sources": [
    "psi"
@@ -606,6 +637,9 @@
    "prevention"
   ],
   "psi_url": "https://psi.nasa.gov",
+  "psi_accessions": [
+   "PSI-21"
+  ],
   "dois": [],
   "sources": [
    "psi"
@@ -650,6 +684,9 @@
    "prevention"
   ],
   "psi_url": "https://psi.nasa.gov",
+  "psi_accessions": [
+   "PSI-10"
+  ],
   "dois": [],
   "sources": [
    "psi"
@@ -692,6 +729,9 @@
    "suppression"
   ],
   "psi_url": "https://psi.nasa.gov",
+  "psi_accessions": [
+   "PSI-22"
+  ],
   "dois": [],
   "sources": [
    "psi"
@@ -737,6 +777,7 @@
    "prevention"
   ],
   "psi_url": "https://psi.nasa.gov",
+  "psi_accessions": [],
   "dois": [],
   "sources": [
    "psi"
@@ -787,6 +828,9 @@
    "detection"
   ],
   "psi_url": "https://psi.nasa.gov",
+  "psi_accessions": [
+   "PSI-107"
+  ],
   "dois": [],
   "sources": [
    "psi"
@@ -834,6 +878,9 @@
    "suppression"
   ],
   "psi_url": "https://psi.nasa.gov",
+  "psi_accessions": [
+   "PSI-106"
+  ],
   "dois": [],
   "sources": [
    "psi"

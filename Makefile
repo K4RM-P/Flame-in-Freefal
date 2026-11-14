@@ -8,6 +8,7 @@ venv:
 
 data:
 	$(PY) physics/pipeline/fetch.py
+	$(PY) physics/pipeline/fetch_psi.py
 	$(PY) physics/pipeline/extract_tables.py
 	$(PY) physics/pipeline/build.py
 
