@@ -117,6 +117,22 @@
    ]
   }
  },
+ "objective_atmospheres": [
+  {
+   "psia": 14.7,
+   "o2_pct": 21.0
+  },
+  {
+   "psia": 10.2,
+   "o2_pct": 26.5
+  },
+  {
+   "psia": 8.2,
+   "o2_pct": 34.0
+  }
+ ],
+ "objective_locator": "PSI API metadata, PSI-20 investigation_objective (Objective 1)",
+ "objective_quote": "1. Observe burning behavior in long-duration microgravity for CH4/N2 and C2H4/N2mixtures on porous circular burners of 25  and 50 mm diameter. Consider O2/N2 ambients with various pressures and ambient O2 concentrations and pressures. NASA - considered atmosphere for human space missions will be examined: 14.7 psia, 21 % oxygen: 10.2 psia, 26.5 %; and 8.2 psia, 34 % oxygen. Emphasize fuel conditions that can be related to a diverse range of condensed fuels.",
  "pressure_note": "The PSI-20 table states chamber pressures were varied but are not identified in the summary table.",
  "table_notes": "Oxygen Conc. (as diluted with nitrogen on a volume basis) was varied between tests where approximate concentrations for tests that ignited are listed. The chamber pressures were also varied but are not identified in this summary table. Flames Ignited is the number ignited on that day (neglecting the day change on ISS).",
  "source_ids": [

@@ -30,3 +30,14 @@ test("B3: Console links to the Earth-test-vs-orbit matrix with framing and small
   await expect(m).toContainText("not a verdict on the ground test standard");
   await expect(page.getByTestId("evo-summary")).toContainText("4 of 7 like-for-like samples burned less in orbit");
 });
+
+test("B4: lunar habitat shows ACME BRE exploration-atmosphere evidence without claiming a pressure match", async ({ page }) => {
+  await page.goto("/start");
+  await page.getByTestId("role-safety").click();
+  await page.getByTestId("start-env-LunarHabitat").click();
+  await page.getByTestId("start-mat-sibal").click();
+  const a = page.getByTestId("atmosphere-evidence");
+  await expect(a).toContainText("ACME BRE (PSI-20)");
+  await expect(a).toContainText("8.2 psia / 34% O₂ is one of the NASA exploration atmospheres");
+  await expect(a).toContainText("not identified in the summary table");
+});

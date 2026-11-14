@@ -338,7 +338,13 @@ def bre() -> tuple[pd.DataFrame, dict]:
         days = d[d.o2_levels_pct.apply(lambda L, lvl=lvl: lvl in L)]
         by[str(lvl)] = {"o2_pct": lvl, "test_days": int(len(days)), "fuels": sorted(set(days.fuel)), "burners_mm": sorted({int(b) for b in days.burner_mm}),
                         "locators": list(days.locator)}
+    # Objective atmospheres, parsed from the live PSI-20 metadata text ("14.7 psia, 21 % oxygen: 10.2 psia, 26.5 %; ...").
+    cat = json.loads((ROOT / "data" / "processed" / "psi_catalog.json").read_text())["investigations"]["PSI-20"]
+    objective = cat["objective"] or ""
+    atm = [{"psia": float(a), "o2_pct": float(b)} for a, b in re.findall(r"(\d+(?:\.\d+)?)\s*psia,\s*(\d+(?:\.\d+)?)\s*%", objective)]
     summary = {"n_days": int(len(d)), "total_flames_ignited": int(d.flames_ignited.sum()), "by_o2": by,
+               "objective_atmospheres": atm, "objective_locator": "PSI API metadata, PSI-20 investigation_objective (Objective 1)",
+               "objective_quote": next((ln.strip() for ln in objective.split("\n") if "psia" in ln), ""),
                "pressure_note": "The PSI-20 table states chamber pressures were varied but are not identified in the summary table.",
                "table_notes": notes, "source_ids": ["PSI-20"]}
     return d, summary

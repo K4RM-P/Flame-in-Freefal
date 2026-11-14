@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import { AtmosphereEvidence } from "@/components/AtmosphereEvidence";
 import { useMemo, useState } from "react";
 import { Plot } from "@/components/Plot";
 import { ResultCard, Delta } from "@/components/console/ResultCard";
@@ -115,6 +116,7 @@ export default function Console() {
           <Link href="/evidence#earth-vs-orbit" className="underline underline-offset-2" data-testid="link-earth-vs-orbit">How does this compare to the Earth test?</Link>
         </div>
       </header>
+      <AtmosphereEvidence />
 
       <div className="grid gap-6 lg:grid-cols-12">
         <section className="lg:col-span-8">
