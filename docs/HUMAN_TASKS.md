@@ -14,3 +14,4 @@
    - Investigation cards (`investigations.yaml`): confirm years, hardware, fuels, ranges against PSI pages.
 6. **Keys/accounts:** provide `ANTHROPIC_API_KEY` (Vercel env) and the Vercel account/team.
 7. **Video:** record the 30-second video on the production URL (script in PRD §13), English subtitles.
+- Drop-tower suppressant study (PRD §2): supply the full citation for `drop-tower-suppressant` in sources.yaml.

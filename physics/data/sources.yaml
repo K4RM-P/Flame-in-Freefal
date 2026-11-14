@@ -174,3 +174,7 @@ nfpa-2001:
   type: external
   title: "NFPA 2001, Standard on Clean Agent Fire Extinguishing Systems (cup-burner minimum extinguishing concentrations; n-heptane N2 ~30-34 vol%); Senecal, J. A., Fire Safety J. 40 (2005) 579-591"
   year: 2022
+drop-tower-suppressant:
+  type: external
+  title: "Drop-tower gaseous-suppressant study finding helium most effective (cited in PRD §2; full reference TODO_VERIFY) - OUTSIDE PSI"
+  year: null
