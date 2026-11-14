@@ -102,3 +102,13 @@ Plan and per-item commits: docs/ADOPTION_PLAN.md. Every feature passed pytest, v
 - AI assistant: `/api/ask` (`lib/ai/ask.ts`) answers only from the posted scenario, engine result, ranked PSI evidence, sensitivity, next-test, replay metrics and compare B; numbers, PSI ids and [S:path] fact citations are guarded (one regeneration, then strip). No key → 503 error shown in the panel, no canned answer.
 - Tests: vitest 52 (+6 in tests/ask.test.ts), e2e rewritten for the tabbed layout (no-scroll, scrubber, assumptions drawer, assistant no-key error, two viewports in Compare).
 - Not done: the old RunPanel/ResultPanel/Schematic screens are no longer rendered but kept, since Workspace imports helpers from them; no flame imagery; no WebGL.
+
+## Aster page guides + intuitive pages (2026-11-14, feature/aster-guides)
+- Optional Aster guides: "✦ Ask Aster about this page" beside the heading on Overview, Simulator (first run + workspace), Experiment Match and Methods opens the existing chat with a short explanation and two next-step links (`web/lib/asterGuides.ts`). Static text, works with local Aster, no OpenAI key, no network.
+- One next step per tab: a "Next step" line on Simulator (changes with state: missing input → Run → play back → evidence), Experiment Match and Methods. When Run is disabled, the missing inputs show beside the button; clicking opens Scenario setup and focuses the field.
+- Theory-only labels (badges, HUD ◌, legend, landing model states) link to the model's section in Methods (`/methods#model-<spread|habitat|smoke|suppression>`).
+- Homepage cards preview the tools: cabin illustration (labelled "not a run result"), the real PSI-100 catalog record, and the real SP1 equation (KaTeX).
+- Methods reorganized: grouped nav (Start here / Models / Evidence / Limits & sources), numbered sections, "Models at a glance" table, one anchored section per model, collapsible formula cards (what it calculates · symbols · in the simulator · evidence), validation tally, row anchors `#val-<id>`.
+- Motion: 180 ms page fade on route change, 200 ms slide-in for Aster; both disabled by the global reduced-motion rule.
+- Fixes found on main: SI-assisted headers on 8 files (pytest hygiene was failing), three/@types/three licenses in software.yaml, workspace kept an empty 384 px column when the inspector was hidden, e2e updated for the collapsed setup panel and hidden inspector.
+- Tests: new e2e/aster.spec.ts (4 page guides, homepage previews, Methods anchors and formula cards); Playwright 9 passed, vitest 52, pytest 21.

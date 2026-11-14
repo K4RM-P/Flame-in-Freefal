@@ -1,10 +1,13 @@
 "use client";
+// SI-assisted: written with Codex (OpenAI); see README "Use of AI (SI)".
 
-import { useRef, useState, type FormEvent } from "react";
+import { useEffect, useRef, useState, type FormEvent } from "react";
+import Link from "next/link";
 import type { answerLocally } from "@/lib/ai/localAster";
+import { useAsterGuide, type Guide } from "@/lib/asterGuides";
 
 type LocalAnswer = ReturnType<typeof answerLocally>;
-type Exchange = { question: string; answer?: string; sources?: LocalAnswer["sources"]; error?: string };
+type Exchange = { question: string; answer?: string; sources?: LocalAnswer["sources"]; error?: string; guide?: Guide };
 
 function OrbitStar() {
   return (
@@ -22,6 +25,16 @@ export function Aster() {
   const [draft, setDraft] = useState("");
   const [thread, setThread] = useState<Exchange[]>([]);
   const [busy, setBusy] = useState(false);
+  const request = useAsterGuide((s) => s.request);
+
+  // A page's "✦ Ask Aster about this page" button: add that page's guide (static, local) and open the chat.
+  useEffect(() => {
+    if (!request) return;
+    const { guide } = request;
+    setThread((current) => [...current, { question: `About this page: ${guide.title}`, guide }]);
+    if (!dialog.current?.open) dialog.current?.showModal();
+    requestAnimationFrame(() => { if (transcript.current) transcript.current.scrollTop = transcript.current.scrollHeight; });
+  }, [request]);
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -58,7 +71,7 @@ export function Aster() {
         <OrbitStar /> Ask Aster
       </button>
       <dialog id="aster-dialog" ref={dialog} aria-labelledby="aster-title" onClose={() => launcher.current?.focus()}
-        className="fixed inset-auto bottom-0 right-0 m-0 w-full max-w-none overflow-hidden rounded-t-xl border border-line bg-surface2 p-0 text-ink shadow-xl backdrop:bg-black/30 sm:bottom-4 sm:right-4 sm:w-[30rem] sm:rounded-xl">
+        className="aster-dialog fixed inset-auto bottom-0 right-0 m-0 w-full max-w-none overflow-hidden rounded-t-xl border border-line bg-surface2 p-0 text-ink shadow-xl backdrop:bg-black/30 sm:bottom-4 sm:right-4 sm:w-[30rem] sm:rounded-xl">
         <div className="flex h-[min(35rem,85dvh)] flex-col">
           <header className="flex items-center justify-between gap-3 border-b border-line p-4">
             <h2 id="aster-title" className="flex items-center gap-2 text-lg font-semibold"><OrbitStar /> Aster <span className="chip border border-line text-mute">Local research</span></h2>
@@ -66,9 +79,20 @@ export function Aster() {
           </header>
           <div ref={transcript} role="log" aria-label="Aster conversation" className="min-h-0 flex-1 space-y-4 overflow-auto break-words p-4 text-sm">
             {thread.length === 0 && <p className="text-mute">Ask about a NASA fire experiment. Aster searches EmberAtlas’s bundled study catalog.</p>}
-            {thread.map(({ question, answer, error, sources }, index) => (
-              <div key={index} className="space-y-2">
+            {thread.map(({ question, answer, error, sources, guide }, index) => (
+              <div key={index} className="space-y-2" data-testid={guide ? "aster-guide" : undefined}>
                 <p className="rounded-md border border-line bg-bg p-3"><strong>You</strong> · {question}</p>
+                {guide && <>
+                  <p className="leading-relaxed">{guide.text}</p>
+                  <p className="label text-[11px]">Next steps</p>
+                  <ol className="space-y-1">
+                    {guide.steps.map((step, i) => <li key={step.href}>
+                      <Link className="flex items-baseline gap-2 rounded-md border border-line p-2 hover:bg-bg" href={step.href} onClick={() => dialog.current?.close()}>
+                        <span className="num text-xs text-faint">{i + 1}</span><span className="underline underline-offset-2">{step.label}</span><span aria-hidden className="ml-auto text-faint">→</span>
+                      </Link></li>)}
+                  </ol>
+                  <p className="text-xs text-faint">Page guide · written in EmberAtlas, no AI call.</p>
+                </>}
                 {error && <p className="text-warn">{error}</p>}
                 {answer && <p className="leading-relaxed">{answer}</p>}
                 {sources?.map((study) => (

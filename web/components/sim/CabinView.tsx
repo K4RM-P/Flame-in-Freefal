@@ -9,7 +9,7 @@ import { useEffect, useId, useMemo, useState } from "react";
 import type { Scenario, SimResult } from "@/lib/sim/types";
 import { sig } from "@/lib/ui/format";
 import { materialByKey } from "./data";
-import { Num } from "./bits";
+import { Num, methodsHref } from "./bits";
 import { useSim, type Layer, type View } from "./store";
 import { FireScene3D } from "./FireScene3D";
 
@@ -306,9 +306,9 @@ function Hud({ sc, r, f, F, compact, fanOff, u }: { sc: Scenario; r: SimResult |
     <div className={`flex flex-wrap items-baseline gap-x-4 gap-y-0.5 border-b border-line px-3 py-1 ${compact ? "text-[11px]" : "text-[12px]"}`} data-testid="hud">
       <div className={cell}><span className="text-mute">Q</span><Num value={st.Q_W / 1e3} units="kW" band={compact ? undefined : band("Q_W", (v) => v / 1e3)} title="Heat release at playhead" sources={src} /></div>
       <div className={cell}><span className="text-mute">Burning</span><Num value={st.burning_area_m2 * 1e4} units="cm²" band={compact ? undefined : band("burning_area_m2", (v) => v * 1e4)} title="Burning area at playhead" sources={src} /></div>
-      <div className={cell}><span className="text-mute">T{F.habitatTheory && <span className="text-theory" title="theory-only"> ◌</span>}</span><Num value={st.T_K} units="K" band={compact ? undefined : band("T_K")} title="Cabin temperature at playhead" sources={src} note={F.habitatTheory ? "habitat sub-model is theory-only (not calibrated on PSI data)" : undefined} /></div>
+      <div className={cell}><span className="text-mute">T{F.habitatTheory && <a href={methodsHref("habitat")} className="text-theory" title="Theory-only: open the cabin model in Methods"> ◌</a>}</span><Num value={st.T_K} units="K" band={compact ? undefined : band("T_K")} title="Cabin temperature at playhead" sources={src} note={F.habitatTheory ? "habitat sub-model is theory-only (not calibrated on PSI data)" : undefined} /></div>
       <div className={cell}><span className="text-mute">O₂</span><Num value={st.x_o2 * 100} units="% mol" band={compact ? undefined : band("x_o2", (v) => v * 100)} title="Cabin O₂ at playhead" sources={src} /></div>
-      <div className={cell}><span className="text-mute">Smoke @ det.{F.smokeTheory && <span className="text-theory" title="theory-only"> ◌</span>}</span>
+      <div className={cell}><span className="text-mute">Smoke @ det.{F.smokeTheory && <a href={methodsHref("smoke")} className="text-theory" title="Theory-only: open the smoke model in Methods"> ◌</a>}</span>
         {F.noYield ? <span className="text-faint" title="No sourced smoke yield for a burning material">∅ No data</span>
           : <Num value={st.smoke_det * 1e6} units="mg/m³" band={compact ? undefined : band("smoke_det", (v) => v * 1e6)} title="Smoke at the detector at playhead" sources={src} note={F.smokeTheory ? "smoke sub-model is theory-only" : undefined} />}</div>
       <div className={cell}><span className="text-mute">u</span><span className="num">{fanOff ? "0 (fan off)" : `${sig(u * 100, 3)} cm/s`}</span></div>
@@ -322,7 +322,7 @@ export function Legend() {
       <span><span className="text-accent">●</span> burning (flame zone)</span>
       <span><span className="text-bad">▲</span> alarm (engine event)</span>
       <span>✕ extinct · ○ not ignited</span>
-      <span className="text-theory">◌ theory-only (dashed)</span>
+      <a href="/methods#overview" className="text-theory hover:underline">◌ theory-only (dashed) →</a>
       <span>∅ no data</span>
       <span><span className="text-blue">→</span> airflow (u)</span>
       <span>◍ smoke (moves at u)</span>

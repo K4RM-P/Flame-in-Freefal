@@ -1,3 +1,4 @@
+// SI-assisted: written with Codex (OpenAI); see README "Use of AI (SI)".
 import catalog from "@/data/psi_catalog.json";
 
 const studies = Object.values(catalog.investigations);

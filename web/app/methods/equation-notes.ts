@@ -1,3 +1,4 @@
+// SI-assisted: written with Codex (OpenAI); see README "Use of AI (SI)".
 export const notes: Record<string, [meaning: string, symbols: string, use: string]> = {
   SP1: ["Estimates how quickly flame advances along thin fuel.", "Vthin: speed (m/s) · d: fuel thickness (m) · Tf, Tv, T∞: flame, vaporization and ambient temperatures (K).", "Sets the thin-fuel contribution to the spread rate."],
   SP2: ["Estimates flame advance for thick fuel using gas flow and the thermal properties of both gas and solid.", "Vg: gas speed (m/s) · k: conductivity (W/m·K) · ρ: density (kg/m³) · c: specific heat (J/kg·K).", "Supplies the thick-fuel contribution to the spread model."],

@@ -1,4 +1,5 @@
 "use client";
+// SI-assisted: AI tool not recorded in the commit; see README "Use of AI (SI)".
 import type { Scenario } from "@/lib/sim/types";
 import { lsGet, lsSet } from "@/lib/store";
 

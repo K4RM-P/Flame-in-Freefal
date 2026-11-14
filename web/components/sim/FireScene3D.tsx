@@ -1,4 +1,5 @@
 "use client";
+// SI-assisted: AI tool not recorded in the commit; see README "Use of AI (SI)".
 
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
