@@ -11,6 +11,7 @@ import { sig } from "@/lib/ui/format";
 import { materialByKey } from "./data";
 import { Num } from "./bits";
 import { useSim, type Layer, type View } from "./store";
+import { FireScene3D } from "./FireScene3D";
 
 export function useReducedMotion() {
   const [r, setR] = useState(false);
@@ -167,6 +168,9 @@ export function CabinView({ sc, r, frame, label, compact = false }: { sc: Scenar
   return (
     <div className="flex h-full min-h-0 w-full flex-col overflow-hidden" data-testid="cabin-view">
       <Hud sc={sc} r={r} f={f} F={F} compact={compact} fanOff={fanOff} u={u} />
+      <div className="h-[42%] min-h-[220px] shrink-0 border-b border-line">
+        <FireScene3D sc={sc} r={r} frame={f} />
+      </div>
       <svg viewBox={`0 0 ${VW} ${VH}`} preserveAspectRatio="xMidYMid meet" className="min-h-0 w-full flex-1" role="img" aria-label={summary}>
         <defs>
           <pattern id="hatch-agent" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="8" stroke="rgb(var(--blue))" strokeWidth="2" /></pattern>
