@@ -37,6 +37,7 @@ jobs:
       - name: Static export
         run: pnpm -C web build
         env:
+          NEXT_PUBLIC_ASTER_URL: ${{ vars.ASTER_URL }}
           STATIC_EXPORT: "1"
           PAGES_BASE_PATH: /${{ github.event.repository.name }}
       - run: touch web/out/.nojekyll

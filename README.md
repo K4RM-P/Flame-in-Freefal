@@ -131,3 +131,13 @@ APIs: NASA PSI API (psi.nasa.gov/geode-py), NASA NTRS, Claude API (Anthropic). F
 
 ## License
 MIT (OSI-approved) — see LICENSE. All third-party libraries are under OSI-approved licenses (MIT, BSD-3-Clause, Apache-2.0, MPL-2.0) and fonts under SIL OFL 1.1; see `docs/REFERENCES.json`. Credits in CREDITS.md.
+
+### Live Aster on GitHub Pages
+
+Deploy the Worker from the repository root with
+`npx wrangler deploy --config web/worker/wrangler.jsonc`. Add
+`OPENAI_API_KEY` in Cloudflare as a Worker secret. The rate-limit binding is
+included in the configuration. It limits traffic per Cloudflare location.
+In GitHub, set the Actions repository variable `ASTER_URL` to
+`https://emberatlas-aster.anujanspace.workers.dev/api/ask`, then rerun the
+GitHub Pages workflow. The frontend uses its cached answers if the Worker fails.

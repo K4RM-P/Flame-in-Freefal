@@ -45,13 +45,15 @@ export function AskPanel({ initial }: { initial?: string }) {
   async function ask(question: string) {
     setQ(question); setBusy(true); setTrace([]); setAns(null);
     const t0 = performance.now();
-    if (STATIC_EXPORT) {
+    const worker = process.env.NEXT_PUBLIC_ASTER_URL;
+    if (STATIC_EXPORT && !worker) {
       const r = askStatic(question);
       setTrace(r.trace.map((t) => ({ ...t, ms: 0 }))); setAns(r.answer); setBusy(false);
       return;
     }
     try {
-      const res = await fetch("/api/ask", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ question }) });
+      const res = await fetch(STATIC_EXPORT ? worker! : "/api/ask", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ question }) });
+      if (!res.ok || !res.body) throw new Error("Live Aster unavailable");
       const reader = res.body!.getReader(); const dec = new TextDecoder(); let buf = ""; let last = t0;
       for (;;) {
         const { value, done } = await reader.read();
@@ -67,7 +69,12 @@ export function AskPanel({ initial }: { initial?: string }) {
           else if (ev.type === "error") setAns({ answer: ev.message, mode: "error" });
         }
       }
-    } catch (e) { setAns({ answer: `Request failed (${String(e)}). The 12 golden questions have cached answers; pick one below.`, mode: "error" }); }
+     } catch (e) {
+      if (STATIC_EXPORT) {
+        const fallback = askStatic(question);
+        setTrace(fallback.trace);
+        setAns({ ...fallback.answer, note: "Live Worker unavailable. Showing the GitHub Pages fallback." });
+      } else setAns({ answer: `Request failed (${String(e)}). The 12 golden questions have cached answers; pick one below.`, mode: "error" }); }
     setBusy(false);
   }
   useEffect(() => { if (initial && !started.current) { started.current = true; ask(initial); } }, [initial]); // eslint-disable-line react-hooks/exhaustive-deps
