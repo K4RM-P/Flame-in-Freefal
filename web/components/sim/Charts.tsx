@@ -22,11 +22,11 @@ export const CHARTS: Spec[] = [
 
 const rgba = (hex: string, a: number) => { const n = parseInt(hex.slice(1), 16); return `rgba(${n >> 16},${(n >> 8) & 255},${n & 255},${a})`; };
 
-export function Charts({ ra, rb, sa, frame, replay }: { ra: SimResult; rb: SimResult | null; sa: Scenario; frame: number; replay: boolean }) {
+export function Charts({ ra, rb, sa, frame, replay, only, height = 220 }: { ra: SimResult; rb: SimResult | null; sa: Scenario; frame: number; replay: boolean; only?: Field; height?: number }) {
   const tl = replay ? TELEMETRY : null;
   return (
-    <div className="grid gap-3 md:grid-cols-2">
-      {CHARTS.map((c) => {
+    <div className={only ? "h-full" : "grid gap-3 md:grid-cols-2"}>
+      {CHARTS.filter((c) => !only || c.lines[0].f === only).map((c) => {
         const data: PlotParams["data"] = [];
         for (const [r, tag, dash] of [[ra, "A", "solid"], [rb, "B", "dash"]] as const) {
           if (!r) continue;
@@ -50,9 +50,9 @@ export function Charts({ ra, rb, sa, frame, replay }: { ra: SimResult; rb: SimRe
         const thr = c.lines[0].f === "smoke_det" && sa.detection.threshold != null ? sa.detection.threshold * 1e6 : null;
         const tNow = ra.t[frame] ?? 0;
         return (
-          <div key={c.title} className="panel p-2" data-testid={`chart-${c.lines[0].f}`}>
-            <p className="px-1 text-[13px] font-medium">{c.title}</p>
-            <Plot data={data} height={220} label={`${c.title} versus time`}
+          <div key={c.title} className={only ? "h-full" : "panel p-2"} data-testid={`chart-${c.lines[0].f}`}>
+            {!only && <p className="px-1 text-[13px] font-medium">{c.title}</p>}
+            <Plot data={data} height={height} label={`${c.title} versus time`}
               layout={{
                 margin: { l: 48, r: c.lines.some((l) => l.y2) ? 48 : 12, t: 8, b: 36 },
                 xaxis: { title: { text: "time (s)" } }, yaxis: { title: { text: c.unit } },

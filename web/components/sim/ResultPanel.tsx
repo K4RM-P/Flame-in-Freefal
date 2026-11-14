@@ -16,7 +16,7 @@ import { Num, Section, TheoryBadge, BoundedBadge } from "./bits";
 import { useSim } from "./store";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
-const metricSources = (m: OutcomeMetric, r: SimResult): Provenance[] => [
+export const metricSources = (m: OutcomeMetric, r: SimResult): Provenance[] => [
   { source_id: "engine run", note: `EmberAtlas ${r.provenance.engine_version}, seed ${r.provenance.seed}${r.bands ? ", 200 Monte Carlo runs (p05–p95)" : ""}` },
   ...(m.limit_source ? [{ source_id: m.limit_source, note: `limit ${sig(m.limit ?? null)} ${m.units}` }] : []),
   ...r.provenance.sources,
@@ -38,11 +38,11 @@ export function ResultPanel() {
   );
 }
 
-function Outcome({ sc, r, label }: { sc: Scenario; r: SimResult | null; label: string | null }) {
+export function Outcome({ sc, r, label }: { sc: Scenario; r: SimResult | null; label: string | null }) {
   const partial = sc.cabin.gravity_g > 0 && sc.cabin.gravity_g < 1;
   const theory = r ? Object.entries(r.provenance.params).filter(([, p]) => !p.calibrated) : [];
   return (
-    <section className="card space-y-2" data-testid="outcome-card">
+    <section className="space-y-2 border-b border-line pb-2" data-testid="outcome-card">
       <p className="label">Outcome{label && ` · ${label} · ${sc.name}`}</p>
       {!r ? <p className="text-[13px] text-mute">Run the scenario to see the outcome.</p> : (
         <>
@@ -84,7 +84,7 @@ function Outcome({ sc, r, label }: { sc: Scenario; r: SimResult | null; label: s
   );
 }
 
-function Interpretation() {
+export function Interpretation() {
   const { interp, ra } = useSim();
   return (
     <Section title="AI interpretation" testid="interpretation">
@@ -100,7 +100,7 @@ function Interpretation() {
   );
 }
 
-function Evidence({ sc }: { sc: Scenario }) {
+export function Evidence({ sc }: { sc: Scenario }) {
   const ranked = useMemo(() => rankEvidence(sc) as any[], [sc]);
   const evo = useMemo(() => earthVsOrbit(sc.items.map((i) => i.material_key)) as any, [sc]);
   const evoRows: any[] = Array.isArray(evo) ? evo : evo?.rows ?? [];
@@ -145,11 +145,12 @@ function Evidence({ sc }: { sc: Scenario }) {
 
 const OUTCOME_KEYS = [["peak_co", "Peak CO"], ["time_to_alarm", "Time to alarm"], ["peak_T", "Peak temperature"], ["min_o2", "Minimum O₂"], ["time_to_extinguish", "Time to extinguish"]] as const;
 
-function Tornado({ sc }: { sc: Scenario }) {
+export function Tornado({ sc }: { sc: Scenario }) {
   const [key, setKey] = useState<string>(OUTCOME_KEYS[0][0]);
   const [rows, setRows] = useState<{ param: string; label: string; low: number | null; high: number | null; base: number | null }[] | null>(null);
   const [busy, setBusy] = useState(false);
-  const run = () => { setBusy(true); setTimeout(() => { try { setRows(sensitivity(sc, key) as any); } finally { setBusy(false); } }, 10); };
+  const setSim = useSim((s) => s.set);
+  const run = () => { setBusy(true); setTimeout(() => { try { const r = sensitivity(sc, key) as any; setRows(r); setSim({ sens: { scenario: sc, key, rows: r } }); } finally { setBusy(false); } }, 10); };
   const valid = (rows ?? []).filter((r) => r.low != null && r.high != null && r.base != null)
     .sort((x, y) => Math.abs(x.high! - x.low!) - Math.abs(y.high! - y.low!));
   const base = valid[0]?.base ?? 0;
@@ -173,7 +174,7 @@ function Tornado({ sc }: { sc: Scenario }) {
   );
 }
 
-function NextTest({ sc, r }: { sc: Scenario; r: SimResult }) {
+export function NextTest({ sc, r }: { sc: Scenario; r: SimResult }) {
   const nt = useMemo(() => nextTest(sc, r) as any, [sc, r]);
   return (
     <Section title="Next test to fly">
@@ -189,14 +190,14 @@ function NextTest({ sc, r }: { sc: Scenario; r: SimResult }) {
   );
 }
 
-function download(name: string, text: string, type: string) {
+export function download(name: string, text: string, type: string) {
   const url = URL.createObjectURL(new Blob([text], { type }));
   const el = Object.assign(document.createElement("a"), { href: url, download: name });
   el.click();
   URL.revokeObjectURL(url);
 }
 
-function Export({ sc, r }: { sc: Scenario; r: SimResult }) {
+export function Export({ sc, r }: { sc: Scenario; r: SimResult }) {
   const slug = sc.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "scenario";
   return (
     <Section title="Export">

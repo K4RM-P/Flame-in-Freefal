@@ -50,7 +50,7 @@ export function ScenarioPanel() {
   return (
     <div className="space-y-1">
       <Describe />
-      <Section title="Presets">
+      <Section id="sec-presets" title="Presets">
         <div className="flex flex-col gap-1.5">
           {PRESETS.map((p: Preset) => (
             <button key={p.id} type="button" className={`btn justify-start text-left ${presetId === p.id ? "bg-surface2" : ""}`} data-testid={presetTestId(p.id)}
@@ -64,7 +64,7 @@ export function ScenarioPanel() {
           <Segmented options={[{ v: "a" as const, label: `A · ${a?.name ?? ""}` }, { v: "b" as const, label: `B · ${b.name}` }]} value={editing} onChange={(v) => set({ editing: v })} />
         </div>
       )}
-      <Section title="Cabin">
+      <Section id="sec-cabin" title="Cabin">
         <label className="grid grid-cols-[1fr_auto] items-center gap-2 text-[13px]"><span className="text-mute">Name</span>
           <input type="text" className="w-40" value={sc.name} onChange={(e) => patch((s) => ({ ...s, name: e.target.value }))} /></label>
         <NumField label="Oxygen" units="% mol" value={round(c.x_o2 * 100)} source={src("cabin.x_o2")} step={0.1} min={0} max={100}
@@ -85,10 +85,10 @@ export function ScenarioPanel() {
           <input type="checkbox" checked={c.fan_off_on_alarm} onChange={(e) => patch((s) => ({ ...s, cabin: { ...s.cabin, fan_off_on_alarm: e.target.checked } }))} />
         </label>
       </Section>
-      <Section title={`Materials (${sc.items.length})`} right={<AddMaterial />}>
+      <Section id="sec-materials" title={`Materials (${sc.items.length})`} right={<AddMaterial />}>
         {sc.items.map((it, idx) => <ItemRow key={it.id} it={it} idx={idx} src={src} />)}
       </Section>
-      <Section title="Fire">
+      <Section id="sec-fire" title="Fire">
         {ignitable.length === 0 ? <p className="text-[13px] text-warn">No item has PSI burn data, so nothing can ignite. Add a material with ISS burn tests.</p> : (
           <>
             <label className="grid grid-cols-[1fr_auto] items-center gap-2 text-[13px]"><span className="text-mute">Ignition item</span>
@@ -101,7 +101,7 @@ export function ScenarioPanel() {
           </>
         )}
       </Section>
-      <Section title="Detection">
+      <Section id="sec-detection" title="Detection">
         <label className="grid grid-cols-[1fr_auto] items-center gap-2 text-[13px]" title={src("detection.type")}><span className="text-mute">Detector type</span>
           <select value={sc.detection.type} onChange={(e) => patch((s) => ({ ...s, detection: { ...s.detection, type: e.target.value as Scenario["detection"]["type"] } }))}>
             <option value="photoelectric">Photoelectric</option><option value="ionization">Ionization</option>
@@ -111,8 +111,11 @@ export function ScenarioPanel() {
         <NumField label="Alarm threshold (smoke)" units="mg/m³" value={sc.detection.threshold == null ? null : round(sc.detection.threshold * 1e6)} min={0}
           source={src("detection.threshold")}
           onChange={(v) => patch((s) => ({ ...s, detection: { ...s.detection, threshold: v != null && v > 0 ? v / 1e6 : null } }))} />
+        <NumField label="Crew-reported alarm (optional)" units="s" value={sc.detection.manual_alarm_s ?? null} min={0} max={600}
+          source="Design input: time the crew reports the fire; used only if no detector alarm fires earlier"
+          onChange={(v) => patch((s) => ({ ...s, detection: { ...s.detection, manual_alarm_s: v != null && v >= 0 ? v : null } }))} />
       </Section>
-      <Section title="Suppression">
+      <Section id="sec-suppression" title="Suppression">
         <div className="flex items-center justify-between text-[13px]" title={src("suppression.agent")}><span className="text-mute">Agent</span>
           <Segmented options={[{ v: "none" as const, label: "None" }, { v: "CO2" as const, label: "CO₂" }, { v: "N2" as const, label: "N₂" }]} value={sc.suppression.agent}
             onChange={(v) => patch((s) => ({ ...s, suppression: { ...s.suppression, agent: v } }))} /></div>

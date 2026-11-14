@@ -12,7 +12,7 @@ import { Schematic } from "./Schematic";
 import { TELEMETRY } from "./data";
 import { useSim } from "./store";
 
-const MC_N = 200;
+export const MC_N = 200;
 
 /** Fields the engine cannot run without (unsourced values the user must supply). */
 export function missingFields(s: Scenario | null): string[] {
@@ -23,14 +23,14 @@ export function missingFields(s: Scenario | null): string[] {
 }
 
 /** Trim a result for the interpretation request: outcome, events, warnings, provenance and a ≤ 61-point series. */
-function compact(r: SimResult) {
+export function compact(r: SimResult) {
   const step = Math.max(1, Math.ceil(r.t.length / 60));
   const idx = r.t.map((_, i) => i).filter((i) => i % step === 0 || i === r.t.length - 1);
   return { outcome: r.outcome, events: r.events, warnings: r.warnings, provenance: r.provenance, t: idx.map((i) => r.t[i]), state: idx.map((i) => r.state[i]) };
 }
 
 /** Match InterpretRequestSchema: role as one string, no null DOI, summary ≤ 600 chars. */
-const evidenceForAI = (s: Scenario) => rankEvidence(s).map((e) => ({
+export const evidenceForAI = (s: Scenario) => rankEvidence(s).map((e) => ({
   accession: e.accession, title: e.title, summary: e.summary?.slice(0, 600), role: e.role.join(", ").slice(0, 40), ...(e.doi ? { doi: e.doi } : {}),
 }));
 
@@ -51,7 +51,7 @@ export async function interpret(a: Scenario, ra: SimResult, b: Scenario | null, 
 export async function runAll() {
   const { a, b, set } = useSim.getState();
   if (!a || missingFields(a).length || (b && missingFields(b).length)) return;
-  set({ running: true, runError: null, frame: 0, interp: { state: "idle" } });
+  set({ running: true, runError: null, frame: 0, playing: false, interp: { state: "idle" }, chat: [] });
   try {
     const [ra, rb] = await Promise.all([runInWorker(a, { mc: MC_N }), b ? runInWorker(b, { mc: MC_N }) : Promise.resolve(null)]);
     set({ ra, rb, running: false, frame: ra.t.length - 1 });
@@ -123,7 +123,7 @@ export function RunPanel() {
 }
 
 /** Render replayError() output as a table, whatever its exact nesting. */
-function ReplayMetrics({ err }: { err: unknown }) {
+export function ReplayMetrics({ err }: { err: unknown }) {
   if (!err || typeof err !== "object") return <p className="mt-2 text-[13px] text-warn">No overlapping telemetry channel: error not computable.</p>;
   const entries = Object.entries(err as Record<string, unknown>);
   const nested = entries.filter(([, v]) => v && typeof v === "object" && !Array.isArray(v)) as [string, Record<string, unknown>][];
