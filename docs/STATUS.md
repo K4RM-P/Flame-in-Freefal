@@ -23,3 +23,4 @@
 - Removed the free-form "Ask" chat (`app/api/ask`, `lib/ai/ask.ts`, Assistant tab) so the simulator keeps one AI surface (scenario builder + interpretation); the Evidence page keeps the match explanation.
 - README states the Earth-vs-orbit counts and max solid O₂ (22.2%) as of today with the source file; the UI computes them live.
 - Deleted `docs/CLAUDE_SIMULATION_HUB_PROMPTS.md`. `docs/HUMAN_TASKS.md` trimmed to still-open human verification tasks.
+- Demo Numbers restored at the team's request (overrides UPGRADE.md P0 #5): manual setup has a "Demo Numbers" button that fills a labelled test case (lunar atmosphere, SAFFIRE SIBAL sample size, illustrative volume, flow, detector distance and threshold). The UI states the values are not NASA measurements; no preset or landing CTA uses them.
