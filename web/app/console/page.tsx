@@ -112,6 +112,7 @@ export default function Console() {
           {Number.isFinite(v.ratio) && <span className="text-mute">≈ {sig(v.ratio, 2)}× the spread at ISS conditions (21% O₂, 101.3 kPa, µg)</span>}
           {A && <Delta a={A.spread.value} b={r.spread.value} />}
           <button className="underline underline-offset-2" onClick={() => useMission.setState({ drawer: { kind: "receipt", result: r.spread, title: "Flame spread rate" } })}>Open receipt</button>
+          <Link href="/evidence#earth-vs-orbit" className="underline underline-offset-2" data-testid="link-earth-vs-orbit">How does this compare to the Earth test?</Link>
         </div>
       </header>
 

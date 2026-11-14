@@ -7,6 +7,7 @@ import { SourcePill, fmt } from "@/components/bits";
 import { download } from "@/lib/report";
 import { PSI_FETCHED_AT, PSI_LIST, psiEntries } from "@/lib/psi";
 import { PsiTables } from "@/components/PsiTables";
+import { EarthVsOrbit } from "@/components/EarthVsOrbit";
 
 export default function Evidence() {
   const m = useMission();
@@ -26,6 +27,7 @@ export default function Evidence() {
     <div className="space-y-6">
       <div><h1 className="text-2xl font-semibold">Evidence Explorer</h1>
         <p className="text-sm text-mute">Which PSI investigations matter for this mission atmosphere ({fmt(m.x_o2 * 100)}% O₂, {m.P_kPa} kPa, {m.flow_cm_s} cm/s)? Edit weights; hover a bar for the breakdown.</p></div>
+      <EarthVsOrbit />
       <section className="grid gap-4 lg:grid-cols-3">
         <div className="card space-y-2">
           <span className="label">Weights</span>

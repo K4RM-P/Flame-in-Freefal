@@ -19,3 +19,14 @@ test("B2: Evidence data view loads PSI Experimental tables with provenance", asy
   await page.goto("/gaps");
   await expect(page.getByTestId("psi-coverage")).toContainText("bass2");
 });
+
+test("B3: Console links to the Earth-test-vs-orbit matrix with framing and small-n warning", async ({ page }) => {
+  await page.goto("/console");
+  await page.getByTestId("link-earth-vs-orbit").click();
+  await expect(page).toHaveURL(/evidence#earth-vs-orbit/);
+  const m = page.getByTestId("earth-vs-orbit");
+  await expect(m).toContainText("small n");
+  await expect(m).toContainText("Silicone");
+  await expect(m).toContainText("not a verdict on the ground test standard");
+  await expect(page.getByTestId("evo-summary")).toContainText("4 of 7 like-for-like samples burned less in orbit");
+});
