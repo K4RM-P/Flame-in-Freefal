@@ -20,7 +20,7 @@ the suppression model's µg T_crit was fitted on V1/V2 only, so its V3/V4/He row
 | V7 | spread | BASS-II opposed spread vs flow (held-out) | — | — | MAPE <= 30%, peak at intermediate flow | **pending data** |
 | V8 | boundary | ACME BRE: extinct at 21% O2 within 40 s; steady at 26.5/34/40% | — | — | classification | **pending data** |
 | V9 | habitat | Saffire vehicle T, P, CO2 rise for ~10 kW fire | — | — | within 30% on held-out flight | **pending data** |
-| V10 | smoke | SAME-R mean particle size after aging | [200, 400] | — | ± | **pending data** |
+| V10 | smoke | SAME-R mean particle size after aging | [200, 400] | — | inside published range | **pending data** |
 
 ## Held-out metrics
 

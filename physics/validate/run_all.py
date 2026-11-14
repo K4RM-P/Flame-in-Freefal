@@ -96,7 +96,7 @@ def main() -> None:
     for vid in ("V6", "V7", "V8", "V9", "V10"):
         v = vt[vid]
         row(vid, {"V6": "spread", "V7": "spread", "V8": "boundary", "V9": "habitat", "V10": "smoke"}[vid], v["quantity"],
-            v.get("value", "—"), None, v.get("criterion", f"±{v.get('tol', '')}"), "pending data", v["source"],
+            v.get("value", "—"), None, v.get("criterion") or (f"±{v['tol']}" if "tol" in v else "inside published range"), "pending data", v["source"],
             f"Needs: {v['data_needed']} (docs/HUMAN_TASKS.md). Model ships as 'Uncalibrated — theory only'.")
     results["loi_curves"] = loi_curves()
     save_json(OUT / "summary.json", {"targets": rows})

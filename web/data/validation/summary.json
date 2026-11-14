@@ -177,7 +177,7 @@
     400
    ],
    "predicted": null,
-   "criterion": "\u00b1",
+   "criterion": "inside published range",
    "status": "pending data",
    "source": "same-r",
    "note": "Needs: SAME-R aging series (docs/HUMAN_TASKS.md). Model ships as 'Uncalibrated \u2014 theory only'."

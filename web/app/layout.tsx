@@ -4,6 +4,7 @@ import "katex/dist/katex.min.css";
 import "./globals.css";
 import { Nav } from "@/components/Nav";
 import { MissionBar } from "@/components/MissionBar";
+import { AskSlideOver } from "@/components/AskPanel";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
 const mono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mono", display: "swap" });
@@ -20,6 +21,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Nav />
         <MissionBar />
         <main className="mx-auto max-w-7xl px-4 py-6">{children}</main>
+        <AskSlideOver />
         <footer className="mx-auto max-w-7xl px-4 pb-8 pt-4 text-xs text-mute">
           EmberAtlas · NASA Space Apps 2026 · Flame in Freefall · MIT · Built on NASA PSI data. AI-generated answers come from cited tools and sources; verify before engineering use.
         </footer>
