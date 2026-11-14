@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Explore NASA combustion research and compare evidence for spacecraft fire safety.">
+<title>Project Max Q | Flame in Freefall</title>
+<link rel="preload" href="fonts/barlow.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="dashboard.css">
+
+</head>
+<body>
+<header><nav class="wrap" aria-label="Main navigation">
+<a class="brand" href="#top"><span class="mark" aria-hidden="true">Q</span>Project Max Q</a>
+<div><a href="#detector-challenge">Lunar challenge</a><a href="#optimizer">Optimizer</a><a href="#sim">Simulator</a><a href="#physics">Physics</a><a href="#coverage">Evidence map</a><a href="#explore">Research</a></div>
+</nav></header>
+<main class="wrap">
+<div class="hero" id="top">
+  <div class="hero-copy"><p class="kicker">NASA Space Apps Challenge 2026</p><h1>Flame in<br><span>Freefall</span></h1><p class="intro">Find the NASA research that informs what to test for fire safety in spacecraft and surface habitats.</p>
+  <div class="hero-action"><a class="primary guide-launch" href="#judge-demo">Start guided demo <span aria-hidden="true">↓</span></a><button class="secondary" id="demo" type="button">Open lunar research brief</button></div></div>
+  <figure class="hero-photo">
+    <img src="images/sofie.jpg" alt="Rows of blue and orange flames around spherical fuel samples in the SoFIE experiment" width="1280" height="784" fetchpriority="high">
+    <figcaption><span>SoFIE · International Space Station</span><a href="https://www.nasa.gov/gallery/solid-fuel-ignition-and-extinction-sofie/">NASA imagery →</a></figcaption>
+  </figure>
+</div>
+<div class="jump-grid" aria-label="Explore Project Max Q">
+  <a href="#detector-challenge"><div><strong>Lunar challenge</strong><span>Move the rack and compare two detectors.</span></div><span aria-hidden="true">→</span></a>
+  <a href="#physics"><div><strong>Physics lab</strong><span>Explore formulas and flight measurements.</span></div><span aria-hidden="true">→</span></a>
+  <a href="#coverage"><div><strong>Evidence map</strong><span>Compare a mission with NASA test conditions.</span></div><span aria-hidden="true">→</span></a>
+</div>
+<section id="science" class="dashboard-section">
+  <div class="sectionhead"><div><p class="kicker">Microgravity combustion</p><h2>What changes in orbit?</h2></div></div>
+  <div class="science-grid">
+    <figure class="science-photo">
+      <img src="images/candle.jpg" alt="NASA comparison showing a tall yellow candle flame in normal gravity and a rounded blue flame in microgravity" width="1280" height="1024" loading="lazy">
+      <div class="photo-labels" aria-hidden="true"><span>Normal gravity</span><span>Microgravity</span></div>
+      <figcaption>Side-by-side candle flames. <a href="https://science.nasa.gov/biological-physical/why-is-fundamental-research-in-space-important/">NASA Glenn →</a></figcaption>
+    </figure>
+    <figure class="panel smoke-diagram">
+      <h3>How smoke reaches a detector</h3>
+      <p>In microgravity, buoyant rise is weak. Ventilation and mixing affect where smoke travels.</p>
+      <div class="duct" data-fan="on" aria-hidden="true">
+        <span class="vent"></span><span class="smoke-route"></span><span class="detector"></span>
+      </div>
+      <div class="duct-labels"><span>Smoke source</span><span>Detector</span></div>
+      <div class="flow-controls" role="group" aria-label="Illustrative ventilation settings">
+        <button id="fan-on" type="button" aria-pressed="true">Directed airflow</button>
+        <button id="fan-off" type="button" aria-pressed="false">Weak airflow</button>
+      </div>
+      <p id="flow-note" aria-live="polite">Cabin airflow can carry particles toward a detector along its flow path.</p>
+      <figcaption>Conceptual diagram. <a href="https://www.nist.gov/publications/smoke-aerosol-measuremen-experiment-same">SAME research →</a></figcaption>
+    </figure>
+  </div>
+</section>
+<section id="explore" class="dashboard-section"><div class="sectionhead"><div><h2>Mission control</h2><p>Set a mission profile and ask a fire safety question.</p></div></div>
+<div class="mission-grid">
+<div class="panel mission-profile"><h3>Mission profile</h3><div class="controls"><label>Setting<select id="setting"><option value="orbit">Orbital spacecraft</option><option value="moon">Lunar habitat</option><option value="mars">Mars habitat</option><option value="rover">Pressurized rover</option></select></label><label>Priority<select id="priority"><option value="all">All priorities</option><option>Prevention</option><option>Detection</option><option>Suppression</option></select></label></div><p id="scope"></p><details><summary>How relevance is scored</summary><p class="small">Add 35 for a matching priority, 20 per matched research topic (up to 40), up to 20 for fit to the mission setting, and up to 5 for numerical evidence in the record. The score orders this collection by relevance.</p></details></div>
+<div class="analysis"><div class="panel"><h3>Research question</h3><form class="query" id="query"><label class="visually-hidden" for="question">Research question</label><input id="question" maxlength="240" placeholder="How does ventilation affect flame spread?"><button class="primary" type="submit">Ask →</button></form><div class="chips"><button type="button" data-question="How does ventilation affect flame spread?">Airflow</button><button type="button" data-question="How do smoke detectors pick up particles?">Smoke detection</button><button type="button" data-question="Can heptane droplets keep burning after the visible flame disappears?">Cool flames</button></div></div>
+<div class="panel answer" id="answer" aria-live="polite" hidden></div><button id="model" type="button" hidden style="margin-top:.6rem">Draft synthesis with on-device AI</button>
+<div class="panel idle-brief" id="idle"><h3>Mission brief</h3><p>Ask a question or select a suggested topic to see the strongest finding, what it could inform, and what still needs testing.</p></div></div></div>
+</section>
+<section id="sim" class="dashboard-section">
+  <div class="sectionhead"><div><p class="kicker">Interactive spacecraft cutaway</p><h2>3D smoke transport simulator</h2><p>Ignite a simulated smoke source and see whether ventilation carries particles past the detector.</p></div></div>
+  <div class="sim-grid">
+    <div class="panel sim-stage">
+      <canvas id="cabin-view" width="900" height="510" role="img" aria-label="Rotatable 3D cutaway of a spacecraft cabin with a smoke source, particle paths and a detector"></canvas>
+      <div class="sim-legend"><span><i class="heat"></i>Smoke source and particles</span><span><i class="sense"></i>Detector</span><span>Drag to rotate</span></div>
+      <div class="sim-metrics"><div>Elapsed model time <strong id="sim-time">0.0 s</strong></div><div>First particle arrival <strong id="sim-arrival">—</strong></div><div>Particles sampled <strong id="sim-count">0</strong></div></div>
+      <p id="sim-status" role="status">Ready to run.</p>
+    </div>
+    <div class="panel sim-control">
+      <h3>Test setup</h3>
+      <label>Scenario preset<select id="sim-preset"><option value="guided">Ventilated cabin</option><option value="still">No directed ventilation</option><option value="offset">Detector near the wall</option><option value="custom">Custom settings</option></select></label>
+      <fieldset class="gravity-controls"><legend>Gravity and particle size</legend>
+      <label>Gravity<select id="sim-gravity"><option value="0">Ideal microgravity · 0 m/s²</option><option value="1.62">Moon · 1.62 m/s²</option><option value="3.71">Mars · 3.71 m/s²</option><option value="9.81">Earth · 9.81 m/s²</option></select></label>
+      <label for="sim-size">Particle diameter <output id="sim-size-out" for="sim-size"></output></label><input type="range" id="sim-size" min="0.2" max="30" step="0.1" value="0.3">
+      </fieldset>
+      <label for="sim-flow">Ventilation toward detector <output id="sim-flow-label" for="sim-flow">20 cm/s</output></label>
+      <input type="range" id="sim-flow" min="0" max="40" value="20" step="1">
+      <label>Smoke source<select id="sim-source"><option value="0">In the airflow path</option><option value="1">Off to the side</option></select></label>
+      <label>Detector position<select id="sim-sensor"><option value="0">In the airflow path</option><option value="1">Near the cabin wall</option></select></label>
+      <label for="sim-view">Camera angle</label><input type="range" id="sim-view" min="-180" max="180" value="-22">
+      <div class="sim-actions"><button id="sim-home" type="button">Reset camera</button><button id="sim-run" class="primary" type="button">Start smoke release</button><button id="sim-reset" type="button">Reset</button></div>
+      <div class="formula"><span class="equation-caption">Particle motion per time step</span>
+        <math display="block"><mrow><mi>Δ</mi><mi mathvariant="bold">r</mi><mo>=</mo><mo>(</mo><mi mathvariant="bold">u</mi><mo>−</mo><msub><mi>v</mi><mi>s</mi></msub><mover><mi>y</mi><mo>^</mo></mover><mo>)</mo><mi>Δt</mi><mo>+</mo><msqrt><mrow><mn>2</mn><msub><mi>D</mi><mtext>eff</mtext></msub><mi>Δt</mi></mrow></msqrt><mi mathvariant="bold">ξ</mi></mrow></math>
+      </div><details><summary>Model assumptions</summary><p>Particles drift with uniform cabin airflow u and mix through a random walk. Each component of ξ is independently standard normal. The illustrative mixing coefficient is 0.012 m²/s. The detector samples particles within a 0.25 m radius. The 6 m cabin geometry and detector sampling radius are illustrative. This model uses passive particles in microgravity and estimates transport only. It omits flame chemistry, cabin obstructions and detector response thresholds.</p><a href="https://www.nist.gov/publications/smoke-aerosol-measuremen-experiment-same">NASA/NIST smoke transport study →</a></details>
+    </div>
+  </div>
+  <article class="panel transport-lab" id="detector-challenge">
+    <div class="sectionhead"><div><p class="kicker">Detector placement experiment</p><h3>Smoke in the lunar habitat</h3><p>Compare two detector positions with the same smoke release and particle trajectories.</p></div></div>
+    <section id="judge-demo" class="judge-guide" aria-labelledby="guide-title">
+      <div class="judge-guide-copy">
+        <h4 id="guide-title">Guided mission demo</h4>
+        <p id="guide-story">Can moving a detector help it sample smoke sooner? Follow the same smoke release through three views.</p>
+      </div>
+      <ol class="guide-steps" aria-label="Demo steps">
+        <li><button type="button" data-guide-step="0">Airflow map</button></li>
+        <li><button type="button" data-guide-step="1">3D replay</button></li>
+        <li><button type="button" data-guide-step="2">Placement scan</button></li>
+      </ol>
+      <div class="guide-action"><button class="primary" id="guide-next" type="button">Begin with airflow</button><span id="guide-status" role="status"></span></div>
+    </section>
+    <div class="mission-toolbar">
+      <div class="sim-actions"><button id="compare-play" class="primary" type="button">Play comparison</button><button id="compare-trials" type="button">Run 30 paired trials</button><a href="#optimizer">Placement optimizer ↓</a></div>
+      <div class="replay-meter"><span id="compare-clock">0.0 / 60.0 s</span><progress id="compare-timeline" max="60" value="0" aria-label="Model time elapsed"></progress></div>
+    </div>
+    <div class="challenge-physics"><div><strong>Particle motion</strong><span class="inline-equation">Δr = (u − v<sub>s</sub>ŷ)Δt + √(2D<sub>eff</sub>Δt) ξ</span><p>The airflow map supplies u. Settling and random mixing also move each tracer.</p></div><div><strong>Detector sampling</strong><span class="inline-equation">‖r − r<sub>detector</sub>‖ ≤ 0.25 m</span><p>The counter increases when a tracer first enters that detector’s sampling zone.</p></div></div>
+    <div class="rack-console" id="guide-airflow" tabindex="-1">
+      <div>
+        <h4>Configure the cabin</h4>
+        <label class="rack-toggle"><input id="rack-enabled" type="checkbox" checked> Include equipment rack</label>
+        <label for="rack-position">Rack position across the cabin <output id="rack-position-out" for="rack-position"></output></label>
+        <input id="rack-position" type="range" min="-0.65" max="0.65" step="0.05" value="0">
+        <p class="small">The heat map and both replays use the same airflow field. Move the rack, play a replay, then run the paired trials.</p>
+        <button class="guide-continue" data-guide-continue="1" type="button" hidden>Continue to 3D replay ↓</button>
+      </div>
+      <figure class="lab-figure">
+        <canvas id="rack-map" width="720" height="310" role="img" aria-label="Top-down cabin slice with airflow speed, direction, equipment rack, smoke source, and both detectors"></canvas>
+        <figcaption class="rack-key"><span>Airflow speed</span><span>0 cm/s</span><span class="rack-gradient" aria-hidden="true"></span><span id="rack-max">—</span></figcaption>
+      </figure>
+    </div>
+    <div class="replay-legend"><span><i></i> Smoke tracer</span><span><i></i> Detector and sampled tracers</span><span><i></i> Equipment rack</span></div>
+    <div class="comparison-views" id="guide-replay" tabindex="-1">
+      <figure class="lab-figure"><canvas id="detector-a" width="900" height="510" role="img" aria-label="Cabin with detector on the centerline"></canvas><figcaption><span id="compare-name-a">Centerline detector</span><strong id="compare-a">Ready</strong></figcaption></figure>
+      <figure class="lab-figure"><canvas id="detector-b" width="900" height="510" role="img" aria-label="Cabin with detector near the wall"></canvas><figcaption><span id="compare-name-b">Near-wall detector</span><strong id="compare-b">Ready</strong></figcaption></figure>
+    </div>
+    <button class="guide-continue" data-guide-continue="2" type="button" hidden>Continue to placement scan ↓</button>
+    <p id="compare-progress" role="status">Lunar gravity · 20 cm/s ventilation · 0.3 µm particles · 60 s model window</p>
+    <div class="tablebox" id="compare-results" hidden>
+      <table><thead><tr><th scope="col">Placement</th><th scope="col">No sample by 60 s</th><th scope="col">Median first arrival</th><th scope="col">First-arrival range</th></tr></thead><tbody id="compare-summary"></tbody></table>
+    </div>
+    <section class="placement-console" id="optimizer" tabindex="-1" aria-labelledby="optimizer-title">
+      <div class="sectionhead"><div><p class="kicker">Placement optimizer</p><h4 id="optimizer-title">Find a detector location that survives layout changes</h4><p>Screen 20 candidate sites across four rack layouts with six seeded smoke releases per layout.</p></div></div>
+      <div class="sim-actions"><button id="opt-run" class="primary" type="button">Scan detector locations</button><label>Sampling deadline <select id="opt-deadline"><option value="20">20 seconds</option><option value="30" selected>30 seconds</option><option value="60">60 seconds</option></select></label></div>
+      <p id="opt-status" role="status">Ready to scan.</p>
+      <div id="opt-results" hidden>
+        <p class="small">Map rows show distance across the cabin. Columns show distance along it. Each tile gives the percentage of runs sampled by the deadline. Select a tile for its results.</p>
+        <div id="opt-grid" class="placement-grid" role="group" aria-label="Detector sampling coverage map"></div>
+        <p id="opt-detail" aria-live="polite"></p>
+        <div class="sim-actions"><button id="opt-replay" type="button">Replay selected candidate</button><button id="opt-miss" type="button">Replay a missed deadline</button></div>
+      </div>
+      <p class="small">Ranked by sampling frequency, then median arrival among runs that met the deadline. The trials share scenario inputs across candidates. Results describe this simplified airflow model and depend on the rack layouts and smoke releases tested.</p>
+    </section>
+    <p class="small">Arrival statistics use trials with at least one particle sampled. Each pair shares a random seed so that detector placement is the only change. The rack model uses prescribed flow deflection, a slower wake, and a solid obstacle at the rack. The heat map shows a horizontal slice through the cabin. It illustrates how a layout can affect sampling outcomes. Quantitative design predictions would require validated CFD or experiments. Particle arrival is a model result. A real lunar habitat test would need its cabin geometry, ventilation layout, and detector response.</p>
+    <a class="lab-source" href="https://www.nist.gov/publications/smoke-aerosol-measuremen-experiment-same">NASA/NIST smoke transport research →</a>
+  </article>
+  <article class="panel transport-lab">
+    <div class="sectionhead"><div><p class="kicker">Analytical transport model</p><h3>When does smoke reach the detector plane?</h3><p>Change the ventilation slider above to compare drift and mixing along the cabin axis.</p></div></div>
+    <div class="transport-metrics">
+      <div><span>Péclet number</span><span class="inline-equation">Pe = UL/D</span><strong id="transport-pe">—</strong></div>
+      <div><span>Most likely plane crossing</span><span class="inline-equation">t<sub>mode</sub> = L² / [√(9D² + U²L²) + 3D]</span><strong id="transport-mode">—</strong></div>
+      <div><span>Mean plane crossing</span><span class="inline-equation">E[T] = L/U for U &gt; 0</span><strong id="transport-mean">—</strong></div>
+    </div>
+    <div class="transport-metrics gravity-metrics">
+      <div><span>Richardson number · buoyancy vs. fan</span><span class="inline-equation">Ri = gβΔTL / U²</span><strong id="sim-ri">—</strong></div>
+      <div><span>Particle settling speed</span><span class="inline-equation">v<sub>s</sub> = (ρ<sub>p</sub> − ρ<sub>g</sub>)gd<sub>p</sub>²C<sub>c</sub> / (18μ)</span><strong id="sim-settling">—</strong></div>
+    </div>
+    <div class="equation-notes"><h4>Slip correction</h4>
+      <div class="formula">C<sub>c</sub> = 1 + (2λ/d<sub>p</sub>)[1.257 + 0.4 exp(−1.1d<sub>p</sub> / 2λ)]</div>
+      <p>Ri uses a local 0.10 m plume length, a 30 K temperature difference and β ≈ 1/(293 K). Values much smaller than 1 favor forced flow. Values much larger than 1 indicate buoyancy may dominate. With the fan off, the ratio is undefined.</p>
+      <p>The animation adds downward settling to the passive particles. Ri is a diagnostic for warm gas, whose buoyant rise is outside this particle model. Settling assumes spherical particles of density 1,000 kg/m³ in room-temperature air near 1 atm. Values above a few micrometres let you explore larger illustrative particles. The model reflects particles at the walls and omits deposition. The plane-crossing formulas remain a one-dimensional axial reference.</p>
+      <a href="https://nssdc.gsfc.nasa.gov/planetary/factsheet/">NASA gravity values →</a> · <a href="https://stacks.cdc.gov/view/cdc/202830">Stokes settling and slip correction →</a>
+    </div>
+    <p id="transport-note"></p>
+    <div class="equation-notes"><h4>First-passage time distribution</h4>
+      <div class="formula"><math display="block"><mrow><mi>f</mi><mo>(</mo><mi>t</mi><mo>)</mo><mo>=</mo><mfrac><mi>L</mi><msqrt><mrow><mn>4</mn><mi>π</mi><mi>D</mi><msup><mi>t</mi><mn>3</mn></msup></mrow></msqrt></mfrac><mi>exp</mi><mo>(</mo><mo>−</mo><mfrac><msup><mrow><mo>(</mo><mi>L</mi><mo>−</mo><mi>U</mi><mi>t</mi><mo>)</mo></mrow><mn>2</mn></msup><mrow><mn>4</mn><mi>D</mi><mi>t</mi></mrow></mfrac><mo>)</mo></mrow></math></div>
+      <p>Here L is the axial distance to the detector plane, U is airflow speed and D is the effective mixing coefficient. The density f(t) describes one particle’s first crossing of an infinite plane in an unbounded one-dimensional drift–diffusion model. The 3D simulator uses a small sampling zone, cabin walls and multiple particles. Its first sampled particle is a different quantity. Moving the detector sideways changes the 3D sampling geometry while the axial plane remains in place.</p>
+      <a href="https://doi.org/10.1017/CBO9780511606014">Redner, A Guide to First-Passage Processes →</a>
+    </div>
+  </article>
+  <div class="panel sim-guide">
+    <h3>How to read the simulation</h3>
+    <ol>
+      <li>Start with <strong>Ventilated cabin</strong>. The orange source releases simulated smoke for the first 8 seconds of model time. The arrows show the direction of airflow.</li>
+      <li>Watch the blue detector. The first particle to enter its sampling zone sets the <strong>First particle arrival</strong> time. The counter counts each sampled particle once. Playback is twice as fast as model time.</li>
+      <li>Try <strong>No directed ventilation</strong> or <strong>Detector near the wall</strong>. Compare the readouts after the same 60-second model interval.</li>
+    </ol>
+    <p>The demo illustrates smoke transport in a simplified microgravity cabin. Detector sampling is a model event. A real alarm also depends on its sensor, threshold, and cabin conditions.</p>
+  </div>
+</section>
+<section id="physics" class="dashboard-section">
+  <div class="sectionhead"><div><p class="kicker">Combustion and transport</p><h2>Physics lab</h2><p>Explore a flame-sheet model, then see how a real flight experiment departs from its assumptions.</p></div></div>
+  <div class="physics-grid">
+    <article class="panel lab-model">
+      <p class="kicker">Idealized model</p><h3>Burke–Schumann flame sheet</h3>
+      <p>Fuel and oxygen enter separately. With infinitely fast chemistry, the reaction sits at the mixture fraction where just enough oxygen reaches the fuel.</p>
+      <div class="formula">C<sub>7</sub>H<sub>16</sub> + 11 O<sub>2</sub> → 7 CO<sub>2</sub> + 8 H<sub>2</sub>O<br>
+        s = 11M<sub>O₂</sub> / M<sub>fuel</sub><br>Z<sub>st</sub> = Y<sub>O₂,ox</sub> / (sY<sub>F,f</sub> + Y<sub>O₂,ox</sub>)</div>
+      <label for="oxygen">Oxygen mole fraction in an O₂/N₂ mixture <output id="oxygen-value" for="oxygen">21%</output></label>
+      <input id="oxygen" type="range" min="10" max="40" step="1" value="21">
+      <p id="sheet-values" class="lab-readout" aria-live="polite"></p>
+      <figure class="lab-figure"><canvas id="sheet-chart" width="600" height="260" role="img" aria-label="Predicted heptane and oxygen mass fractions plotted against mixture fraction"></canvas><figcaption>Orange marks residual fuel. Blue marks residual oxygen. The dashed line locates the modeled reaction sheet in mixture-fraction space.</figcaption></figure>
+      <div class="equation-notes"><h4>Fuel and oxygen profiles</h4><p>Z is the mass fraction of material originating in the pure-fuel stream. Y is a species mass fraction. The oxidizer oxygen mass fraction is xM<sub>O₂</sub> / [xM<sub>O₂</sub> + (1−x)M<sub>N₂</sub>], where x is the slider value as a fraction.</p><div class="formula">Y<sub>F</sub> = max(0, (Z − Z<sub>st</sub>)/(1 − Z<sub>st</sub>))<br>Y<sub>O₂</sub> = Y<sub>O₂,ox</sub> max(0, 1 − Z/Z<sub>st</sub>)</div><p>The model assumes pure heptane vapor, an O₂/N₂ oxidizer, equal species diffusivities and one infinitely fast overall reaction. Z<sub>st</sub> describes a mixture composition. Physical flame location requires a spatial mixing field. Extinction and cool-flame chemistry require finite-rate models.</p></div>
+      <a class="lab-source" href="https://www.cerfacs.fr/~cfdbib/repository/TR_CFD_04_122.pdf">Flame-sheet derivation, eqs. 31–33 →</a>
+    </article>
+    <article class="panel lab-model">
+      <p class="kicker">NASA flight experiment</p><h3>FLEX-500 · Heptane droplet</h3>
+      <p>NASA reported two mean burning rates and the droplet diameters at hot- and cool-stage extinction.</p>
+      <div class="formula">d²(t) ≈ d<sub>start</sub>² − K(t − t<sub>start</sub>)<br>Δt ≈ (d<sub>start</sub>² − d<sub>end</sub>²) / K</div>
+      <div class="tablebox"><table><thead><tr><th scope="col">Stage</th><th scope="col">Start → end (mm)</th><th scope="col">K (mm²/s)</th><th scope="col">Est. time (s)</th></tr></thead><tbody id="flex-stages"></tbody></table></div>
+      <figure class="lab-figure"><canvas id="flex-chart" width="600" height="260" role="img" aria-label="Two-stage reconstruction of FLEX-500 droplet diameter squared against elapsed time"></canvas><figcaption>Two straight-line fits reconstructed from NASA’s published diameters and mean rates. Orange shows hot burning and blue shows the inferred cool stage.</figcaption></figure>
+      <p id="flex-insight" class="lab-readout"></p>
+      <p class="small">Times are calculated for consecutive idealized stages. NASA’s slide reports the endpoints and average slopes. This single run does not establish a general extinction time.</p>
+      <a class="lab-source" href="https://www1.grc.nasa.gov/wp-content/uploads/CFI_SCR_May_2014_Dietrich_v1.pdf#page=2">NASA FLEX-500 flight summary →</a>
+    </article>
+  </div>
+  <article class="panel lab-model flight-analysis" id="scalar">
+    <p class="kicker">From flame sheet to flame strain</p><h3>Scalar dissipation rate</h3>
+    <p>The Burke–Schumann model finds the mixture composition at the flame sheet. Scalar dissipation measures how quickly diffusion erases composition differences there.</p>
+    <div class="formula">χ = 2D |∇Z|²<br>For a linear mixing layer, χ = 2D (ΔZ/δ)²</div>
+    <label for="scalar-width">Mixing layer thickness δ <output id="scalar-width-out" for="scalar-width"></output></label>
+    <input id="scalar-width" type="range" min="0.5" max="10" step="0.5" value="2">
+    <p id="scalar-result" class="lab-readout" aria-live="polite"></p>
+    <p class="small">Illustration with ΔZ = 1 and constant molecular diffusivity D = 2 × 10⁻⁵ m²/s. This is an assumed value, separate from the simulator’s effective smoke mixing coefficient. Halving the thickness quadruples χ. In a real flamelet, evaluate χ at the stoichiometric mixture fraction Z<sub>st</sub>. Extinction depends on finite-rate chemistry and the specific fuel and conditions.</p>
+    <h4 class="chem-heading">Damköhler number</h4>
+    <div class="formula">τ<sub>mix</sub> = δ²/D<br>Da = τ<sub>mix</sub> / τ<sub>chem</sub></div>
+    <label for="chem-time">Assumed chemical reaction time <output id="chem-time-out" for="chem-time"></output></label>
+    <input id="chem-time" type="range" min="1" max="500" step="1" value="50">
+    <p id="chem-result" class="lab-readout" aria-live="polite"></p>
+    <p class="small">Da compares diffusion across the same illustrative layer with an assumed reaction timescale. Below 1, diffusion crosses the layer faster than the assumed reaction. Above 1, the opposite holds. A real extinction threshold requires a specific flame and chemistry model.</p>
+    <a class="lab-source" href="https://www.nist.gov/publications/extinction-inhibited-stretched-and-diluted-counterflowing-flames">NIST flame extinction research →</a> ·
+    <a class="lab-source" href="https://www.sciencedirect.com/science/article/pii/S0082078404000815">Scalar dissipation in diffusion flamelets →</a>
+  </article>
+  <article class="panel lab-model flight-analysis">
+    <p class="kicker">Saffire flight measurements</p><h3>Compare two measured samples</h3>
+    <p>Select two runs to compare their reported peak flame sizes and see which recorded test conditions changed. Roman numerals identify Saffire flights. II-5 and II-6 are samples 5 and 6 from Saffire II.</p>
+    <div class="controls"><label>Baseline sample<select id="physics-base"></select></label><label>Comparison sample<select id="physics-target"></select></label></div>
+    <div class="formula">Relative change = 100 × (L<sub>comparison</sub> − L<sub>baseline</sub>) / L<sub>baseline</sub></div>
+    <p id="saffire-result" class="lab-readout" aria-live="polite"></p>
+    <p id="saffire-conditions"></p>
+    <p class="small">This is a comparison of individual observations. Multiple changing conditions prevent attributing the difference to one variable.</p>
+    <a class="lab-source" href="https://ntrs.nasa.gov/citations/20210011521">NASA Saffire paper, Table 2 →</a>
+  </article>
+</section>
+<section id="evidence" class="dashboard-section"><div class="sectionhead"><div><h2>Ranked evidence</h2><p id="resultlabel" aria-live="polite"></p></div><button id="reset" type="button" hidden>Clear question</button></div><div class="cards" id="cards"></div></section>
+<section id="compare" class="dashboard-section"><div class="sectionhead"><div><h2>Compare the test conditions</h2><p>Choose any two evidence records.</p></div></div><div class="panel"><div class="controls"><label>First record<select id="left"></select></label><label>Second record<select id="right"></select></label></div><div id="comparison" class="tablebox" tabindex="0" aria-label="Investigation comparison table"></div></div></section>
+<section id="coverage" class="dashboard-section">
+  <div class="sectionhead"><div><p class="kicker">Mission evidence coverage</p><h2>Where has NASA tested?</h2><p>Overlay a proposed cabin atmosphere on six published Saffire thin-fuel tests.</p></div></div>
+  <div class="sim-grid">
+    <div class="panel">
+      <h3>Oxygen vs. airflow</h3>
+      <figure class="lab-figure"><canvas id="coverage-chart" width="640" height="370" role="img" aria-label="Saffire measurements and the proposed mission operating point"></canvas><figcaption>Orange circles are published flame observations. The blue diamond is your scenario. Samples can share a plotted coordinate. This dataset contains no extinction points for establishing a flammability boundary.</figcaption></figure>
+      <div class="tablebox"><table><thead><tr><th scope="col">Sample</th><th scope="col">O₂ (%)</th><th scope="col">Flow (cm/s)</th><th scope="col">Pressure (kPa)</th><th scope="col">Peak (cm)</th></tr></thead><tbody id="coverage-tests"></tbody></table></div>
+      <a class="lab-source" href="https://ntrs.nasa.gov/citations/20210011521">NASA Saffire paper, Table 2 →</a>
+    </div>
+    <div class="panel sim-control">
+      <h3>Scenario conditions</h3>
+      <label for="map-oxygen">Oxygen <output id="map-oxygen-out"></output></label><input id="map-oxygen" type="range" min="10" max="40" step="0.1" value="26">
+      <label for="map-flow">Ventilation <output id="map-flow-out"></output></label><input id="map-flow" type="range" min="0" max="40" step="1" value="20">
+      <label for="map-pressure">Total pressure <output id="map-pressure-out"></output></label><input id="map-pressure" type="range" min="40" max="120" step="0.1" value="70">
+      <p id="map-partial" class="lab-readout"></p>
+      <h3 class="coverage-gap">Evidence gap</h3>
+      <p id="map-gap" aria-live="polite"></p>
+      <h3 class="coverage-gap">Proposed experiment</h3>
+      <p>Hold fuel, geometry and pressure fixed. Vary oxygen and airflow independently and record whether the flame persists or extinguishes. For a surface habitat, repeat at its target gravity.</p>
+    </div>
+  </div>
+</section>
+<section id="data" class="dashboard-section"><div class="sectionhead"><div><h2>Saffire flame size</h2><p>Six thin-fuel samples from Saffire I–V, transcribed from NASA’s Table 2.</p></div><button type="button" id="csv">Download CSV ↓</button></div>
+<div class="workspace dual"><div class="panel"><h3>Flame size by sample</h3><label style="margin-top:.6rem">Measure<select id="metric"><option value="peak">Maximum size</option><option value="steady">Steady-state size</option></select></label><div class="chart" id="chart" aria-live="polite"></div><a href="https://ntrs.nasa.gov/citations/20210011521">NASA technical paper, Table 2 →</a></div><div class="panel"><h3>Test conditions</h3><div class="tablebox" id="samples" tabindex="0" aria-label="Saffire test conditions table"></div><p class="small">Fuel, airflow, duct geometry, oxygen, and pressure vary across samples. The larger V-2 flame cannot be attributed to oxygen alone.</p></div></div></section>
+<section id="method" class="dashboard-section"><div class="panel"><h2>How this prototype works</h2><p>Project Max Q searches a curated collection using topic matching and a visible relevance score. Its default answers assemble catalogued results and their limitations. Eligible browsers can also draft an optional on-device AI synthesis from the retrieved records.</p><p>Flight microgravity provides a reference for surface habitats. Lunar and Martian gravity, habitat geometry, atmosphere, and airflow require separate validation before application to mission hardware.</p><ul class="source-list"><li><a href="https://www.spaceappschallenge.org/2026/challenges/flame-in-freefall/">Official challenge</a></li><li><a href="https://psi.nasa.gov/physci/repo/search?q=combustion">NASA Physical Sciences Informatics combustion repository</a></li><li><a href="https://www.nasa.gov/missions/station/studying-combustion-and-fire-safety/">NASA overview of combustion and fire safety studies</a></li></ul></div></section>
+<section class="dashboard-section crew" aria-labelledby="crew-title">
+  <p class="kicker">Project Max Q</p><h2 id="crew-title">The crew</h2>
+  <ul class="crew-list">
+    <li><span aria-hidden="true">AA</span>Anujan Akaljan</li>
+    <li><span aria-hidden="true">AS</span>Aaron Sui</li>
+    <li><span aria-hidden="true">KP</span>Karm Patel</li>
+    <li><span aria-hidden="true">XS</span>Xuliang Sun</li>
+  </ul>
+</section>
+</main><footer><div class="wrap">Project Max Q · NASA Space Apps Challenge prototype <a href="#top">Back to top ↑</a></div></footer>
+<script src="app.js" defer></script>
+<script src="physics.js" defer></script>
+<script src="sim.js" defer></script>
+<script src="coverage.js" defer></script>
+</body></html>
