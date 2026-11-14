@@ -171,6 +171,8 @@ export function CabinView({ sc, r, frame, label, compact = false }: { sc: Scenar
         <defs>
           <pattern id="hatch-agent" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="8" stroke="rgb(var(--blue))" strokeWidth="2" /></pattern>
           <pattern id="hatch-char" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(-45)"><line x1="0" y1="0" x2="0" y2="5" stroke="rgb(var(--faint))" strokeWidth="1.2" /></pattern>
+          <filter id="smoke-soft" x="-35%" y="-35%" width="170%" height="170%"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="3" seed="7" result="noise" /><feDisplacementMap in="SourceGraphic" in2="noise" scale="11" /><feGaussianBlur stdDeviation="2.2" /></filter>
+          <filter id="flame-glow" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="5" result="blur" /><feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge></filter>
           <marker id="arrow" viewBox="0 0 10 10" refX="2" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M10 0 L0 5 L10 10 z" fill="rgb(var(--blue))" /></marker>
         </defs>
 
@@ -183,7 +185,7 @@ export function CabinView({ sc, r, frame, label, compact = false }: { sc: Scenar
 
         {/* 2 · smoke: cabin haze (well-mixed, follows detector concentration) and transport plume (moves at u) */}
         {on("smoke") && F && !F.noYield && <>
-          <rect x={INTERIOR.x} y={INTERIOR.y} width={INTERIOR.w} height={INTERIOR.h} fill="rgb(var(--mute))" opacity={0.32 * hazeRel} />
+          <rect x={INTERIOR.x} y={INTERIOR.y} width={INTERIOR.w} height={INTERIOR.h} fill="rgb(var(--mute))" opacity={0.32 * hazeRel} filter="url(#smoke-soft)" />
           {items.map((x) => {
             if (x.tIgn == null || t < x.tIgn) return null;
             const tEff = Math.min(t, F.tFanOff ?? t) - x.tIgn;
@@ -193,7 +195,7 @@ export function CabinView({ sc, r, frame, label, compact = false }: { sc: Scenar
             const sp = 22, phase = reduced ? 0 : (sc.cabin.flow_m_s * tEff * s) % sp;
             const n = Math.max(0, Math.floor(Lp / sp));
             const yBase = view === "section" ? sheetY - 30 : sheetY;
-            return <g key={x.it.id} aria-hidden>
+            return <g key={x.it.id} aria-hidden filter="url(#smoke-soft)">
               {Array.from({ length: n + 1 }, (_, k) => {
                 const dx = k * sp + phase; if (dx > Lp) return null;
                 const age = Lp > 0 ? dx / Lp : 0;
@@ -234,13 +236,13 @@ export function CabinView({ sc, r, frame, label, compact = false }: { sc: Scenar
             {on("heat") && burning && (view === "elevation"
               ? <g>
                   {/* flame envelope on the face: pinned at the pyrolysis front, trailing downstream with the flow (lean ∝ u), scaled by Q and O₂ */}
-                  <path d={`M${x.fx1} ${top} C${x.fx0} ${top - 4 * o2r} ${x.fx0 - lean} ${top + hh * 0.2} ${x.fx0 - lean * 1.2} ${sheetY} C${x.fx0 - lean} ${top + hh * 0.8} ${x.fx0} ${top + hh + 4 * o2r} ${x.fx1} ${top + hh} Z`}
+                  <path filter="url(#flame-glow)" d={`M${x.fx1} ${top} C${x.fx0} ${top - 4 * o2r} ${x.fx0 - lean} ${top + hh * 0.2} ${x.fx0 - lean * 1.2} ${sheetY} C${x.fx0 - lean} ${top + hh * 0.8} ${x.fx0} ${top + hh + 4 * o2r} ${x.fx1} ${top + hh} Z`}
                     fill="rgb(var(--accent))" fillOpacity={op * 0.35} stroke="rgb(var(--accent))" strokeOpacity={0.8} strokeDasharray={dash} />
                   <rect x={x.fx0} y={top} width={Math.max(2, x.fx1 - x.fx0)} height={hh} fill="rgb(var(--accent))" opacity={op} />
                 </g>
               : [-1, 1].map((side) => {
                   const base = side < 0 ? top : top + hh, hs = side < 0 ? hf : hf * (g > 0 ? 0.35 : 1);
-                  return <path key={side} d={`M${x.fx0} ${base} Q${(x.fx0 + x.fx1) / 2 - lean} ${base + side * hs * 1.3} ${x.fx1} ${base} Z`} fill="rgb(var(--accent))" opacity={op} stroke="rgb(var(--accent))" strokeDasharray={dash} />;
+                  return <path key={side} filter="url(#flame-glow)" d={`M${x.fx0} ${base} Q${(x.fx0 + x.fx1) / 2 - lean} ${base + side * hs * 1.3} ${x.fx1} ${base} Z`} fill="rgb(var(--accent))" opacity={op} stroke="rgb(var(--accent))" strokeDasharray={dash} />;
                 }))}
             {burning && <line x1={x.fx1} x2={x.fx1} y1={top - 6} y2={top + hh + 6} stroke="rgb(var(--accent))" strokeWidth={2} />}
             <text x={x.x + x.w / 2} y={top - (view === "section" && burning ? hf + 14 : 10)} fontSize={12} textAnchor="middle" fill={burning ? "rgb(var(--ink))" : "rgb(var(--mute))"}>

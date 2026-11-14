@@ -16,7 +16,19 @@ export function runInWorker(scenario: Scenario, opts: { mc?: number; seed?: numb
       w.terminate();
       if (e.data.ok && e.data.result) resolve(e.data.result); else reject(new Error(e.data.error ?? "simulation failed"));
     };
-    w.onerror = (e) => { w.terminate(); reject(new Error(e.message || "worker error")); };
-    w.postMessage({ id, scenario, ...opts });
+    w.onerror = (e) => {
+      w.terminate();
+      // Some production hosts do not serve module workers with the same
+      // bundler semantics as the app.  Recover with the identical engine on
+      // the main thread; never substitute a fixture or fabricated result.
+      Promise.resolve().then(() => simulate(scenario, opts)).then(resolve).catch((fallbackError) => {
+        reject(new Error(`worker error; main-thread simulation failed: ${fallbackError instanceof Error ? fallbackError.message : String(fallbackError)}`));
+      });
+    };
+    try { w.postMessage({ id, scenario, ...opts }); }
+    catch (error) {
+      w.terminate();
+      Promise.resolve().then(() => simulate(scenario, opts)).then(resolve).catch(() => reject(error instanceof Error ? error : new Error(String(error))));
+    }
   });
 }

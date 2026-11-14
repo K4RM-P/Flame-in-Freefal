@@ -33,7 +33,12 @@ export function Workspace() {
       <div className="grid min-h-0 flex-1 gap-3 lg:grid-cols-[230px_minmax(0,1fr)] xl:grid-cols-[clamp(220px,17vw,270px)_minmax(0,1fr)_clamp(290px,24vw,360px)] xl:gap-0">
         <aside id="sim-setup" className="min-h-0 min-w-0 scroll-mt-16 overflow-y-auto border-line px-3 pb-3 lg:border-r" data-noprint aria-label="Project and scenario setup">
           <ProjectTree />
-          <ScenarioPanel />
+          <details className="border-b border-line" open={false}>
+            <summary className="cursor-pointer list-none py-2 text-[12px] font-medium text-mute hover:text-ink">
+              <span className="mr-2 text-faint">▸</span>Scenario setup
+            </summary>
+            <div className="pb-2"><ScenarioPanel /></div>
+          </details>
           <SavedStates />
         </aside>
         <Center />
