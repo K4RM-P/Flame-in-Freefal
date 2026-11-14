@@ -4,12 +4,12 @@
 project_license: MIT
 si_tools:
   - {name: "Claude Code (Anthropic), model Claude Opus 5.5", use: "Wrote and refactored the codebase, data pipelines (PDF/PSI table extraction and normalization), tests and documentation under human direction. All generated data rows carry source_id + locator and stay verified=false until a human spot-check.", disclosure: "Source files carry the header 'SI-assisted: written with Claude Code (Anthropic)'."}
-  - {name: "OpenAI API, model from OPENAI_MODEL (default gpt-5.4-mini)", use: "Runtime scenario builder (plain English → scenario fields for human review) and run interpretation; grounded only on engine output and cited PSI evidence, checked by a numeric + citation guard. No key → no AI text (no canned answers)."}
+  - {name: "OpenAI API, model from OPENAI_MODEL (default gpt-5.4-mini)", use: "Runtime scenario builder (plain English → scenario fields for human review), run interpretation and the experiment-match explanation; grounded only on engine output and cited PSI evidence, checked by a numeric + citation guard. No key → no AI text (no canned answers)."}
 si_media: "No SI-generated images or video are included. Any added later must carry a visible 'SI-generated using <tool>' watermark and must not use, contain or modify NASA logos, flags or mission identifiers."
 apis:
   - {name: "NASA Physical Sciences Informatics (PSI) API", url: "https://psi.nasa.gov/geode-py/ws/api/investigations/metadata", use: "Investigation metadata, DOIs, file listings and Experimental tables (GET only)"}
   - {name: "NASA Technical Reports Server (NTRS)", url: "https://ntrs.nasa.gov", use: "FLEX NASA/TP-2015-216046, JSC 20584 Rev C PDFs"}
-  - {name: "OpenAI API", url: "https://platform.openai.com/docs", use: "Scenario builder + interpretation at runtime"}
+  - {name: "OpenAI API", url: "https://platform.openai.com/docs", use: "Scenario builder, interpretation and match explanation at runtime"}
 fonts:
   - {name: Inter, license: OFL-1.1, via: next/font/google}
   - {name: JetBrains Mono, license: OFL-1.1, via: next/font/google}

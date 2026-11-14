@@ -89,15 +89,15 @@
   {
    "id": "PSI-60",
    "title": "Computational and Experimental Analysis of SPICE Data Sets",
-   "doi": null,
-   "url": "https://psi.nasa.gov",
+   "doi": "10.60555/mzjm-yv57",
+   "url": "https://doi.org/10.60555/mzjm-yv57",
    "files_used": []
   },
   {
    "id": "PSI-62",
    "title": "Concurrent Flame Spread Modeling using Flamelet Generated Manifolds in Microgravity with Comparison to BASS Experiments using Two-Color Tomography",
-   "doi": null,
-   "url": "https://psi.nasa.gov",
+   "doi": "10.60555/e9xp-ex83",
+   "url": "https://doi.org/10.60555/e9xp-ex83",
    "files_used": []
   },
   {
@@ -142,6 +142,7 @@
    "doi": "10.60555/040q-4h36",
    "url": "https://doi.org/10.60555/040q-4h36",
    "files_used": [
+    "PSI-100_Raw Data_Raw telemetry file.csv",
     "PSI-100_Experimental table_SAFFIRE-3.csv"
    ]
   },
@@ -183,15 +184,15 @@
   {
    "id": "PSI-115",
    "title": "Utilization of the Smoke Aerosol Measurement Experiment Data for Advanced Modeling and Simulation of Smoke Generation in Micro-Gravity",
-   "doi": null,
-   "url": "https://psi.nasa.gov",
+   "doi": "10.60555/q0v5-1v28",
+   "url": "https://doi.org/10.60555/q0v5-1v28",
    "files_used": []
   },
   {
    "id": "PSI-117",
    "title": "Effect of External Thermo-Convective Perturbation on Cool Flame Dynamics: A Multidimensional Multi-Physics CFD Analysis",
-   "doi": null,
-   "url": "https://psi.nasa.gov",
+   "doi": "10.60555/gz0q-b577",
+   "url": "https://doi.org/10.60555/gz0q-b577",
    "files_used": []
   },
   {
@@ -502,18 +503,12 @@
    "use": "FLEX NASA/TP-2015-216046, JSC 20584 Rev C PDFs"
   },
   {
-   "name": "Claude API (Anthropic)",
-   "url": "https://docs.anthropic.com",
-   "use": "Ask agent at runtime"
+   "name": "OpenAI API",
+   "url": "https://platform.openai.com/docs",
+   "use": "Scenario builder, interpretation and match explanation at runtime"
   }
  ],
  "software": [
-  {
-   "name": "@anthropic-ai/sdk",
-   "version": "0.54.0",
-   "ecosystem": "npm",
-   "license": "MIT"
-  },
   {
    "name": "@axe-core/playwright",
    "version": "4.10.2",
@@ -557,6 +552,12 @@
    "license": "MIT"
   },
   {
+   "name": "@types/three",
+   "version": "^0.187.0",
+   "ecosystem": "npm",
+   "license": "MIT"
+  },
+  {
    "name": "autoprefixer",
    "version": "10.4.21",
    "ecosystem": "npm",
@@ -576,9 +577,15 @@
   },
   {
    "name": "next",
-   "version": "15.3.4",
+   "version": "15.5.29",
    "ecosystem": "npm",
    "license": "MIT"
+  },
+  {
+   "name": "openai",
+   "version": "7.57.0",
+   "ecosystem": "npm",
+   "license": "Apache-2.0"
   },
   {
    "name": "plotly.js-dist-min",
@@ -613,6 +620,12 @@
   {
    "name": "tailwindcss",
    "version": "3.4.17",
+   "ecosystem": "npm",
+   "license": "MIT"
+  },
+  {
+   "name": "three",
+   "version": "^0.187.0",
    "ecosystem": "npm",
    "license": "MIT"
   },
@@ -738,8 +751,8 @@
    "disclosure": "Source files carry the header 'SI-assisted: written with Claude Code (Anthropic)'."
   },
   {
-   "name": "Claude API (Anthropic), model claude-sonnet-5-5",
-   "use": "Runtime Ask EmberAtlas agent; answers are constrained to tool outputs and checked by a numeric guard. Offline demo answers are template compositions of tool outputs, labelled in the UI."
+   "name": "OpenAI API, model from OPENAI_MODEL (default gpt-5.4-mini)",
+   "use": "Runtime scenario builder (plain English → scenario fields for human review), run interpretation and the experiment-match explanation; grounded only on engine output and cited PSI evidence, checked by a numeric + citation guard. No key → no AI text (no canned answers)."
   }
  ],
  "si_media": "No SI-generated images or video are included. Any added later must carry a visible 'SI-generated using <tool>' watermark and must not use, contain or modify NASA logos, flags or mission identifiers.",
