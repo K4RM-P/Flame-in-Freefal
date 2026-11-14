@@ -41,3 +41,13 @@ test("B4: lunar habitat shows ACME BRE exploration-atmosphere evidence without c
   await expect(a).toContainText("8.2 psia / 34% O₂ is one of the NASA exploration atmospheres");
   await expect(a).toContainText("not identified in the summary table");
 });
+
+test("B6: suppression is framed as an ideal calculated flame temperature, helium as a finding", async ({ page }) => {
+  await page.goto("/models/suppression");
+  const f = page.getByTestId("supp-framing");
+  await expect(f).toContainText("ideal, calculated flame temperature where the flame can no longer survive");
+  await expect(f).toContainText("radiation and conduction");
+  await expect(f).toContainText("not noise");
+  await page.goto("/console");
+  await expect(page.getByTestId("card-supp")).toContainText("not a measured value");
+});

@@ -1,4 +1,5 @@
 "use client";
+import { SuppressionFraming } from "@/components/SuppressionFraming";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { Plot } from "@/components/Plot";
@@ -96,6 +97,7 @@ export function ModelPage({ id }: { id: string }) {
               ))}
             </tbody></table>
             <button className="btn" onClick={() => download(`emberatlas-${id}-report.md`, reportMarkdown(result, `${id} model`))} data-testid="export">Export report (Markdown)</button>
+            {id === "suppression" && <SuppressionFraming r={result} />}
           </section>
           <section className="card lg:col-span-2">
             {plot && <Plot data={plot.data} layout={plot.layout} height={380} />}

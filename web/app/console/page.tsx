@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import { AtmosphereEvidence } from "@/components/AtmosphereEvidence";
+import { SuppressionFraming } from "@/components/SuppressionFraming";
 import { useMemo, useState } from "react";
 import { Plot } from "@/components/Plot";
 import { ResultCard, Delta } from "@/components/console/ResultCard";
@@ -72,6 +73,7 @@ export default function Console() {
       meaning={<>1 g reference for {mat.name}. µg-calibrated T<sub>crit</sub> exists only for liquid fuels: n-heptane needs {sig((refU.x_agent_ug ?? NaN) * 100)}% µg vs {sig((refU.x_agent_1g ?? NaN) * 100)}% 1 g.</>}>
       <div className="mt-2"><Segmented options={AGENTS} value={agent} onChange={setAgent} /></div>
       <p className="num mt-1 text-[12px] text-faint">{mat.name}: 1 g {sig((supU.x_agent_1g ?? NaN) * 100)}% · µg —</p>
+      <SuppressionFraming r={r.suppRef} compact />
     </ResultCard>,
     hab: <ResultCard key="hab" testid="card-hab" title="Cabin consequence" r={r.hab} unit="K ΔT" aValue={A?.hab.value}
       meaning={<>
