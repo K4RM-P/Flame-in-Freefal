@@ -6,6 +6,7 @@ import { runDroplet, runGravity, runHabitat, runSmoke, runSpread, runSuppression
 import { ModelLink, SourcePill, fmt } from "@/components/bits";
 import { Caveat } from "@/components/Nav";
 import { SmokeMeasures } from "@/components/SmokeMeasures";
+import { DesignSuggestions } from "@/components/DesignSuggestions";
 import sm from "@/data/psi/smoke_measures.json";
 
 const SMOKE = sm as unknown as { by_material: { cmd_um: number }[] };
@@ -56,6 +57,7 @@ export default function Implications() {
           </article>
         ))}
       </div>
+      <DesignSuggestions />
     </div>
   );
 }

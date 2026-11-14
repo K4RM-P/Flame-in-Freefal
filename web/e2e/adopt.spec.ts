@@ -70,3 +70,12 @@ test("B5: Implications shows number, first-moment and mass smoke measures with d
   await expect(s).toContainText("Arizona Road Dust");
   await expect(s).toContainText("no alarm result is stated");
 });
+
+test("B7: Implications shows cited concept design suggestions from model outputs", async ({ page }) => {
+  await page.goto("/implications");
+  const d = page.getByTestId("design-suggestions");
+  await expect(d).toContainText("concept recommendations");
+  await expect(page.getByTestId("suggest-detection")).toContainText("ionization");
+  await expect(page.getByTestId("suggest-suppression")).toContainText("smallest required concentration");
+  await expect(page.getByTestId("suggest-ventilation")).toContainText("Not computed");
+});
