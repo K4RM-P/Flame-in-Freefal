@@ -1,3 +1,4 @@
+// SI-assisted: written with Codex (OpenAI); see README "Use of AI (SI)".
 import { z } from "zod";
 import { gate, json, readJson } from "@/lib/ai/http";
 import { answerLocally } from "@/lib/ai/localAster";

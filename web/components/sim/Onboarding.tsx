@@ -1,6 +1,7 @@
 "use client";
 // SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 // First-run flow: selections are context only; the AI must source or request every scenario value.
+import { AsterGuideButton } from "@/components/AsterGuideButton";
 import { useState } from "react";
 import { GRAVITY, ScenarioSchema, type Scenario } from "@/lib/sim/types";
 import { MATERIALS } from "./data";
@@ -46,7 +47,7 @@ export function Onboarding() {
   return (
     <main className="mx-auto max-w-4xl py-8 sm:py-14">
       <div className="max-w-2xl space-y-4">
-        <p className="label">FIRST RUN · NO SCENARIO LOADED</p>
+        <div className="flex flex-wrap items-center justify-between gap-2"><p className="label">FIRST RUN · NO SCENARIO LOADED</p><AsterGuideButton page="simulator" /></div>
         <h1 className="display text-[clamp(2.4rem,7vw,5rem)] leading-[0.95]">Start with the question.</h1>
         <p className="measure text-[16px] text-mute">Choose the context you know, describe what you’re trying to find out, and EmberAtlas will draft the scenario. It will leave unsourced values empty for you to review—never inventing a cabin, threshold, or result.</p>
       </div>

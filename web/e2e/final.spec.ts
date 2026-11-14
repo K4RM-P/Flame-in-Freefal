@@ -13,17 +13,26 @@ test("Saffire replay → Run → outcome, evidence, telemetry overlay → Compar
   await manual.getByLabel(/^Material/).selectOption({ index: 1 });
   await manual.getByLabel(/^Gravity/).selectOption({ index: 1 });
   await manual.getByRole("button", { name: /Use these variables/ }).click();
+  // Presets and inputs live in the collapsible Scenario setup panel.
+  await page.locator("#setup-details > summary").click();
   await page.getByTestId("preset-saffire").click();
   // No sourced Saffire-III Cygnus free volume exists, so Run stays disabled until the user enters one.
   await expect(page.getByTestId("run")).toBeDisabled();
   await expect(page.locator("#run-missing")).toContainText("cabin free volume");
   // Test input only: Saffire-IV Cygnus free volume, NTRS 20210011521 Table 1 (physics/data/saffire_ntrs.yaml).
+  // The missing-input prompt beside Run opens setup and focuses the field.
+  await expect(page.getByTestId("next-step")).toContainText("cabin free volume");
+  await page.locator("#run-missing").click();
+  await expect(page.getByRole("spinbutton", { name: /Free volume/ })).toBeFocused();
   await page.getByRole("spinbutton", { name: /Free volume/ }).fill("17.9");
   await page.getByTestId("run").click();
   // Workspace: full height, no page scroll on desktop; cabin viewport, legend and layers are visible.
   await expect(page.getByTestId("workspace")).toBeVisible();
   await expect(page.getByTestId("cabin-view")).toBeVisible();
   await expect(page.getByTestId("legend")).toBeVisible();
+  // Results live in the inspector; the next-step line offers it once the run is done.
+  await expect(page.getByTestId("next-step")).toContainText("play back", { timeout: 60_000 });
+  await page.getByTestId("next-step").getByRole("button", { name: "Results & evidence" }).click();
   const outcome = page.getByTestId("outcome-card");
   await expect(outcome.locator("[data-receipt]").first()).toBeVisible({ timeout: 60_000 });
   expect(await page.evaluate(() => document.documentElement.scrollHeight <= window.innerHeight + 1)).toBe(true);

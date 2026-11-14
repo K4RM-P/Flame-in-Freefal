@@ -6,6 +6,7 @@ import { EQUATIONS } from "@/lib/equations";
 import { SOURCES } from "@/lib/sources";
 import { notes } from "./equation-notes";
 import { Tex } from "@/components/Tex";
+import { AsterGuideButton } from "@/components/AsterGuideButton";
 import catalogJson from "@/data/psi_catalog.json";
 import summary from "@/data/validation/summary.json";
 
@@ -21,6 +22,18 @@ const MODELS = [
   { id: "smoke", name: "Smoke ageing and transport to the detector", plain: "Smoke particles stick together as they age (coagulation) while the air carries them to the detector; the detector alarms when its threshold is crossed.", eqs: ["SM1", "SM2", "SM3", "SM4"], params: "smoke" },
   { id: "suppression", name: "Suppression by CO₂ or N₂", plain: "The released agent dilutes the cabin oxygen. A flame goes out when the calculated flame temperature falls below a critical value, or the oxygen falls below the inerting limit.", eqs: ["SU1", "SU2"], params: "suppression" },
 ] as const;
+
+const NAV: { title: string; items: [string, string][] }[] = [
+  { title: "Start here", items: [["loop", "How a run works"], ["overview", "Models at a glance"]] },
+  { title: "Models", items: [["model-spread", "Flame spread"], ["model-habitat", "Cabin atmosphere"], ["model-smoke", "Smoke"], ["model-suppression", "Suppression"]] },
+  { title: "Evidence", items: [["validation", "Validation"], ["data", "NASA data"]] },
+  { title: "Limits & sources", items: [["limitations", "Limitations"], ["use-of-ai", "Use of AI"], ["references", "References"]] },
+];
+
+function Status({ calibrated }: { calibrated: boolean }) {
+  return calibrated ? <span className="chip border border-ok/40 text-ok">Calibrated</span>
+    : <span className="chip border border-dashed border-theory/60 text-theory">◌ Theory-only</span>;
+}
 
 const MODEL_EVIDENCE: Record<string, string> = {
   spread: "The fitted spread temperature factor uses Saffire flight data. This is a model-level fit, with its tested cases listed below.",
@@ -51,68 +64,92 @@ export default function Methods() {
   const cat: Record<string, any> = (catalogJson as any).investigations;
   const invs = Object.values(cat) as any[];
   const targets = (summary as any).targets as any[];
+  const models = MODELS.map((m) => { const p = params(m.params); return { ...m, p, calibrated: m.id === "suppression" ? !!p?.fuels : p?.calibrated === true }; });
+  const tally = targets.reduce((acc: Record<string, number>, t) => { acc[t.status] = (acc[t.status] ?? 0) + 1; return acc; }, {});
   return (
     <div className="methods mx-auto max-w-7xl pb-16 text-[15px]">
       <header className="methods-hero">
-        <p className="label">EmberAtlas science</p>
+        <div className="flex flex-wrap items-center justify-between gap-2"><p className="label">EmberAtlas science</p><AsterGuideButton page="methods" /></div>
         <h1 className="display mt-3 text-4xl md:text-7xl">Methods &amp; validation</h1>
         <p className="measure mt-4 text-lg leading-relaxed text-mute">Follow a simulation from its equations to the NASA experiments and validation checks behind it.</p>
+        <p className="next-step mt-4"><span className="next-step__tag">Next step</span><span>Pick a model in <a className="underline underline-offset-2" href="#overview">Models at a glance</a>, then open one of its formula cards.</span></p>
       </header>
       <div className="methods-layout">
       <nav aria-label="On this page" className="methods-nav">
-        <p className="label">On this page</p>
-        {[["loop", "How a run works"], ["models", "Sub-models"], ["validation", "Validation"], ["limitations", "Limitations"], ["data", "NASA data"], ["use-of-ai", "Use of AI"], ["references", "References"]].map(([id, l]) =>
-          <a key={id} href={`#${id}`} className="methods-jump">{l}</a>)}
+        {NAV.map((group) => (
+          <div key={group.title} className="methods-nav__group">
+            <p className="label">{group.title}</p>
+            {group.items.map(([id, l]) => <a key={id} href={`#${id}`} className="methods-jump">{l}</a>)}
+          </div>
+        ))}
       </nav>
 
       <div className="methods-content">
       <section id="loop" className="card space-y-2">
-        <h2 className="text-[20px] font-semibold">How a run works</h2>
+        <h2 className="text-[20px] font-semibold"><span className="methods-num">01</span>How a run works</h2>
         <p className="measure text-mute">You describe a cabin (or load a preset). The engine then repeats these steps every half second. The same inputs and seed always give the same result.</p>
         <ol className="methods-steps">{LOOP.map((s, i) => <li key={i}>{s}</li>)}</ol>
       </section>
 
+      <section id="overview" className="card space-y-3">
+        <h2 className="text-[20px] font-semibold"><span className="methods-num">02</span>Models at a glance</h2>
+        <p className="measure text-mute">Four sub-models make up a run. Their validation status differs; Theory-only means uncalibrated physics, and the simulator labels those values the same way.</p>
+        <div className="overflow-x-auto"><table className="data">
+          <thead><tr><th>model</th><th>status</th><th>formulas</th><th>data and calibration</th><th></th></tr></thead>
+          <tbody>{models.map((m) => (
+            <tr key={m.id}>
+              <td className="font-medium">{m.name}</td>
+              <td><Status calibrated={m.calibrated} /></td>
+              <td className="num text-[12px]">{m.eqs.filter((e) => EQUATIONS[e]).join(" · ")}</td>
+              <td className="text-[13px] text-mute">{MODEL_EVIDENCE[m.id]}</td>
+              <td><a className="whitespace-nowrap underline underline-offset-2" href={`#model-${m.id}`}>Open →</a></td>
+            </tr>))}</tbody>
+        </table></div>
+      </section>
+
       <section id="models" className="space-y-3">
-        <h2 className="text-[20px] font-semibold">Sub-models and what calibrates them</h2>
-        {MODELS.map((m) => {
-          const p = params(m.params);
-          const calibrated = m.id === "suppression" ? !!p?.fuels : p?.calibrated === true;
-          return (
-            <article key={m.id} className="card space-y-2">
+        <h2 className="text-[20px] font-semibold"><span className="methods-num">03</span>Sub-models and their formulas</h2>
+        <p className="measure text-mute">Each formula card shows what it calculates, where the simulator uses it, and the published source behind it.</p>
+        {models.map((m) => (
+            <article key={m.id} id={`model-${m.id}`} className="card space-y-2">
               <div className="flex flex-wrap items-center gap-2">
-                <h3 className="text-[16px] font-semibold">{m.name}</h3>
-                {calibrated ? <span className="chip border border-ok/40 text-ok">Calibrated</span>
-                  : <span className="chip border border-dashed border-theory/60 text-theory">◌ Theory-only</span>}
+                <h3 className="text-[18px] font-semibold">{m.name}</h3>
+                <Status calibrated={m.calibrated} />
               </div>
               <p className="measure text-mute">{m.plain}</p>
               <p className="measure text-sm text-mute"><strong>Data and calibration</strong> · {MODEL_EVIDENCE[m.id]}</p>
               <div className="methods-equations">
               {m.eqs.filter((e) => EQUATIONS[e]).map((e) => (
-                <section key={e} className="methods-equation">
-                  <p className="num text-xs text-mute">{e}</p>
-                  <h4 className="mt-1 font-semibold">{EQUATIONS[e].text}</h4>
+                <details key={e} id={`eq-${e}`} className="methods-equation">
+                  <summary className="methods-equation__summary">
+                    <span className="num text-xs text-mute">{e}</span>
+                    <span className="font-semibold">{EQUATIONS[e].text}</span>
+                    <span className="text-[13px] font-normal text-mute">{notes[e]?.[0]}</span>
+                  </summary>
                   <div className="methods-math"><Tex tex={EQUATIONS[e].tex} block /></div>
-                  <p>{notes[e][0]}</p>
-                  <p className="text-sm text-mute">{notes[e][1]}</p>
-                  <p className="text-sm"><strong>In the simulator</strong> · {notes[e][2]}</p>
-                  {SOURCES[EQUATIONS[e].ref] && <a className="methods-source" href={`#source-${EQUATIONS[e].ref}`}>{SOURCES[EQUATIONS[e].ref].title}</a>}
-                </section>
+                  <dl className="methods-equation__facts">
+                    <dt>What it calculates</dt><dd>{notes[e]?.[0] ?? "—"}</dd>
+                    <dt>Symbols</dt><dd className="text-mute">{notes[e]?.[1] ?? "—"}</dd>
+                    <dt>In the simulator</dt><dd>{notes[e]?.[2] ?? "—"}</dd>
+                    <dt>Evidence</dt><dd>{SOURCES[EQUATIONS[e].ref] ? <a className="methods-source" href={`#source-${EQUATIONS[e].ref}`}>{SOURCES[EQUATIONS[e].ref].title}</a> : "No published source listed"}{" · "}<span className="text-mute">model status: {m.calibrated ? "calibrated" : "theory-only"}</span></dd>
+                  </dl>
+                </details>
               ))}
               </div>
-              <Calibration id={m.id} p={p} calibrated={calibrated} />
+              <Calibration id={m.id} p={m.p} calibrated={m.calibrated} />
             </article>
-          );
-        })}
+        ))}
       </section>
 
       <section id="validation" className="card space-y-2">
-        <h2 className="text-[20px] font-semibold">Validation</h2>
+        <h2 className="text-[20px] font-semibold"><span className="methods-num">04</span>Validation</h2>
         <p className="measure text-mute">Each target compares a prediction with a held-out measurement or a published value. Failures are shown as failures.</p>
+        <p className="num text-[13px]" data-testid="validation-tally">{Object.entries(tally).map(([k, v]) => `${v} ${k}`).join(" · ")}</p>
         <div className="overflow-x-auto">
           <table className="data">
             <thead><tr><th>id</th><th>model</th><th>quantity</th><th>measured / published</th><th>predicted</th><th>criterion</th><th>result</th></tr></thead>
             <tbody>{targets.map((t) => (
-              <tr key={t.id}>
+              <tr key={t.id} id={`val-${t.id}`}>
                 <td className="num">{t.id}</td><td>{t.model}</td><td>{t.quantity}{t.note && <p className="text-[12px] text-faint">{t.note}</p>}</td>
                 <td className="num">{Array.isArray(t.published) ? `(${t.published.join("–")})` : t.published == null ? "—" : typeof t.published === "object" ? JSON.stringify(t.published) : String(t.published)}</td>
                 <td className="num">{t.predicted == null ? "∅" : typeof t.predicted === "number" ? Number(t.predicted.toPrecision(3)) : String(t.predicted)}</td>
@@ -125,7 +162,7 @@ export default function Methods() {
       </section>
 
       <section id="limitations" className="card space-y-1" data-testid="limitations">
-        <h2 className="text-[20px] font-semibold">Limitations</h2>
+        <h2 className="text-[20px] font-semibold"><span className="methods-num">06</span>Limitations</h2>
         <ul className="measure ml-5 list-disc space-y-1">
           <li><b>One well-mixed zone.</b> The cabin is a single zone with instant mixing, like a simplified form of NIST&apos;s CFAST zone model. Real cabins have hot layers, plumes and dead spots.</li>
           <li><b>1D flame spread per item.</b> Each item has one flame front moving along its length; there is no flame-to-item heat transfer.</li>
@@ -138,7 +175,7 @@ export default function Methods() {
       </section>
 
       <section id="data" className="card space-y-2">
-        <h2 className="text-[20px] font-semibold">NASA data</h2>
+        <h2 className="text-[20px] font-semibold"><span className="methods-num">05</span>NASA data</h2>
         <p className="measure text-mute">Every PSI row is cited by its accession (PSI-xx) plus file name and line. Data come from the public PSI API (GET only; no zips or video): <a className="underline underline-offset-2" href="https://psi.nasa.gov/physci/repo/search?q=combustion">PSI Data Repository: Combustion Science</a>.</p>
         <div className="overflow-x-auto"><table className="data">
           <thead><tr><th>accession</th><th>investigation</th><th>used for</th><th>DOI</th></tr></thead>
@@ -152,7 +189,7 @@ export default function Methods() {
       </section>
 
       <section id="use-of-ai" className="card space-y-1">
-        <h2 className="text-[20px] font-semibold">Use of AI</h2>
+        <h2 className="text-[20px] font-semibold"><span className="methods-num">07</span>Use of AI</h2>
         <ul className="measure ml-5 list-disc space-y-1">
           <li>Claude Code (Anthropic) wrote the code, under human direction and review.</li>
           <li>The OpenAI API is used by the simulator to draft scenario fields for your review and interpret individual runs.</li>
@@ -163,7 +200,7 @@ export default function Methods() {
       </section>
 
       <section id="references" className="card">
-        <h2 className="text-[20px] font-semibold">References</h2>
+        <h2 className="text-[20px] font-semibold"><span className="methods-num">08</span>References</h2>
         <ul className="methods-references">
           {Object.values(SOURCES).map((s) => (
             <li key={s.id} id={`source-${s.id}`}>

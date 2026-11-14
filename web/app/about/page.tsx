@@ -1,3 +1,4 @@
+// SI-assisted: written with Codex (OpenAI); see README "Use of AI (SI)".
 import type { Metadata } from "next";
 import Link from "next/link";
 

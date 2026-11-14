@@ -56,8 +56,12 @@ export function NumField({ label, value, units, onChange, source, step = "any", 
 }
 
 export function TheoryBadge({ what }: { what: string }) {
-  return <span className="chip border border-dashed border-theory/60 text-theory" title={`${what}: not calibrated against PSI data; theory only`}>◌ Theory-only · {what}</span>;
+  // Links straight to the model's section in Methods (what it is, why it is uncalibrated, which data would calibrate it).
+  return <a href={methodsHref(what)} className="chip border border-dashed border-theory/60 text-theory hover:border-theory" title={`${what}: not calibrated against PSI data; theory only. Open its Methods section`}>◌ Theory-only · {what} <span aria-hidden>→</span></a>;
 }
 export function BoundedBadge() {
   return <span className="chip border border-warn/50 text-warn" title="PSI has microgravity and 1 g data only">Partial gravity: bounded estimate (µg ↔ 1 g)</span>;
 }
+
+/** Methods anchor for a sub-model key (spread, habitat, smoke, suppression); unknown keys go to the model overview. */
+export const methodsHref = (what: string) => ["spread", "habitat", "smoke", "suppression"].includes(what) ? `/methods#model-${what}` : "/methods#overview";

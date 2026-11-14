@@ -214,3 +214,43 @@ table.data td { @apply border-b border-line/60 px-2 py-1.5 align-top; }
 .methods-content { line-height: 1.65; }
 .methods-content table th { white-space: nowrap; }
 .methods-content table td { padding-block: .65rem; }
+
+/* Aster page guides + motion: short page fade, small slide-in for Aster (transform/opacity only; reduced motion handled above) */
+.aster-guide-btn { display: inline-flex; align-items: center; gap: .4rem; border: 1px solid rgb(var(--line)); border-radius: var(--radius-control); background: transparent; padding: .25rem .6rem; color: rgb(var(--mute)); font-size: 12px; line-height: 1.4; white-space: nowrap; transition: color 140ms ease, border-color 140ms ease; }
+.aster-guide-btn:hover, .aster-guide-btn:focus-visible { border-color: rgb(var(--mute)); color: rgb(var(--ink)); }
+.aster-guide-btn span { color: rgb(var(--blue)); }
+.aster-dialog[open] { animation: aster-in 200ms cubic-bezier(.2, .8, .2, 1); }
+@keyframes aster-in { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+.page-fade { animation: page-fade 180ms ease-out; }
+@keyframes page-fade { from { opacity: 0; } to { opacity: 1; } }
+.next-step { display: flex; flex-wrap: wrap; align-items: baseline; gap: .5rem; font-size: 13px; }
+.next-step__tag { color: rgb(var(--faint)); font: 11px var(--font-mono); letter-spacing: .08em; text-transform: uppercase; }
+
+/* Homepage cards preview the tool behind them (real catalog record, real equation; cabin is a labelled illustration) */
+.landing-index__preview { display: grid; width: 100%; gap: .3rem; margin-bottom: auto; border: 1px solid rgb(var(--line)); border-radius: var(--radius-control); background: rgb(var(--bg)); padding: .7rem .8rem; }
+.landing-cabin { padding: .5rem; }
+.landing-cabin svg { width: 100%; height: auto; display: block; }
+.landing-cabin__note { color: rgb(var(--faint)); font: 10px var(--font-mono); letter-spacing: .06em; }
+.landing-study__id { color: rgb(var(--faint)); font: 11px var(--font-mono); letter-spacing: .04em; }
+.landing-study__title { font-size: 14px; font-weight: 600; }
+.landing-study__objective { color: rgb(var(--mute)); font-size: 12px; line-height: 1.5; }
+.landing-formula .katex { font-size: 1em; }
+.landing-hero__top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .5rem; }
+a.landing-state--theory:hover { text-decoration: underline; }
+
+/* Methods: grouped nav, numbered sections, collapsible formula cards */
+.methods-nav__group { display: grid; gap: .15rem; margin-bottom: .9rem; }
+.methods-nav__group .label { margin-bottom: .2rem; }
+.methods-num { margin-right: .6rem; color: rgb(var(--faint)); font: 13px var(--font-mono); letter-spacing: .04em; vertical-align: middle; }
+.methods-equation > summary { list-style: none; cursor: pointer; }
+.methods-equation > summary::-webkit-details-marker { display: none; }
+.methods-equation__summary { display: grid; gap: .25rem; position: relative; padding-right: 1.5rem; }
+.methods-equation__summary::after { content: "▸"; position: absolute; top: 0; right: 0; color: rgb(var(--faint)); }
+.methods-equation[open] > .methods-equation__summary::after { content: "▾"; }
+.methods-equation[open] { border-color: rgb(var(--mute)); }
+.methods-equation__facts { display: grid; grid-template-columns: max-content 1fr; gap: .35rem .8rem; font-size: 13px; }
+.methods-equation__facts dt { color: rgb(var(--faint)); font: 11px var(--font-mono); letter-spacing: .04em; text-transform: uppercase; padding-top: .15rem; }
+@media (max-width: 640px) { .methods-equation__facts { grid-template-columns: 1fr; } }
+.methods-content tr:target { outline: 1px solid rgb(var(--mute)); }
+.methods-equations { align-items: start; }
+.methods-equation[open] { grid-column: 1 / -1; }

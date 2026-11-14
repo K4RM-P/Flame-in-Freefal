@@ -19,6 +19,7 @@ import { ScenarioPanel, applyPreset, fmtProv } from "./ScenarioPanel";
 import { TELEMETRY, materialByKey } from "./data";
 import { BoundedBadge, TheoryBadge } from "./bits";
 import { LAYERS, useSim } from "./store";
+import { AsterGuideButton } from "@/components/AsterGuideButton";
 
 export function Workspace() {
   usePlayback();
@@ -26,10 +27,11 @@ export function Workspace() {
   return (
     <div className="flex flex-col gap-2 lg:fixed lg:inset-x-0 lg:bottom-0 lg:top-14 lg:z-30 lg:gap-0 lg:bg-bg print:static" data-testid="workspace">
       <Toolbar inspectorOpen={inspectorOpen} onToggleInspector={() => setInspectorOpen((v) => !v)} />
-      <div className="grid min-h-0 flex-1 gap-2 lg:grid-cols-[288px_minmax(0,1fr)_384px] lg:gap-0">
+      <NextStep inspectorOpen={inspectorOpen} openInspector={() => setInspectorOpen(true)} />
+      <div className={`grid min-h-0 flex-1 gap-2 lg:gap-0 ${inspectorOpen ? "lg:grid-cols-[288px_minmax(0,1fr)_384px]" : "lg:grid-cols-[288px_minmax(0,1fr)]"}`}>
         <aside className="min-h-0 overflow-y-auto border-line px-3 pb-3 lg:border-r" data-noprint aria-label="Project and scenario setup">
           <ProjectTree />
-          <details className="border-b border-line" open={false}>
+          <details id="setup-details" className="border-b border-line" open={false}>
             <summary className="cursor-pointer list-none py-2 text-[12px] font-medium text-mute hover:text-ink">
               <span className="mr-2 text-faint">▸</span>Scenario setup
             </summary>
@@ -44,6 +46,44 @@ export function Workspace() {
         <aside className={`flex min-h-0 flex-col border-line lg:border-l ${inspectorOpen ? "" : "hidden"}`} aria-label="Outputs, evidence and assistant"><RightPanel /></aside>
       </div>
       <StatusBar />
+    </div>
+  );
+}
+
+/* ---------- missing inputs and the one next step ---------- */
+const FIELD_FOR: Record<string, string> = { "cabin free volume": "volume" };
+
+/** Open Scenario setup (for A or B) and focus the first missing field, so a disabled Run explains itself. */
+function revealMissing(label: string) {
+  const isB = label.startsWith("B: ");
+  useSim.getState().set({ editing: isB ? "b" : "a" });
+  const details = document.getElementById("setup-details") as HTMLDetailsElement | null;
+  if (details) details.open = true;
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    const el = document.querySelector<HTMLInputElement>(`[data-testid="${FIELD_FOR[label.replace(/^B: /, "")] ?? ""}"]`);
+    el?.scrollIntoView({ block: "center" });
+    el?.focus();
+  }));
+}
+
+function NextStep({ inspectorOpen, openInspector }: { inspectorOpen: boolean; openInspector: () => void }) {
+  const { a, b, ra, running, playing } = useSim();
+  if (!a) return null;
+  const missing = [...missingFields(a), ...(b ? missingFields(b).map((m) => `B: ${m}`) : [])];
+  let text: React.ReactNode, action: React.ReactNode = null;
+  if (missing.length) {
+    text = <>Enter the <b>{missing.join(", ")}</b>: there is no sourced value. Then press ▶ Run.</>;
+    action = <button type="button" className="btn px-2 py-0.5 text-[12px]" onClick={() => revealMissing(missing[0])}>Enter it</button>;
+  } else if (running) text = <>Simulating {MC_N} Monte Carlo runs…</>;
+  else if (!ra) text = <>Press <b>▶ Run</b> to simulate this cabin. Inputs and presets are in Scenario setup on the left.</>;
+  else if (!inspectorOpen) {
+    text = <>{playing ? "Playing back" : <>Press <b>▷</b> to play back</>} the cabin view, then open the results to see the sources behind them.</>;
+    action = <button type="button" className="btn px-2 py-0.5 text-[12px]" onClick={openInspector}>Results &amp; evidence</button>;
+  } else text = <>Scrub the timeline to follow the cabin view; the <b>Evidence</b> tab lists the NASA PSI sources behind this run.</>;
+  return (
+    <div className="next-step border-b border-line px-3 py-1" data-noprint data-testid="next-step">
+      <span className="next-step__tag">Next step</span><span className="min-w-0">{text}</span>{action}
+      <AsterGuideButton page="simulator" className="ml-auto" />
     </div>
   );
 }
@@ -98,6 +138,8 @@ function Toolbar({ inspectorOpen, onToggleInspector }: { inspectorOpen: boolean;
       <span className="h-5 w-px bg-line" aria-hidden />
       <button type="button" className="btn-accent px-4 py-1" data-testid="run" disabled={running || missing.length > 0} onClick={runAll}
         aria-describedby={missing.length ? "run-missing" : undefined}>{running ? `Running ${MC_N} runs…` : "▶ Run"}</button>
+      {missing.length > 0 && <button type="button" id="run-missing" className="shrink-0 whitespace-nowrap text-[12px] text-warn underline decoration-dotted underline-offset-4"
+        title="No sourced value exists for these inputs; enter them to enable Run" onClick={() => revealMissing(missing[0])}>Needs: {missing.join(", ")} →</button>}
       <button type="button" className="btn px-2" disabled={!ra} aria-label={playing ? "Pause" : "Play"} onClick={() => { if (!playing && frame >= last) set({ frame: 0 }); set({ playing: !playing }); }}>{playing ? "❚❚" : "▷"}</button>
       <button type="button" className="btn px-2" disabled={!ra} aria-label="Reset playhead" onClick={() => set({ playing: false, frame: 0 })}>⟲</button>
       <input type="range" className="min-w-[120px] flex-1" min={0} max={last} value={Math.min(frame, last)} disabled={!ra} aria-label="Simulation time"
@@ -217,7 +259,7 @@ function Center() {
         <button type="button" className="btn ml-auto px-2 py-0.5 text-[12px]" aria-expanded={assumptionsOpen} onClick={() => set({ assumptionsOpen: !assumptionsOpen })}>Assumptions / evidence</button>
       </div>
       <div className="relative min-h-[320px] flex-1 lg:min-h-0">
-        {missing.length > 0 && <p id="run-missing" className="absolute inset-x-2 top-2 z-10 border border-warn/50 bg-panel px-2 py-1 text-[13px] text-warn" style={{ borderRadius: 6 }}>Enter {missing.join(", ")} to run: there is no sourced value.</p>}
+        {missing.length > 0 && <p id="run-missing-note" className="absolute inset-x-2 top-2 z-10 border border-warn/50 bg-panel px-2 py-1 text-[13px] text-warn" style={{ borderRadius: 6 }}>Enter {missing.join(", ")} to run: there is no sourced value.</p>}
         {runError && <p className="absolute inset-x-2 top-10 z-10 bg-panel px-2 text-[13px] text-bad" role="alert">Run failed: {runError}</p>}
         <div className={`grid h-full ${b ? "grid-cols-2 divide-x divide-line" : ""}`}>
           <CabinView sc={a} r={ra} frame={frame} label={b ? `A · ${a.name}` : a.name} compact={!!b} />

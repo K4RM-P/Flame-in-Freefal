@@ -5,6 +5,9 @@ import spread from "@/data/params/spread.json";
 import habitat from "@/data/params/habitat.json";
 import smoke from "@/data/params/smoke.json";
 import telemetry from "@/data/psi/saffire_telemetry.json";
+import { EQUATIONS } from "@/lib/equations";
+import { Tex } from "@/components/Tex";
+import { AsterGuideButton } from "@/components/AsterGuideButton";
 
 type Accession = {
   accession: string;
@@ -29,6 +32,34 @@ const accessions = Object.values(catalog.investigations)
   .filter((record) => Object.hasOwn(accessionRoles, record.accession))
   .sort((a, b) => Number(a.accession.slice(4)) - Number(b.accession.slice(4)));
 
+// Homepage card previews use real records: one catalog study and one equation the engine uses.
+const PREVIEW_STUDY = "PSI-100", PREVIEW_EQ = "SP1";
+const previewStudy = (Object.values(catalog.investigations) as (Accession & { title?: string; objective?: string })[]).find((r) => r.accession === PREVIEW_STUDY);
+const studyObjective = (() => { const t = (previewStudy?.objective ?? "").replace(/\s+/g, " ").trim(); return t.length > 150 ? `${t.slice(0, 150).replace(/\s\S*$/, "")}…` : t; })();
+const previewEq = EQUATIONS[PREVIEW_EQ];
+
+/** Static illustration of the simulator's cabin view (not a run result): perspective module, sample, flame, detector, flow. */
+function CabinPreview() {
+  const L = "rgb(var(--line))", F = "rgb(var(--faint))";
+  return (
+    <span className="landing-index__preview landing-cabin">
+      <svg viewBox="0 0 360 150" aria-hidden="true" focusable="false">
+        <rect x="4" y="4" width="352" height="142" fill="rgb(var(--panel))" stroke={L} />
+        <rect x="110" y="44" width="140" height="62" fill="rgb(var(--bg))" stroke={L} />
+        {[[4, 4, 110, 44], [356, 4, 250, 44], [4, 146, 110, 106], [356, 146, 250, 106]].map(([a, b, c, d]) => <line key={`${a}${b}`} x1={a} y1={b} x2={c} y2={d} stroke={L} />)}
+        {[136, 162, 188, 214].map((x) => <line key={x} x1={x} y1={48} x2={x} y2={102} stroke={L} />)}
+        {[0, 1, 2, 3, 4].map((i) => <line key={i} x1={300 - i * 52} x2={282 - i * 52} y1={36} y2={36} stroke="rgb(var(--blue))" strokeOpacity={0.7} />)}
+        <rect x="150" y="96" width="120" height="8" fill="rgb(var(--surface2))" stroke={F} />
+        <path d="M206 96 C196 82 204 70 210 60 C214 72 224 78 214 96 Z" fill="rgb(var(--accent))" fillOpacity={0.85} />
+        <rect x="58" y="26" width="18" height="10" rx="2" fill="none" stroke={F} />
+        <line x1="67" y1="4" x2="67" y2="26" stroke={F} />
+        <circle cx="67" cy="31" r="44" fill="none" stroke={F} strokeDasharray="3 4" />
+      </svg>
+      <span className="landing-cabin__note">Illustration of the cabin view · not a run result</span>
+    </span>
+  );
+}
+
 const NASA_IMAGE = "https://science.nasa.gov/wp-content/uploads/2024/01/jsc2023e002281orig.jpg?format=jpeg&w=1280";
 const NASA_IMAGE_SOURCE = "https://science.nasa.gov/biological-physical/stories/how-and-why-do-nasa-researchers-simulate-microgravity-on-earth/";
 const REPOSITORY = "https://github.com/K4RM-P/Flame-in-Freefal";
@@ -44,9 +75,9 @@ export function LandingPage() {
   const trainingCount = spreadScope.split.train_ids.length;
   const heldOutCount = spreadScope.split.test_ids.length;
   const modelStates = [
-    { name: "Flame spread", label: spreadScope.calibrated ? "Calibrated · bounded scope" : "Theory-only", theory: !spreadScope.calibrated, detail: `Scope: ${spreadScope.applies_to}. ${trainingCount} training flight ${trainingCount === 1 ? "sample" : "samples"}; ${heldOutCount} held-out flight ${heldOutCount === 1 ? "sample" : "samples"}.` },
-    { name: "Cabin heat loss", label: habitat.calibrated ? "Calibrated" : "Theory-only", theory: !habitat.calibrated, detail: "The cabin is represented as one well-mixed zone; this is not a spatial fire or smoke model." },
-    { name: "Smoke aging", label: smoke.calibrated ? "Calibrated" : "Theory-only", theory: !smoke.calibrated, detail: "Detector timing needs a sourced threshold. Without one, alarm time stays no-data." },
+    { key: "spread", name: "Flame spread", label: spreadScope.calibrated ? "Calibrated · bounded scope" : "Theory-only", theory: !spreadScope.calibrated, detail: `Scope: ${spreadScope.applies_to}. ${trainingCount} training flight ${trainingCount === 1 ? "sample" : "samples"}; ${heldOutCount} held-out flight ${heldOutCount === 1 ? "sample" : "samples"}.` },
+    { key: "habitat", name: "Cabin heat loss", label: habitat.calibrated ? "Calibrated" : "Theory-only", theory: !habitat.calibrated, detail: "The cabin is represented as one well-mixed zone; this is not a spatial fire or smoke model." },
+    { key: "smoke", name: "Smoke aging", label: smoke.calibrated ? "Calibrated" : "Theory-only", theory: !smoke.calibrated, detail: "Detector timing needs a sourced threshold. Without one, alarm time stays no-data." },
   ];
   const telemetryLines = telemetry.rows.map((row) => row.line);
 
@@ -55,7 +86,7 @@ export function LandingPage() {
       <div className="landing__wrap">
         <section className="landing-hero" aria-labelledby="landing-title">
           <div className="landing-hero__copy">
-            <p className="landing-kicker"><span className="landing-kicker__mark" aria-hidden="true" /> NASA Space Apps · Flame in Freefall</p>
+            <div className="landing-hero__top"><p className="landing-kicker"><span className="landing-kicker__mark" aria-hidden="true" /> NASA Space Apps · Flame in Freefall</p><AsterGuideButton page="overview" /></div>
             <h1 id="landing-title">Fire behaves differently in space. <em>Test what follows.</em></h1>
             <p className="landing-hero__lede">EmberAtlas brings NASA’s in-space combustion evidence into a spacecraft fire scenario you can inspect, replay, and question.</p>
             <div className="landing-actions">
@@ -76,17 +107,30 @@ export function LandingPage() {
 
         <nav className="landing-index" aria-label="Explore EmberAtlas">
           <Link className="landing-index__tile landing-index__tile--primary" href="/simulator">
-            <span className="landing-index__arrow" aria-hidden="true">↗</span><span className="landing-index__eyebrow">01 / RUN A SCENARIO</span>
-            <span className="landing-index__title">Simulation Bay</span><span className="landing-index__desc">Set a cabin, choose a material, and review the model’s assumptions, evidence, and uncertainty.</span>
+            <span className="landing-index__arrow" aria-hidden="true">↗</span>
+            <CabinPreview />
+            <span className="landing-index__eyebrow">01 / SIMULATOR · RUN A SCENARIO</span>
+            <span className="landing-index__title">Simulation Bay</span><span className="landing-index__desc">Set a cabin and a material, run it, and play back flame spread, smoke, detection and suppression in the cabin view.</span>
+          </Link>
+          <Link className="landing-index__tile" href="/match">
+            <span className="landing-index__arrow" aria-hidden="true">↗</span>
+            {previewStudy && <span className="landing-index__preview landing-study" aria-label={`Example catalog record: ${previewStudy.accession} ${previewStudy.short_name}`}>
+              <span className="landing-study__id">{previewStudy.accession} · {previewStudy.short_name}</span>
+              <span className="landing-study__title">{previewStudy.title}</span>
+              <span className="landing-study__objective">{studyObjective}</span>
+            </span>}
+            <span className="landing-index__eyebrow">02 / EXPERIMENT MATCH</span>
+            <span className="landing-index__title">Find the NASA tests behind a design</span><span className="landing-index__desc">Rank PSI studies by how close their conditions are to yours.</span>
           </Link>
           <Link className="landing-index__tile" href="/methods">
-            <span className="landing-index__arrow" aria-hidden="true">↗</span><span className="landing-index__eyebrow">02 / FOLLOW THE METHOD</span>
-            <span className="landing-index__title">Methods &amp; validation</span><span className="landing-index__desc">Inspect equations, held-out checks, source records, and known limits.</span>
+            <span className="landing-index__arrow" aria-hidden="true">↗</span>
+            {previewEq && <span className="landing-index__preview landing-formula">
+              <span className="landing-study__id">{PREVIEW_EQ} · {previewEq.text}</span>
+              <Tex tex={previewEq.tex} block />
+            </span>}
+            <span className="landing-index__eyebrow">03 / METHODS &amp; VALIDATION</span>
+            <span className="landing-index__title">Every formula, with its evidence</span><span className="landing-index__desc">What each equation calculates, where the simulator uses it, and the held-out checks.</span>
           </Link>
-          <a className="landing-index__tile" href={`${REPOSITORY}/tree/main/docs`} target="_blank" rel="noreferrer">
-            <span className="landing-index__arrow" aria-hidden="true">↗</span><span className="landing-index__eyebrow">03 / OPEN THE PROJECT</span>
-            <span className="landing-index__title">Project files</span><span className="landing-index__desc">Read the challenge brief, project status, and technical documentation.</span>
-          </a>
         </nav>
 
         <section className="landing-section landing-problem" id="problem" aria-labelledby="problem-title">
@@ -173,7 +217,7 @@ export function LandingPage() {
           </div>
           <div className="landing-model-grid">
             {modelStates.map((model) => <article className="landing-model" key={model.name}>
-              <div className="landing-model__line"><h3>{model.name}</h3><span className={model.theory ? "landing-state landing-state--theory" : "landing-state"}>{model.label}</span></div>
+              <div className="landing-model__line"><h3>{model.name}</h3>{model.theory ? <Link className="landing-state landing-state--theory" href={`/methods#model-${model.key}`} title="Open this model in Methods"><span>{model.label}</span> →</Link> : <span className="landing-state">{model.label}</span>}</div>
               <p>{model.detail}</p>
             </article>)}
             <article className="landing-model">
