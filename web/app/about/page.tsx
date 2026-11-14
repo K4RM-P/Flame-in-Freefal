@@ -2,7 +2,32 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = { title: "About" };
-const team = ["Anujan Akaljan", "Karm Patel", "Aaron Sui", "Xuliang Sun"];
+const team: { name: string; initials: string; focus: string; bio: string; portrait?: string }[] = [
+  {
+    name: "Anujan Akaljan",
+    initials: "AA",
+    focus: "Student developer · Team Ontario athlete · Aerospace technology",
+    bio: "Anujan is a Grade 10 Pre-IB student at Milliken Mills High School. He represented Team Ontario at the U16 Ontario–Quebec Dual Meet and competed at OFSAA, with events spanning hurdles, jumps, and the pentathlon. He builds Orbit for youth program operations and Learnify for student assignments and progress tracking, co-created the FridgeOMeter science fair project, and coordinates youth programming with CFLI. He is exploring a potential Learnify integration with Knowledgehook to connect math practice, assignment feedback, and student progress. His aerospace interests include interactive simulations and AI tools that help people understand how spacecraft crews make decisions under pressure.",
+  },
+  {
+    name: "Karm Patel",
+    initials: "KP",
+    focus: "Aerospace research · Atmospheric combustion · Fire prevention",
+    bio: "Karm’s aerospace research and engineering work explores how atmospheric conditions affect combustion and flame behavior. His work on fire and flame prevention connects the physics of how flames ignite and spread with practical engineering approaches to controlling them.",
+  },
+  {
+    name: "Aaron Sui",
+    initials: "AS",
+    focus: "Competitive runner · Student inventor · Robotics",
+    bio: "Aaron is a Grade 10 Pre-IB student at Milliken Mills High School who competed at OFSAA Cross Country in 2026. He co-created FridgeOMeter, which earned multiple awards at the 2026 York Region Science and Technology Fair. He brings hands-on mechanical experience from VEX Robotics and the FIRST Robotics Competition, where he actively contributes to building and refining robot mechanisms.",
+  },
+  {
+    name: "Xuliang Sun",
+    initials: "XS",
+    focus: "Grade 10 Pre-IB · Milliken Mills High School",
+    bio: "Xuliang is a Grade 10 Pre-IB student at Milliken Mills High School and a member of the EmberAtlas team.",
+  },
+];
 
 export default function About() {
   return (
@@ -14,8 +39,19 @@ export default function About() {
       </header>
       <section aria-labelledby="team-title">
         <h2 id="team-title" className="display mb-4 text-2xl">Meet the team</h2>
-        <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
-          {team.map((name) => <li key={name} className="card border-t-2 border-t-accent text-base font-semibold">{name}</li>)}
+        <ul className="grid gap-4 sm:grid-cols-2">
+          {team.map(({ name, initials, focus, bio, portrait }) => (
+            <li key={name} className="card space-y-3 border-t-2 border-t-accent md:p-6">
+              <div className="grid aspect-square w-24 place-items-center overflow-hidden rounded-lg border border-line bg-surface2 md:w-28" aria-hidden="true">
+                {portrait
+                  ? <img className="h-full w-full object-cover" src={portrait} alt="" loading="lazy" />
+                  : <span className="num text-2xl text-mute">{initials}</span>}
+              </div>
+              <h3 className="display text-2xl">{name}</h3>
+              <p className="label">{focus}</p>
+              <p className="text-base leading-relaxed text-mute">{bio}</p>
+            </li>
+          ))}
         </ul>
       </section>
       <section aria-labelledby="aster-about" className="card space-y-3 md:p-8">
