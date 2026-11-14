@@ -69,7 +69,7 @@ pnpm test && pnpm build && pnpm e2e    # vitest (golden vectors, guard, golden q
 pnpm demo-cache    # rebuild the 12 golden answers (live Claude if ANTHROPIC_API_KEY is set)
 pip install "git+https://github.com/K4RM-P/Flame-in-Freefal.git#subdirectory=physics"
 ```
-Environment: `ANTHROPIC_API_KEY` (server-side only), `DEMO_MODE=1` to force cached answers.
+Environment: set `OPENAI_API_KEY` as a server-side deployment secret for Aster, then redeploy. `OPENAI_MODEL` optionally overrides `gpt-4.1-mini`. If the OpenAI key is absent, the app uses a configured `ANTHROPIC_API_KEY` or the cached demo. `DEMO_MODE=1` forces cached answers. Use **Ask Aster** in the lower corner or the existing Ask page.
 
 ## Limitations
 - **Small n.** Many flight results are single tests (e.g. SAFFIRE-II: one test per material and thickness; 7 like-for-like samples in the Earth-vs-orbit matrix).

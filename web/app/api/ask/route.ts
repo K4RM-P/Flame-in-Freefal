@@ -2,6 +2,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { askAgent, type TraceItem } from "@/lib/ai/agent";
+import { askOpenAI } from "@/lib/ai/openai";
 import { matchGolden } from "@/lib/ai/golden";
 import cache from "@/data/cache/golden.json";
 
@@ -28,7 +29,7 @@ export async function POST(req: Request) {
   if (limited(ip)) return new Response(JSON.stringify({ type: "error", message: "rate limited; try again in a minute" }) + "\n", { status: 429 });
   const { question } = (await req.json()) as { question?: string };
   if (!question || question.length > 800) return new Response(JSON.stringify({ type: "error", message: "question required (≤ 800 chars)" }) + "\n", { status: 400 });
-  const demo = process.env.DEMO_MODE === "1" || !process.env.ANTHROPIC_API_KEY;
+  const demo = process.env.DEMO_MODE === "1" || !(process.env.OPENAI_API_KEY || process.env.ANTHROPIC_API_KEY);
   const enc = new TextEncoder();
   const stream = new ReadableStream({
     async start(ctl) {
@@ -42,11 +43,13 @@ export async function POST(req: Request) {
         if (demo) serveCache(process.env.DEMO_MODE === "1" ? "DEMO_MODE=1" : "no API key");
         else {
           const system = fs.readFileSync(path.join(process.cwd(), "lib/ai/system.md"), "utf8");
-          const r = await askAgent(question, system, (t: TraceItem) => send({ type: "trace", ...t }));
+          const onTrace = (t: TraceItem) => send({ type: "trace", ...t });
+          const key = process.env.OPENAI_API_KEY;
+          const r = key ? await askOpenAI(question, system, onTrace, key) : await askAgent(question, system, onTrace);
           send({ type: "answer", answer: r.answer, mode: r.mode, guard: r.guard });
         }
-      } catch (e) {
-        serveCache(`API error: ${String(e).slice(0, 120)}`);
+      } catch {
+        serveCache("live provider unavailable");
       }
       ctl.close();
     },
