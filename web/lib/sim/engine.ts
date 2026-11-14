@@ -9,7 +9,7 @@ import * as SP from "@/lib/physics/spread";
 import * as SU from "@/lib/physics/suppression";
 import { R, cpMolar, formulaMass, molarMass } from "@/lib/physics/thermo";
 import { makeRng, percentiles, sampleDist, type Rng } from "@/lib/physics/uq";
-import { HABITAT, LIMITS_SI, MATERIALS, SMOKE, SOLID_ENVELOPE, SPREAD, material, type Limit } from "./params";
+import { HABITAT, LIMITS_SI, MATERIALS, SMOKE, SOLID_ENVELOPE, SPREAD, insideRange, material, tolerantRange, type Limit } from "./params";
 import type { CabinState, Item, ItemTrace, Outcome, OutcomeMetric, Provenance, Scenario, SimBands, SimEvent, SimResult } from "./types";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -141,7 +141,7 @@ function runOnce(s: Scenario, d: Draws, seed: number): SimResult {
   const yieldBy: Record<string, { y: number; source: string } | null> = {};
   for (const r of runs) if (r.key) yieldBy[r.key] = smokeYield(r.key);
   if (runs.some((r) => r.key && !yieldBy[r.key])) warnings.push("No sourced smoke yield for at least one burning material: its smoke is not counted at the detector.");
-  if (det.threshold === null) warnings.push("Detector threshold has no sourced value — enter one (kg/m³ smoke at the detector); alarm not computed.");
+  if (det.threshold === null) warnings.push("No data (no sourced detector threshold): the alarm time is not computed; the run proceeds.");
   const smokeHist: number[] = []; // cabin smoke mass (kg) per step
   let smokeMass = 0;
   let flow = c.flow_m_s;
@@ -385,20 +385,23 @@ export function envelopeWarnings(s: Scenario): string[] {
   const w: string[] = [];
   const g = s.cabin.gravity_g;
   if (g > 0 && g < 1) w.push(`Partial gravity (${g} g) is a bounded estimate (µg ↔ 1 g): PSI has no partial-gravity fire data.`);
+  const pct = (x: number) => (x * 100).toFixed(1);
   for (const it of s.items) {
     const m = MATERIALS.find((x) => x.material_key === it.material_key);
     if (!m) continue;
-    if (m.o2_range && (s.cabin.x_o2 < m.o2_range[0] - 1e-9 || s.cabin.x_o2 > m.o2_range[1] + 1e-9))
-      w.push(`${m.display_name}: O₂ ${(s.cabin.x_o2 * 100).toFixed(1)} % is outside its PSI test range ${(m.o2_range[0] * 100).toFixed(1)}–${(m.o2_range[1] * 100).toFixed(1)} %.`);
-    if (m.flow_range_m_s && (s.cabin.flow_m_s < m.flow_range_m_s[0] - 1e-9 || s.cabin.flow_m_s > m.flow_range_m_s[1] + 1e-9))
-      w.push(`${m.display_name}: flow ${(s.cabin.flow_m_s * 100).toFixed(1)} cm/s is outside its PSI test range ${(m.flow_range_m_s[0] * 100).toFixed(1)}–${(m.flow_range_m_s[1] * 100).toFixed(1)} cm/s.`);
+    const o2 = tolerantRange(m.o2_range, "x_o2");
+    if (m.o2_range && !insideRange(s.cabin.x_o2, o2))
+      w.push(`${m.display_name}: O₂ ${pct(s.cabin.x_o2)} % is outside its PSI test range ${pct(m.o2_range[0])}–${pct(m.o2_range[1])} %.`);
+    const fl = tolerantRange(m.flow_range_m_s, "flow_m_s");
+    if (m.flow_range_m_s && !insideRange(s.cabin.flow_m_s, fl))
+      w.push(`${m.display_name}: flow ${pct(s.cabin.flow_m_s)} cm/s is outside its PSI test range ${pct(m.flow_range_m_s[0])}–${pct(m.flow_range_m_s[1])} cm/s.`);
     if (m.thicknesses_m.length) {
       const lo = Math.min(...m.thicknesses_m), hi = Math.max(...m.thicknesses_m);
       if (it.thickness_m < lo * 0.999 || it.thickness_m > hi * 1.001) w.push(`${m.display_name}: thickness ${(it.thickness_m * 1e3).toFixed(2)} mm is outside the tested ${(lo * 1e3).toFixed(2)}–${(hi * 1e3).toFixed(2)} mm.`);
     }
   }
   const pr = SOLID_ENVELOPE.P_Pa;
-  if (pr && (s.cabin.P_Pa < pr[0] * 0.99 || s.cabin.P_Pa > pr[1] * 1.01))
+  if (pr && !insideRange(s.cabin.P_Pa, tolerantRange(pr, "P_Pa")))
     w.push(`Pressure ${(s.cabin.P_Pa / 1e3).toFixed(1)} kPa is outside the PSI solid-fuel test range ${pr[0] / 1e3}–${pr[1] / 1e3} kPa (${SOLID_ENVELOPE.sources.join(", ")}).`);
   return w;
 }

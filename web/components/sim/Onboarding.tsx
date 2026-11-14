@@ -1,7 +1,6 @@
 "use client";
 // SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 // First-run flow: selections are context only; the AI must source or request every scenario value.
-import { AsterGuideButton } from "@/components/AsterGuideButton";
 import { useState } from "react";
 import { GRAVITY, ScenarioSchema, type Scenario } from "@/lib/sim/types";
 import { MATERIALS } from "./data";
@@ -47,14 +46,13 @@ export function Onboarding() {
   return (
     <main className="mx-auto max-w-4xl py-8 sm:py-14">
       <div className="max-w-2xl space-y-4">
-        <div className="flex flex-wrap items-center justify-between gap-2"><p className="label">FIRST RUN · NO SCENARIO LOADED</p><AsterGuideButton page="simulator" /></div>
+        <p className="label">FIRST RUN · NO SCENARIO LOADED</p>
         <h1 className="display text-[clamp(2.4rem,7vw,5rem)] leading-[0.95]">Start with the question.</h1>
         <p className="measure text-[16px] text-mute">Choose the context you know, describe what you’re trying to find out, and EmberAtlas will draft the scenario. It will leave unsourced values empty for you to review—never inventing a cabin, threshold, or result.</p>
       </div>
       <div className="mt-8 flex items-center gap-3 border-b border-line pb-4">
         <button type="button" className={`btn ${!manual ? "bg-surface2" : ""}`} onClick={() => setManual(false)}>Build with AI</button>
         <button type="button" className={`btn ${manual ? "bg-surface2" : ""}`} onClick={() => setManual(true)}>Enter manually</button>
-        <span className="text-[12px] text-faint">Both paths start with your inputs. Neither loads a demo scenario.</span>
       </div>
       {manual ? <ManualSetup /> : <div className="mt-8 grid gap-4 md:grid-cols-2">
         <section className="panel space-y-4 p-4">
@@ -69,7 +67,7 @@ export function Onboarding() {
           {error && <p className="text-[13px] text-warn" role="alert">{error}</p>}
         </section>
       </div>}
-      <p className="mt-5 max-w-2xl text-[12px] text-faint">AI needs a server-side <code>OPENAI_API_KEY</code> in Vercel. If it is missing, this screen reports that directly; no demo scenario is substituted.</p>
+      <p className="mt-5 max-w-2xl text-[12px] text-faint">AI needs a server-side <code>OPENAI_API_KEY</code> in Vercel. If it is missing, this screen reports that directly.</p>
     </main>
   );
 }
@@ -79,10 +77,6 @@ function ManualSetup() {
   const [v, setV] = useState<Record<string, string>>({});
   const [error, setError] = useState<string | null>(null);
   const put = (key: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => setV((x) => ({ ...x, [key]: e.target.value }));
-  const fillDemo = () => {
-    setError(null);
-    setV({ name: "Demo cabin fire", material: "sibal", o2: "34", pressure: "56.5", gravity: String(GRAVITY.moon), volume: "100", flow: "10", thickness: "0.37", length: "94", width: "40.6", distance: "1.5", threshold: "10", duration: "300" });
-  };
   const number = (key: string) => v[key] === "" || v[key] == null ? null : Number(v[key]);
   function create() {
     const m = MATERIALS.find((x) => x.material_key === v.material);
@@ -101,7 +95,7 @@ function ManualSetup() {
     set({ a: parsed.data, b: null, editing: "a", presetId: null, replay: false, ra: null, rb: null, frame: 0, interp: { state: "idle" }, runError: null });
   }
   return <section className="panel mt-8 space-y-5 p-4" data-testid="manual-setup">
-    <div><p className="label">MANUAL SETUP · USER INPUTS</p><div className="flex flex-wrap items-start justify-between gap-3"><div><h2 className="mt-1 text-[24px] font-semibold">Enter the scenario you want to run.</h2><p className="mt-1 text-[13px] text-mute">These values are treated as your design inputs unless you attach a source later. Blank fields never receive defaults.</p></div><button type="button" className="btn shrink-0" data-testid="demo-numbers" onClick={fillDemo}>Demo Numbers</button></div><p className="mt-2 text-[11px] text-warn">Demo Numbers fills a clearly marked test case; values are not NASA measurements.</p></div>
+    <div><p className="label">MANUAL SETUP · USER INPUTS</p><h2 className="mt-1 text-[24px] font-semibold">Enter the scenario you want to run.</h2><p className="mt-1 text-[13px] text-mute">These values are treated as your design inputs unless you attach a source later. Blank fields never receive defaults.</p></div>
     <div className="grid gap-x-6 gap-y-3 md:grid-cols-2">
       <Field label="Scenario name" value={v.name} onChange={put("name")} required />
       <label className="text-[13px]"><span className="mb-1 block text-mute">Material</span><select className="w-full" value={v.material ?? ""} onChange={put("material")}><option value="">Select a PSI material</option>{MATERIALS.map((m) => <option key={m.material_key} value={m.material_key}>{m.display_name}</option>)}</select></label>

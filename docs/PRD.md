@@ -1,3 +1,5 @@
+Historical planning document; see README for the shipped product.
+
 # EmberAtlas — Product Requirements Document (FINAL)
 
 **NASA Space Apps Challenge 2026 · Flame in Freefall: SI-Powered Fire Safety Insights from Microgravity Combustion Data**

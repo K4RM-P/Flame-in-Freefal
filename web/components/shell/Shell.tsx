@@ -1,13 +1,12 @@
 "use client";
 // SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
-// Landing page, simulator, methods, plus the theme toggle.
+// Nav: Simulator · Evidence · Methods (logo → landing), theme toggle; About lives in the footer.
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
-import { Aster } from "@/components/Aster";
 import { useMission, lsGet, lsSet } from "@/lib/store";
 
-const NAV = [["/", "Overview"], ["/simulator", "Simulator"], ["/match", "Experiment match"], ["/dashboard", "Dashboard"], ["/methods", "Methods"], ["/about", "About"]] as const;
+const NAV = [["/simulator", "Simulator"], ["/evidence", "Evidence"], ["/methods", "Methods"]] as const;
 
 export function Shell({ children }: { children: React.ReactNode }) {
   const theme = useMission((s) => s.theme);
@@ -34,7 +33,6 @@ export function Shell({ children }: { children: React.ReactNode }) {
         Built on NASA PSI Data Repository: Combustion Science. Partial gravity is a bounded estimate (µg ↔ 1 g). Not for flight certification.
         {" · "}<Link className="underline underline-offset-2" href="/about">About EmberAtlas</Link>
       </footer>
-      <Aster />
     </>
   );
 }

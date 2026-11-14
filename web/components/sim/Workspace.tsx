@@ -1,7 +1,7 @@
 "use client";
 // SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 // Simulation Hub: full-height engineering workspace (desktop-first, no page scroll while simulating).
-// Toolbar · left project tree + scenario setup + saved states · center cabin viewport + chart dock · right outputs/evidence/assistant.
+// Toolbar · left project tree + scenario setup + saved states · center cabin viewport + (Compare) delta card + chart dock · right outputs/evidence/interpretation.
 // Reuses the existing engine (runAll), receipts (Num), outcome/evidence/sensitivity/next-test panels and manual setup.
 import { useEffect, useRef, useState } from "react";
 import { PRESETS } from "@/lib/sim/presets";
@@ -12,14 +12,12 @@ import { lsGet, lsSet } from "@/lib/store";
 import { sig } from "@/lib/ui/format";
 import { CHARTS, Charts } from "./Charts";
 import { CabinView, Legend, runFacts, useReducedMotion } from "./CabinView";
-import { Assistant } from "./Assistant";
-import { MC_N, ReplayMetrics, missingFields, runAll } from "./RunPanel";
-import { Evidence, Interpretation, NextTest, Outcome, Tornado, download } from "./ResultPanel";
 import { ScenarioPanel, applyPreset, fmtProv } from "./ScenarioPanel";
 import { TELEMETRY, materialByKey } from "./data";
-import { BoundedBadge, TheoryBadge } from "./bits";
+import { BoundedBadge, Evidence, Interpretation, MC_N, NextTest, Outcome, ReplayMetrics, TheoryBadge, Tornado, download, missingFields, runAll } from "./bits";
+import { nextTest, outOfEnvelope } from "@/lib/sim/nextTest";
+import spreadCal from "@/data/params/spread.json";
 import { LAYERS, useSim } from "./store";
-import { AsterGuideButton } from "@/components/AsterGuideButton";
 
 export function Workspace() {
   usePlayback();
@@ -42,8 +40,8 @@ export function Workspace() {
             <SavedStates />
           </details>
         </aside>
-        <Center />
-        <aside className={`flex min-h-0 flex-col border-line lg:border-l ${inspectorOpen ? "" : "hidden"}`} aria-label="Outputs, evidence and assistant"><RightPanel /></aside>
+        <Center openInspector={() => setInspectorOpen(true)} />
+        <aside className={`flex min-h-0 flex-col border-line lg:border-l ${inspectorOpen ? "" : "hidden"}`} aria-label="Outputs, evidence and interpretation"><RightPanel /></aside>
       </div>
       <StatusBar />
     </div>
@@ -83,7 +81,6 @@ function NextStep({ inspectorOpen, openInspector }: { inspectorOpen: boolean; op
   return (
     <div className="next-step border-b border-line px-3 py-1" data-noprint data-testid="next-step">
       <span className="next-step__tag">Next step</span><span className="min-w-0">{text}</span>{action}
-      <AsterGuideButton page="simulator" className="ml-auto" />
     </div>
   );
 }
@@ -242,7 +239,7 @@ function SavedStates() {
 }
 
 /* ---------- center: viewport(s), layers, legend, assumptions drawer, chart dock ---------- */
-function Center() {
+function Center({ openInspector }: { openInspector: () => void }) {
   const { a, b, ra, rb, frame, runError, layers, assumptionsOpen, set } = useSim();
   if (!a) return null;
   const missing = [...missingFields(a), ...(b ? missingFields(b).map((m) => `B: ${m}`) : [])];
@@ -268,6 +265,7 @@ function Center() {
         {assumptionsOpen && <Assumptions sc={a} r={ra} />}
       </div>
       <div className="border-t border-line px-3 py-1"><Legend /></div>
+      {b && ra && rb && <DeltaCard a={a} b={b} ra={ra} rb={rb} openInspector={openInspector} />}
       <Dock />
     </section>
   );
@@ -315,7 +313,14 @@ function Dock() {
         {dockTab === "replay" ? (
           <section className="h-full overflow-y-auto py-1" data-testid="telemetry-overlay">
             <p className="text-[12px] text-mute">Open circles on the charts are measured values from {TELEMETRY?.source_id ?? "PSI-100"} · {TELEMETRY?.locator ?? "telemetry not ingested"}. The error is shown as computed, good or bad.</p>
-            {ra ? <ReplayMetrics err={err} /> : <p className="text-[12px] text-mute">Run to compute the replay error.</p>}
+            <div className="grid gap-3 md:grid-cols-[minmax(0,1fr)_260px]">
+              <div>
+                <p className="label">Cabin-scale sanity check</p>
+                <p className="text-[12px] text-mute">A sample-size Saffire fire barely changes a vehicle&apos;s cabin; the model reproduces that near-ambient response (T RMSE ~6 K, P MAPE ~0.2%), computed live. This is not a test of flame-spread physics.</p>
+                {ra ? <ReplayMetrics err={err} /> : <p className="text-[12px] text-mute">Run to compute the replay error.</p>}
+              </div>
+              <SpreadCalibration />
+            </div>
           </section>
         ) : ra ? <Charts ra={ra} rb={rb} sa={a} frame={frame} replay={replay} only={dockTab as never} height={190} />
           : <p className="py-6 text-center text-[13px] text-mute">Press ▶ Run to simulate {sig(a.t_end_s, 3)} s of this cabin ({MC_N} Monte Carlo runs for the uncertainty bands).</p>}
@@ -328,7 +333,7 @@ function Dock() {
 function RightPanel() {
   const { a, b, ra, rb, rightTab, set } = useSim();
   if (!a) return null;
-  const tabs = [["outputs", "Outputs"], ["evidence", "Evidence"], ["assistant", "AI assistant"]] as const;
+  const tabs = [["outputs", "Outputs"], ["evidence", "Evidence"], ["assistant", "AI interpretation"]] as const;
   return (
     <>
       <div className="flex border-b border-line" role="tablist" aria-label="Results">
@@ -342,13 +347,10 @@ function RightPanel() {
           <Outcome sc={a} r={ra} label={b ? "A" : null} />
           {b && rb && <Outcome sc={b} r={rb} label="B" />}
           <Tornado sc={a} />
-          {ra && <NextTest sc={a} r={ra} />}
+          {b && rb ? <NextTest sc={b} r={rb} /> : ra && <NextTest sc={a} r={ra} />}
         </div>}
         {rightTab === "evidence" && <Evidence sc={a} />}
-        {rightTab === "assistant" && <div className="flex h-full min-h-[420px] flex-col gap-2">
-          <Interpretation />
-          <div className="min-h-0 flex-1"><Assistant /></div>
-        </div>}
+        {rightTab === "assistant" && <Interpretation />}
       </div>
     </>
   );
@@ -361,7 +363,7 @@ function Mitigation({ sc, r, label }: { sc: Scenario; r: SimResult | null; label
   const t = r ? r.t[Math.min(frame, r.t.length - 1)] : 0;
   const at = (x: number | null | undefined) => x != null && t >= x;
   const det = sc.detection.threshold == null && sc.detection.manual_alarm_s == null
-    ? <span className="text-faint">∅ No data: no threshold (required input)</span>
+    ? <span className="text-faint">No data (no sourced detector threshold)</span>
     : !F ? <span className="text-mute">not run</span>
       : at(F.tAlarm) ? <span className="text-bad">▲ Alarm at {sig(F.tAlarm!, 3)} s</span>
         : <span>○ Monitoring{F.tAlarm == null ? " · no alarm in this run" : ""}</span>;
@@ -386,6 +388,58 @@ function Mitigation({ sc, r, label }: { sc: Scenario; r: SimResult | null; label
         })}
       </div>
     </section>
+  );
+}
+
+/* ---------- Compare: headline delta, extrapolation badge, next test ---------- */
+const DELTA_KEYS = [["time_to_extinguish", "Burnout"], ["peak_T", "Peak temperature"], ["peak_co", "Peak CO"]] as const;
+
+function DeltaCard({ a, b, ra, rb, openInspector }: { a: Scenario; b: Scenario; ra: SimResult; rb: SimResult; openInspector: () => void }) {
+  const set = useSim((s) => s.set);
+  const metric = (r: SimResult, k: string) => r.outcome.metrics.find((m) => m.key === k) ?? null;
+  const pick = DELTA_KEYS.find(([k]) => metric(ra, k)?.value != null && metric(rb, k)?.value != null);
+  const oob = [...outOfEnvelope(b), ...outOfEnvelope(a)];
+  const seen = new Set<string>();
+  const oobText = oob.filter((o) => (seen.has(o.text) ? false : (seen.add(o.text), true))).map((o) => o.text);
+  const nt = nextTest(b, rb);
+  let headline: React.ReactNode = "No data";
+  if (pick) {
+    const [k, label] = pick;
+    const ma = metric(ra, k)!, mb = metric(rb, k)!;
+    const va = ma.value as number, vb = mb.value as number;
+    let tail = "";
+    if (va > 0 && vb > 0) {
+      const timeLike = k === "time_to_extinguish";
+      const ratio = timeLike ? Math.max(va, vb) / Math.min(va, vb) : vb / va;
+      tail = timeLike ? ` (${sig(ratio, 2)}× ${vb < va ? "faster" : vb > va ? "slower" : "same"})` : ` (${sig(ratio, 2)}× A)`;
+    }
+    headline = <>{label}: {a.name} <span className="num">{sig(va, 3)} {ma.units}</span> → {b.name} <span className="num">{sig(vb, 3)} {mb.units}</span>{tail}</>;
+  }
+  const goNext = () => { openInspector(); set({ rightTab: "outputs" }); requestAnimationFrame(() => requestAnimationFrame(() => document.getElementById("next-test")?.scrollIntoView({ block: "start", behavior: "smooth" }))); };
+  return (
+    <section data-testid="delta-card" className="space-y-2 border-t border-line bg-panel px-3 py-2" aria-label="Compare result">
+      <p className="text-[18px] font-semibold">{headline}</p>
+      {oobText.length > 0 && <p className="flex flex-wrap items-center gap-2">
+        <span data-testid="extrapolated" className="chip border-2 border-warn px-2 py-0.5 text-[16px] font-bold tracking-wide text-warn">EXTRAPOLATED</span>
+        <span className="num text-[13px] text-warn">{oobText.join(" · ")}</span>
+      </p>}
+      <p className="flex flex-wrap items-center gap-2 text-[13px]">
+        <button type="button" className="btn px-2 py-0.5 text-[12px]" onClick={goNext}>Next test to fly →</button>
+        <span className="text-mute">{nt ? nt.condition : "Inside the tested envelope, no new test needed for this scenario"}</span>
+      </p>
+    </section>
+  );
+}
+
+/** The real model check beside the replay: spread calibration on the held-out SIBAL flight test (from data/params/spread.json). */
+function SpreadCalibration() {
+  const test = (spreadCal.metrics?.test ?? []) as { sample: string; rel_err: number }[];
+  return (
+    <aside className="border-l border-line pl-3 text-[12px]" data-testid="spread-calibration">
+      <p className="label">Model check: flame spread</p>
+      <p>Spread calibration on held-out SIBAL: <span className="num">{sig(spreadCal.metrics.test_mape_pct, 3)}%</span> error, n = <span className="num">{test.length}</span></p>
+      {test.map((t) => <p key={t.sample} className="num text-faint">{t.sample}: rel. err {sig(t.rel_err * 100, 3)}%</p>)}
+    </aside>
   );
 }
 

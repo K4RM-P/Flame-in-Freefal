@@ -78,6 +78,7 @@ export function ScenarioPanel() {
         {partial && <BoundedBadge />}
         <NumField label="Free volume" units="m³" value={c.V_m3} source={src("cabin.V_m3")} required min={0.01}
           onChange={(v) => patch((s) => ({ ...s, cabin: { ...s.cabin, V_m3: v != null && v > 0 ? v : null } }))} testid="volume" />
+        {c.V_m3 == null && src("cabin.V_m3") !== "User input" && <p className="text-[12px] text-warn" data-testid="volume-hint">{src("cabin.V_m3")}</p>}
         <NumField label="Ventilation past items" units="cm/s" value={round(c.flow_m_s * 100)} source={src("cabin.flow_m_s")} step={0.5} min={0}
           onChange={(v) => v != null && patch((s) => ({ ...s, cabin: { ...s.cabin, flow_m_s: v / 100 } }))} />
         <label className="flex items-center justify-between text-[13px]" title={src("cabin.fan_off_on_alarm")}>

@@ -5,7 +5,7 @@ ISS:
   P_kPa: 101.3
   gravity_g: 0.0
   flow_cm_s: 10.0
-  V_free_m3: {value: 388.0, note: "ISS habitable volume", source: nasa-iss-facts, status: TODO_VERIFY}
+  V_free_m3: {value: 388.0, note: "ISS habitable volume, not including visiting vehicles", source: nasa-iss-facts, url: "https://www.nasa.gov/international-space-station/space-station-facts-and-figures/", locator: "Space Station Facts and Figures page, 'Habitable volume: 13,696 cubic feet (388 cubic meters)'", status: cited}
   source: nasa-iss-facts
 Orion:
   name: "Orion crew module"

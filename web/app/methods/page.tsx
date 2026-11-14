@@ -6,7 +6,7 @@ import { EQUATIONS } from "@/lib/equations";
 import { SOURCES } from "@/lib/sources";
 import { notes } from "./equation-notes";
 import { Tex } from "@/components/Tex";
-import { AsterGuideButton } from "@/components/AsterGuideButton";
+import spreadFit from "@/data/params/spread.json";
 import catalogJson from "@/data/psi_catalog.json";
 import summary from "@/data/validation/summary.json";
 
@@ -69,7 +69,7 @@ export default function Methods() {
   return (
     <div className="methods mx-auto max-w-7xl pb-16 text-[15px]">
       <header className="methods-hero">
-        <div className="flex flex-wrap items-center justify-between gap-2"><p className="label">EmberAtlas science</p><AsterGuideButton page="methods" /></div>
+        <div className="flex flex-wrap items-center justify-between gap-2"><p className="label">EmberAtlas science</p></div>
         <h1 className="display mt-3 text-4xl md:text-7xl">Methods &amp; validation</h1>
         <p className="measure mt-4 text-lg leading-relaxed text-mute">Follow a simulation from its equations to the NASA experiments and validation checks behind it.</p>
         <p className="next-step mt-4"><span className="next-step__tag">Next step</span><span>Pick a model in <a className="underline underline-offset-2" href="#overview">Models at a glance</a>, then open one of its formula cards.</span></p>
@@ -158,7 +158,17 @@ export default function Methods() {
               </tr>))}</tbody>
           </table>
         </div>
-        <p className="text-[13px] text-mute">The Saffire replay reports RMSE and MAPE for simulated vs PSI-100 T and P telemetry when the replay is run. PSI-100 contains no O₂ telemetry, so O₂ replay error is No data. An unsourced detector threshold does not block a run; alarm and time-to-alarm show No data.</p>
+        <div className="grid gap-3 md:grid-cols-2" data-testid="sanity-check">
+          <div className="border border-line bg-surface2 p-3">
+            <h3 className="label">Cabin-scale sanity check</h3>
+            <p className="mt-1 text-[13px]">A sample-size Saffire fire barely changes a vehicle&apos;s cabin; the model reproduces that near-ambient response (T RMSE ~6 K, P MAPE ~0.2%), computed live. This is not a test of flame-spread physics.</p>
+            <p className="mt-1 text-[12px] text-faint">PSI-100 contains no O₂ telemetry, so O₂ replay error is No data.</p>
+          </div>
+          <div className="border border-line bg-surface2 p-3">
+            <h3 className="label">Real model check</h3>
+            <p className="mt-1 text-[13px]">Spread calibration on held-out SIBAL: <span className="num">{spreadFit.metrics.test_mape_pct}%</span> error, n = <span className="num">{spreadFit.split.test_ids.length}</span></p>
+          </div>
+        </div>
       </section>
 
       <section id="limitations" className="card space-y-1" data-testid="limitations">
@@ -168,7 +178,7 @@ export default function Methods() {
           <li><b>1D flame spread per item.</b> Each item has one flame front moving along its length; there is no flame-to-item heat transfer.</li>
           <li><b>Partial gravity is a bounded estimate.</b> PSI holds microgravity and 1 g tests only. Moon and Mars values sit between those two bounds and are never measurements.</li>
           <li><b>Theory-only parts.</b> Every sub-model marked Theory-only above is uncalibrated physics; its numbers carry that label in the simulator too.</li>
-          <li><b>Small n.</b> Many ISS results are single tests (SAFFIRE-II has one test per material and thickness). Earth-vs-orbit comparisons are like-for-like only and never a verdict on a ground test standard.</li>
+          <li><b>Small n.</b> Many ISS results are single tests (SAFFIRE-II has one test per material and thickness). Earth-vs-orbit comparisons are like-for-like only and say nothing about a ground test standard as a whole.</li>
           <li><b>Unsourced inputs are required.</b> Where no sourced value exists (for example a cabin volume or a detector threshold) the field stays empty until you enter it.</li>
           <li>Not for flight certification. AI text is generated from engine output and cited PSI data and can still be wrong.</li>
         </ul>
@@ -192,9 +202,8 @@ export default function Methods() {
         <h2 className="text-[20px] font-semibold"><span className="methods-num">07</span>Use of AI</h2>
         <ul className="measure ml-5 list-disc space-y-1">
           <li>Claude Code (Anthropic) wrote the code, under human direction and review.</li>
-          <li>The OpenAI API is used by the simulator to draft scenario fields for your review and interpret individual runs.</li>
+          <li>The OpenAI API drafts scenario fields for your review and interprets individual runs in the Simulator, and explains experiment matches on Evidence.</li>
           <li>The interpretation is grounded only on the engine output and the ranked PSI evidence; a numeric guard (lib/ai/guard.ts) rejects any number not present in them. Without an API key, the app says so instead of showing any text.</li>
-          <li>Aster matches questions against the bundled NASA PSI catalog in local mode.</li>
           <li>No AI-generated images are used.</li>
         </ul>
       </section>

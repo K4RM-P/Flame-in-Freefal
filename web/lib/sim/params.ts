@@ -132,7 +132,7 @@ function atmFromMission(id: string, m: any): Atmosphere {
     sources: {
       x_o2: { source_id: m.source, locator: "missions.json" }, P_Pa: { source_id: m.source, locator: "missions.json" },
       flow_m_s: { source_id: m.source, locator: "missions.json", note: "cabin ventilation speed as listed for the mission" },
-      V_m3: placeholder ? { source_id: "", note: "no sourced volume — required user field" } : { source_id: vol?.source ?? m.source, note: vol?.note, locator: vol?.status },
+      V_m3: placeholder ? { source_id: "", note: "no sourced volume — required user field" } : { source_id: vol?.source ?? m.source, note: vol?.note, locator: vol?.locator ?? vol?.status },
     },
   };
 }
@@ -183,3 +183,20 @@ export const SOLID_ENVELOPE = {
   gravity_g: [0, 0] as [number, number], // ISS/Cygnus tests only; 1 g ground comparisons are separate
   sources: SOLID_INV.flatMap(([, v]) => v.psi_accessions ?? []),
 };
+
+// ---------- tolerant envelope (judge-audit fix) ----------
+/** Normalisation scales: one "unit" of mismatch per scale (ranking only, not a physical property). */
+export const ENVELOPE_SCALE = { x_o2: 0.05, P_Pa: 20e3, flow_m_s: 0.10, gravity_g: 0.5 } as const;
+export type EnvelopeKind = "x_o2" | "P_Pa" | "flow_m_s";
+/** A tested range that collapses to one point (min == max) gets a tolerance: ±5 % pressure, ±0.01 x_O₂, ±20 % flow.
+ *  Non-degenerate ranges get 1 % slack so a value that equals a table entry to rounding is not "outside". */
+export function tolerantRange(r: [number, number] | null | undefined, kind: EnvelopeKind): [number, number] | null {
+  if (!r) return null;
+  const [lo, hi] = r;
+  if (lo === hi) {
+    const t = kind === "P_Pa" ? 0.05 * lo : kind === "x_o2" ? 0.01 : 0.2 * lo;
+    return [lo - t, hi + t];
+  }
+  return [lo - 0.01 * Math.abs(lo), hi + 0.01 * Math.abs(hi)];
+}
+export const insideRange = (x: number, r: [number, number] | null) => !r || (x >= r[0] && x <= r[1]);

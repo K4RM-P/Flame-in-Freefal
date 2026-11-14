@@ -1,290 +1,99 @@
-# EmberAtlas — NASA Space Apps 2026 Project Submission (draft)
+# EmberAtlas: NASA Space Apps 2026 submission
 
-Challenge: **Flame in Freefall**. Deadline: **Sun Nov 15 2026, 11:59 p.m. local time**.
-Draft for copy-paste into the Space Apps submission form. Anything marked `TODO_VERIFY` must be filled in or removed before submitting. Do not guess these values.
+**Title:** EmberAtlas: will it burn on the Moon?
 
----
+## Summary (150 words)
+Maya is a fire-safety engineer approving cabin materials for a lunar habitat that will breathe 34% oxygen at 56.5 kPa and one-sixth gravity. NASA approves materials with an Earth-gravity burn test. EmberAtlas answers her three questions from NASA's PSI ISS fire data. First, does the Earth test hold up in orbit? In SAFFIRE-II like-for-like samples, no material burned worse in orbit than in the 1 g test. Second, where does the evidence stop? No solid in PSI has been burned near 34% oxygen; the only flight data at exploration atmospheres is ACME BRE, a gas burner that emulates solids. Third, what lies beyond? The simulator runs the ISS and the lunar cabin side by side, marks every result outside the tested envelope as extrapolated, and proposes the test NASA should fly next. Every number traces to a PSI accession, file and row.
 
-## Project title
-
-**EmberAtlas**
-
-## High-level summary (~150 words)
-
-Lunar habitats are expected to run on an oxygen-enriched cabin atmosphere (34% O₂ at 8.2 psia, NTRS 20240003211). Fire behaves differently there: there is less buoyancy, and the standard Earth flammability test (NASA-STD-6001 Test 1) is run at 1 g. A materials engineer has no fast, defensible way to ask "will this fabric burn in that cabin?" EmberAtlas answers three questions for any material and cabin: Will it burn here? If it burns, how bad? Can we catch it and stop it? Each answer is built from ISS combustion experiments in NASA's Physical Sciences Informatics (PSI) system (FLEX, BASS-II, Saffire, SAME and others) and from NASA technical reports. The physics is checked against those experiments, and every number links to the test rows, equation and source behind it. Each review ends with design actions, the next test to fly (SoFIE in the Combustion Integrated Rack) and an exportable Evidence Brief. EmberAtlas turns NASA's ISS fire experiments into a defensible fire-safety verdict for the materials going into lunar habitats, with every claim traced to the PSI data behind it.
-
-## Demo link
-
-`TODO: 30-second video URL (YouTube/Vimeo, public or unlisted)` — or `TODO: ≤7-slide deck URL`
-
-## Final project link
-
-`TODO: production URL (Vercel deploy pending, docs/HUMAN_TASKS.md #6)` · Repository: `TODO: public repo URL`
-
----
+- **Demo link:** TODO
+- **Project link:** TODO
 
 ## Detailed description
+EmberAtlas has three surfaces: `/simulator`, `/evidence` and `/methods` (plus `/` and `/about`). The simulator ships three presets: *Saffire replay*, *Same fabric: ISS vs Lunar Habitat*, and *Lunar Habitat: tune the response*. `/simulator?preset=iss-vs-lunar&run=1` loads and runs the comparison in one click.
 
-### What it does
+### Identify
+The evidence ranking (`web/lib/sim/evidence.ts`) gates PSI investigations by material class first: for a solid fabric, investigations that burned that material rank first, then solid-fuel campaigns (BASS, BASS-II, SAFFIRE), then ACME BRE when the mission O₂ is at least 26%. Droplet campaigns (FLEX, FLEX-2, CFI) appear only for suppression; SAME, SAME-R and DAFT for smoke. The Evidence page shows the Earth-vs-orbit table, the "where the evidence stops" table and the mission-to-experiment match.
 
-EmberAtlas is a fire-safety review tool for spacecraft and habitat materials. It is built for **Maya**, a materials and fire-safety engineer who has to decide whether a material can go into a cabin, and defend that decision.
+### Extract
+Every run exports CSV of the PSI rows it used (accession, file, line) and the simulated time series (`web/lib/sim/export.ts`).
 
-The **Review** screen (`/review`) takes a material and a cabin atmosphere. The default is **Lunar Habitat (34% O₂ · 8.2 psia · 1/6 g) + SIBAL fabric**. It answers three questions:
+### Highlight
+Earth test vs orbit (SAFFIRE-II, PSI-99, counts computed from data); where the evidence stops (highest tested O₂, pressure and flow per material vs the mission); and the next test, ranked by how far each out-of-envelope input sits from the tested range. Inside the envelope, the app says no new test is needed.
 
-1. **Q1 — Will it burn here?** A verdict in one of four states.
-2. **Q2 — If it burns, how bad?** Flame spread and fire growth, with uncertainty bands (p05/p50/p95).
-3. **Q3 — Can we catch it and stop it?** Smoke detection and suppression.
-
-Below the answers the screen shows:
-- **Earth test vs orbit:** a strip comparing NASA-STD-6001 Test 1 (upward flame propagation at 1 g) with the ISS test outcomes for the same material. The caveat is fixed: "Under these conditions; not a verdict on the standard."
-- **What to do:** prevention, detection and suppression actions.
-- **Next test to fly:** the condition with the least coverage that would change the verdict, flown on SoFIE (Solid Fuel Ignition and Extinction) in the ISS Combustion Integrated Rack.
-- **Evidence used:** the PSI investigations behind this review, ranked.
-- **Export Evidence Brief:** a PDF (through the browser print stylesheet) and a Markdown file.
-
-Navigation: **Review / Evidence Library / Methods & Validation**.
-
-### Verdict rules (Q1)
-
-These are conservative rules, implemented in `web/lib/review/index.ts` with parameters in `web/lib/review/rules.ts`. They are documented on `/methods`.
-
-| Verdict | Rule |
-|---|---|
-| **Likely to sustain fire** | The material burned (sustained spread) in orbit at x_O₂ ≤ the mission x_O₂, at some tested flow. |
-| **Acceptable margin in tested conditions** | Every orbit test at x_O₂ ≥ the mission x_O₂, across 0–30 cm/s flow, was extinct or insignificant, **and** the mission is inside the tested O₂ / pressure / flow envelope. Partial gravity never upgrades a verdict to this state. |
-| **Marginal — evidence thin, test needed** | Anything in between, or any mission extrapolated beyond the tested O₂, pressure or flow. |
-| **No orbit burn data** | The material is smoke-only or untested. Only Q3 is answered. |
-
-The code also has a fifth state, **Data pending**. It is shown when no verified ISS rows exist yet for the material, and in that state no verdict is given. Partial gravity (Moon, Mars) is always a **bounded estimate between µg and 1 g**. It is never shown as "measured".
-
-### How it works
-
-**Data pipeline** (`physics/pipeline/`, `make data`): this reads NASA technical reports and PSI records. It extracts test rows with `source_id` and `locator`, marks each row verified or unverified, and exports to `web/data/*.json`. Current state, quoted from docs/STATUS.md:
-- FLEX Table IX was extracted from NASA/TP-2015-216046: 276 rows, of which 275 are verified (visual spot-check, 0 mismatches; human countersign pending).
-- Only **one** investigation (FLEX) has verified rows so far. BASS-II, Saffire, BRE and SAME-R values exist only in figures and are waiting for human digitization. The PRD target of 400 or more rows from 4 or more investigations is **not met**.
-
-**Models** (`physics/emberphys`, Python, the source of truth for the science):
-- `thermo`: GRI-Mech 3.0 NASA-7 polynomials
-- `flame_temp`: Burke–Schumann
-- `spread`: de Ris thin/thick opposed-flow spread with a Damköhler correction
-- `gravity`: buoyant-equivalent flow mapping
-- `droplet`: d²-law, dual extinction, LOI
-- `suppression`: critical adiabatic flame temperature
-- `habitat`: well-mixed ODE
-- `smoke`: Smoluchowski coagulation
-- `uq`: seeded Monte Carlo
-- `validity`: envelope check plus nearest-neighbour distance
-
-Every model returns a `ModelResult` with value, units, uncertainty (p05/p50/p95), inputs, equation IDs, assumptions, validity and sources. Calibration (`make fit`) uses verified rows only and never the test split.
-
-**TypeScript port:** the web app runs a TypeScript port of the physics. It is checked against `shared/golden_vectors.json` at rtol 1e-6, and the habitat ODE at 1e-3.
-
-**Validation** (`make validate`, `docs/VALIDATION.md`, `/methods#validation`): results are reported pass/fail, failures included:
-- Pass: V2, V4, V5 (droplet) and V3, V4 (held-out thermal suppression).
-- Fail: V1 and V3 for the heptane droplet LOI, and the helium LOIs.
-- Pending data: V6–V10.
-
-**Ask EmberAtlas:** the Claude API answers questions through 16 deterministic, zod-validated tools. A numeric guard (`web/lib/ai/guard.ts`) rejects any number that is not present in the tool outputs.
-
-### NASA's three objectives
-
-**Identify:** the *Evidence used* panel ranks the PSI investigations relevant to the chosen material and cabin. The ranking uses fuel class, overlap of the tested O₂ / pressure / flow envelope, and nearest tested conditions. The **Evidence Library** (`/evidence`) lists all 16 combustion investigations with their test envelopes, hardware and status.
-
-**Extract:** every result number is a button that opens a **receipt**. The receipt shows the test rows, the rule or equation, the uncertainty band and the source (NTRS report and table/figure locator, or PSI record). **Export Evidence Brief** writes the whole review, with its sources, to PDF and Markdown.
-
-**Highlight:** *What to do* turns the verdict into prevention, detection and suppression design actions. *Next test to fly* names the coverage gap that would change the verdict and the rig that could close it (SoFIE in the CIR). Gaps and failed validations are shown, not hidden.
-
-### Benefits and intended impact
-
-- Materials and fire-safety engineers get a first-pass, traceable screen of cabin materials for the Artemis-era 34% O₂ atmosphere. It does not replace NASA-STD-6001 testing. It shows where the Earth test and orbit behaviour disagree.
-- Mission planners get a short list of the tests that would reduce the most uncertainty.
-- Students and researchers get a navigable entry point into the PSI combustion archive.
-
-### Tools and languages
-
-Python 3.11 (numpy, scipy, pandas, pyarrow, scikit-learn, PyYAML, pdfplumber, pytest). TypeScript, Next.js 15, React 19, Tailwind CSS, Plotly, KaTeX, Motion, Zustand, Zod, Vitest, Playwright with axe-core. Anthropic Claude API. Make and pnpm. Vercel for hosting.
-
-### Limitations (stated in the product, not softened)
-
-- Only FLEX has verified rows. The solid-material verdicts, including SIBAL, depend on BASS-II and Saffire data that still has to be digitized and verified (TODO_VERIFY (data instance)). Until then the Review shows **Data pending** rather than a verdict.
-- Spread, habitat and smoke models are **uncalibrated** (theory-only), and the UI labels them as such.
-- The heptane droplet LOI is under-predicted, and the effect of helium is not captured. Both are failed validations.
-- There is no burn-probability boundary model, so no p value is shown.
-- Partial gravity is a bounded estimate only. There are no lunar-gravity data from PSI. LUCI and FM2 are cited as **outside PSI**.
-- Uncertainty bands for single tests are overconfident: the reliability dial reads 20%.
-- The live Claude path has not been tested against the real API. The demo uses cached answers composed offline from tool outputs, and these are labelled as such.
-
-### Future work
-
-- Digitize and verify the BASS-II, Saffire I–VI, BRE and SAME-R data.
-- Calibrate spread and smoke against that data.
-- Build a physics-informed burn/extinct boundary and a GP experiment designer.
-- Ingest lunar-gravity results (LUCI, FM2) when they are released.
-- Get the NASA-STD-6001 comparisons reviewed by a materials test lab.
-
----
+### SI
+The OpenAI API drafts scenario fields from a plain-language description (you review every field before running), interprets a finished run, and explains experiment matches. Each call is grounded only on engine output and ranked PSI rows, and a numeric guard (`web/lib/ai/guard.ts`) rejects any number not present in that context. Without an API key the app says so; nothing is faked.
 
 ## NASA data
+NASA PSI Data Repository, Combustion Science (https://psi.nasa.gov/physci/repo/search?q=combustion), accessed 2026-11-14 via the public PSI API (GET only). Experimental tables used (row counts in `web/data/psi/tables_index.json`, processed copies in `web/public/psi/*.json`):
+- PSI-10 Advanced Combustion via Microgravity Experiments / Flame Design: `PSI-10_Experimental table_Flame Design_Normal Flame.csv`, `PSI-10_Experimental table_Flame Design_Inverse Flame.csv`
+- PSI-20 Advanced Combustion via Microgravity Experiments - Burning Rate Emulator: `PSI-20_Experimental table_ACME BRE.csv`
+- PSI-22 Advanced Combustion via Microgravity Experiments Electric-Field Effects on Laminar Diffusion Flames: `PSI-22_Experimental table_ACME E-FIELD Flames.csv`
+- PSI-23 Advanced Combustion via Microgravity Experiments-Structure and Response of Spherical Diffusion Flames: `PSI-23_Experimental table_ACME s-Flame.csv`
+- PSI-25 Burning and Suppression of Solids - II: `PSI-25_Reference Data_Fan calibration data.xlsx`, `PSI-25_Science Documents_BASS-II_Test.Matrices.xlsx`, `PSI-25_Experimental table_BASS-II.csv`
+- PSI-26 Burning and Suppression of Solids: `PSI-26_Science Documents_As Run_Test Matrix.xlsx`, `PSI-26_Experimental table_BASS.csv`
+- PSI-39 Cool Flames Investigation: `PSI-39_Experimental table_CFI.csv`
+- PSI-47 Dust and Aerosol Measurement Feasibility Test / Dust and Aerosol Measurement Feasibility Test-2: `PSI-47_Analyzed Data_DAFT Retrieved Data Summary.xls`, `PSI-47_Experimental table_DAFT.csv`
+- PSI-68 Flame Extinguishment Experiment - 2: `PSI-68_Experimental table_Flex2.csv`
+- PSI-69 Flame Extinguishment Experiment: `PSI-69_Experimental table_FLEX.csv`
+- PSI-98 Spacecraft Fire Safety Experiment-I: `PSI-98_Experimental table_SAFFIRE-1.csv`
+- PSI-99 Spacecraft Fire Experiment-II: `PSI-99_Experimental table_SAFFIRE-2.csv`
+- PSI-100 Spacecraft Fire Experiment-III: `PSI-100_Experimental table_SAFFIRE-3.csv`
+- PSI-101 Smoke Aerosol Measurement Experiment-Reflight: `PSI-101_Analyzed Data_SAME, SAME-R_Results.xlsx`, `PSI-101_Experimental table_SAME-R.csv`
+- PSI-102 Smoke and Aerosol Measurement Experiment: `PSI-102_Experimental table_SAME.csv`
+- PSI-107 Smoke Point In Co-flow Experiment: `PSI-107_Experimental table_Spice.csv`
+- PSI-142 Quantitative Studies of Cool Flame Transitions at Radiation / Stretch Extinction Using Counterflow Flames: `PSI-142_Experimental table_Data Summary Table.csv`
+- PSI-159 Advanced Combustion via Microgravity Experiments / Cool Flames Investigation with Gases: `PSI-159_Experimental table_CFI-G_Normal Flames.csv`, `PSI-159_Experimental table_CFI-G_Inverse Flames.csv`
+- PSI-100 cabin telemetry for the Saffire replay: `PSI-100_Raw Data_Raw telemetry file.csv` (`web/data/psi/saffire_telemetry.json`).
+- NASA Technical Reports Server: FLEX NASA/TP-2015-216046 (Table IX, cross-checked against PSI-69) and JSC 20584 Rev C.
 
-All PSI records are from the Physical Sciences Informatics system, Combustion Science (https://psi.nasa.gov). Accession numbers have not yet been recorded in the repo (`web/data/investigations.json` → `status: TODO_VERIFY`). Each one must be filled in from PSI before submitting. The rules require every PSI record to be cited by ID.
+## Space-agency partner data
+None.
 
-| Key | PSI investigation | Years | Contribution to EmberAtlas | PSI accession |
-|---|---|---|---|---|
-| FLEX | Flame Extinguishment Experiment | 2009–2011 | **Verified data:** 276 rows (275 verified) from Table IX. Calibrates the droplet and suppression models, and is used for validations V1–V5. | TODO_VERIFY (data instance) |
-| FLEX-2 | Flame Extinguishment Experiment 2 | 2012–2016 | Evidence Library entry; liquid-fuel envelope | TODO_VERIFY (data instance) |
-| CFI | Cool Flames Investigation | 2016–2019 | Evidence Library entry; liquid-fuel envelope | TODO_VERIFY (data instance) |
-| BASS | Burning and Suppression of Solids | 2011–2012 | Solid-material envelope, Evidence ranking | TODO_VERIFY (data instance) |
-| BASS-II | Burning and Suppression of Solids II | 2012–2013 | Main source for SIBAL and PMMA burn/extinct outcomes; awaiting digitization | TODO_VERIFY (data instance) |
-| SAME | Smoke Aerosol Measurement Experiment (SAME / SAME-R) | 2008–2016 | Q3 smoke/detection context; awaiting digitization | TODO_VERIFY (data instance) |
-| Saffire-I-III | Spacecraft Fire Safety Experiment I–III | 2016–2017 | Large-scale SIBAL fabric burns; Q2 context | TODO_VERIFY (data instance) |
-| Saffire-IV-VI | Spacecraft Fire Safety Experiment IV–VI | 2019–2021 | Vehicle response, flammability limits; Q2/Q3 context | TODO_VERIFY (data instance) |
-| ACME-BRE | ACME Burning Rate Emulator | 2017–2020 | Gas-surrogate burning rate; awaiting digitization | TODO_VERIFY (data instance) |
-| ACME-sFlame | ACME s-Flame | 2017–2020 | Evidence Library entry | TODO_VERIFY (data instance) |
-| ACME-CLD | ACME Coflow Laminar Diffusion Flame | 2017–2020 | Evidence Library entry | TODO_VERIFY (data instance) |
-| ACME-FlameDesign | ACME Flame Design | 2017–2020 | Evidence Library entry | TODO_VERIFY (data instance) |
-| ACME-EFIT | ACME E-FIT | 2017–2020 | Evidence Library entry | TODO_VERIFY (data instance) |
-| SoFIE | Solid Fuel Ignition and Extinction | 2022– | Recommended rig for the "Next test to fly" | TODO_VERIFY (data instance) |
-| SPICE | Smoke Point In Coflow Experiment | 2010–2012 | Evidence Library entry | TODO_VERIFY (data instance) |
-| SLICE | Structure and Liftoff In Combustion Experiment | 2012 | Evidence Library entry | TODO_VERIFY (data instance) |
-
-**NASA Technical Reports Server and other NASA documents** (from `web/data/sources.json`):
-- NASA/TP-2015-216046, FLEX results (Dietrich et al.), NTRS 20150023456
-- BASS-II results, NTRS 20160000593
-- BASS-II SIBAL concurrent flame spread, NTRS 20150008962
-- Saffire I–III test matrix and results, NTRS 20180005168
-- Saffire IV–V spacecraft vehicle response to a large-scale fire, ICES 2021, NTRS 20210011521
-- Saffire VI results, ICES-2024-365 (NTRS id TODO_VERIFY)
-- Exploration atmosphere (34% O₂, 8.2 psia) for lunar surface habitats, NTRS 20240003211
-- JSC 20584 Rev C, Spacecraft Maximum Allowable Concentrations, NTRS 20240007713
-- NASA-STD-3001 Vol. 2 (standards.nasa.gov)
-- LUCI (lunar-gravity combustion), NTRS 20250010653, **outside PSI**
-- FM2 (Flammability of Materials on the Moon), NTRS 20240015307, **outside PSI**
-- NASA Orion reference guide; NASA ISS facts and figures (habitable volumes)
-
-## Space Agency Partner data and other data
-
-- **Space agency partner data: none used.**
-- Other (non-agency) data, each cited in-app:
-  - GRI-Mech 3.0 thermodynamic data
-  - NIST Chemistry WebBook (helium, methanol)
-  - IUPAC atomic weights
-  - NFPA 2001 cup-burner values
-  - Textbook property tables (White; Bergman et al.; Turns; Quintiere; Seinfeld & Pandis)
-  - The peer-reviewed papers listed under References
-  - One drop-tower helium study whose full reference is still TODO_VERIFY
-
-## Use of AI/SI tools
-
-- **Code:** the code was written with **Claude Code** (Anthropic), directed and reviewed by the team. Commits carry a Co-Authored-By trailer.
-- **In-product AI:** *Ask EmberAtlas* uses the **Anthropic Claude API** (`@anthropic-ai/sdk`) in a tool-use loop over 16 deterministic tools. Answers are grounded only on tool outputs. `web/lib/ai/guard.ts` rejects any number that does not appear in the tool output: the answer is regenerated once, then the number is stripped. The demo uses cached answers composed offline from tool outputs, and they are labelled as such in the UI.
-- **Science:** no AI is used to produce physics values. The models are deterministic Python, ported to TypeScript and checked against golden vectors.
-- **Media:** **no AI-generated images, video or audio** appear in the product or the demo. Any that are added later must carry a visible "AI-generated" watermark and be listed here.
-
----
+## Use of AI
+- Claude Code (Anthropic) wrote and refactored the code, data pipelines, tests and docs under human direction and review. Source files carry an "SI-assisted" header.
+- At runtime the OpenAI API powers the scenario builder, run interpretation and the match explanation (grounded, numeric guard).
+- No SI-generated images or video. The landing image is NASA's (SoFIE-GEL, NASA/JSC).
 
 ## References
-
-### Software: web (`web/package.json`; licences read from `node_modules/<pkg>/package.json`)
-
-| Package | Version | Licence |
-|---|---|---|
-| @anthropic-ai/sdk | 0.54.0 | MIT |
-| katex | 0.16.22 | MIT |
-| motion | 12.18.1 | MIT |
-| next | 15.5.29 | MIT |
-| plotly.js-dist-min | 3.0.1 | MIT |
-| react | 19.1.0 | MIT |
-| react-dom | 19.1.0 | MIT |
-| react-plotly.js | 2.6.0 | MIT |
-| zod | 3.25.67 | MIT |
-| zustand | 5.0.5 | MIT |
-| @axe-core/playwright (dev) | 4.10.2 | MPL-2.0 |
-| @playwright/test (dev) | 1.53.1 | Apache-2.0 |
-| @types/katex (dev) | 0.16.7 | MIT |
-| @types/node (dev) | 22.15.32 | MIT |
-| @types/react (dev) | 19.1.8 | MIT |
-| @types/react-dom (dev) | 19.1.6 | MIT |
-| @types/react-plotly.js (dev) | 2.6.3 | MIT |
-| autoprefixer (dev) | 10.4.21 | MIT |
-| postcss (dev) | 8.5.6 | MIT |
-| tailwindcss (dev) | 3.4.17 | MIT |
-| tsx (dev) | 4.20.3 | MIT |
-| typescript (dev) | 5.8.3 | Apache-2.0 |
-| vitest (dev) | 3.2.4 | MIT |
-
-### Software: physics (`physics/pyproject.toml`; emberphys itself is MIT)
-
-The licences below are each project's published licence. They were not read from installed metadata, so they should be confirmed with `pip show`.
-
-| Package | Version | Licence |
-|---|---|---|
-| numpy | 1.26.4 | BSD-3-Clause |
-| scipy | 1.13.1 | BSD-3-Clause |
-| pandas | 2.2.2 | BSD-3-Clause |
-| pyarrow | 16.1.0 | Apache-2.0 |
-| scikit-learn | 1.5.0 | BSD-3-Clause |
-| PyYAML | 6.0.1 | MIT |
-| pdfplumber (pipeline) | 0.11.0 | MIT |
-| tabulate (pipeline) | 0.9.0 | MIT |
-| pytest (dev) | 8.2.2 | MIT |
-
-### APIs and services
-
-- Anthropic Claude API (Ask EmberAtlas)
-- NASA PSI (psi.nasa.gov)
-- NASA NTRS (ntrs.nasa.gov)
-- Vercel (hosting; deploy pending)
-
-### Papers and data references (from `web/data/sources.json`)
-
-- Aerospace America (AIAA), "Artemis II astronauts praise Orion capsule, reflect on mission impact": https://aerospaceamerica.aiaa.org/artemis-ii-astronauts-praise-orion-capsule-reflect-on-mission-impact/ (hook citation)
-
-- Dietrich et al., Droplet Combustion Experiments Aboard the ISS, Microgravity Sci. Technol. 26:65–76 (2014), doi:10.1007/s12217-014-9372-2
-- BASS-II PMMA flame spread and limiting O₂ in µg vs 1 g, Sci. Rep. (2017), doi:10.1038/s41598-017-18398-4
-- de Ris, Spread of a laminar diffusion flame, Proc. Combust. Inst. 12:241–252 (1969), doi:10.1016/S0082-0784(69)80407-8
-- Fernandez-Pello, Ray & Glassman, Proc. Combust. Inst. 18:579–589 (1981), doi:10.1016/S0082-0784(81)80063-X
-- Olson, Combust. Sci. Tech. 76:233–249 (1991), doi:10.1080/00102209108951711
-- Chao, Law & T'ien, Proc. Combust. Inst. 23:523–531 (1990), doi:10.1016/S0082-0784(06)80299-1
-- Westbrook & Dryer, Combust. Sci. Tech. 27:31–43 (1981), doi:10.1080/00102208108946970
-- Huggett, Fire and Materials 4(2):61–65 (1980), doi:10.1002/fam.810040202
-- Beyler, SFPE Handbook (2016)
-- Quintiere, Fundamentals of Fire Phenomena (2006)
-- Turns, An Introduction to Combustion, 3rd ed. (2012)
-- White, Viscous Fluid Flow, 3rd ed. (2006)
-- Bergman et al., Fundamentals of Heat and Mass Transfer, 7th ed. (2011)
-- Kee et al., CHEMKIN transport (1986)
-- Mathur, Tondon & Saxena, Mol. Phys. 12:569 (1967)
-- Seinfeld & Pandis, Atmospheric Chemistry and Physics, 3rd ed. (2016)
-- Dehghani, ACME BRE dissertation; Combust. Flame 228 (2021)
-- Urban et al., SAME/SAME-R, AIAA 2013; Aerosol Sci. Tech. 49 (2015)
-- GRI-Mech 3.0 (Smith et al.)
-- NIST Chemistry WebBook
-- IUPAC atomic weights (2021)
-- NFPA 2001; Senecal, Fire Safety J. 40 (2005) 579–591
-- NASA-STD-6001 (Test 1, upward flame propagation): full citation TODO_VERIFY
-
----
-
-## Submission checklist
-
-- [ ] Project title entered
-- [ ] High-level summary entered (English)
-- [ ] Demo link: ≤30 s video **or** ≤7 slides, publicly viewable
-- [ ] Final project link (deployed app and/or public repo)
-- [ ] Detailed description entered
-- [ ] NASA data section: every PSI record cited by its ID (fill all `TODO_VERIFY (data instance)` accessions)
-- [ ] Space Agency Partner data section ("none")
-- [ ] Use of AI/SI tools disclosed (Claude Code, Claude API; no AI-generated media)
-- [ ] References: all libraries, APIs, papers and media
-- [ ] Challenge selected: Flame in Freefall
-- [ ] Team members confirmed on the team page
-- [ ] Required agreement/terms checkboxes ticked (exact list TODO_VERIFY from the live form)
-- [ ] Submitted before **Sun Nov 15 2026, 11:59 p.m. local time**
-
-## Rules reminders
-
-- Demo is **≤30 seconds of video or ≤7 slides**.
-- **English only**, including burned-in subtitles.
-- **Cite each PSI record by its ID.**
-- **No NASA logos** (meatball, worm or insignia) anywhere in the app, video or slides. NASA public-domain imagery may be used with credit and a "NASA does not endorse this project" note (CREDITS.md).
-- Never call partial-gravity results "measured". Label all data from outside PSI "outside PSI".
+From `docs/REFERENCES.json` (full list there, including software and fonts).
+- GRI-Mech 3.0 thermodynamic data (thermo30.dat), NASA 7-coefficient polynomials <http://combustion.berkeley.edu/gri-mech/version30/files30/thermo30.dat>
+- NIST Chemistry WebBook, Helium: ideal-gas Cp = 20.786 J/mol/K (monatomic, 5/2 R) <https://webbook.nist.gov/cgi/cbook.cgi?ID=C7440597>
+- IUPAC Standard atomic weights (abridged, 2021) <https://iupac.qmul.ac.uk/AtWt/>
+- White, F. M., Viscous Fluid Flow, 3rd ed., Table 1-2/1-3 (Sutherland constants for air)
+- Bergman, Lavine, Incropera, DeWitt, Fundamentals of Heat and Mass Transfer, 7th ed., Table A.4 (gas properties at 1 atm)
+- Kee et al., CHEMKIN transport (mixture-averaged conductivity: 0.5(sum x k + 1/sum x/k)); Mathur, Tondon & Saxena (1967) Mol. Phys. 12:569
+- Turns, S. R., An Introduction to Combustion, 3rd ed. (Ch. 10 droplet d2-law; Ch. 9 Burke-Schumann; App. B fuel properties)
+- NIST Chemistry WebBook, Methanol: enthalpy of vaporization near Tb (~35.2 kJ/mol) <https://webbook.nist.gov/cgi/cbook.cgi?ID=C67561>
+- Westbrook, C. K., Dryer, F. L., Simplified reaction mechanisms for the oxidation of hydrocarbon fuels in flames, Combust. Sci. Tech. 27:31-43 (Table 2) <https://doi.org/10.1080/00102208108946970>
+- Huggett, C., Estimation of rate of heat release by means of oxygen consumption measurements, Fire and Materials 4(2):61-65 <https://doi.org/10.1002/fam.810040202>
+- Beyler, C., Flammability limits of premixed and diffusion flames, SFPE Handbook of Fire Protection Engineering (critical adiabatic flame temperature ~1500-1600 K)
+- Quintiere, J. G., Fundamentals of Fire Phenomena, Wiley (Ch. 7 opposed-flow flame spread; material properties tables)
+- de Ris, J. N., Spread of a laminar diffusion flame, Proc. Combust. Inst. 12:241-252 <https://doi.org/10.1016/S0082-0784(69)80407-8>
+- Fernandez-Pello, A. C., Ray, S. R., Glassman, I., Flame spread in an opposed forced flow: the effect of ambient oxygen concentration, Proc. Combust. Inst. 18:579-589 <https://doi.org/10.1016/S0082-0784(81)80063-X>
+- Olson, S. L., Mechanisms of microgravity flame spread over a thin solid fuel: oxygen and opposed flow effects, Combust. Sci. Tech. 76:233-249 <https://doi.org/10.1080/00102209108951711>
+- Chao, B. H., Law, C. K., T'ien, J. S., Structure and extinction of diffusion flames with flame radiation, Proc. Combust. Inst. 23:523-531 <https://doi.org/10.1016/S0082-0784(06)80299-1>
+- Dietrich, D. L., et al., Flame Extinguishment Experiment (FLEX) results, NASA/TP-2015-216046 (Appendix A Table IX; Appendix B per-test captions) <https://ntrs.nasa.gov/citations/20150023456>
+- Dietrich, D. L., Nayagam, V., Hicks, M. C., Ferkul, P. V., Dryer, F. L., Farouk, T., Shaw, B. D., Suh, H. K., Choi, M. Y., Liu, Y. C., Avedisian, C. T., Williams, F. A., Droplet Combustion Experiments Aboard the International Space Station, Microgravity Sci. Technol. 26:65-76 <https://doi.org/10.1007/s12217-014-9372-2>
+- NASA JSC 20584 Rev C, Spacecraft Maximum Allowable Concentrations (SMACs), 6/13/2024 (CO2 SMACs deleted in this revision) <https://ntrs.nasa.gov/citations/20240007713>
+- NASA-STD-3001 Vol. 2, Human Factors, Habitability, and Environmental Health (CO2 limits; under revision per JSC 20584 Rev C) <https://standards.nasa.gov/standard/NASA/NASA-STD-3001-VOL-2>
+- Exploration atmosphere (34% O2, 8.2 psia) for lunar surface habitats, NTRS 20240003211 <https://ntrs.nasa.gov/citations/20240003211>
+- NASA Space Apps Challenge 2026, Flame in Freefall challenge statement (Moon base 30% O2, 70.3 kPa) <https://www.spaceappschallenge.org/>
+- BASS-II PMMA flame spread and limiting O2 in microgravity vs 1 g, Sci. Rep. (2017) <https://doi.org/10.1038/s41598-017-18398-4>
+- BASS-II results, NTRS 20160000593 <https://ntrs.nasa.gov/citations/20160000593>
+- BASS-II SIBAL concurrent flame spread, NTRS 20150008962 <https://ntrs.nasa.gov/citations/20150008962>
+- Saffire I-III test matrix and results, NTRS 20180005168 <https://ntrs.nasa.gov/citations/20180005168>
+- Saffire IV-V spacecraft vehicle response to a large-scale fire, ICES 2021, NTRS 20210011521 <https://ntrs.nasa.gov/citations/20210011521>
+- Saffire VI results, ICES-2024-365
+- Dehghani, P., ACME Burning Rate Emulator (BRE), PhD dissertation, University of Maryland; Combust. Flame 228 (2021)
+- Urban, D. L., et al., Smoke Aerosol Measurement Experiment (SAME/SAME-R), AIAA 2013; Aerosol Sci. Tech. 49 (2015)
+- LUCI (lunar-gravity combustion), NTRS 20250010653 - OUTSIDE PSI <https://ntrs.nasa.gov/citations/20250010653>
+- FM2 (Flammability of Materials on the Moon), NTRS 20240015307 - OUTSIDE PSI <https://ntrs.nasa.gov/citations/20240015307>
+- NASA Physical Sciences Informatics (PSI) system, Combustion Science <https://psi.nasa.gov>
+- Seinfeld, J. H., Pandis, S. N., Atmospheric Chemistry and Physics, 3rd ed., Ch. 13 (coagulation kernel, Cunningham slip correction)
+- NASA Orion reference guide (habitable volume ~316 ft3 / 9 m3) <https://www.nasa.gov/reference/orion-reference-guide/>
+- NASA ISS facts and figures (habitable volume 388 m3) <https://www.nasa.gov/international-space-station/space-station-facts-and-figures/>
+- NFPA 2001, Standard on Clean Agent Fire Extinguishing Systems (cup-burner minimum extinguishing concentrations; n-heptane N2 ~30-34 vol%); Senecal, J. A., Fire Safety J. 40 (2005) 579-591
+- Drop-tower gaseous-suppressant study finding helium most effective (cited in PRD §2; full reference TODO_VERIFY) - OUTSIDE PSI
+- NASA PSI Data Repository: Combustion Science (Space Apps 2026 challenge Resources tab) <https://psi.nasa.gov/physci/repo/search?q=combustion>
+- A Researcher's Guide to International Space Station Combustion Science (challenge Resources tab) <https://www.nasa.gov/missions/station/a-researchers-guide-to-combustion-science/>
+- Aerospace America (AIAA), "Artemis II astronauts praise Orion capsule, reflect on mission impact" <https://aerospaceamerica.aiaa.org/artemis-ii-astronauts-praise-orion-capsule-reflect-on-mission-impact/>

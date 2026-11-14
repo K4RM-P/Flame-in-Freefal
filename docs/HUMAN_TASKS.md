@@ -1,7 +1,6 @@
-# Human tasks (blockers and sign-offs)
+# Human tasks (still-open verification and sign-offs)
 
 1. **Registration (submission blocker):** confirm every teammate is registered for the same Space Apps event and on the Members tab (max 6).
-2. **PSI account:** register on psi.nasa.gov if needed; download one raw BASS-II or Saffire sensor time series into `physics/data/raw/psi/`.
 3. **Digitize figures (≤ 2 h, WebPlotDigitizer)** — see `physics/data/digitized/README.md` for the exact list. These unlock V6–V10.
 4. **FLEX spot-check countersign:** Claude Code visually checked 35 rows (PDF p.30, FLEX-136..171, 0 mismatches). Please re-check 20 rows below against NASA/TP-2015-216046 Table IX and write your name/date into `physics/data/verification.yaml → human_countersign`.
    Sample: FLEX-002, -006, -018, -030, -035, -049, -062, -065, -100, -120, -140, -146, -157, -167, -187, -195, -203, -240, -270, -280.
@@ -13,12 +12,12 @@
    - Fuel properties (Turns App. B; NIST), species conductivities (Incropera Table A.4), Westbrook–Dryer activation energies, PMMA/cellulose properties (Quintiere), SIBAL thickness and areal density, CO yields (SFPE/Tewarson), mission free volumes.
    - Investigation cards (`investigations.yaml`): confirm years, hardware, fuels, ranges against PSI pages.
 6. **Keys/accounts:** provide `OPENAI_API_KEY` (+ optional `OPENAI_MODEL`) as Vercel env vars, never `NEXT_PUBLIC_` and the Vercel account/team.
-7. **Video:** record the 30-second video on the production URL (script in PRD §13), English subtitles.
+7. **Video:** record the 30-second video on the production URL (script in docs/PITCH.md), English subtitles.
 - Drop-tower suppressant study (PRD §2): supply the full citation for `drop-tower-suppressant` in sources.yaml.
 
 8. **PSI files the API would not list (HTTP 500 on 2026-11-14):** PSI-21 (ACME CLD Flame) and PSI-106 (SLICE). Open each on psi.nasa.gov in a browser; if an "Experimental table" CSV exists, save it to `physics/data/raw/psi/<accession>/` with its exact file name and rerun `make data`. DOI lookups also returned 500 for PSI-60, PSI-62, PSI-115 and PSI-117; add their DOIs to `investigations.yaml` if the PSI pages show one.
 9. **SAFFIRE-II ambiguous cells (PSI-99):** thickness "037 mm" (samples 2-4, 2-5, 2-6) and the blank material cells of 2-6 and 2-9 were left null, not guessed. Confirm against the SAFFIRE-II paper and record the answer in `physics/data/verification.yaml → psi_spotcheck` (do not edit the processed CSV by hand).
-10. **New TODO_VERIFY values:** `smoke.particle_density` (unit-density convention from the PSI-47 workbook, used for SM4 settling) and the ACME BRE result "extinct at 21 % within ~40 s; steady at 26.5/34/40 %" (`dehghani-bre`, shown with a "to verify" chip on the Console).
+10. **New TODO_VERIFY values:** `smoke.particle_density` (unit-density convention from the PSI-47 workbook, used for SM4 settling) and the ACME BRE result "extinct at 21 % within ~40 s; steady at 26.5/34/40 %" (`dehghani-bre`).
 11. **Earth test vs orbit wording review:** a science checker should read `/evidence#earth-vs-orbit` and confirm the classification rule (Complete / ~0 / partial) and that the 1 g column in PSI-99 is the normal-gravity screening result the SAFFIRE objective refers to.
 
 12. **GitHub Pages (repo admin):** Settings → Pages → Build and deployment → Source = **GitHub Actions**, then re-run the "Deploy web app to GitHub Pages" workflow (Actions tab). Until then https://k4rm-p.github.io/Flame-in-Freefal/ shows the README rendered by Jekyll, not the app.

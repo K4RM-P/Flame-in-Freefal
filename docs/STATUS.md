@@ -1,114 +1,18 @@
-# Status
+# Status (after the judge-audit upgrade, 2026-11-14)
 
-## Final simulator handoff (2026-11-14)
+**Done:** routes `/`, `/simulator`, `/evidence`, `/methods`, `/about` (`/match` → `/evidence`, `/dashboard` → `/simulator`). Three presets (Saffire replay; Same fabric: ISS vs Lunar Habitat; Lunar Habitat: tune the response), one-click run via `?preset=iss-vs-lunar&run=1`. Evidence ranking gated by material class; envelope tolerance and distance-ranked next test; Compare delta card with EXTRAPOLATED badge. Landing page tells the Maya story with live counts. PSI ingest (2,818 rows), FLEX cross-check, held-out FLEX validation, SIBAL spread calibration, CSV export, OpenAI scenario builder / interpretation / match explanation with numeric guard.
 
-Done: SI-powered simulator, PSI-100 Saffire replay with T/P RMSE and MAPE, optional unsourced detector threshold handling, ISS/Lunar comparison, evidence receipts, OpenAI scenario/interpretation routes, export, and verification gates.
+**Theory-only:** cabin heat loss, smoke ageing and transport, suppression outside the fitted fuels; partial gravity is a bounded estimate between µg and 1 g.
 
-Theory-only: cabin heat loss and smoke ageing/transport; SIBAL spread is calibrated only for its sourced opposed-flow scope. Partial gravity is a bounded estimate. Unsourced: Cygnus free volume, detector thresholds, and unavailable CO₂ limits; these remain required inputs or show No data.
+**Unsourced:** Lunar Habitat volume (held equal to the ISS for a like-for-like comparison), Cygnus free volume (required input in the Saffire replay unless sourced), detector thresholds (alarm shows No data), current NASA-STD-3001 CO₂ limits.
 
-Skipped: sourcing the ISS volume, adding NASA-STD-3001 Vol. 2 CO₂ limits, and updating VALIDATION.md with replay numbers. Heat-loss and smoke fits remain intentionally skipped.
+**Skipped:** V6–V10 validation targets (PSI tables do not carry the needed quantities), heat-loss and smoke fits, partial-gravity flight data (none exists).
 
-## Phase 1 — physics core: DONE
-emberphys: thermo (GRI-Mech 3.0 NASA-7), flame_temp (Burke–Schumann), droplet (d²-law + dual extinction + LOI),
-suppression (critical adiabatic flame temperature), spread (de Ris thin/thick + F(Da)), gravity (u_b mapping),
-habitat (well-mixed ODE), smoke (Smoluchowski), uq (seeded MC), validity (envelope + NN distance), models (ModelResult API).
-16 pytest tests (analytic limits, units, schema) pass.
-
-## Phase 2 — data, calibration, validation: PARTIAL
-- FLEX Table IX extracted from NASA/TP-2015-216046: 276 rows, 275 verified (visual spot-check, 0 mismatches; human countersign pending).
-  81 tests carry an author-stated extinction mode from Appendix B captions.
-- Investigations with verified rows: **1 (FLEX)**. PRD R2 target (≥400 rows from ≥4 investigations) **not met**: BASS-II, Saffire,
-  BRE and SAME-R values exist only in figures and need human digitization (docs/HUMAN_TASKS.md #3).
-- Calibrated: droplet (f_k, C_D, a_eff per fuel), suppression (µg T_crit per fuel). Uncalibrated (theory only): spread, habitat, smoke.
-- Validation: V2, V4, V5 pass (droplet); V3, V4 pass (thermal suppression, held-out); V1, V3 fail (heptane droplet LOI);
-  He LOIs fail in both models (documented evidence gap); V6–V10 pending data.
-- Time-box note: freeing the Burke–Schumann f_T factor in the droplet fit did not improve heptane; reverted to the 2-parameter fit.
-- Tier B boundary (U7) / experiment designer (U9): not built — no burn/extinct solid data yet.
-
-## Phase 3 — web: DONE
-Pages: / (brief), /console, /models/[spread|droplet|suppression|gravity|habitat|smoke|boundary], /validation, /evidence, /gaps,
-/implications, /earth, /ask, /methods. Mission Bar synced to URL. Vitest: golden vectors (thermo, flame temp, droplet incl.
-extinction roots, suppression, spread, gravity, smoke at 1e-6; habitat ODE at 1e-3). Playwright: 22 smoke tests pass.
-Deviation: shadcn/ui not used (plain Tailwind components) to keep dependencies minimal. Lighthouse not yet measured.
-
-## Phase 4 — agent: DONE (offline-verified)
-/api/ask: Anthropic SDK tool-use loop (claude-sonnet-5-5), 16 deterministic zod-validated tools, NDJSON streaming of the
-tool trace, numeric guard (regenerate once, then strip), IP rate limit, demo mode. No API key was available during the build,
-so the 12 golden answers in web/data/cache/golden.json are offline compositions from tool outputs (labelled in the UI);
-run `pnpm demo-cache` with a key to replace them with live answers. The live path is untested against the real API.
-
-## Phase 5 — Tier B: PARTIAL
-- /earth with 4 model-backed cases: done. Smoke module + card: done (uncalibrated).
-- Boundary (U7) and GP experiment designer (U9): NOT built — no solid burn/extinct data. /gaps ships a coverage-based proposal heuristic instead, labelled as such.
-
-## Phase 6 — ship: PENDING HUMAN
-Vercel deploy needs the team's Vercel account and ANTHROPIC_API_KEY (HUMAN_TASKS #6). README, CREDITS, STATUS written.
-
-## Known limitations
-See README "Limitations" and docs/VALIDATION.md. Biggest gaps: only FLEX data verified; heptane droplet LOI under-predicted; He effect not captured.
-
-## UI phase (2026-11-14/15) — design lead pass
-Done: LCH-derived tokens (dark + warm-ivory/print), ui-kit (`web/components/ui-kit`, `/kit`), motion tokens, Okabe–Ito palette, plot theme,
-Linear-style shell (top bar + Mission Search Pill with popovers/histograms, collapsible rail, caveat line, ⌘K palette, `?`/`/`/single-key
-shortcuts, right drawers), Console (verdict sentence, map with gravity ghost + dimension line, lasso export, role-ordered result stack,
-receipts, scenario A/B, implications strip), `/start` 3-step setup, landing (mesh hero, live mini-console, problem, Maya, bento,
-equation-as-proof, stats, ladder), Validation Lab (accuracy/precision/reliability dials, scoreboard, parity + residuals, LOI curves),
-Gaps "Draft proposal" → Ask, Ask drawer (role-aware suggestions, thinking state, trace with ms, Open in Console, Copy with sources),
-Presentation Mode (`?present=1`), docs/VIDEO_SHOTLIST.md, docs/ui-audit/{AUDIT,CHANGELOG,JUDGE_CHECK}.md, before/after screenshots.
-Tests: pytest 16, vitest 26, Playwright 31 (story path, 10 receipt spot-checks, axe serious = 0 on /, /console, /validation, /start, 390 px no overflow).
-
-Honesty decisions:
-- Verdict states spread (theory-only) and "Burn probability: ∅ not available" — there is no boundary model, so no p value is shown.
-- Equation-as-proof uses V5 (d²-law K, passes) instead of V6 (pending data); V6 is not shown as ✓.
-- Suppression card shows the 1 g reference for solids; µg-calibrated T_crit exists only for n-heptane/methanol and is shown as such.
-- Reliability dial is 20 %: K bands carry only property + f_k uncertainty and are overconfident for single tests; stated on the page.
-
-Not done / simplified (time-box):
-- Model pages keep the earlier template (restyled, receipts added); no grouped inputs with histograms, no sensitivity tornado/Web Worker.
-- Evidence keeps one scrolling view (no Table/Gallery/Board switch, no TanStack virtualization, no filter sheet live count).
-- Units toggle (SI ↔ engineering) not built; psia shown alongside kPa where it matters.
-- Lighthouse not measured; Vercel deploy pending account access (HUMAN_TASKS #6). Story path not yet run on production.
-
-UI requests (cannot be derived honestly from existing outputs):
-- Artemis II smoke-alarm line (PRD §13): needs a citable source before it appears on the landing or video.
-- Burn probability at the mission point: needs U7 boundary model (digitized solid-fuel outcomes).
-- NASA flame imagery: none bundled yet; add with credits in CREDITS.md.
-- CSA: no CSA-sourced data in web/data, so no CSA data credit is shown.
-
-## Adopt-ideas phase (2026-11-14, feature/adopt-ideas) — DONE
-Plan and per-item commits: docs/ADOPTION_PLAN.md. Every feature passed pytest, vitest, `next build` and Playwright (with axe) before the next began.
-- **PSI live data (B1, B2):** `fetch_psi.py` (25 combustion accessions: metadata, DOI, listings, 25 small files, sha256 manifest; cache-first) and
-  `ingest_psi.py` (2,818 rows from 18 accessions; BASS-II, BASS + As-Run, SAFFIRE-I/II/III, SAME-R, BRE and SPICE normalized; others raw).
-  All PSI rows verified=false pending the spot-check in HUMAN_TASKS. PSI-69 cross-check of the FLEX extraction: 1,533 values, 0 mismatches.
-- **Earth test vs orbit (B3):** 7 like-for-like SAFFIRE-II samples (4 less flammable in orbit, 3 same, 0 worse), linked from the Console verdict.
-- **Exploration atmosphere (B4):** ACME BRE PSI-20 on 34 % O₂ presets; pressure match not claimed (not in the PSI table).
-- **Detection (B5), design suggestions (B7), suppression framing (B6), compliance (B8), compare diff (A3), settling SM4 (A2).**
-- Validation: no new held-out model points (no ingested table matches a model output under matching inputs); V6–V10 still pending, reasons in VALIDATION.md.
-- Not done / deferred: NASA imagery, Saffire Table 2 flame sizes, 1-D transport-time model, answer-style toggle, PSI-21/PSI-106 files (API HTTP 500).
-- Lighthouse 12.2.1 (local `next start`, default mobile throttling, first measurement, so no earlier baseline): `/` perf 42 · a11y 100 · best-practices 96 · SEO 90; `/console` 53 · 98 · 96 · 90; `/evidence` 71 · 96 · 96 · 100. Performance is the weak spot (Plotly + KaTeX bundles); not addressed in this phase.
-- Final gate: `make all` (data → fit → validate → vectors → export → test) reproduces every committed artifact; pytest 21, vitest 29, `next build` OK, Playwright 41 passed / 3 skipped (axe serious = 0 on audited pages).
-
-## Product cohesion pass (2026-11-14) — product lane
-- IA collapsed to Review / Evidence Library / Methods & Validation; old routes redirect (next.config.mjs).
-- `web/lib/contracts` (Zod mirrors of the data contract) + `web/lib/review` (pure `buildReview`, verdict rules in `rules.ts`).
-- Review screen `/review`: verdict, Q1–Q3 with receipts, hero map, Earth vs orbit, actions + next test, evidence used, Export Evidence Brief (print→PDF + Markdown).
-- Without materials.json the Review shows an honest "Data pending" state (no mock numbers).
-- Next steps (skipped, time-box): cabin comparison mode (ISS vs Lunar side by side), Lighthouse tuning, new animations, after-cohesion screenshot set, full README rewrite.
-
-## Simulation Hub (2026-11-14, feature/simulation-hub)
-- `/` with a scenario is now a full-height workspace (`web/components/sim/Workspace.tsx`): toolbar (project, scenario/preset, Run, play/pause/reset, time scrubber, elevation/section, Compare, Export), left project tree + setup + saved states, center cabin viewport + chart dock, right Outputs / Evidence / AI assistant. No page scroll at 1440×900 (e2e asserts it).
-- Cabin viewport (`CabinView.tsx`): schematic module interior in perspective; layers for geometry, flame/heat, smoke, airflow, detector, suppression. To scale: item size, flame front, burning length, detector distance. Flame follows burning length, Q, current O₂/initial O₂, u and g; alarm, fan-off and agent appear only at engine events. The detector circle = transport distance d (no sensing radius is modeled). Reduced motion keeps the playhead static and slows playback.
-- No material in materials.json has a sourced smoke yield, so smoke at the detector shows "∅ No data" and no plume is drawn. Added the optional crew-reported alarm field (schema `detection.manual_alarm_s`) so the alarm/fan-off/agent path can be exercised.
-- AI assistant: `/api/ask` (`lib/ai/ask.ts`) answers only from the posted scenario, engine result, ranked PSI evidence, sensitivity, next-test, replay metrics and compare B; numbers, PSI ids and [S:path] fact citations are guarded (one regeneration, then strip). No key → 503 error shown in the panel, no canned answer.
-- Tests: vitest 52 (+6 in tests/ask.test.ts), e2e rewritten for the tabbed layout (no-scroll, scrubber, assumptions drawer, assistant no-key error, two viewports in Compare).
-- Not done: the old RunPanel/ResultPanel/Schematic screens are no longer rendered but kept, since Workspace imports helpers from them; no flame imagery; no WebGL.
-
-## Aster page guides + intuitive pages (2026-11-14, feature/aster-guides)
-- Optional Aster guides: "✦ Ask Aster about this page" beside the heading on Overview, Simulator (first run + workspace), Experiment Match and Methods opens the existing chat with a short explanation and two next-step links (`web/lib/asterGuides.ts`). Static text, works with local Aster, no OpenAI key, no network.
-- One next step per tab: a "Next step" line on Simulator (changes with state: missing input → Run → play back → evidence), Experiment Match and Methods. When Run is disabled, the missing inputs show beside the button; clicking opens Scenario setup and focuses the field.
-- Theory-only labels (badges, HUD ◌, legend, landing model states) link to the model's section in Methods (`/methods#model-<spread|habitat|smoke|suppression>`).
-- Homepage cards preview the tools: cabin illustration (labelled "not a run result"), the real PSI-100 catalog record, and the real SP1 equation (KaTeX).
-- Methods reorganized: grouped nav (Start here / Models / Evidence / Limits & sources), numbered sections, "Models at a glance" table, one anchored section per model, collapsible formula cards (what it calculates · symbols · in the simulator · evidence), validation tally, row anchors `#val-<id>`.
-- Motion: 180 ms page fade on route change, 200 ms slide-in for Aster; both disabled by the global reduced-motion rule.
-- Fixes found on main: SI-assisted headers on 8 files (pytest hygiene was failing), three/@types/three licenses in software.yaml, workspace kept an empty 384 px column when the inspector was hidden, e2e updated for the collapsed setup panel and hidden inspector.
-- Tests: new e2e/aster.spec.ts (4 page guides, homepage previews, Methods anchors and formula cards); Playwright 9 passed, vitest 52, pytest 21.
+## Decisions made during the upgrade
+- Landing trust strip computes PSI rows from `tables_index.json`, FLEX mismatches/values from `flex_crosscheck.json`, and the held-out FLEX MAPE and n from `web/data/validation/droplet_K.json` (`summary.json` has no `metrics` block; the metrics live in `droplet_K.json`).
+- Landing is a server component (no hooks); the old Aster button, tiles, conceptual SVG, mitigation review and repeated caveat lists were removed.
+- Methods: the Saffire replay is framed as a "Cabin-scale sanity check" next to the held-out SIBAL spread error (read from `spread.json`, n from its test split).
+- About: bios replaced with project roles inferred from each member's previous focus line (Anujan: software and simulation; Karm: combustion research; Aaron: engineering and testing; Xuliang: team member). The team should confirm these.
+- `docs/REFERENCES.json` (read-only in this lane) still lists the Claude API as a runtime AI tool and "Ask agent"/"demo answers"; it should be updated to the OpenAI API by its owner. SUBMISSION.md describes the shipped state.
+- README states the Earth-vs-orbit counts and max solid O₂ (22.2%) as of today with the source file; the UI computes them live.
+- Deleted `docs/CLAUDE_SIMULATION_HUB_PROMPTS.md`. `docs/HUMAN_TASKS.md` trimmed to still-open human verification tasks.

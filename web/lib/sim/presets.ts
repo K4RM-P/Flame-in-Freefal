@@ -14,6 +14,7 @@ export interface Preset {
   provenance: Record<string, Provenance>;
   required: string[];
 }
+const HELD_EQUAL: Provenance = { source_id: "design input", note: "held equal to Scenario A for a like-for-like comparison" };
 const DESIGN: Provenance = { source_id: "design input", note: "a design choice for the user to vary — not a measured value" };
 const sibal = () => MATERIALS.find((m) => m.properties_key === "sibal") ?? MATERIALS.find((m) => /sibal/i.test(m.display_name)) ?? null;
 const SAF: any[] = saffireRows as any[];
@@ -27,7 +28,7 @@ function sibalThickness(): { v: number; p: Provenance } {
 }
 function detection(type: "photoelectric" | "ionization", prov: Record<string, Provenance>) {
   const spec = detectorSpec(type);
-  prov["detection.threshold"] = spec ? { source_id: spec.source, locator: spec.locator } : { source_id: "", note: "no sourced alarm threshold — required user field" };
+  prov["detection.threshold"] = spec ? { source_id: spec.source, locator: spec.locator } : { source_id: "", note: "No data (no sourced detector threshold) — the run proceeds; the alarm shows No data" };
   prov["detection.distance_m"] = DESIGN;
   return { type, distance_m: 1, threshold: spec?.threshold ?? null };
 }
@@ -68,7 +69,7 @@ function buildReplay(): Scenario {
   prov["cabin.gravity_g"] = { source_id: "PSI-100", note: "Cygnus in orbit (microgravity)" };
   const cyg = CABINS_RAW?.cabins?.cygnus ?? CABINS_RAW?.atmospheres?.cygnus ?? CABINS_RAW?.cabins?.saffire;
   const V = Number(cyg?.V_m3?.value ?? cyg?.V_m3);
-  prov["cabin.V_m3"] = Number.isFinite(V) && V > 0 ? { source_id: cyg?.V_m3?.source ?? cyg?.source, locator: cyg?.V_m3?.locator } : { source_id: "", note: "no sourced Cygnus free volume — required user field" };
+  prov["cabin.V_m3"] = Number.isFinite(V) && V > 0 ? { source_id: cyg?.V_m3?.source ?? cyg?.source, locator: cyg?.V_m3?.locator } : { source_id: "", note: "Enter the Cygnus free volume (not stated in PSI-100)" };
   prov["cabin.fan_off_on_alarm"] = { source_id: "PSI-100", note: "Saffire flow duct ran throughout (no fan-off)" };
   prov["suppression"] = { source_id: "PSI-100", note: "no suppression in Saffire" };
   return {
@@ -92,7 +93,10 @@ function buildPair(): { a: Scenario; b: Scenario } {
     cabin: a ? cabinFrom(a, prov, name.startsWith("ISS") ? "cabin" : "b.cabin") : { x_o2: NaN, P_Pa: NaN, gravity_g: 0, V_m3: null, flow_m_s: 0, fan_off_on_alarm: true },
     items: item ? [item] : [], detection: detection("photoelectric", prov), suppression: noAgent, t_end_s: 600,
   });
-  return { a: mk(iss, "ISS"), b: mk(lunar, "Lunar Habitat") };
+  const a = mk(iss, "ISS"), b = mk(lunar, "Lunar Habitat");
+  // The lunar module volume has no sourced value: hold it equal to A so the pair is a like-for-like comparison.
+  if (b.cabin.V_m3 === null && a.cabin.V_m3 !== null) { b.cabin.V_m3 = a.cabin.V_m3; prov["b.cabin.V_m3"] = HELD_EQUAL; }
+  return { a, b };
 }
 
 // ---------- 3. Lunar Habitat: tune the response ----------
@@ -102,9 +106,12 @@ function buildTune(): Scenario {
   const item = sibalItem(prov, row("PSI-98", "S1"));
   const lunar = atmosphereById("LunarHabitat");
   prov["suppression.agent"] = DESIGN; prov["suppression.delay_s"] = DESIGN; prov["suppression.mass_kg"] = DESIGN;
+  const cabin = lunar ? cabinFrom(lunar, prov) : { x_o2: NaN, P_Pa: NaN, gravity_g: 0, V_m3: null as number | null, flow_m_s: 0, fan_off_on_alarm: true };
+  const iss = atmosphereById("ISS");
+  if (cabin.V_m3 === null && iss?.V_m3) { cabin.V_m3 = iss.V_m3; prov["cabin.V_m3"] = { ...HELD_EQUAL, note: "held equal to the ISS habitable volume (Scenario A of the ISS vs Lunar preset) for a like-for-like comparison" }; }
   return {
     name: "Lunar Habitat response", preset_id: "lunar-tune",
-    cabin: lunar ? cabinFrom(lunar, prov) : { x_o2: NaN, P_Pa: NaN, gravity_g: 0, V_m3: null, flow_m_s: 0, fan_off_on_alarm: true },
+    cabin,
     items: item ? [item] : [], detection: detection("photoelectric", prov),
     suppression: { agent: "CO2", delay_s: 30, mass_kg: 2 }, t_end_s: 600,
   };
@@ -113,7 +120,7 @@ function buildTune(): Scenario {
 const req = (s: Scenario | { a: Scenario; b: Scenario }) => {
   const list = "a" in s && "b" in s ? [s.a, s.b] : [s as Scenario];
   const out: string[] = [];
-  for (const x of list) { if (x.cabin.V_m3 === null) out.push(`${x.name}: cabin.V_m3`); if (x.detection.threshold === null) out.push(`${x.name}: detection.threshold`); if (!x.items.length) out.push(`${x.name}: items (SIBAL not in the material library)`); }
+  for (const x of list) { if (x.cabin.V_m3 === null) out.push(`${x.name}: cabin.V_m3`); if (!x.items.length) out.push(`${x.name}: items (SIBAL not in the material library)`); }
   return out;
 };
 

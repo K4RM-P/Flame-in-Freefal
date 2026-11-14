@@ -1,19 +1,36 @@
 "use client";
 // SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 // The one screen: product line, then Scenario | Run | Result, plus the receipt drawer and the print-only report header.
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
+import { PRESETS } from "@/lib/sim/presets";
 import { AnimatePresence, motion } from "motion/react";
 import { spring } from "@/lib/ui/motion";
 import { bandSig, fmtBand, sig } from "@/lib/ui/format";
-import { fmtProv } from "./ScenarioPanel";
+import { applyPreset, fmtProv } from "./ScenarioPanel";
+import { runAll } from "./bits";
 import { Workspace } from "./Workspace";
 import { useSim } from "./store";
 import { Onboarding } from "./Onboarding";
 
 export const PRODUCT = "EmberAtlas is an SI-powered cabin fire simulator for spacecraft and lunar habitats. It's built from, ranks, and is checked against NASA's ISS fire experiments in PSI, so engineers can test a cabin design before flight and see exactly which NASA evidence backs every result.";
 
+/** Deep link from the landing CTA: /simulator?preset=<id>&run=1 loads the preset (A and B for a pair) and runs it once. */
+function useDeepLink() {
+  const done = useRef(false);
+  useEffect(() => {
+    if (done.current) return;
+    done.current = true;
+    const q = new URLSearchParams(window.location.search);
+    const p = PRESETS.find((x) => x.id === q.get("preset"));
+    if (!p) return;
+    applyPreset(p);
+    if (q.get("run") === "1" && p.required.length === 0) void runAll();
+  }, []);
+}
+
 export function SimApp() {
   const { a, topOpen, set } = useSim();
+  useDeepLink();
   return (
     <div className="space-y-4">
       {!a && <div className="border-b border-line pb-3" data-noprint>
