@@ -22,7 +22,7 @@ export default function Earth() {
         {cases.map((c) => (
           <article key={c.title} className="card space-y-2 text-sm">
             <div className="flex items-center justify-between"><span className="label">{c.title}</span><ModelLink id={c.r.model_id} /></div>
-            <div className="num text-2xl text-accent">{fmt(c.r.value)} <span className="text-sm text-mute">{c.r.units}</span></div>
+            <div className="num text-2xl text-ink">{fmt(c.r.value)} <span className="text-sm text-mute">{c.r.units}</span></div>
             <ValidityBadges r={c.r} />
             <p>{c.title.startsWith("Mine") ? `N₂ needed to inert a methanol diffusion flame in air: ≈${fmt(c.r.value * 100)}% (µg-calibrated T_crit) vs ${fmt((c.r.extra.x_agent_1g as number) * 100)}% with the 1 g reference.` : c.text(c.r.value)}</p>
             <div>{c.r.sources.slice(0, 3).map((s) => <SourcePill key={s} id={s} />)}</div>

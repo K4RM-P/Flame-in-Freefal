@@ -10,7 +10,7 @@ export function SourcePill({ id }: { id: string }) {
   const outside = /OUTSIDE PSI/.test(s.title);
   return (
     <a href={s.url ?? "/methods#references"} target={s.url ? "_blank" : undefined} rel="noreferrer" title={s.title}
-      className={`chip mr-1 mb-1 border ${outside ? "border-warn text-warn" : "border-line text-mute"} hover:text-accent`}>
+      className={`chip mr-1 mb-1 border ${outside ? "border-warn text-warn" : "border-line text-mute"} hover:text-ink`}>
       [S:{id}]{outside ? " · outside PSI" : ""}
     </a>
   );
@@ -47,5 +47,5 @@ export function Band({ r, d = 3 }: { r: ModelResult; d?: number }) {
 }
 
 export function ModelLink({ id }: { id: string }) {
-  return <Link href={`/models/${id}`} className="chip border border-accent/50 text-accent">[M:{id}]</Link>;
+  return <Link href={`/models/${id}`} className="chip border border-line text-ink">[M:{id}]</Link>;
 }

@@ -1,124 +1,177 @@
 "use client";
+import Link from "next/link";
 import { useMemo, useState } from "react";
 import { Plot } from "@/components/Plot";
-import { InfoButton } from "@/components/InfoDrawer";
-import { Band, ModelLink, SourcePill, ValidityBadges, fmt } from "@/components/bits";
-import { Caveat } from "@/components/Nav";
-import { useMission } from "@/lib/store";
-import { runHabitat, runSmoke, runSpread, runSuppression, T_AMB } from "@/lib/physics/models";
-import * as SP from "@/lib/physics/spread";
-import * as G from "@/lib/physics/gravity";
-import { atmosphere } from "@/lib/physics/thermo";
-import { linspace } from "@/lib/physics/numerics";
-import { TEST_POINTS } from "@/lib/testPoints";
+import { ResultCard, Delta } from "@/components/console/ResultCard";
+import { Callout, Segmented, StatusChip, Term, NumberTween } from "@/components/ui-kit";
+import { SourcePill } from "@/components/bits";
+import { snapshot, useMission, toUrl } from "@/lib/store";
+import { computeScenario, verdict } from "@/lib/ui/console";
+import { materialById } from "@/lib/ui/materials";
+import { statusOf } from "@/lib/ui/status";
+import { sig } from "@/lib/ui/format";
+import { ACCENT, invColor } from "@/lib/ui/palette";
 import { GRAVITY_PRESETS } from "@/lib/missions";
+import { linspace } from "@/lib/physics/numerics";
+import * as SP from "@/lib/physics/spread";
+import { atmosphere } from "@/lib/physics/thermo";
+import { T_AMB } from "@/lib/physics/models";
 import { PROPS } from "@/lib/physics/data";
+import { TEST_POINTS } from "@/lib/testPoints";
+import { download } from "@/lib/report";
 
-const MATERIALS = [["sibal", "SIBAL fabric (thin)"], ["cotton", "Cotton 0.1 mm (thin)"], ["pmma", "PMMA 10 mm (thick)"]] as const;
-const THICK: Record<string, number | null> = { sibal: null, cotton: 0.1, pmma: 10 };
 const QUENCH = PROPS.spread.low_flow_quench_cm_s.value as number;
+const AGENTS = [{ v: "CO2", label: "CO₂" }, { v: "N2", label: "N₂" }, { v: "HE", label: "He" }];
+const ROLE_ORDER: Record<string, string[]> = { safety: ["spread", "prob", "supp", "hab", "smoke"], research: ["spread", "supp", "smoke", "hab", "prob"], experiment: ["prob", "spread", "supp", "hab", "smoke"] };
 
 export default function Console() {
-  const m = useMission();
-  const [mat, setMat] = useState<string>("sibal");
+  const s = useMission();
+  const [agent, setAgent] = useState("CO2");
+  const [fire, setFire] = useState({ Q_kW: 5, t_s: 180 });
   const [o2Axis, setO2Axis] = useState<"pct" | "kpa">("pct");
-  const th = THICK[mat];
+  const [sel, setSel] = useState<string[]>([]);
+  const [showFlex, setShowFlex] = useState(true);
+  const mat = materialById(s.material);
+  const cur = useMemo(() => snapshot(s, "B"), [s]);
+  const r = useMemo(() => computeScenario(cur, agent, fire), [cur, agent, fire]);
+  const A = useMemo(() => (s.scenarioA ? computeScenario(s.scenarioA, agent, fire) : null), [s.scenarioA, agent, fire]);
+  const v = verdict(cur, r);
+  const spSt = statusOf(r.spread);
 
   const grid = useMemo(() => {
-    const flows = linspace(Math.log10(0.5), Math.log10(60), 36).map((z) => 10 ** z);
-    const o2s = linspace(0.12, 0.45, 34);
-    const z = o2s.map((x) => flows.map((u) => {
-      const atm = atmosphere(x);
-      const r0 = SP.spreadRate(mat, atm, m.P_kPa * 1e3, u / 100, T_AMB, th === null ? null : th * 1e-3);
-      return r0.V_f * 1e3;
-    }));
+    const flows = linspace(Math.log10(0.5), Math.log10(60), 32).map((z) => 10 ** z);
+    const o2s = linspace(0.12, 0.45, 30);
+    const z = o2s.map((x) => flows.map((u) => SP.spreadRate(mat.id, atmosphere(x), s.P_kPa * 1e3, u / 100, T_AMB, mat.thickness_mm === null ? null : mat.thickness_mm * 1e-3).V_f * 1e3));
     return { flows, o2s, z };
-  }, [mat, m.P_kPa, th]);
+  }, [mat, s.P_kPa]);
 
-  const spread = useMemo(() => runSpread(mat, m.x_o2, m.P_kPa, m.flow_cm_s, th, m.gravity_g, "opposed", 300), [mat, m.x_o2, m.P_kPa, m.flow_cm_s, th, m.gravity_g]);
-  const supp = useMemo(() => runSuppression("n-heptane", m.x_o2, m.P_kPa, "CO2", 200), [m.x_o2, m.P_kPa]);
-  const hab = useMemo(() => runHabitat("cotton", m.x_o2, m.P_kPa, m.V_m3, 5, 180, 1800, 0, false, 25), [m.x_o2, m.P_kPa, m.V_m3]);
-  const smoke = useMemo(() => runSmoke(120), []);
-  const veq = spread.extra.V_eq_cm_s as number;
-  const yv = (x: number, p: number) => (o2Axis === "pct" ? x * 100 : x * p);
-  const flex = TEST_POINTS.filter((t) => t.diluent === "N2");
-  const burn = flex.filter((t) => t.test_end !== "extinction"), ext = flex.filter((t) => t.test_end === "extinction");
-  const presetsUb = Object.fromEntries(GRAVITY_PRESETS.map((g) => [g.id, g.g === 0 ? 0 : G.buoyantVelocity(g.g, atmosphere(m.x_o2), m.P_kPa * 1e3, spread.extra.T_f_K as number, T_AMB) * 100]));
-  const hover = (t: (typeof flex)[number]) => `${t.test_label} ${t.fuel}<br>O₂ ${t.x_o2} · ${t.pressure_kpa.toFixed(1)} kPa<br>${t.test_end}${t.outcome.includes("_ext") ? ` (${t.outcome})` : ""}<br>${t.source_id} · ${t.locator}`;
+  const veq = r.spread.extra.V_eq_cm_s as number;
+  const ub = r.spread.extra.u_b_cm_s as number;
+  const y = (x: number, P: number) => (o2Axis === "pct" ? x * 100 : x * P);
+  const flex = showFlex ? TEST_POINTS.filter((t) => t.diluent === "N2") : [];
+  const groups = [
+    { name: "FLEX · burned ●", pts: flex.filter((t) => t.test_end !== "extinction" && !t.cool_flame), sym: "circle" },
+    { name: "FLEX · extinct ✕", pts: flex.filter((t) => t.test_end === "extinction" && !t.cool_flame), sym: "x-thin" },
+    { name: "FLEX · cool flame ◇", pts: flex.filter((t) => t.cool_flame), sym: "diamond-open" },
+  ];
+  const hover = (t: (typeof flex)[number]) => `${t.test_label} · ${t.fuel}<br>O₂ ${t.x_o2} · ${sig(t.pressure_kpa)} kPa · quiescent droplet<br>${t.test_end}${t.outcome.includes("_ext") ? ` (${t.outcome.replace("_ext", "")})` : ""}<br>${t.locator}`;
+  const xg = Math.max(s.flow_cm_s, 0.5), xm = Math.max(veq, 0.5), ym = y(s.x_o2, s.P_kPa);
+  const order = ROLE_ORDER[s.role] ?? ROLE_ORDER.safety;
+  const hab = r.hab.extra as Record<string, number | Record<string, number | null>>;
+  const lim = hab.time_to_1h_limit_s as Record<string, number | null>;
+  const supU = r.supp.extra as Record<string, number | null>;
+  const refU = r.suppRef.extra as Record<string, number | null>;
 
+  const cards: Record<string, React.ReactNode> = {
+    spread: <ResultCard key="spread" testid="card-spread" title="Flame spread rate" r={r.spread} aValue={A?.spread.value}
+      meaning={<>Opposed-flow spread against {sig(veq)} cm/s {s.gravity_g > 0 && s.gravity_g < 1 ? <Term k="buoyant-equivalent flow">equivalent flow</Term> : "flow"}. {(r.spread.extra.band_mm_s as number[])[0] === (r.spread.extra.band_mm_s as number[])[1] ? "Thin-fuel de Ris spread does not depend on flow, so µg and g-equivalent coincide." : `Band [µg, g-equivalent] ${sig((r.spread.extra.band_mm_s as number[])[0])}–${sig((r.spread.extra.band_mm_s as number[])[1])} mm/s.`}</>} />,
+    prob: <ResultCard key="prob" testid="card-prob" title="Burn probability at mission point" r={null}
+      meaning={<>No solid-fuel burn/extinct data verified yet, so no probability is shown. <Link href={`/gaps?${toUrl(s)}`} className="underline">See Gaps →</Link></>} />,
+    supp: <ResultCard key="supp" testid="card-supp" title={`${AGENTS.find((a) => a.v === agent)?.label} to extinguish`} r={r.supp} scale={100} unit="% (mole)" aValue={A ? A.supp.value * 100 : undefined}
+      meaning={<>1 g reference for {mat.name}. µg-calibrated T<sub>crit</sub> exists only for liquid fuels: n-heptane needs {sig((refU.x_agent_ug ?? NaN) * 100)}% µg vs {sig((refU.x_agent_1g ?? NaN) * 100)}% 1 g.</>}>
+      <div className="mt-2"><Segmented options={AGENTS} value={agent} onChange={setAgent} /></div>
+      <p className="num mt-1 text-[12px] text-faint">{mat.name}: 1 g {sig((supU.x_agent_1g ?? NaN) * 100)}% · µg —</p>
+    </ResultCard>,
+    hab: <ResultCard key="hab" testid="card-hab" title="Cabin consequence" r={r.hab} unit="K ΔT" aValue={A?.hab.value}
+      meaning={<>
+        <span className="inline-flex flex-wrap items-center gap-1">
+          <input type="number" aria-label="fire size kW" className="num w-14" value={fire.Q_kW} min={0.5} max={50} step={0.5} onChange={(e) => setFire({ ...fire, Q_kW: Number(e.target.value) || 0.5 })} /> kW fire for
+          <input type="number" aria-label="burn minutes" className="num w-12" value={fire.t_s / 60} min={0.5} max={30} step={0.5} onChange={(e) => setFire({ ...fire, t_s: (Number(e.target.value) || 0.5) * 60 })} /> min in {s.V_m3} m³:
+        </span>
+        <span className="num block">ΔP {sig(hab.peak_dP_kPa as number)} kPa · O₂ min {sig((hab.min_x_o2 as number) * 100)}% · CO₂ peak {sig((hab.peak_x_co2 as number) * 100)}% · CO {sig(hab.peak_co_ppm as number)} ppm</span>
+        <span className="block">1 h limits reached: CO {lim.CO != null ? `${sig(lim.CO / 60)} min` : "no"} · CO₂ {lim.CO2 != null ? `${sig(lim.CO2 / 60)} min` : "no"}</span>
+      </>}>
+      <Plot height={70} label="cabin temperature sparkline" data={[{ x: (hab.series as unknown as { t: number[] }).t, y: (hab.series as unknown as { T: number[] }).T, mode: "lines", line: { color: "#9AA1B2", width: 1.5 }, hoverinfo: "skip" }]}
+        layout={{ margin: { l: 0, r: 0, t: 4, b: 0 }, xaxis: { visible: false }, yaxis: { visible: false }, showlegend: false }} config={{ staticPlot: true }} />
+    </ResultCard>,
+    smoke: <ResultCard key="smoke" testid="card-smoke" title="Smoke at detector (2 min)" r={r.smoke} unit="nm"
+      meaning={<>Favoured: {String(r.smoke.extra.favoured_detector)}. SAME-R measured averages mostly 200–400 nm <SourcePill id="same-r" />.</>} />,
+  };
+
+  const implications = [
+    { p: "Prevention", t: `Screen ${mat.name} with low-flow opposed spread tests up to ≈${sig(ub || (r.grav.extra.u_b_cm_s as number))} cm/s, the buoyant-equivalent flow here, not only 1 g upward burning.`, src: "olson-1991" },
+    { p: "Detection", t: `A ${fire.Q_kW} kW, ${sig(fire.t_s / 60)} min fire raises cabin pressure by ${sig(hab.peak_dP_kPa as number)} kPa; pressure-rise sensing complements smoke detectors.`, src: "huggett-1980" },
+    { p: "Suppression", t: `Thermal theory needs ${sig(r.supp.value * 100)}% ${AGENTS.find((a) => a.v === agent)?.label} (1 g reference) at ${sig(s.x_o2 * 100)}% O₂; enriched O₂ raises agent demand.`, src: "sfpe-beyler" },
+  ];
+
+  const lassoRows = TEST_POINTS.filter((t) => sel.includes(t.id));
   return (
-    <div className="space-y-4" data-testid="console">
-      <div className="flex flex-wrap items-center justify-between gap-2">
-        <h1 className="text-2xl font-semibold">Fire Risk Console</h1>
-        <Caveat />
-      </div>
-      <div className="grid gap-4 lg:grid-cols-3">
-        <section className="card lg:col-span-2">
-          <div className="mb-2 flex flex-wrap items-center gap-3 text-sm">
-            <span className="label">Flammability map</span>
-            <select value={mat} onChange={(e) => setMat(e.target.value)}>{MATERIALS.map(([k, l]) => <option key={k} value={k}>{l}</option>)}</select>
-            <div className="flex overflow-hidden rounded border border-line text-xs">
-              {(["pct", "kpa"] as const).map((a) => <button key={a} onClick={() => setO2Axis(a)} className={`px-2 py-1 ${o2Axis === a ? "bg-accent text-black" : "text-mute"}`}>{a === "pct" ? "O₂ %" : "pO₂ kPa"}</button>)}
-            </div>
-            <div className="flex overflow-hidden rounded border border-line text-xs">
-              {GRAVITY_PRESETS.map((g) => <button key={g.id} onClick={() => m.set({ gravity_g: g.g })} className={`px-2 py-1 ${m.gravity_g === g.g ? "bg-accent text-black" : "text-mute"}`}>{g.label}</button>)}
+    <div className="space-y-6" data-testid="console">
+      <header className="space-y-2" data-testid="verdict">
+        <p className="label">Verdict</p>
+        <h1 className="display measure text-[24px] leading-snug md:text-[32px]">
+          {v.head}: {v.claim}{" "}
+          <button className="underline decoration-line underline-offset-4" onClick={() => useMission.setState({ drawer: { kind: "receipt", result: r.spread, title: "Flame spread rate" } })} data-receipt>
+            <NumberTween value={v.value} s={2} /> mm/s
+          </button>{" "}
+          <span className="num text-mute">({sig(v.p05, 2)}–{sig(v.p95, 2)})</span>.
+        </h1>
+        <div className="flex flex-wrap items-center gap-3 text-[13px]">
+          <StatusChip {...spSt} />
+          <span className="text-mute">Burn probability: ∅ not available yet</span>
+          {Number.isFinite(v.ratio) && <span className="text-mute">≈ {sig(v.ratio, 2)}× the spread at ISS conditions (21% O₂, 101.3 kPa, µg)</span>}
+          {A && <Delta a={A.spread.value} b={r.spread.value} />}
+          <button className="underline underline-offset-2" onClick={() => useMission.setState({ drawer: { kind: "receipt", result: r.spread, title: "Flame spread rate" } })}>Open receipt</button>
+        </div>
+      </header>
+
+      <div className="grid gap-6 lg:grid-cols-12">
+        <section className="lg:col-span-8">
+          <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
+            <Segmented testid="gravity" options={GRAVITY_PRESETS.map((g) => ({ v: g.g, label: g.label, testid: `g-${g.id}` }))} value={s.gravity_g} onChange={(g) => s.set({ gravity_g: g })} />
+            <div className="flex items-center gap-2">
+              <button className={`chip border ${showFlex ? "border-ink" : "border-line text-mute"}`} onClick={() => setShowFlex(!showFlex)} aria-pressed={showFlex}><span className="mr-1 inline-block h-2 w-2 rounded-full" style={{ background: invColor("FLEX") }} />FLEX</button>
+              <span className="chip border border-line text-faint" title="No verified points yet">BASS-II ∅</span>
+              <Segmented options={[{ v: "pct", label: "O₂ %" }, { v: "kpa", label: "p_O₂ kPa" }]} value={o2Axis} onChange={(a) => setO2Axis(a as "pct" | "kpa")} />
             </div>
           </div>
-          <Plot height={430} data={[
-            { type: "contour", x: grid.flows, y: grid.o2s.map((x) => yv(x, m.P_kPa)), z: grid.z, colorscale: [[0, "#121722"], [0.5, "#7a2e14"], [1, "#ff6b35"]],
-              contours: { coloring: "heatmap", showlabels: true, labelfont: { size: 10, color: "#e6e9ef" } }, colorbar: { title: { text: "V_f mm/s", side: "right" }, thickness: 10 },
-              hovertemplate: "flow %{x:.1f} cm/s<br>O₂ %{y:.1f}<br>V_f %{z:.2f} mm/s (theory)<extra></extra>", name: "de Ris spread (theory)" },
-            { type: "scatter", mode: "markers", x: burn.map(() => 0.55), y: burn.map((t) => yv(t.x_o2, t.pressure_kpa)), marker: { symbol: "circle", size: 7, color: "#4ea1ff", line: { color: "#0b0e14", width: 1 } },
-              name: "FLEX droplet burned out/disrupted ● (quiescent)", text: burn.map(hover), hoverinfo: "text" },
-            { type: "scatter", mode: "markers", x: ext.map(() => 0.62), y: ext.map((t) => yv(t.x_o2, t.pressure_kpa)), marker: { symbol: "x-thin", size: 8, color: "#f5a524", line: { color: "#f5a524", width: 2 } },
-              name: "FLEX flame extinguished ✕", text: ext.map(hover), hoverinfo: "text" },
-            { type: "scatter", mode: "markers", x: [Math.max(m.flow_cm_s, 0.5)], y: [yv(m.x_o2, m.P_kPa)], marker: { symbol: "circle-open", size: 14, color: "#e6e9ef", line: { width: 2 } }, name: "mission, forced flow only (µg)" },
-            { type: "scatter", mode: "markers", x: [Math.max(veq, 0.5)], y: [yv(m.x_o2, m.P_kPa)], marker: { symbol: "cross", size: 16, color: "#ff6b35" }, name: `mission at gravity-equivalent flow (${fmt(veq, 3)} cm/s, bounded)` },
-          ]} layout={{
-            xaxis: { type: "log", title: { text: "relative opposed flow (cm/s, log)" }, range: [Math.log10(0.5), Math.log10(60)] },
-            yaxis: { title: { text: o2Axis === "pct" ? "O₂ mole %" : "pO₂ kPa" } },
-            shapes: [{ type: "rect", x0: 0.5, x1: QUENCH, yref: "paper", y0: 0, y1: 1, fillcolor: "rgba(229,72,77,0.10)", line: { width: 0 } }],
-            annotations: [{ x: Math.log10(1.5), y: 1.02, yref: "paper", text: `low-flow quench warning < ${QUENCH} cm/s (BASS-II)`, showarrow: false, font: { size: 10, color: "#e5484d" } }],
-          }} />
-          <p className="mt-1 text-xs text-mute">
-            Contours: uncalibrated de Ris theory at {m.P_kPa} kPa (F(Da) off; flammability boundary model U7 awaits BASS-II digitization). Gravity moves the mission
-            point to V<sub>r,eq</sub> = U + u<sub>b</sub>: u<sub>b</sub> ≈ Moon {fmt(presetsUb.moon, 2)}, Mars {fmt(presetsUb.mars, 2)}, 1 g {fmt(presetsUb.earth, 2)} cm/s (bounded estimate).
-            FLEX points are quiescent droplets, plotted at the left edge; hover for provenance.
-          </p>
+          <div className="border border-line">
+            <Plot height={460} label="Flammability map: O2 versus flow, PSI test points and mission marker"
+              onSelected={(e) => setSel((e?.points ?? []).map((p) => (p as unknown as { customdata: string }).customdata).filter(Boolean))}
+              config={{ displaylogo: false, responsive: true, modeBarButtonsToRemove: ["zoomIn2d", "zoomOut2d", "autoScale2d", "toggleSpikelines"] }}
+              data={[
+                { type: "contour", x: grid.flows, y: grid.o2s.map((x) => y(x, s.P_kPa)), z: grid.z, colorscale: [[0, "rgba(154,161,178,0.02)"], [1, "rgba(154,161,178,0.28)"]], showscale: false,
+                  contours: { coloring: "fill", showlabels: true, labelfont: { size: 10, color: "#9AA1B2" } }, line: { color: "rgba(154,161,178,0.5)", width: 0.5, dash: "dot" },
+                  hovertemplate: "flow %{x:.1f} cm/s<br>O₂ %{y:.1f}<br>theory spread %{z:.2f} mm/s<extra>theory estimate (not validated)</extra>", name: "theory spread mm/s" },
+                ...groups.map((g) => ({ type: "scatter" as const, mode: "markers" as const, name: g.name, x: g.pts.map((_, i) => 0.55 + (i % 5) * 0.02), y: g.pts.map((t) => y(t.x_o2, t.pressure_kpa)),
+                  customdata: g.pts.map((t) => t.id), text: g.pts.map(hover), hoverinfo: "text" as const,
+                  marker: { symbol: g.sym, size: 8, color: invColor("FLEX"), line: { color: invColor("FLEX"), width: 1.5 } } })),
+                ...(s.gravity_g > 0 ? [{ type: "scatter" as const, mode: "markers" as const, x: [xg], y: [ym], name: "mission, µg (forced flow only)", marker: { symbol: "circle-open", size: 14, color: "rgba(154,161,178,0.7)", line: { width: 1.5 } }, hoverinfo: "name" as const }] : []),
+                { type: "scatter", mode: "markers", x: [xm], y: [ym], name: "mission", marker: { symbol: "cross-thin", size: 22, color: ACCENT, line: { color: ACCENT, width: 3 } },
+                  hovertemplate: `mission · ${sig(veq)} cm/s equivalent flow<extra>${s.gravity_g > 0 && s.gravity_g < 1 ? "bounded estimate" : ""}</extra>` },
+              ]}
+              layout={{
+                transition: { duration: 250, easing: "cubic-in-out" },
+                xaxis: { type: "log", title: { text: "relative opposed flow (cm/s, log)" }, range: [Math.log10(0.45), Math.log10(60)] },
+                yaxis: { title: { text: o2Axis === "pct" ? "O₂ (mole %)" : "p_O₂ (kPa)" } },
+                shapes: [{ type: "rect", x0: 0.45, x1: QUENCH, yref: "paper", y0: 0, y1: 1, fillcolor: "rgba(229,72,77,0.06)", line: { width: 0 } }],
+                annotations: [
+                  { x: Math.log10(1.6), y: 0.99, yref: "paper", text: `< ${QUENCH} cm/s: quench-sensitive (BASS-II)`, showarrow: false, font: { size: 10, color: "#E5484D" } },
+                  ...(s.gravity_g > 0 && xm > xg ? [{ x: Math.log10(xm), y: ym, ax: Math.log10(xg), ay: ym, axref: "x" as const, ayref: "y" as const, xref: "x" as const, yref: "y" as const, showarrow: true, arrowhead: 2, arrowcolor: "#9AA1B2", arrowwidth: 1, text: "", standoff: 10 },
+                    { x: (Math.log10(xm) + Math.log10(xg)) / 2, y: ym, yshift: 14, xref: "x" as const, yref: "y" as const, text: `+${sig(ub)} cm/s buoyant-equivalent flow`, showarrow: false, font: { size: 11, color: "#9AA1B2" } }] : []),
+                ],
+                legend: { orientation: "h", y: -0.2, font: { size: 11 } }, dragmode: "pan",
+              }} />
+          </div>
+          {sel.length > 0 && (
+            <div className="mt-2 flex items-center gap-3 text-[13px]"><span className="num">{sel.length} tests selected</span>
+              <button className="btn" onClick={() => download("emberatlas_selected.json", JSON.stringify(lassoRows, null, 1), "application/json")}>Export</button>
+              <Link className="btn" href={`/evidence?${toUrl(s)}`}>Open in Evidence</Link></div>)}
+          <div className="mt-3 space-y-2">
+            <Callout>In microgravity, hot gas doesn&apos;t rise, so heat and smoke stay near the flame. Ventilation is the only thing moving air; at lunar g buoyancy partly returns — worth ≈{sig(r.grav.extra.u_b_cm_s as number)} cm/s here (gravity model, bounded estimate).</Callout>
+            <p className="text-[12px] text-faint">How to read: shaded contours are uncalibrated de Ris spread rates (mm/s); FLEX points are quiescent droplets plotted at the left edge. The cross is your mission at its equivalent flow. Use the lasso to select tests.</p>
+          </div>
         </section>
+        <aside className="space-y-3 lg:col-span-4">{order.map((k) => cards[k])}</aside>
+      </div>
 
-        <div className="space-y-4">
-          <Card title="Opposed flame spread" r={spread} main={`${fmt(spread.value)} mm/s`}>
-            <div className="text-xs text-mute">band [µg, g-equivalent]: <span className="num">{fmt((spread.extra.band_mm_s as number[])[0])}–{fmt((spread.extra.band_mm_s as number[])[1])} mm/s</span></div>
-          </Card>
-          <Card title="CO₂ to inert n-heptane" r={supp} main={`${fmt((supp.extra.x_agent_ug as number) * 100, 3)}% µg`}>
-            <div className="text-xs text-mute">1 g reference: <span className="num">{fmt((supp.extra.x_agent_1g as number) * 100, 3)}%</span> · base T<sub>ad</sub> {fmt(supp.extra.T_ad_base_K as number, 4)} K</div>
-          </Card>
+      <section>
+        <div className="mb-2 flex items-center justify-between"><p className="label">What this means</p>
+          {!s.scenarioA && <button className="btn" onClick={() => s.set({ scenarioA: snapshot(s, "this scenario") })}>Pin as A to compare</button>}</div>
+        <div className="grid gap-3 md:grid-cols-3">
+          {implications.map((i) => <div key={i.p} className="border-t border-line pt-2 text-[13px]"><p className="font-medium">{i.p}</p><p className="text-mute">{i.t} <SourcePill id={i.src} /></p></div>)}
         </div>
-      </div>
-      <div className="grid gap-4 md:grid-cols-2">
-        <Card title={`Habitat: 5 kW cotton fire, 3 min, ${m.V_m3} m³`} r={hab} main={`ΔT ${fmt(hab.value)} K`}>
-          <Plot height={200} data={[
-            { x: (hab.extra.series as { t: number[] }).t.map((t) => t / 60), y: (hab.extra.series as { T: number[] }).T.map((T) => T - 273.15), name: "T °C", line: { color: "#ff6b35" } },
-            { x: (hab.extra.series as { t: number[] }).t.map((t) => t / 60), y: (hab.extra.series as { x_co2: number[] }).x_co2.map((x) => x * 100), name: "CO₂ %", yaxis: "y2", line: { color: "#4ea1ff" } },
-          ]} layout={{ margin: { l: 44, r: 44, t: 8, b: 36 }, xaxis: { title: { text: "min" } }, yaxis2: { overlaying: "y", side: "right", gridcolor: "rgba(0,0,0,0)" }, showlegend: true }} />
-          <div className="text-xs text-mute">peak ΔP <span className="num">{fmt(hab.extra.peak_dP_kPa as number)}</span> kPa · peak CO <span className="num">{fmt(hab.extra.peak_co_ppm as number)}</span> ppm · min O₂ <span className="num">{fmt((hab.extra.min_x_o2 as number) * 100, 4)}%</span></div>
-        </Card>
-        <Card title="Smoke reaching a detector after 2 min" r={smoke} main={`${fmt(smoke.value)} nm`}>
-          <div className="text-xs text-mute">d10 {fmt(smoke.extra.d10_nm as number)} nm · d43 {fmt(smoke.extra.d43_nm as number)} nm · favoured: <b>{String(smoke.extra.favoured_detector)}</b>. SAME-R evidence: averages mostly 200–400 nm <SourcePill id="same-r" /></div>
-        </Card>
-      </div>
+      </section>
     </div>
-  );
-}
-
-function Card({ title, r, main, children }: { title: string; r: ReturnType<typeof runSpread>; main: string; children?: React.ReactNode }) {
-  return (
-    <section className="card space-y-1.5">
-      <div className="flex items-center justify-between"><span className="label">{title}</span><span className="flex items-center gap-2"><ModelLink id={r.model_id} /><InfoButton r={r} /></span></div>
-      <div className="flex items-baseline gap-3"><span className="num text-2xl text-accent">{main}</span><Band r={r} /></div>
-      <ValidityBadges r={r} />
-      {children}
-    </section>
   );
 }

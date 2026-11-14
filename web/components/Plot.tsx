@@ -2,6 +2,8 @@
 import dynamic from "next/dynamic";
 import type { ComponentType } from "react";
 import type { PlotParams } from "react-plotly.js";
+import { useMission } from "@/lib/store";
+import { plotTheme } from "@/lib/ui/plotTheme";
 
 const Plotly: ComponentType<PlotParams> = dynamic<PlotParams>(
   async () => {
@@ -13,20 +15,22 @@ const Plotly: ComponentType<PlotParams> = dynamic<PlotParams>(
   { ssr: false, loading: () => <div className="grid h-full min-h-[200px] place-items-center text-xs text-mute">loading plot…</div> },
 );
 
-export const AXIS = { gridcolor: "#232b3a", zerolinecolor: "#232b3a", linecolor: "#232b3a", tickfont: { size: 11 } };
-export function Plot({ data, layout, height = 340, ...rest }: Partial<PlotParams> & { height?: number }) {
+export function Plot({ data, layout, height = 340, label, theme: forced, ...rest }: Partial<PlotParams> & { height?: number; label?: string; theme?: "dark" | "light" }) {
+  const theme = useMission((s) => s.theme);
+  const t = plotTheme(forced ?? theme);
   return (
+    <div role="img" aria-label={label ?? "chart"}>
     <Plotly
       data={data ?? []}
       layout={{
-        paper_bgcolor: "rgba(0,0,0,0)", plot_bgcolor: "rgba(0,0,0,0)", font: { color: "#e6e9ef", family: "Inter, sans-serif", size: 12 },
-        margin: { l: 56, r: 16, t: 24, b: 48 }, height, legend: { orientation: "h", y: -0.22, font: { size: 11 } }, ...layout,
-        xaxis: { ...AXIS, ...(layout?.xaxis ?? {}) }, yaxis: { ...AXIS, ...(layout?.yaxis ?? {}) },
+        ...t.layout, height, ...layout,
+        xaxis: { ...t.axis, ...(layout?.xaxis ?? {}) }, yaxis: { ...t.axis, ...(layout?.yaxis ?? {}) },
       }}
-      config={{ displaylogo: false, responsive: true, modeBarButtonsToRemove: ["lasso2d", "select2d"] }}
+      config={{ displaylogo: false, responsive: true, modeBarButtonsToRemove: ["lasso2d", "select2d", "zoomIn2d", "zoomOut2d", "autoScale2d", "toggleSpikelines", "hoverClosestCartesian", "hoverCompareCartesian"] }}
       style={{ width: "100%" }}
       useResizeHandler
       {...rest}
     />
+    </div>
   );
 }

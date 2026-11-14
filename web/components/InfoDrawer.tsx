@@ -13,7 +13,7 @@ export function InfoButton({ r }: { r: ModelResult }) {
   const [open, setOpen] = useState(false);
   return (
     <>
-      <button aria-label="model details" className="grid h-6 w-6 place-items-center rounded-full border border-line text-xs text-mute hover:border-accent hover:text-accent" onClick={() => setOpen(true)}>ⓘ</button>
+      <button aria-label="model details" className="grid h-6 w-6 place-items-center rounded-full border border-line text-xs text-mute hover:border-ink hover:text-ink" onClick={() => setOpen(true)}>ⓘ</button>
       {open && <InfoDrawer r={r} onClose={() => setOpen(false)} />}
     </>
   );

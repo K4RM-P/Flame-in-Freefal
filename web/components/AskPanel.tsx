@@ -1,10 +1,12 @@
 "use client";
 import Link from "next/link";
-import { useState } from "react";
-import { GOLDEN } from "@/lib/ai/golden";
+import { useEffect, useRef, useState } from "react";
+import { GOLDEN_QUESTIONS, ROLE_QUESTIONS } from "@/lib/ai/questions";
 import { source } from "@/lib/sources";
+import { useMission } from "@/lib/store";
+import { CopyButton } from "@/components/ui-kit";
 
-interface Trace { name: string; input: Record<string, unknown>; output: Record<string, unknown> }
+interface Trace { name: string; input: Record<string, unknown>; output: Record<string, unknown>; ms?: number }
 const short = (o: unknown) => (typeof o === "number" ? Number(o.toPrecision(3)) : o);
 
 function traceLine(t: Trace): string {
@@ -15,30 +17,34 @@ function traceLine(t: Trace): string {
 }
 
 function Rendered({ text }: { text: string }) {
-  const parts = text.split(/(\[(?:S|M):[^\]]+\])/g);
+  const parts = text.split(/(\[(?:S|M):[^\]]+\]|\(removed unsupported claim\))/g);
   return (
-    <p className="whitespace-pre-wrap leading-relaxed">
+    <p className="measure whitespace-pre-wrap leading-relaxed">
       {parts.map((p, i) => {
+        if (p === "(removed unsupported claim)") return <span key={i} className="chip border border-bad/50 text-bad">removed unsupported claim</span>;
         const m = p.match(/^\[(S|M):([^\]]+)\]$/);
         if (!m) return <span key={i}>{p}</span>;
-        if (m[1] === "M") return <Link key={i} href={`/models/${m[2]}`} className="chip mx-0.5 border border-accent/60 text-accent">M:{m[2]}</Link>;
+        if (m[1] === "M") return <Link key={i} href={`/models/${m[2]}`} className="chip mx-0.5 border border-line text-ink underline-offset-2 hover:underline">M:{m[2]}</Link>;
         const s = source(m[2]);
-        return <a key={i} href={s.url ?? "/methods#references"} target="_blank" rel="noreferrer" title={s.title} className="chip mx-0.5 border border-line text-mute hover:text-accent">S:{m[2]}</a>;
+        return <a key={i} href={s.url ?? "/methods#references"} target="_blank" rel="noreferrer" title={s.title} className="chip mx-0.5 border border-line text-mute hover:text-ink">S:{m[2]}</a>;
       })}
     </p>
   );
 }
 
-export function AskPanel() {
-  const [q, setQ] = useState("");
+export function AskPanel({ initial }: { initial?: string }) {
+  const role = useMission((s) => s.role);
+  const [q, setQ] = useState(initial ?? "");
   const [busy, setBusy] = useState(false);
   const [trace, setTrace] = useState<Trace[]>([]);
   const [ans, setAns] = useState<{ answer: string; mode: string; guard?: { ok: boolean; regenerated?: boolean }; note?: string } | null>(null);
+  const started = useRef(false);
   async function ask(question: string) {
     setQ(question); setBusy(true); setTrace([]); setAns(null);
+    const t0 = performance.now();
     try {
       const res = await fetch("/api/ask", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ question }) });
-      const reader = res.body!.getReader(); const dec = new TextDecoder(); let buf = "";
+      const reader = res.body!.getReader(); const dec = new TextDecoder(); let buf = ""; let last = t0;
       for (;;) {
         const { value, done } = await reader.read();
         if (done) break;
@@ -47,53 +53,53 @@ export function AskPanel() {
         for (const l of lines) {
           if (!l.trim()) continue;
           const ev = JSON.parse(l);
-          if (ev.type === "trace") setTrace((t) => [...t, ev]);
+          const now = performance.now();
+          if (ev.type === "trace") { setTrace((t) => [...t, { ...ev, ms: Math.round(now - last) }]); last = now; }
           else if (ev.type === "answer") setAns(ev);
           else if (ev.type === "error") setAns({ answer: ev.message, mode: "error" });
         }
       }
-    } catch (e) { setAns({ answer: String(e), mode: "error" }); }
+    } catch (e) { setAns({ answer: `Request failed (${String(e)}). The 12 golden questions have cached answers; pick one below.`, mode: "error" }); }
     setBusy(false);
   }
+  useEffect(() => { if (initial && !started.current) { started.current = true; ask(initial); } }, [initial]); // eslint-disable-line react-hooks/exhaustive-deps
+  const suggested = (ROLE_QUESTIONS[role] ?? [0, 1, 2, 3]).map((i) => GOLDEN_QUESTIONS[i]);
+  const others = GOLDEN_QUESTIONS.filter((g) => !suggested.includes(g));
+  const href = trace.map((t) => (t.output as { href?: string })?.href).find(Boolean);
   return (
-    <div className="space-y-3 text-sm" data-testid="ask-panel">
+    <div className="space-y-3 text-[14px]" data-testid="ask-panel">
       <form onSubmit={(e) => { e.preventDefault(); if (q.trim()) ask(q.trim()); }} className="flex gap-2">
-        <input type="text" value={q} onChange={(e) => setQ(e.target.value)} placeholder="Ask about microgravity fire safety…" className="flex-1" />
+        <input type="text" value={q} onChange={(e) => setQ(e.target.value)} placeholder="Ask about microgravity fire safety…" aria-label="Question" className="flex-1" />
         <button className="btn-accent" disabled={busy}>{busy ? "…" : "Ask"}</button>
       </form>
-      <div className="flex flex-wrap gap-1">{GOLDEN.map((g) => <button key={g.id} className="chip border border-line text-left text-mute hover:text-ink" onClick={() => ask(g.q)}>{g.q}</button>)}</div>
+      {!ans && !busy && (
+        <div className="space-y-1">
+          <p className="label">Suggested</p>
+          {suggested.map((g) => <button key={g} className="block w-full border border-line px-2 py-1.5 text-left text-[13px] hover:bg-surface2" style={{ borderRadius: 6 }} onClick={() => ask(g)}>{g}</button>)}
+          <details><summary className="cursor-pointer text-[12px] text-mute">More questions ({others.length})</summary>
+            {others.map((g) => <button key={g} className="block w-full px-2 py-1 text-left text-[13px] text-mute hover:text-ink" onClick={() => ask(g)}>{g}</button>)}</details>
+        </div>
+      )}
+      {busy && <p className="text-[13px] text-mute" aria-live="polite">Thinking… {trace.length ? `ran ${trace[trace.length - 1].name}` : "choosing tools"}</p>}
       {trace.length > 0 && (
-        <details open className="rounded border border-line p-2"><summary className="label cursor-pointer">Tool-call trace ({trace.length})</summary>
-          <ul className="mt-1 space-y-1 font-mono text-[11px] text-mute">{trace.map((t, i) => <li key={i}>{traceLine(t)}</li>)}</ul></details>
+        <details className="border border-line p-2" style={{ borderRadius: 6 }}><summary className="cursor-pointer text-[12px] text-mute">How I got this ({trace.length} tool calls)</summary>
+          <ul className="mt-1 space-y-1 font-mono text-[11px] text-mute">{trace.map((t, i) => <li key={i}>{traceLine(t)}{t.ms != null ? ` · ${t.ms} ms` : ""}</li>)}</ul></details>
       )}
       {ans && (
-        <div className="rounded border border-line p-3">
-          <div className="mb-1 flex flex-wrap gap-1">
-            <span className={`chip ${ans.mode === "live" ? "bg-ok/15 text-ok" : "bg-warn/15 text-warn"}`}>{ans.mode === "live" ? "live Claude answer" : ans.mode === "offline-demo" ? "demo mode: cached answer composed from tool outputs" : ans.mode}</span>
-            {ans.guard && <span className={`chip ${ans.guard.ok ? "bg-ok/15 text-ok" : "bg-bad/15 text-bad"}`}>numeric guard {ans.guard.ok ? "passed" : "removed claims"}{ans.guard.regenerated ? " · regenerated" : ""}</span>}
+        <div className="space-y-2 border-t border-line pt-3">
+          <div className="flex flex-wrap gap-1 text-[12px]">
+            {ans.mode !== "live" && <span className="text-mute">{ans.mode === "offline-demo" ? "demo mode · answer composed from tool outputs" : ans.mode}</span>}
+            {ans.guard && <span className={ans.guard.ok ? "text-ok" : "text-bad"}>· numeric guard {ans.guard.ok ? "passed" : "removed claims"}{ans.guard.regenerated ? " · regenerated" : ""}</span>}
           </div>
           <Rendered text={ans.answer} />
-          {ans.note && <p className="mt-1 text-xs text-mute">{ans.note}</p>}
+          {ans.note && <p className="text-[12px] text-mute">{ans.note}</p>}
+          <div className="flex gap-2">
+            <Link href={href ?? "/console"} className="btn" onClick={() => useMission.setState({ drawer: null })}>Open in Console</Link>
+            <CopyButton label="Copy with sources" text={`${ans.answer}\n\nSources:\n${[...new Set([...ans.answer.matchAll(/\[S:([^\]]+)\]/g)].map((m) => m[1]))].map((id) => `- ${source(id).title}${source(id).url ? ` ${source(id).url}` : ""}`).join("\n")}`} />
+          </div>
         </div>
       )}
-      <p className="text-xs text-mute">AI-generated from cited tools and sources; verify before engineering use. PSI contains microgravity and 1 g data only; partial-gravity values are bounded estimates.</p>
+      <p className="text-[12px] text-faint">AI-generated from cited tools and sources; verify before engineering use. PSI contains microgravity and 1 g data only; partial-gravity values are bounded estimates.</p>
     </div>
-  );
-}
-
-export function AskSlideOver() {
-  const [open, setOpen] = useState(false);
-  return (
-    <>
-      <button onClick={() => setOpen(true)} className="fixed bottom-5 right-5 z-40 rounded-full bg-accent px-4 py-2 text-sm font-medium text-black shadow-lg">Ask EmberAtlas</button>
-      {open && (
-        <div className="fixed inset-0 z-50 flex justify-end bg-black/50" onClick={() => setOpen(false)}>
-          <aside className="h-full w-full max-w-lg overflow-y-auto border-l border-line bg-panel p-4" onClick={(e) => e.stopPropagation()}>
-            <div className="mb-3 flex items-center justify-between"><h3 className="font-semibold">Ask EmberAtlas</h3><button className="btn" onClick={() => setOpen(false)}>Close</button></div>
-            <AskPanel />
-          </aside>
-        </div>
-      )}
-    </>
   );
 }

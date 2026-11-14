@@ -48,7 +48,7 @@ python -c "from emberphys.models import run_droplet; print(run_droplet('n-heptan
       <section className="card" id="references">
         <h2 className="label">References</h2>
         <ul className="ml-5 list-disc space-y-1">
-          {Object.values(SOURCES).map((s) => <li key={s.id}><span className="num text-xs text-mute">[{s.id}]</span> {s.title}{s.year ? ` (${s.year})` : ""}{s.url && <> — <a className="text-accent" href={s.url}>{s.url}</a></>}</li>)}
+          {Object.values(SOURCES).map((s) => <li key={s.id}><span className="num text-xs text-mute">[{s.id}]</span> {s.title}{s.year ? ` (${s.year})` : ""}{s.url && <> — <a className="text-ink" href={s.url}>{s.url}</a></>}</li>)}
           {LIBS.map((l) => <li key={l}>Software: {l}</li>)}
         </ul>
       </section>

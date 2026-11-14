@@ -53,3 +53,8 @@ describe("golden questions", () => {
     expect(a.answer).toMatch(/^No\./);
   });
 });
+
+import { GOLDEN_QUESTIONS } from "@/lib/ai/questions";
+describe("client question list", () => {
+  it("matches the golden questions exactly", () => expect([...GOLDEN_QUESTIONS]).toEqual(GOLDEN.map((g) => g.q)));
+});

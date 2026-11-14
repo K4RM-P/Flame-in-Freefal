@@ -49,7 +49,7 @@ export function ModelPage({ id }: { id: string }) {
 
   return (
     <div className="space-y-4">
-      <div className="flex flex-wrap gap-2 text-sm">{TABS.map((t) => <Link key={t} href={`/models/${t}`} className={`btn ${t === id ? "border-accent text-accent" : ""}`}>{t}</Link>)}</div>
+      <div className="flex flex-wrap gap-2 text-sm">{TABS.map((t) => <Link key={t} href={`/models/${t}`} className={`btn ${t === id ? "border-ink text-ink" : ""}`}>{t}</Link>)}</div>
       <Caveat />
       {!result ? (
         <div className="card space-y-2">
@@ -85,7 +85,7 @@ export function ModelPage({ id }: { id: string }) {
             ))}
             <div className="border-t border-line pt-3">
               <div className="label">Result</div>
-              <div className="num text-3xl text-accent">{fmt(result.value, 4)} <span className="text-base text-mute">{result.units}</span></div>
+              <button data-receipt className="num block text-left text-[32px]" onClick={() => useMission.setState({ drawer: { kind: "receipt", result, title: `${id} model` } })}>{fmt(result.value, 3)} <span className="text-[14px] text-mute">{result.units}</span></button>
               <Band r={result} d={4} />
               <div className="mt-2"><ValidityBadges r={result} /></div>
               {result.validity.note && <p className="mt-1 text-xs text-warn">{result.validity.note}</p>}
@@ -95,7 +95,7 @@ export function ModelPage({ id }: { id: string }) {
                 <tr key={k}><td className="text-mute">{k}</td><td className="num">{typeof v === "number" ? fmt(v, 4) : String(v)}</td></tr>
               ))}
             </tbody></table>
-            <button className="btn-accent" onClick={() => download(`emberatlas-${id}-report.md`, reportMarkdown(result, `${id} model`))} data-testid="export">Export report (Markdown)</button>
+            <button className="btn" onClick={() => download(`emberatlas-${id}-report.md`, reportMarkdown(result, `${id} model`))} data-testid="export">Export report (Markdown)</button>
           </section>
           <section className="card lg:col-span-2">
             {plot && <Plot data={plot.data} layout={plot.layout} height={380} />}
@@ -120,41 +120,41 @@ function modelPlot(id: string, m: any, mat: string, fuelName: string, agent: str
     const flows = linspace(0.5, 60, 50);
     const th = mat === "sibal" ? null : mat === "cotton" ? p.thickness_mm / 10 : p.thickness_mm;
     const y = flows.map((u) => M.runSpread(mat, m.x_o2, m.P_kPa, u, th, 0, "opposed", 1).value);
-    return { data: [{ x: flows, y, name: "V_f (µg, forced flow)", line: { color: "#ff6b35" } },
-      { x: [r.extra.V_eq_cm_s], y: [r.value], mode: "markers", marker: { size: 12, symbol: "cross", color: "#e6e9ef" }, name: "mission (g-equivalent flow)" }],
+    return { data: [{ x: flows, y, name: "V_f (µg, forced flow)", line: { color: "#E69F00" } },
+      { x: [r.extra.V_eq_cm_s], y: [r.value], mode: "markers", marker: { size: 12, symbol: "cross", color: "#9AA1B2" }, name: "mission (g-equivalent flow)" }],
       layout: { xaxis: { title: { text: "relative flow cm/s" } }, yaxis: { title: { text: "spread mm/s" } } } };
   }
   if (id === "droplet") {
     const xs = linspace(0.1, 0.45, 50);
     const dd: (number | null)[] = [], dr: (number | null)[] = [];
     for (const x of xs) { const e = D.extinctionDiameters(fuelName, atmosphere(x), m.P_kPa * 1e3, M.T_AMB); dd.push(e[0] ? e[0] * 1e3 : null); dr.push(e[1] ? e[1] * 1e3 : null); }
-    return { data: [{ x: xs.map((x) => x * 100), y: dd, name: "diffusive extinction d", line: { color: "#4ea1ff" } },
-      { x: xs.map((x) => x * 100), y: dr, name: "radiative extinction d", line: { color: "#f5a524" } },
-      { x: [m.x_o2 * 100], y: [p.d0_mm], mode: "markers", marker: { size: 12, color: "#ff6b35" }, name: "your droplet d₀" }],
+    return { data: [{ x: xs.map((x) => x * 100), y: dd, name: "diffusive extinction d", line: { color: "#56B4E9" } },
+      { x: xs.map((x) => x * 100), y: dr, name: "radiative extinction d", line: { color: "#009E73" } },
+      { x: [m.x_o2 * 100], y: [p.d0_mm], mode: "markers", marker: { size: 12, color: "#E69F00" }, name: "your droplet d₀" }],
       layout: { xaxis: { title: { text: "O₂ mole % (O₂/N₂)" } }, yaxis: { title: { text: "droplet diameter mm" }, type: "log" } } };
   }
   if (id === "suppression") {
     const xs = linspace(0.15, 0.45, 25);
     const ug = xs.map((x) => M.runSuppression(fuelName, x, m.P_kPa, agent, 1).extra.x_agent_ug as number | null);
     const g1 = xs.map((x) => M.runSuppression(fuelName, x, m.P_kPa, agent, 1).extra.x_agent_1g as number);
-    return { data: [{ x: xs.map((x) => x * 100), y: ug.map((v) => (v == null ? null : v * 100)), name: "µg-calibrated T_crit", line: { color: "#ff6b35" } },
+    return { data: [{ x: xs.map((x) => x * 100), y: ug.map((v) => (v == null ? null : v * 100)), name: "µg-calibrated T_crit", line: { color: "#E69F00" } },
       { x: xs.map((x) => x * 100), y: g1.map((v) => v * 100), name: "1 g reference", line: { color: "#8b95a7", dash: "dash" } }],
       layout: { xaxis: { title: { text: "base O₂ %" } }, yaxis: { title: { text: `${agent} needed, mole %` } } } };
   }
   if (id === "gravity") {
     const gs = linspace(0, 1, 40);
     const y = gs.map((g) => M.runGravity(m.x_o2, m.P_kPa, m.flow_cm_s, g, mat).extra.u_b_cm_s as number);
-    return { data: [{ x: gs, y, name: "u_b (bounded estimate)", line: { color: "#4ea1ff" } }],
+    return { data: [{ x: gs, y, name: "u_b (bounded estimate)", line: { color: "#56B4E9" } }],
       layout: { xaxis: { title: { text: "g / g₀" } }, yaxis: { title: { text: "buoyant velocity cm/s" } },
         shapes: [0.165, 0.378].map((g) => ({ type: "line", x0: g, x1: g, yref: "paper", y0: 0, y1: 1, line: { dash: "dot", color: "#8b95a7" } })) } };
   }
   if (id === "habitat") {
     const s = r.extra.series as { t: number[]; T: number[]; P: number[]; x_o2: number[]; x_co2: number[]; x_co: number[] };
     const t = s.t.map((x) => x / 60);
-    return { data: [{ x: t, y: s.T.map((T) => T - 273.15), name: "T °C", line: { color: "#ff6b35" } },
-      { x: t, y: s.P.map((P) => P / 1e3), name: "P kPa", yaxis: "y2", line: { color: "#e6e9ef" } },
-      { x: t, y: s.x_co2.map((x) => x * 100), name: "CO₂ %", yaxis: "y3", line: { color: "#4ea1ff" } },
-      { x: t, y: s.x_co.map((x) => x * 1e6), name: "CO ppm", yaxis: "y4", line: { color: "#f5a524" } }],
+    return { data: [{ x: t, y: s.T.map((T) => T - 273.15), name: "T °C", line: { color: "#E69F00" } },
+      { x: t, y: s.P.map((P) => P / 1e3), name: "P kPa", yaxis: "y2", line: { color: "#9AA1B2" } },
+      { x: t, y: s.x_co2.map((x) => x * 100), name: "CO₂ %", yaxis: "y3", line: { color: "#56B4E9" } },
+      { x: t, y: s.x_co.map((x) => x * 1e6), name: "CO ppm", yaxis: "y4", line: { color: "#009E73" } }],
       layout: { xaxis: { title: { text: "minutes" }, domain: [0, 0.82] }, yaxis: { title: { text: "T °C" } },
         yaxis2: { overlaying: "y", side: "right", title: { text: "kPa" }, gridcolor: "rgba(0,0,0,0)" },
         yaxis3: { overlaying: "y", side: "right", position: 0.9, anchor: "free", title: { text: "CO₂ %" }, gridcolor: "rgba(0,0,0,0)" },
@@ -163,9 +163,9 @@ function modelPlot(id: string, m: any, mat: string, fuelName: string, agent: str
   if (id === "smoke") {
     const ts = linspace(1, 1800, 60);
     const runs = ts.map((t) => M.runSmoke(t, p.N0_e12 * 1e12, p.d0_nm, m.P_kPa));
-    return { data: [{ x: ts, y: runs.map((q) => q.extra.d10_nm), name: "d10", line: { color: "#4ea1ff" } },
-      { x: ts, y: runs.map((q) => q.value), name: "d30", line: { color: "#ff6b35" } },
-      { x: ts, y: runs.map((q) => q.extra.d43_nm), name: "d43", line: { color: "#f5a524" } }],
+    return { data: [{ x: ts, y: runs.map((q) => q.extra.d10_nm), name: "d10", line: { color: "#56B4E9" } },
+      { x: ts, y: runs.map((q) => q.value), name: "d30", line: { color: "#E69F00" } },
+      { x: ts, y: runs.map((q) => q.extra.d43_nm), name: "d43", line: { color: "#009E73" } }],
       layout: { xaxis: { title: { text: "aging time s" } }, yaxis: { title: { text: "diameter nm" } },
         shapes: [{ type: "rect", xref: "paper", x0: 0, x1: 1, y0: 200, y1: 400, fillcolor: "rgba(63,182,139,0.1)", line: { width: 0 } }] } };
   }

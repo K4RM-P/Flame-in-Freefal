@@ -1,0 +1,21 @@
+/* EmberAtlas tokens. Channels are "R G B" so Tailwind can apply alpha.
+   Derived from three inputs: base (warm grey, low chroma in LCH), accent (#FF6B35), contrast.
+   Dark is default; [data-theme="light"] is the warm-ivory editorial theme (also used for print). */
+:root {
+  --bg: 11 13 18; --panel: 17 20 27; --surface2: 23 27 36; --line: 35 40 54;
+  --ink: 231 233 238; --mute: 154 161 178; --faint: 128 136 156;
+  --accent: 255 107 53;
+  --ok: 63 182 139; --bad: 229 72 77; --warn: 245 165 36; --blue: 76 154 255; --theory: 139 147 167;
+  --radius-control: 6px; --radius-card: 8px;
+  color-scheme: dark;
+}
+[data-theme="light"] {
+  --bg: 247 243 236; --panel: 255 253 248; --surface2: 239 233 223; --line: 228 221 208;
+  --ink: 43 43 43; --mute: 98 93 85; --faint: 112 106 97;
+  --ok: 31 128 92; --bad: 190 42 48; --warn: 160 98 0; --blue: 28 98 196; --theory: 107 112 128;
+  color-scheme: light;
+}
+@media print {
+  :root { --bg: 247 243 236; --panel: 255 253 248; --surface2: 239 233 223; --line: 228 221 208; --ink: 43 43 43; --mute: 107 102 94; }
+  nav, header, aside, .no-print { display: none !important; }
+}

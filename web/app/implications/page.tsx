@@ -43,7 +43,7 @@ export default function Implications() {
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {cards.map((c) => (
           <article key={c.text} className="card space-y-2 text-sm">
-            <div className="flex items-center justify-between"><span className="label text-accent">{c.pillar}</span><ModelLink id={c.model} /></div>
+            <div className="flex items-center justify-between"><span className="label text-ink">{c.pillar}</span><ModelLink id={c.model} /></div>
             <p>{c.text}</p>
             <p className="text-xs text-mute">confidence: {c.conf}</p>
             <div>{c.src.map((s) => <SourcePill key={s} id={s} />)}</div>

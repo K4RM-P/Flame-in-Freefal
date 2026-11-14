@@ -38,8 +38,8 @@ export default function Evidence() {
           <ol className="mt-2 space-y-1">{ranked.map((r, i) => (
             <li key={r.id} className="flex items-center gap-2 text-sm" title={Object.entries(r.parts).map(([k, p]) => `${k}: ${p.s.toFixed(2)} — ${p.why}`).join("\n")}>
               <span className="num w-5 text-mute">{i + 1}</span>
-              <button className={`w-40 truncate text-left ${sel.includes(r.id) ? "text-accent" : ""}`} onClick={() => setSel((s) => (s.includes(r.id) ? s.filter((x) => x !== r.id) : [...s, r.id].slice(-3)))}>{r.id}</button>
-              <div className="h-3 flex-1 rounded bg-line"><div className="h-3 rounded bg-accent" style={{ width: `${r.score * 100}%` }} /></div>
+              <button className={`w-40 truncate text-left ${sel.includes(r.id) ? "text-ink" : ""}`} onClick={() => setSel((s) => (s.includes(r.id) ? s.filter((x) => x !== r.id) : [...s, r.id].slice(-3)))}>{r.id}</button>
+              <div className="h-3 flex-1 rounded bg-line"><div className="h-3 rounded bg-mute" style={{ width: `${r.score * 100}%` }} /></div>
               <span className="num w-12 text-right">{r.score.toFixed(2)}</span>
               <span className="num w-16 text-right text-xs text-mute">{r.n_points} pts</span>
             </li>))}</ol>
