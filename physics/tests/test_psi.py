@@ -1,3 +1,4 @@
+# SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 """PSI ingestion contracts (offline: reads the committed catalog / processed tables only)."""
 import json
 from pathlib import Path
@@ -37,3 +38,14 @@ def test_flex_crosscheck_and_earth_vs_orbit():
     assert ev["n"] == len(ev["rows"]) == sum(ev["counts"].values())
     assert all(r["material"] for r in ev["rows"])  # blank-material rows are excluded, never inferred
     assert {e["sample"] for e in ev["excluded"]} >= {"2-6", "2-9"}
+
+
+def test_submission_hygiene():
+    root = Path(__file__).resolve().parents[2]
+    refs = json.loads((root / "docs" / "REFERENCES.json").read_text())
+    assert len(refs["psi_records"]) == 25 and refs["nasa_resource_used"]["url"] == "https://psi.nasa.gov/physci/repo/search?q=combustion"
+    assert all(lib["license"] != "UNKNOWN" for lib in refs["software"]) and refs["si_tools"] and refs["images"] == []
+    dirs = ["web/app", "web/components", "web/lib", "physics/emberphys", "physics/pipeline", "physics/validate"]
+    untagged = [str(p) for d in dirs for p in (root / d).rglob("*") if p.suffix in (".ts", ".tsx", ".py")
+                and "__pycache__" not in p.parts and "SI-assisted" not in p.read_text()]
+    assert untagged == []

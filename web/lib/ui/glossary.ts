@@ -1,3 +1,4 @@
+// SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 // Plain-language definitions, ≤ 20 words each.
 export const GLOSSARY: Record<string, string> = {
   LOI: "Limiting oxygen index: the lowest oxygen fraction at which a flame can keep burning.",

@@ -1,3 +1,4 @@
+// SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 import sourcesJson from "@/data/sources.json";
 
 export interface Source { id: string; type: string; title: string; url?: string; year?: number }

@@ -1,3 +1,4 @@
+// SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 // Evidence gaps: coverage of verified PSI data, conflicting evidence, coverage-based next-experiment proposals.
 import coverage from "@/data/coverage.json";
 import type { MissionLike } from "./ranking";

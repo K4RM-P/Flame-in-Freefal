@@ -1,3 +1,4 @@
+// SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 // Materials the spread/habitat models support (from physics/data/properties.yaml). Nomex etc. are not modelled.
 export const MATERIALS = [
   { id: "sibal", name: "SIBAL fabric", detail: "cotton–fiberglass cabin fabric, thermally thin", cls: "Fabrics", thickness_mm: null as number | null },

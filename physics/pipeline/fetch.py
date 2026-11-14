@@ -1,3 +1,4 @@
+# SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 """Download source PDFs into data/raw (gitignored) and record SHA-256."""
 from __future__ import annotations
 

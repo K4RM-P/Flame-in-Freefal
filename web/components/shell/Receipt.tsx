@@ -1,4 +1,5 @@
 "use client";
+// SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 import Link from "next/link";
 import { useState } from "react";
 import kJson from "@/data/validation/droplet_K.json";

@@ -1,3 +1,4 @@
+// SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 import { expect, test } from "@playwright/test";
 
 // feature/adopt-ideas acceptance tests (one block per feature).
@@ -50,4 +51,13 @@ test("B6: suppression is framed as an ideal calculated flame temperature, helium
   await expect(f).toContainText("not noise");
   await page.goto("/console");
   await expect(page.getByTestId("card-supp")).toContainText("not a measured value");
+});
+
+test("B8: PSI Combustion Science resource link on landing and Methods; Limitations listed", async ({ page }) => {
+  await page.goto("/");
+  await expect(page.getByTestId("psi-resource-link")).toHaveAttribute("href", "https://psi.nasa.gov/physci/repo/search?q=combustion");
+  await page.goto("/methods");
+  await expect(page.getByTestId("psi-resource-link")).toContainText("PSI Data Repository: Combustion Science");
+  const l = page.getByTestId("limitations");
+  for (const t of ["Small n", "Like-for-like", "Calculated vs measured", "No partial-gravity data in PSI", "digitized"]) await expect(l).toContainText(t);
 });

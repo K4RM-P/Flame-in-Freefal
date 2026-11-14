@@ -1,3 +1,4 @@
+# SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 """ModelResult schema, YAML/param loaders and JSON export."""
 from __future__ import annotations
 

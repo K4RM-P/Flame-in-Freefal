@@ -1,3 +1,4 @@
+// SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 // Display rounding only (§5.6). p50: 2 s.f. if the band is wider than ±20 % of it, else 3; never more than 4.
 const THIN = " ";
 export function sig(x: number | null | undefined, s = 3): string {

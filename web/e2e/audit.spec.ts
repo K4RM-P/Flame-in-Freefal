@@ -1,3 +1,4 @@
+// SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 import { test } from "@playwright/test";
 
 const ROUTES = ["/", "/start", "/console", "/models/spread", "/validation", "/evidence", "/gaps", "/ask", "/methods"];

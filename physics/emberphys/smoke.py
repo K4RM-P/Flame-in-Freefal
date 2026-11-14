@@ -1,3 +1,4 @@
+# SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 """Smoke aging by Brownian coagulation (PRD §5.8), monodisperse-equivalent Smoluchowski.
 
 SM1  N(t) = N0 / (1 + K_c N0 t / 2);   d(t) = d0 (N0/N)^(1/3)

@@ -1,9 +1,10 @@
+// SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 import { EQUATIONS } from "@/lib/equations";
 import { SOURCES } from "@/lib/sources";
 import { Tex } from "@/components/Tex";
 import { SourcePill } from "@/components/bits";
 
-const LIBS = ["Next.js 15", "React 19", "Tailwind CSS 3", "Plotly.js 3 / react-plotly.js", "KaTeX", "Zustand", "Zod", "Anthropic TypeScript SDK (Claude API)", "Vitest",
+const LIBS = ["openpyxl", "xlrd", "Next.js 15", "React 19", "Tailwind CSS 3", "Plotly.js 3 / react-plotly.js", "KaTeX", "Zustand", "Zod", "Anthropic TypeScript SDK (Claude API)", "Vitest",
   "NumPy", "SciPy", "pandas", "PyArrow", "scikit-learn", "PyYAML", "pdfplumber", "pytest"];
 
 export default function Methods() {
@@ -27,12 +28,20 @@ export default function Methods() {
           <div key={id} className="mt-2 border-b border-line pb-2"><div className="text-xs text-mute">{id} · {e.text} <SourcePill id={e.ref} /></div><Tex tex={e.tex} block /></div>
         ))}
       </section>
-      <section className="card space-y-1">
+      <section className="card space-y-1" id="data">
+        <h2 className="label">NASA data</h2>
+        <p>Primary NASA resource (challenge Resources tab): <a className="text-ink underline" href="https://psi.nasa.gov/physci/repo/search?q=combustion" data-testid="psi-resource-link">PSI Data Repository: Combustion Science</a>.
+          EmberAtlas reads PSI investigation metadata, DOIs and Experimental tables through the public PSI API (GET only; no zips or video) and cites every
+          record by its PSI accession (PSI-xx) plus file name and line.</p>
+      </section>
+      <section className="card space-y-1" data-testid="limitations">
         <h2 className="label">Limitations</h2>
         <ul className="ml-5 list-disc space-y-1">
-          <li>PSI contains microgravity and 1 g data only; partial-gravity values are bounded estimates.</li>
-          <li>Only FLEX droplet data are verified so far. Spread, habitat and smoke models are uncalibrated theory until BASS-II, Saffire and SAME-R figures are digitized.</li>
-          <li>Burke–Schumann flame temperatures overpredict (no dissociation/radiation); calibration factors absorb part of this.</li>
+          <li><b>Small n.</b> Many flight results are single tests; SAFFIRE-II has one test per material and thickness (7 like-for-like samples in Earth test vs orbit).</li>
+          <li><b>Like-for-like caveats.</b> Comparisons hold only for the same material, thickness, O₂, flow speed and direction, and never as a verdict on a ground test standard.</li>
+          <li><b>Calculated vs measured.</b> Flame temperatures (Burke–Schumann, T<sub>crit</sub>) are ideal calculated values; spread, habitat and smoke models are uncalibrated theory.</li>
+          <li><b>No partial-gravity data in PSI.</b> Moon and Mars values are bounded estimates between µg and 1 g.</li>
+          <li><b>Extracted and digitized values.</b> FLEX rows were extracted from NASA/TP-2015-216046 and cross-checked against the PSI-69 table (0 mismatches in 1,533 values); PSI table rows stay verified=false until the human spot-check. No values are hand-digitized from figures yet.</li>
           <li>The droplet model under-predicts the heptane LOI and both models miss the helium effect (non-unity Lewis number); see the Validation Lab.</li>
           <li>Many property values are literature candidates marked TODO_VERIFY in physics/data/*.yaml pending a science-checker review.</li>
           <li>Not for engineering certification. AI answers are generated from tool outputs and may still be wrong; verify.</li>
@@ -43,7 +52,7 @@ export default function Methods() {
         <pre className="overflow-x-auto rounded bg-bg p-2 font-mono text-xs">{`pip install "git+https://github.com/K4RM-P/Flame-in-Freefal.git#subdirectory=physics"
 python -c "from emberphys.models import run_droplet; print(run_droplet('n-heptane', 0.21, 101.3, 3.0).value)"`}</pre>
         <p>License: MIT. Cite as: EmberAtlas team (2026), <i>EmberAtlas: validated microgravity fire-safety models on NASA PSI data</i>, NASA Space Apps Challenge.</p>
-        <p>Use of AI: the Claude API (Anthropic) powers the Ask agent at runtime; the codebase was built with Claude Code.</p>
+        <p>Use of AI (SI): Claude Code (Anthropic) wrote the codebase, pipelines, tests and docs under human direction (source files carry an &quot;SI-assisted&quot; header); the Claude API powers the Ask agent at runtime. No SI-generated images or video are used. Full list: docs/REFERENCES.json.</p>
       </section>
       <section className="card" id="references">
         <h2 className="label">References</h2>

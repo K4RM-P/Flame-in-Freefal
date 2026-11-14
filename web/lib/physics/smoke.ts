@@ -1,3 +1,4 @@
+// SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 // Port of emberphys/smoke.py (SM1-SM3).
 import { prop } from "./data";
 import { R, mixM, muAir } from "./thermo";

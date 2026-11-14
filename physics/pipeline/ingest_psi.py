@@ -1,3 +1,4 @@
+# SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 """Parse PSI Experimental tables (fetched by fetch_psi.py) into normalized, provenance-carrying rows.
 
 Every row keeps: id, accession, source_id (= PSI accession), locator (file + row), raw (original cell strings as JSON),

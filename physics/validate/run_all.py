@@ -1,3 +1,4 @@
+# SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 """Validation V1-V10 (PRD §5.11) on held-out data. Writes web/data/validation/*.json and docs/VALIDATION.md.
 
 Never tunes anything. Rows used: verified & split == 'test' for V5 and extinction-diameter parity.

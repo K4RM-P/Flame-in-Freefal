@@ -1,3 +1,4 @@
+// SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 import type { Config } from "tailwindcss";
 
 const c = (v: string) => `rgb(var(--${v}) / <alpha-value>)`;

@@ -1,3 +1,4 @@
+// SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 // Port of emberphys/droplet.py (DR1-DR7).
 import { DROPLET_PARAMS, fuel, prop, v, type Atm } from "./data";
 import { flameTemperature } from "./flameTemp";

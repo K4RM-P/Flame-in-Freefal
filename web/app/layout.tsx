@@ -1,3 +1,4 @@
+// SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono, Newsreader } from "next/font/google";
 import "katex/dist/katex.min.css";

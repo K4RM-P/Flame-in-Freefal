@@ -1,3 +1,4 @@
+// SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 // Numeric guard: every number in an answer must appear in tool outputs (to rounding, allowing unit scalings).
 const SCALES = [1, 100, 0.01, 1000, 0.001, 1e6, 1e-6, 60, 1 / 60, 1 / 6.894757293168, 6.894757293168];
 const NUM = /(?<![\w.:-])[-−]?\d+(?:[.,]\d+)*(?:\.\d+)?(?:[eE][-+]?\d+)?/g;

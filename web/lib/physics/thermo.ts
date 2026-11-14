@@ -1,3 +1,4 @@
+// SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 // Port of emberphys/thermo.py (TH1-TH6).
 import { THERMO, PROPS, prop, type Atm, type Formula } from "./data";
 

@@ -1,3 +1,4 @@
+// SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 import { describe, expect, it } from "vitest";
 import { guard, numbersIn, stripUnsupported, supported } from "@/lib/ai/guard";
 import { GOLDEN, matchGolden, offlineAnswer } from "@/lib/ai/golden";

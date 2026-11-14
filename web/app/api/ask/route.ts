@@ -1,3 +1,4 @@
+// SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 import fs from "node:fs";
 import path from "node:path";
 import { askAgent, type TraceItem } from "@/lib/ai/agent";

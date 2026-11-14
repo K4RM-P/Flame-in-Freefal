@@ -1,3 +1,4 @@
+// SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 import { EQUATIONS } from "./equations";
 import { source } from "./sources";
 import type { ModelResult } from "./physics/models";

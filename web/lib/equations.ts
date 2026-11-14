@@ -1,3 +1,4 @@
+// SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 // Equation registry: id -> LaTeX, description, reference. Mirrors docstrings in physics/emberphys.
 export interface Eq { tex: string; text: string; ref: string }
 export const EQUATIONS: Record<string, Eq> = {

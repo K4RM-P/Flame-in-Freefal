@@ -1,3 +1,4 @@
+// SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 // The 12 golden questions (PRD §11): required tool calls + an offline, template-based composer used for the
 // demo cache when no API key is available. Offline answers use ONLY numbers from the tool outputs below.
 import { runTool } from "./tools";

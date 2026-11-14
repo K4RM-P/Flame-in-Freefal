@@ -1,3 +1,4 @@
+# SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 """Fit microgravity T_crit per fuel = T_ad at the FLEX O2/N2 LOI (V1/V2 values, Dietrich et al. 2014).
 
 Only the O2/N2 LOIs are used; CO2- and He-diluted LOIs stay held out (V3, V4, V4b).

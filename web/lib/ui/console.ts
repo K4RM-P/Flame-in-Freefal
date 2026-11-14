@@ -1,3 +1,4 @@
+// SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 // Thin adapter: everything the Console shows, derived from ModelResults (no new physics).
 import { runGravity, runHabitat, runSmoke, runSpread, runSuppression, type ModelResult } from "@/lib/physics/models";
 import { materialById } from "./materials";

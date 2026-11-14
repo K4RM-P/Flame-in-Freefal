@@ -1,4 +1,5 @@
 "use client";
+// SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 import { useMemo } from "react";
 import { runHabitat, runSpread, runSuppression } from "@/lib/physics/models";
 import { ModelLink, SourcePill, ValidityBadges, fmt } from "@/components/bits";

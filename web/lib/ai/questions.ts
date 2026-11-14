@@ -1,3 +1,4 @@
+// SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 // The 12 golden questions (PRD §11). Light module for the client; lib/ai/golden.ts holds tools + composers.
 export const GOLDEN_QUESTIONS = [
   "For a 34%/8.2 psia lunar habitat, which PSI investigations matter most and why?",

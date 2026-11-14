@@ -1,3 +1,4 @@
+// SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 import missionsJson from "@/data/missions.json";
 
 export interface Mission { id: string; name: string; x_o2: number; P_kPa: number; gravity_g: number; flow_cm_s: number; V_free_m3: number; source: string; vNote: string }

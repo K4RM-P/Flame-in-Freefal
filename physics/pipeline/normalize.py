@@ -1,3 +1,4 @@
+# SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 """Normalize extracted FLEX rows to the test_point schema (SI + x_o2, p_o2, y_o2)."""
 from __future__ import annotations
 

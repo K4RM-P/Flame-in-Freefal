@@ -1,3 +1,4 @@
+// SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 // One Plotly template for both themes.
 export function plotTheme(theme: "dark" | "light") {
   const ink = theme === "dark" ? "#E7E9EE" : "#2B2B2B";

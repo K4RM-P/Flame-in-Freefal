@@ -1,3 +1,4 @@
+// SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 // TS ModelResult layer (mirrors emberphys/models.py). Physics values are golden-vector-checked; MC bands use mulberry32.
 import { DROPLET_PARAMS, PROPS, SUPPRESSION_PARAMS, fuel, prop, v, type Atm } from "./data";
 import * as D from "./droplet";

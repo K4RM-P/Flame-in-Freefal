@@ -1,3 +1,4 @@
+// SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 import { describe, expect, it } from "vitest";
 import gv from "../../shared/golden_vectors.json";
 import * as T from "@/lib/physics/thermo";

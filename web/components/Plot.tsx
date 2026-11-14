@@ -1,4 +1,5 @@
 "use client";
+// SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 import dynamic from "next/dynamic";
 import type { ComponentType } from "react";
 import type { PlotParams } from "react-plotly.js";

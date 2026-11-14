@@ -1,4 +1,5 @@
 "use client";
+// SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { GOLDEN_QUESTIONS, ROLE_QUESTIONS } from "@/lib/ai/questions";

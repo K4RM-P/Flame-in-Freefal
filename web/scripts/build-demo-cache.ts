@@ -1,3 +1,4 @@
+// SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 // Build web/data/cache/golden.json: live Claude answers if ANTHROPIC_API_KEY is set, else offline tool-composed answers.
 import fs from "node:fs";
 import path from "node:path";

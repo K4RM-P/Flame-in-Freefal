@@ -1,4 +1,5 @@
 "use client";
+// SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 import type { ModelResult } from "@/lib/physics/models";
 import { useMission } from "@/lib/store";
 import { statusOf } from "@/lib/ui/status";

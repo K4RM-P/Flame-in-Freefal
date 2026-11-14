@@ -1,3 +1,4 @@
+// SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 // Okabe–Ito palette, fixed per investigation everywhere (colour-blind safe).
 export const OKABE_ITO = ["#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7"];
 const ORDER = ["FLEX", "BASS-II", "Saffire-I-III", "ACME-BRE", "SAME", "BASS", "Saffire-IV-VI"];

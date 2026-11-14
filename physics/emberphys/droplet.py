@@ -1,3 +1,4 @@
+# SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 """Droplet combustion (PRD §5.5): d2-law, standoff, dual (diffusive/radiative) extinction, LOI.
 
 DR1  K = 8 k_g / (rho_l cp_g) ln(1 + B)                         (Turns Ch. 10)

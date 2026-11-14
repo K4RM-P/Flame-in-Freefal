@@ -1,3 +1,4 @@
+// SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 // B6: how to read the suppression model's flame temperature. It is a calculated (adiabatic) limit, not a measurement.
 import type { ModelResult } from "@/lib/physics/models";
 import { T_AMB } from "@/lib/physics/models";

@@ -1,3 +1,4 @@
+// SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 // Live NASA PSI catalog (physics/pipeline/fetch_psi.py → physics/validate/export.py). Read-only metadata from the PSI API.
 import cat from "@/data/psi_catalog.json";
 

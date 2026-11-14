@@ -1,4 +1,5 @@
 "use client";
+// SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 // B4: exploration-atmosphere evidence. ACME BRE (PSI-20) is the flight dataset whose objective lists NASA's exploration
 // atmospheres. Values come only from the PSI-20 table / metadata (ingest_psi.py) and the cited key finding.
 import bre from "@/data/psi/bre_atmospheres.json";

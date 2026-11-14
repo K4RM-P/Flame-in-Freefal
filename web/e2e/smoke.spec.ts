@@ -1,3 +1,4 @@
+// SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
 

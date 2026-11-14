@@ -1,3 +1,4 @@
+// SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 import { ModelPage } from "./ModelPage";
 
 export const dynamicParams = false;

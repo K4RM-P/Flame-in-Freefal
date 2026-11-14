@@ -1,3 +1,4 @@
+// SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 // Root finding and bounded minimisation (Brent), matching scipy tolerances used in emberphys.
 
 export function brentq(f: (x: number) => number, a: number, b: number, xtol = 1e-12, rtol = 8.88e-16, maxiter = 200): number {

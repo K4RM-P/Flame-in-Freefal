@@ -1,3 +1,4 @@
+// SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 // Deterministic agent tools over the same TS physics and data the UI uses (zod-validated inputs).
 import { z } from "zod";
 import * as M from "@/lib/physics/models";

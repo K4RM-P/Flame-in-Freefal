@@ -1,3 +1,4 @@
+# SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 """Generate shared/golden_vectors.json: random in-envelope inputs -> Python outputs (TS must match, rtol 1e-6)."""
 from __future__ import annotations
 

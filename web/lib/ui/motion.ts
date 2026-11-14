@@ -1,3 +1,4 @@
+// SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 // Motion tokens (Apple-style springs). Animate only transform and opacity.
 import type { Transition } from "motion/react";
 

@@ -1,3 +1,4 @@
+# SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 """Gravity-equivalent flow mapping (PRD §5.4). Partial-gravity outputs are BOUNDED ESTIMATES, never measured.
 
 GR1  u_b = (g alpha_g (T_f - T_inf)/T_inf)^(1/3)       (Fernandez-Pello; Olson)

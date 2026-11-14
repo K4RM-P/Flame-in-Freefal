@@ -1,3 +1,4 @@
+// SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 // Port of emberphys/habitat.py (HA1-HA4); adaptive RK45 (Dormand-Prince) like scipy's default.
 import { LIMITS, fuel, prop, v } from "./data";
 import { R, cpMolar, formulaMass, molarMass } from "./thermo";

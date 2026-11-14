@@ -1,3 +1,4 @@
+# SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 """Export web JSON: data files, fitted params, verified test points, investigations, coverage."""
 from __future__ import annotations
 
@@ -17,6 +18,33 @@ ROOT = Path(__file__).resolve().parents[2]
 WEB = ROOT / "web" / "data"
 
 
+def write_references(sources: dict, catalog: dict) -> None:
+    """docs/REFERENCES.json: every data source (PSI-xx first), API, library, font, image and SI tool, machine-readable."""
+    import re
+    import tomllib
+
+    sw = load_yaml("software")
+    pkg = json.loads((ROOT / "web" / "package.json").read_text())
+    py = tomllib.loads((ROOT / "physics" / "pyproject.toml").read_text())["project"]
+    pins = py["dependencies"] + [d for v in py.get("optional-dependencies", {}).values() for d in v]
+    libs = [{"name": n, "version": v, "ecosystem": "npm", "license": sw["licenses"].get(n, "UNKNOWN")}
+            for n, v in sorted({**pkg["dependencies"], **pkg["devDependencies"]}.items())]
+    for d in pins:
+        n, v = re.split(r"==", d)
+        libs.append({"name": n, "version": v, "ecosystem": "pypi", "license": sw["licenses"].get(n.lower(), "UNKNOWN")})
+    psi = [{"id": acc, "title": c["title"], "doi": c.get("doi"), "url": c["psi_url"], "files_used": [f["file"] for f in c["manifest"]]}
+           for acc, c in sorted(catalog["investigations"].items(), key=lambda kv: int(kv[0].split("-")[1]))]
+    other = [{"id": k, **{f: v[f] for f in ("type", "title", "url", "year", "doi", "accessed") if v.get(f) is not None}}
+             for k, v in sources.items() if not k.startswith("PSI-")]
+    refs = {"project": "EmberAtlas", "license": sw["project_license"], "psi_records": psi, "other_sources": other, "apis": sw["apis"],
+            "software": libs, "fonts": sw["fonts"], "images": sw["images"], "si_tools": sw["si_tools"], "si_media": sw["si_media"],
+            "nasa_resource_used": sources["psi-combustion-repo"]}
+    unknown = [lib["name"] for lib in libs if lib["license"] == "UNKNOWN"]
+    if unknown:
+        raise SystemExit(f"software.yaml is missing licenses for: {unknown}")
+    (ROOT / "docs" / "REFERENCES.json").write_text(json.dumps(refs, indent=1, ensure_ascii=False) + "\n")
+
+
 def main() -> None:
     for name in ("properties", "missions", "limits", "validation_targets", "investigations", "verification"):
         save_json(WEB / f"{name}.json", load_yaml(name))
@@ -28,6 +56,7 @@ def main() -> None:
         sources.setdefault(acc, {"type": "psi", "title": f"NASA {acc}: {c['title']}" + (f" (DOI {c['doi']})" if c.get("doi") else ""),
                                  "url": c["psi_url"], "doi": c.get("doi")})
     save_json(WEB / "sources.json", sources)
+    write_references(sources, catalog)
     save_json(WEB / "psi_catalog.json", catalog)
     # PSI Experimental tables (ingest_psi.py): small derived products bundled; full tables served lazily from web/public.
     psi_dir = PARAMS.parent / "psi"

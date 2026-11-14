@@ -1,3 +1,4 @@
+# SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 """Fetch NASA PSI combustion metadata, DOIs and small tables from the public PSI API (GET only).
 
 API (psi.nasa.gov, guide shared on Space Apps Connect #2157):

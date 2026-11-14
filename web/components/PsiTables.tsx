@@ -1,4 +1,5 @@
 "use client";
+// SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 // Evidence > Data: PSI Experimental tables ingested by physics/pipeline/ingest_psi.py. Rows load lazily from /psi/<key>.json.
 import { useEffect, useState } from "react";
 import index from "@/data/psi/tables_index.json";

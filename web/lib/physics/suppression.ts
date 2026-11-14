@@ -1,3 +1,4 @@
+// SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 // Port of emberphys/suppression.py (SU1, SU2).
 import { SUPPRESSION_PARAMS, fuel, prop, type Atm } from "./data";
 import { brentq } from "./numerics";

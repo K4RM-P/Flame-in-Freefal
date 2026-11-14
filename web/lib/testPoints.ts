@@ -1,3 +1,4 @@
+// SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 import tp from "@/data/test_points.json";
 
 export interface TestPoint {

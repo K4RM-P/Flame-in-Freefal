@@ -1,4 +1,5 @@
 "use client";
+// SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 import { useMemo, useState } from "react";
 import { useMission } from "@/lib/store";
 import { DEFAULT_WEIGHTS, INVESTIGATIONS, rank, type Weights } from "@/lib/ranking";

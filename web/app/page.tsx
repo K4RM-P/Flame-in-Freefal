@@ -1,4 +1,5 @@
 "use client";
+// SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { motion } from "motion/react";
@@ -140,12 +141,12 @@ export default function Landing() {
 
       <footer className="border-t border-line px-6 py-10 text-[13px] text-mute">
         <div className="mx-auto flex max-w-[1200px] flex-wrap gap-x-8 gap-y-2">
-          <span>Built on NASA PSI data (psi.nasa.gov) and NASA Technical Reports Server documents.</span>
+          <span>Built on NASA data: <a className="underline" href="https://psi.nasa.gov/physci/repo/search?q=combustion" data-testid="psi-resource-link">PSI Data Repository: Combustion Science</a> and NASA Technical Reports Server documents.</span>
           <Link href="/methods" className="underline">Methods</Link>
           <a href="https://github.com/K4RM-P/Flame-in-Freefal" className="underline">GitHub</a>
           <span>MIT license</span>
-          <span>Use of AI: Claude API powers Ask; built with Claude Code.</span>
-          <span>No NASA imagery is embedded yet; credits in CREDITS.md.</span>
+          <span>Use of AI (SI): built with Claude Code; Claude API powers Ask. No SI-generated images or video.</span>
+          <span>Text credits only; no NASA logos. Credits in CREDITS.md.</span>
         </div>
       </footer>
     </div>

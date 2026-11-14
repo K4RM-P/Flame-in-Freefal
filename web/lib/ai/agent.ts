@@ -1,3 +1,4 @@
+// SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 // Tool-use agent loop on the Anthropic API with the numeric guard.
 import Anthropic from "@anthropic-ai/sdk";
 import { TOOL_DEFS, runTool } from "./tools";

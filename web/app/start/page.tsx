@@ -1,4 +1,5 @@
 "use client";
+// SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 import { AnimatePresence, motion } from "motion/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";

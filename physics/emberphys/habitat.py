@@ -1,3 +1,4 @@
+# SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 """Closed-volume well-mixed habitat fire consequence model (PRD §5.9).
 
 HA1  (sum n_i c_v,i) dT/dt = (1 - chi) Q(t) - h_w A_w (T - T_w)

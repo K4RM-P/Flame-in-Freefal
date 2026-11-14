@@ -1,4 +1,5 @@
 "use client";
+// SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useRef } from "react";
 import { spring } from "@/lib/ui/motion";

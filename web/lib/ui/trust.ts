@@ -1,3 +1,4 @@
+// SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 // Trust dials for the Validation Lab, derived from held-out validation JSON + droplet MC bands (no new physics).
 import kJson from "@/data/validation/droplet_K.json";
 import dJson from "@/data/validation/droplet_dext.json";

@@ -1,3 +1,4 @@
+# SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 """Grouped train/test split by test campaign (seeded). FLEX campaign = first 3 chars of CIR identifier."""
 from __future__ import annotations
 

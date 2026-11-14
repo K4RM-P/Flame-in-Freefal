@@ -1,3 +1,4 @@
+# SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 """Analytic-limit and schema tests (Build prompt Phase 1)."""
 import math
 

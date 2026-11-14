@@ -1,3 +1,4 @@
+// SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 // Relevance ranking (PRD v1 formula): weighted sum of six [0,1] criteria, each explained.
 import inv from "@/data/investigations.json";
 import { TEST_POINTS } from "./testPoints";

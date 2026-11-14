@@ -1,4 +1,5 @@
 "use client";
+// SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 import { useState } from "react";
 import { Callout, CopyButton, EmptyState, NumberTween, ParamSlider, Segmented, Skeleton, StatusChip, Term } from "@/components/ui-kit";
 import { ResultCard } from "@/components/console/ResultCard";

@@ -1,3 +1,4 @@
+// SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 import type { ModelResult } from "@/lib/physics/models";
 import summary from "@/data/validation/summary.json";
 

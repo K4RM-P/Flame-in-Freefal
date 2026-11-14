@@ -1,3 +1,4 @@
+// SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 // B3: "Earth test vs orbit" — SAFFIRE-II (PSI-99) like-for-like µg vs 1 g burn outcomes. Classification is computed in
 // physics/pipeline/ingest_psi.py (Python = source of truth); this component only renders it.
 import ev from "@/data/psi/earth_vs_orbit.json";

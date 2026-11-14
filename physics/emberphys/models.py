@@ -1,3 +1,4 @@
+# SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 """run_* wrappers: every model returns a ModelResult with p05/p50/p95, validity and sources."""
 from __future__ import annotations
 

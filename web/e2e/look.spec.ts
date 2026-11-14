@@ -1,3 +1,4 @@
+// SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 import { test } from "@playwright/test";
 test("look", async ({ page }) => {
   test.skip(!process.env.LOOK, "manual");
