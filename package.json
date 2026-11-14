@@ -1,0 +1,13 @@
+{
+  "name": "emberatlas",
+  "private": true,
+  "scripts": {
+    "build": "pnpm --dir web build",
+    "dev": "pnpm --dir web dev",
+    "test": "pnpm --dir web test"
+  },
+  "dependencies": {
+    "next": "15.5.29"
+  },
+  "packageManager": "pnpm@10.34.8"
+}
