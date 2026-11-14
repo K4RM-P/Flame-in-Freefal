@@ -1,0 +1,13 @@
+# Sign-off records. A batch is verified only when a spot-check record exists here.
+flex_table_ix:
+  source_id: ntrs-20150023456
+  batch: "FLEX Table IX, all rows extracted by pipeline/extract_tables.py"
+  method: "Rendered PDF page image compared cell-by-cell with extracted CSV values"
+  spot_check:
+    - {locator: "NASA/TP-2015-216046 Table IX, PDF p.30", rows: "FLEX-136..FLEX-171 (35 rows)", mismatches: 0, checked_by: "Claude Code (visual)", date: "2026-11-14"}
+    - {locator: "NASA/TP-2015-216046 Table IX, PDF p.26", rows: "FLEX-001..FLEX-031 (text layer review)", mismatches: 0, checked_by: "Claude Code (text)", date: "2026-11-14"}
+  human_countersign: null   # TODO: science checker re-checks 20 rows (docs/HUMAN_TASKS.md #4) and writes name/date here
+  verified: true
+  known_issues:
+    - "FLEX-114: pressure printed as 0.0 mmHg in Table IX (other C11 tests ~535 mmHg). Row excluded (qc_flag), not corrected."
+    - "FLEX-156, 205, 213, 228, 281-284 absent from Table IX."

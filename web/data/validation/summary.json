@@ -1,0 +1,186 @@
+{
+ "targets": [
+  {
+   "id": "V1",
+   "model": "droplet",
+   "quantity": "n-heptane LOI (O2/N2)",
+   "published": 0.15,
+   "predicted": 0.1143,
+   "criterion": "\u00b10.02",
+   "status": "fail",
+   "source": "dietrich-2014",
+   "note": "Quasi-steady dual-extinction model; see VALIDATION.md discussion"
+  },
+  {
+   "id": "V2",
+   "model": "droplet",
+   "quantity": "methanol LOI (O2/N2)",
+   "published": 0.12,
+   "predicted": 0.118,
+   "criterion": "\u00b10.02",
+   "status": "pass",
+   "source": "dietrich-2014",
+   "note": ""
+  },
+  {
+   "id": "V3",
+   "model": "droplet",
+   "quantity": "n-heptane LOI (CO2)",
+   "published": 0.17,
+   "predicted": 0.1306,
+   "criterion": "\u00b10.02",
+   "status": "fail",
+   "source": "dietrich-2014",
+   "note": "Quasi-steady dual-extinction model; see VALIDATION.md discussion"
+  },
+  {
+   "id": "V4",
+   "model": "droplet",
+   "quantity": "methanol LOI (CO2)",
+   "published": 0.14,
+   "predicted": 0.1337,
+   "criterion": "\u00b10.02",
+   "status": "pass",
+   "source": "dietrich-2014",
+   "note": ""
+  },
+  {
+   "id": "V4b-n-heptane",
+   "model": "droplet",
+   "quantity": "n-heptane LOI (HE)",
+   "published": 0.15,
+   "predicted": 0.1026,
+   "criterion": "\u00b10.02",
+   "status": "fail",
+   "source": "dietrich-2014",
+   "note": "Quasi-steady dual-extinction model; see VALIDATION.md discussion"
+  },
+  {
+   "id": "V4b-methanol",
+   "model": "droplet",
+   "quantity": "methanol LOI (HE)",
+   "published": 0.14,
+   "predicted": 0.1086,
+   "criterion": "\u00b10.02",
+   "status": "fail",
+   "source": "dietrich-2014",
+   "note": "Quasi-steady dual-extinction model; see VALIDATION.md discussion"
+  },
+  {
+   "id": "V3-thermal",
+   "model": "suppression",
+   "quantity": "n-heptane LOI (CO2), thermal theory",
+   "published": 0.17,
+   "predicted": 0.1686,
+   "criterion": "\u00b10.02",
+   "status": "pass",
+   "source": "dietrich-2014",
+   "note": ""
+  },
+  {
+   "id": "V4-thermal",
+   "model": "suppression",
+   "quantity": "methanol LOI (CO2), thermal theory",
+   "published": 0.14,
+   "predicted": 0.1433,
+   "criterion": "\u00b10.02",
+   "status": "pass",
+   "source": "dietrich-2014",
+   "note": ""
+  },
+  {
+   "id": "V4b-n-heptane-thermal",
+   "model": "suppression",
+   "quantity": "n-heptane LOI (HE), thermal theory",
+   "published": 0.15,
+   "predicted": 0.1286,
+   "criterion": "\u00b10.02",
+   "status": "fail",
+   "source": "dietrich-2014",
+   "note": "Pure thermal theory under-predicts He effectiveness (He diffusivity / Lewis-number effect not modelled)"
+  },
+  {
+   "id": "V4b-methanol-thermal",
+   "model": "suppression",
+   "quantity": "methanol LOI (HE), thermal theory",
+   "published": 0.14,
+   "predicted": 0.0972,
+   "criterion": "\u00b10.02",
+   "status": "fail",
+   "source": "dietrich-2014",
+   "note": "Pure thermal theory under-predicts He effectiveness (He diffusivity / Lewis-number effect not modelled)"
+  },
+  {
+   "id": "V5",
+   "model": "droplet",
+   "quantity": "FLEX burning-rate constant K (held-out campaigns)",
+   "published": "per test",
+   "predicted": "MAPE 13.3% (n=66)",
+   "criterion": "MAPE \u2264 20%",
+   "status": "pass",
+   "source": "ntrs-20150023456",
+   "note": ""
+  },
+  {
+   "id": "V6",
+   "model": "spread",
+   "quantity": "PMMA rod limiting O2, ug vs 1 g",
+   "published": {
+    "ug": 0.17,
+    "1g": 0.18
+   },
+   "predicted": null,
+   "criterion": "\u00b10.01",
+   "status": "pending data",
+   "source": "bass2-sci-rep-2017",
+   "note": "Needs: digitized BASS-II burn/extinct points (docs/HUMAN_TASKS.md). Model ships as 'Uncalibrated \u2014 theory only'."
+  },
+  {
+   "id": "V7",
+   "model": "spread",
+   "quantity": "BASS-II opposed spread vs flow (held-out)",
+   "published": "\u2014",
+   "predicted": null,
+   "criterion": "MAPE <= 30%, peak at intermediate flow",
+   "status": "pending data",
+   "source": "bass2-sci-rep-2017",
+   "note": "Needs: digitized BASS-II spread-rate figure (docs/HUMAN_TASKS.md). Model ships as 'Uncalibrated \u2014 theory only'."
+  },
+  {
+   "id": "V8",
+   "model": "boundary",
+   "quantity": "ACME BRE: extinct at 21% O2 within 40 s; steady at 26.5/34/40%",
+   "published": "\u2014",
+   "predicted": null,
+   "criterion": "classification",
+   "status": "pending data",
+   "source": "dehghani-bre",
+   "note": "Needs: BRE outcome table (docs/HUMAN_TASKS.md). Model ships as 'Uncalibrated \u2014 theory only'."
+  },
+  {
+   "id": "V9",
+   "model": "habitat",
+   "quantity": "Saffire vehicle T, P, CO2 rise for ~10 kW fire",
+   "published": "\u2014",
+   "predicted": null,
+   "criterion": "within 30% on held-out flight",
+   "status": "pending data",
+   "source": "ntrs-20210011521",
+   "note": "Needs: Saffire IV-V vehicle time series (docs/HUMAN_TASKS.md). Model ships as 'Uncalibrated \u2014 theory only'."
+  },
+  {
+   "id": "V10",
+   "model": "smoke",
+   "quantity": "SAME-R mean particle size after aging",
+   "published": [
+    200,
+    400
+   ],
+   "predicted": null,
+   "criterion": "\u00b1",
+   "status": "pending data",
+   "source": "same-r",
+   "note": "Needs: SAME-R aging series (docs/HUMAN_TASKS.md). Model ships as 'Uncalibrated \u2014 theory only'."
+  }
+ ]
+}

@@ -1,0 +1,17 @@
+# Exposure limits. ppm by volume (mole fraction x 1e6).
+CO:
+  source: jsc-20584-revC
+  locator: "JSC 20584 Rev C, SMAC table, PDF p.11"
+  status: ok
+  ppm: {1h: 425, 24h: 100, 7d: 55, 30d: 15, 180d: 15, 1000d: 15}
+CO2:
+  source: nasa-std-3001-v2
+  locator: "JSC 20584 Rev C deleted CO2 SMACs (PDF p.3); CO2 managed via NASA-STD-3001 Vol 2 (under revision)"
+  status: TODO_VERIFY
+  note: "Candidate legacy JSC 20584 (2008) values; confirm against NASA-STD-3001 Vol. 2 current revision."
+  ppm: {1h: 20000, 24h: 13000, 7d: 7000, 30d: 7000, 180d: 7000}
+O2_min:
+  source: nasa-std-3001-v2
+  status: TODO_VERIFY
+  note: "Hypoxia floor candidate: ppO2 >= 16.5 kPa (verify in NASA-STD-3001 Vol 2)"
+  p_o2_kPa: 16.5

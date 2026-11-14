@@ -1,0 +1,214 @@
+{
+ "gri30": {
+  "type": "external",
+  "title": "GRI-Mech 3.0 thermodynamic data (thermo30.dat), NASA 7-coefficient polynomials",
+  "authors": "Smith, Golden, Frenklach, et al.",
+  "url": "http://combustion.berkeley.edu/gri-mech/version30/files30/thermo30.dat",
+  "year": 1999
+ },
+ "nist-webbook-he": {
+  "type": "nist",
+  "title": "NIST Chemistry WebBook, Helium: ideal-gas Cp = 20.786 J/mol/K (monatomic, 5/2 R)",
+  "url": "https://webbook.nist.gov/cgi/cbook.cgi?ID=C7440597",
+  "year": 2023
+ },
+ "iupac-2021": {
+  "type": "external",
+  "title": "IUPAC Standard atomic weights (abridged, 2021)",
+  "url": "https://iupac.qmul.ac.uk/AtWt/",
+  "year": 2021
+ },
+ "white-vfm": {
+  "type": "external",
+  "title": "White, F. M., Viscous Fluid Flow, 3rd ed., Table 1-2/1-3 (Sutherland constants for air)",
+  "year": 2006
+ },
+ "incropera": {
+  "type": "external",
+  "title": "Bergman, Lavine, Incropera, DeWitt, Fundamentals of Heat and Mass Transfer, 7th ed., Table A.4 (gas properties at 1 atm)",
+  "year": 2011
+ },
+ "kee-chemkin": {
+  "type": "external",
+  "title": "Kee et al., CHEMKIN transport (mixture-averaged conductivity: 0.5(sum x k + 1/sum x/k)); Mathur, Tondon & Saxena (1967) Mol. Phys. 12:569",
+  "year": 1986
+ },
+ "turns": {
+  "type": "external",
+  "title": "Turns, S. R., An Introduction to Combustion, 3rd ed. (Ch. 10 droplet d2-law; Ch. 9 Burke-Schumann; App. B fuel properties)",
+  "year": 2012
+ },
+ "nist-webbook-meoh": {
+  "type": "nist",
+  "title": "NIST Chemistry WebBook, Methanol: enthalpy of vaporization near Tb (~35.2 kJ/mol)",
+  "url": "https://webbook.nist.gov/cgi/cbook.cgi?ID=C67561",
+  "year": 2023
+ },
+ "westbrook-dryer-1981": {
+  "type": "doi",
+  "title": "Westbrook, C. K., Dryer, F. L., Simplified reaction mechanisms for the oxidation of hydrocarbon fuels in flames, Combust. Sci. Tech. 27:31-43 (Table 2)",
+  "url": "https://doi.org/10.1080/00102208108946970",
+  "year": 1981
+ },
+ "huggett-1980": {
+  "type": "doi",
+  "title": "Huggett, C., Estimation of rate of heat release by means of oxygen consumption measurements, Fire and Materials 4(2):61-65",
+  "url": "https://doi.org/10.1002/fam.810040202",
+  "year": 1980
+ },
+ "sfpe-beyler": {
+  "type": "external",
+  "title": "Beyler, C., Flammability limits of premixed and diffusion flames, SFPE Handbook of Fire Protection Engineering (critical adiabatic flame temperature ~1500-1600 K)",
+  "year": 2016
+ },
+ "quintiere-ffp": {
+  "type": "external",
+  "title": "Quintiere, J. G., Fundamentals of Fire Phenomena, Wiley (Ch. 7 opposed-flow flame spread; material properties tables)",
+  "year": 2006
+ },
+ "de-ris-1969": {
+  "type": "doi",
+  "title": "de Ris, J. N., Spread of a laminar diffusion flame, Proc. Combust. Inst. 12:241-252",
+  "url": "https://doi.org/10.1016/S0082-0784(69)80407-8",
+  "year": 1969
+ },
+ "fernandez-pello-1981": {
+  "type": "doi",
+  "title": "Fernandez-Pello, A. C., Ray, S. R., Glassman, I., Flame spread in an opposed forced flow: the effect of ambient oxygen concentration, Proc. Combust. Inst. 18:579-589",
+  "url": "https://doi.org/10.1016/S0082-0784(81)80063-X",
+  "year": 1981
+ },
+ "olson-1991": {
+  "type": "doi",
+  "title": "Olson, S. L., Mechanisms of microgravity flame spread over a thin solid fuel: oxygen and opposed flow effects, Combust. Sci. Tech. 76:233-249",
+  "url": "https://doi.org/10.1080/00102209108951711",
+  "year": 1991
+ },
+ "chao-law-tien-1990": {
+  "type": "doi",
+  "title": "Chao, B. H., Law, C. K., T'ien, J. S., Structure and extinction of diffusion flames with flame radiation, Proc. Combust. Inst. 23:523-531",
+  "url": "https://doi.org/10.1016/S0082-0784(06)80299-1",
+  "year": 1990
+ },
+ "ntrs-20150023456": {
+  "type": "ntrs",
+  "title": "Dietrich, D. L., et al., Flame Extinguishment Experiment (FLEX) results, NASA/TP-2015-216046 (Appendix A Table IX; Appendix B per-test captions)",
+  "url": "https://ntrs.nasa.gov/citations/20150023456",
+  "year": 2015
+ },
+ "dietrich-2014": {
+  "type": "doi",
+  "title": "Dietrich, D. L., Nayagam, V., Hicks, M. C., Ferkul, P. V., Dryer, F. L., Farouk, T., Shaw, B. D., Suh, H. K., Choi, M. Y., Liu, Y. C., Avedisian, C. T., Williams, F. A., Droplet Combustion Experiments Aboard the International Space Station, Microgravity Sci. Technol. 26:65-76",
+  "url": "https://doi.org/10.1007/s12217-014-9372-2",
+  "year": 2014
+ },
+ "jsc-20584-revC": {
+  "type": "ntrs",
+  "title": "NASA JSC 20584 Rev C, Spacecraft Maximum Allowable Concentrations (SMACs), 6/13/2024 (CO2 SMACs deleted in this revision)",
+  "url": "https://ntrs.nasa.gov/citations/20240007713",
+  "year": 2024
+ },
+ "nasa-std-3001-v2": {
+  "type": "external",
+  "title": "NASA-STD-3001 Vol. 2, Human Factors, Habitability, and Environmental Health (CO2 limits; under revision per JSC 20584 Rev C)",
+  "url": "https://standards.nasa.gov/standard/NASA/NASA-STD-3001-VOL-2",
+  "year": 2023
+ },
+ "ntrs-20240003211": {
+  "type": "ntrs",
+  "title": "Exploration atmosphere (34% O2, 8.2 psia) for lunar surface habitats, NTRS 20240003211",
+  "url": "https://ntrs.nasa.gov/citations/20240003211",
+  "year": 2024
+ },
+ "space-apps-2026": {
+  "type": "external",
+  "title": "NASA Space Apps Challenge 2026, Flame in Freefall challenge statement (Moon base 30% O2, 70.3 kPa)",
+  "url": "https://www.spaceappschallenge.org/",
+  "year": 2026
+ },
+ "bass2-sci-rep-2017": {
+  "type": "doi",
+  "title": "BASS-II PMMA flame spread and limiting O2 in microgravity vs 1 g, Sci. Rep. (2017)",
+  "url": "https://doi.org/10.1038/s41598-017-18398-4",
+  "year": 2017
+ },
+ "ntrs-20160000593": {
+  "type": "ntrs",
+  "title": "BASS-II results, NTRS 20160000593",
+  "url": "https://ntrs.nasa.gov/citations/20160000593",
+  "year": 2016
+ },
+ "ntrs-20150008962": {
+  "type": "ntrs",
+  "title": "BASS-II SIBAL concurrent flame spread, NTRS 20150008962",
+  "url": "https://ntrs.nasa.gov/citations/20150008962",
+  "year": 2015
+ },
+ "ntrs-20180005168": {
+  "type": "ntrs",
+  "title": "Saffire I-III test matrix and results, NTRS 20180005168",
+  "url": "https://ntrs.nasa.gov/citations/20180005168",
+  "year": 2018
+ },
+ "ntrs-20210011521": {
+  "type": "ntrs",
+  "title": "Saffire IV-V spacecraft vehicle response to a large-scale fire, ICES 2021, NTRS 20210011521",
+  "url": "https://ntrs.nasa.gov/citations/20210011521",
+  "year": 2021
+ },
+ "ices-2024-365": {
+  "type": "external",
+  "title": "Saffire VI results, ICES-2024-365",
+  "year": 2024
+ },
+ "dehghani-bre": {
+  "type": "external",
+  "title": "Dehghani, P., ACME Burning Rate Emulator (BRE), PhD dissertation, University of Maryland; Combust. Flame 228 (2021)",
+  "year": 2021
+ },
+ "same-r": {
+  "type": "external",
+  "title": "Urban, D. L., et al., Smoke Aerosol Measurement Experiment (SAME/SAME-R), AIAA 2013; Aerosol Sci. Tech. 49 (2015)",
+  "year": 2015
+ },
+ "ntrs-20250010653": {
+  "type": "ntrs",
+  "title": "LUCI (lunar-gravity combustion), NTRS 20250010653 - OUTSIDE PSI",
+  "url": "https://ntrs.nasa.gov/citations/20250010653",
+  "year": 2025
+ },
+ "ntrs-20240015307": {
+  "type": "ntrs",
+  "title": "FM2 (Flammability of Materials on the Moon), NTRS 20240015307 - OUTSIDE PSI",
+  "url": "https://ntrs.nasa.gov/citations/20240015307",
+  "year": 2024
+ },
+ "psi": {
+  "type": "psi",
+  "title": "NASA Physical Sciences Informatics (PSI) system, Combustion Science",
+  "url": "https://psi.nasa.gov",
+  "year": 2026
+ },
+ "seinfeld-pandis": {
+  "type": "external",
+  "title": "Seinfeld, J. H., Pandis, S. N., Atmospheric Chemistry and Physics, 3rd ed., Ch. 13 (coagulation kernel, Cunningham slip correction)",
+  "year": 2016
+ },
+ "nasa-orion": {
+  "type": "external",
+  "title": "NASA Orion reference guide (habitable volume ~316 ft3 / 9 m3)",
+  "url": "https://www.nasa.gov/reference/orion-reference-guide/",
+  "year": 2022
+ },
+ "nasa-iss-facts": {
+  "type": "external",
+  "title": "NASA ISS facts and figures (habitable volume 388 m3)",
+  "url": "https://www.nasa.gov/international-space-station/space-station-facts-and-figures/",
+  "year": 2023
+ },
+ "nfpa-2001": {
+  "type": "external",
+  "title": "NFPA 2001, Standard on Clean Agent Fire Extinguishing Systems (cup-burner minimum extinguishing concentrations; n-heptane N2 ~30-34 vol%); Senecal, J. A., Fire Safety J. 40 (2005) 579-591",
+  "year": 2022
+ }
+}

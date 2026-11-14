@@ -1,0 +1,669 @@
+{
+ "constants": {
+  "R_univ": {
+   "value": 8.314462618,
+   "units": "J/mol/K",
+   "source": "CODATA 2018",
+   "status": "ok"
+  },
+  "sigma_SB": {
+   "value": 5.670374419e-08,
+   "units": "W/m2/K4",
+   "source": "CODATA 2018",
+   "status": "ok"
+  },
+  "k_B": {
+   "value": 1.380649e-23,
+   "units": "J/K",
+   "source": "CODATA 2018 (exact)",
+   "status": "ok"
+  },
+  "g0": {
+   "value": 9.80665,
+   "units": "m/s2",
+   "source": "CGPM 1901 standard gravity",
+   "status": "ok"
+  },
+  "P_atm": {
+   "value": 101325.0,
+   "units": "Pa",
+   "source": "standard atmosphere",
+   "status": "ok"
+  },
+  "T_amb": {
+   "value": 298.15,
+   "units": "K",
+   "source": "assumed cabin/test ambient (FLEX chamber ~room temp)",
+   "status": "ok"
+  },
+  "dH_O2": {
+   "value": 13100000.0,
+   "units": "J/kg_O2",
+   "source": "huggett-1980",
+   "status": "ok",
+   "dist": {
+    "type": "normal",
+    "sd": 65000.0
+   }
+  }
+ },
+ "atomic_weights": {
+  "C": 12.011,
+  "H": 1.008,
+  "O": 15.999,
+  "N": 14.007,
+  "He": 4.0026,
+  "Ar": 39.948
+ },
+ "species": {
+  "O2": {
+   "formula": {
+    "O": 2
+   }
+  },
+  "N2": {
+   "formula": {
+    "N": 2
+   }
+  },
+  "CO2": {
+   "formula": {
+    "C": 1,
+    "O": 2
+   }
+  },
+  "H2O": {
+   "formula": {
+    "H": 2,
+    "O": 1
+   }
+  },
+  "CO": {
+   "formula": {
+    "C": 1,
+    "O": 1
+   }
+  },
+  "AR": {
+   "formula": {
+    "Ar": 1
+   }
+  },
+  "HE": {
+   "formula": {
+    "He": 1
+   },
+   "nasa7_constant_cp_over_R": 2.5,
+   "source": "nist-webbook-he"
+  }
+ },
+ "transport": {
+  "air_sutherland_mu": {
+   "mu0": 1.716e-05,
+   "T0": 273.15,
+   "S": 110.4,
+   "units": "Pa s, K",
+   "source": "white-vfm",
+   "status": "ok"
+  },
+  "air_sutherland_k": {
+   "k0": 0.0241,
+   "T0": 273.15,
+   "S": 194.0,
+   "units": "W/m/K, K",
+   "source": "white-vfm",
+   "status": "ok"
+  },
+  "k_species": {
+   "O2": {
+    "k300": 0.0268,
+    "n": 0.817,
+    "source": "incropera",
+    "status": "TODO_VERIFY"
+   },
+   "N2": {
+    "k300": 0.0259,
+    "n": 0.761,
+    "source": "incropera",
+    "status": "TODO_VERIFY"
+   },
+   "CO2": {
+    "k300": 0.01655,
+    "n": 1.03,
+    "source": "incropera",
+    "status": "TODO_VERIFY"
+   },
+   "HE": {
+    "k300": 0.152,
+    "n": 0.703,
+    "source": "incropera",
+    "status": "TODO_VERIFY"
+   },
+   "AR": {
+    "k300": 0.0177,
+    "n": 0.72,
+    "source": "incropera",
+    "status": "TODO_VERIFY"
+   },
+   "H2O": {
+    "k300": 0.0196,
+    "n": 1.12,
+    "source": "incropera",
+    "status": "TODO_VERIFY"
+   }
+  }
+ },
+ "fuels": {
+  "n-heptane": {
+   "phase": "liquid",
+   "formula": {
+    "C": 7,
+    "H": 16
+   },
+   "dHc": {
+    "value": 44926000.0,
+    "units": "J/kg",
+    "note": "lower heating value",
+    "source": "turns",
+    "status": "TODO_VERIFY",
+    "dist": {
+     "type": "normal",
+     "sd": 200000.0
+    }
+   },
+   "T_boil": {
+    "value": 371.5,
+    "units": "K",
+    "source": "turns",
+    "status": "TODO_VERIFY"
+   },
+   "h_fg": {
+    "value": 316000.0,
+    "units": "J/kg",
+    "source": "turns",
+    "status": "TODO_VERIFY",
+    "dist": {
+     "type": "normal",
+     "sd": 10000.0
+    }
+   },
+   "rho_l": {
+    "value": 684.0,
+    "units": "kg/m3",
+    "source": "turns",
+    "status": "TODO_VERIFY"
+   },
+   "E_a": {
+    "value": 125520.0,
+    "units": "J/mol",
+    "note": "30.0 kcal/mol global one-step",
+    "source": "westbrook-dryer-1981",
+    "status": "TODO_VERIFY"
+   },
+   "y_CO": {
+    "value": 0.01,
+    "units": "kg/kg",
+    "source": "SFPE Handbook Tewarson yields table (well-ventilated heptane ~0.010)",
+    "status": "TODO_VERIFY",
+    "dist": {
+     "type": "uniform",
+     "lo": 0.005,
+     "hi": 0.03
+    }
+   }
+  },
+  "methanol": {
+   "phase": "liquid",
+   "formula": {
+    "C": 1,
+    "H": 4,
+    "O": 1
+   },
+   "dHc": {
+    "value": 20094000.0,
+    "units": "J/kg",
+    "note": "lower heating value",
+    "source": "turns",
+    "status": "TODO_VERIFY",
+    "dist": {
+     "type": "normal",
+     "sd": 100000.0
+    }
+   },
+   "T_boil": {
+    "value": 337.8,
+    "units": "K",
+    "source": "nist-webbook-meoh",
+    "status": "TODO_VERIFY"
+   },
+   "h_fg": {
+    "value": 1100000.0,
+    "units": "J/kg",
+    "note": "35.2 kJ/mol / 32.04 g/mol",
+    "source": "nist-webbook-meoh",
+    "status": "TODO_VERIFY",
+    "dist": {
+     "type": "normal",
+     "sd": 30000.0
+    }
+   },
+   "rho_l": {
+    "value": 791.0,
+    "units": "kg/m3",
+    "source": "turns",
+    "status": "TODO_VERIFY"
+   },
+   "E_a": {
+    "value": 125520.0,
+    "units": "J/mol",
+    "note": "30.0 kcal/mol global one-step",
+    "source": "westbrook-dryer-1981",
+    "status": "TODO_VERIFY"
+   },
+   "y_CO": {
+    "value": 0.001,
+    "units": "kg/kg",
+    "source": "SFPE Handbook Tewarson yields table (methanol ~0.001)",
+    "status": "TODO_VERIFY",
+    "dist": {
+     "type": "uniform",
+     "lo": 0.0005,
+     "hi": 0.005
+    }
+   }
+  },
+  "n-decane": {
+   "phase": "liquid",
+   "formula": {
+    "C": 10,
+    "H": 22
+   },
+   "dHc": {
+    "value": 44240000.0,
+    "units": "J/kg",
+    "source": "turns",
+    "status": "TODO_VERIFY"
+   },
+   "T_boil": {
+    "value": 447.4,
+    "units": "K",
+    "source": "turns",
+    "status": "TODO_VERIFY"
+   },
+   "h_fg": {
+    "value": 276000.0,
+    "units": "J/kg",
+    "source": "turns",
+    "status": "TODO_VERIFY"
+   },
+   "rho_l": {
+    "value": 730.0,
+    "units": "kg/m3",
+    "source": "turns",
+    "status": "TODO_VERIFY"
+   },
+   "E_a": {
+    "value": 125520.0,
+    "units": "J/mol",
+    "source": "westbrook-dryer-1981",
+    "status": "TODO_VERIFY"
+   },
+   "y_CO": {
+    "value": 0.012,
+    "units": "kg/kg",
+    "source": "SFPE Tewarson yields (alkanes)",
+    "status": "TODO_VERIFY"
+   }
+  },
+  "pmma": {
+   "phase": "solid",
+   "material_class": "thick_plastic",
+   "formula": {
+    "C": 5,
+    "H": 8,
+    "O": 2
+   },
+   "dHc": {
+    "value": 25000000.0,
+    "units": "J/kg",
+    "source": "quintiere-ffp",
+    "status": "TODO_VERIFY",
+    "dist": {
+     "type": "normal",
+     "sd": 1000000.0
+    }
+   },
+   "T_v": {
+    "value": 645.0,
+    "units": "K",
+    "note": "PRD range 630-660 K",
+    "source": "quintiere-ffp",
+    "status": "TODO_VERIFY",
+    "dist": {
+     "type": "uniform",
+     "lo": 630.0,
+     "hi": 660.0
+    }
+   },
+   "rho_s": {
+    "value": 1190.0,
+    "units": "kg/m3",
+    "source": "quintiere-ffp",
+    "status": "TODO_VERIFY"
+   },
+   "c_s": {
+    "value": 1420.0,
+    "units": "J/kg/K",
+    "source": "quintiere-ffp",
+    "status": "TODO_VERIFY",
+    "dist": {
+     "type": "normal",
+     "sd": 140.0
+    }
+   },
+   "k_s": {
+    "value": 0.19,
+    "units": "W/m/K",
+    "source": "quintiere-ffp",
+    "status": "TODO_VERIFY",
+    "dist": {
+     "type": "normal",
+     "sd": 0.02
+    }
+   },
+   "E_a": {
+    "value": 90000.0,
+    "units": "J/mol",
+    "note": "effective gas-phase activation energy for MMA flames; candidate, check Fernandez-Pello 1981 / Bhattacharjee",
+    "source": "fernandez-pello-1981",
+    "status": "TODO_VERIFY"
+   },
+   "y_CO": {
+    "value": 0.01,
+    "units": "kg/kg",
+    "source": "SFPE Tewarson yields (PMMA ~0.010)",
+    "status": "TODO_VERIFY",
+    "dist": {
+     "type": "uniform",
+     "lo": 0.005,
+     "hi": 0.02
+    }
+   }
+  },
+  "cotton": {
+   "phase": "solid",
+   "material_class": "thin_fabric",
+   "formula": {
+    "C": 6,
+    "H": 10,
+    "O": 5
+   },
+   "dHc": {
+    "value": 16000000.0,
+    "units": "J/kg",
+    "note": "effective",
+    "source": "quintiere-ffp",
+    "status": "TODO_VERIFY",
+    "dist": {
+     "type": "normal",
+     "sd": 1000000.0
+    }
+   },
+   "T_v": {
+    "value": 600.0,
+    "units": "K",
+    "source": "quintiere-ffp",
+    "status": "TODO_VERIFY",
+    "dist": {
+     "type": "uniform",
+     "lo": 575.0,
+     "hi": 625.0
+    }
+   },
+   "rho_s": {
+    "value": 1500.0,
+    "units": "kg/m3",
+    "note": "cellulose fibre density; thin-fuel spread uses areal density rho_s*d only",
+    "source": "quintiere-ffp",
+    "status": "TODO_VERIFY"
+   },
+   "c_s": {
+    "value": 1300.0,
+    "units": "J/kg/K",
+    "source": "quintiere-ffp",
+    "status": "TODO_VERIFY",
+    "dist": {
+     "type": "normal",
+     "sd": 130.0
+    }
+   },
+   "k_s": {
+    "value": 0.1,
+    "units": "W/m/K",
+    "source": "quintiere-ffp",
+    "status": "TODO_VERIFY"
+   },
+   "E_a": {
+    "value": 90000.0,
+    "units": "J/mol",
+    "source": "olson-1991",
+    "status": "TODO_VERIFY"
+   },
+   "y_CO": {
+    "value": 0.004,
+    "units": "kg/kg",
+    "source": "SFPE Tewarson yields (cellulosics)",
+    "status": "TODO_VERIFY",
+    "dist": {
+     "type": "uniform",
+     "lo": 0.002,
+     "hi": 0.02
+    }
+   }
+  },
+  "sibal": {
+   "phase": "solid",
+   "material_class": "thin_fabric",
+   "note": "SIBAL: 75% cotton / 25% fiberglass. Properties of cellulose applied to areal density.",
+   "formula": {
+    "C": 6,
+    "H": 10,
+    "O": 5
+   },
+   "areal_density": {
+    "value": 0.1363,
+    "units": "kg/m2",
+    "note": "52 g over 94 x 40.6 cm Saffire-I sample (52/0.38164 m2)",
+    "source": "ntrs-20180005168",
+    "status": "TODO_VERIFY"
+   },
+   "thickness": {
+    "value": 0.00037,
+    "units": "m",
+    "source": "ntrs-20150008962",
+    "status": "TODO_VERIFY"
+   },
+   "dHc": {
+    "value": 16000000.0,
+    "units": "J/kg",
+    "source": "quintiere-ffp",
+    "status": "TODO_VERIFY",
+    "dist": {
+     "type": "normal",
+     "sd": 1000000.0
+    }
+   },
+   "T_v": {
+    "value": 600.0,
+    "units": "K",
+    "source": "quintiere-ffp",
+    "status": "TODO_VERIFY",
+    "dist": {
+     "type": "uniform",
+     "lo": 575.0,
+     "hi": 625.0
+    }
+   },
+   "c_s": {
+    "value": 1300.0,
+    "units": "J/kg/K",
+    "source": "quintiere-ffp",
+    "status": "TODO_VERIFY",
+    "dist": {
+     "type": "normal",
+     "sd": 130.0
+    }
+   },
+   "k_s": {
+    "value": 0.1,
+    "units": "W/m/K",
+    "source": "quintiere-ffp",
+    "status": "TODO_VERIFY"
+   },
+   "E_a": {
+    "value": 90000.0,
+    "units": "J/mol",
+    "source": "olson-1991",
+    "status": "TODO_VERIFY"
+   },
+   "y_CO": {
+    "value": 0.004,
+    "units": "kg/kg",
+    "source": "SFPE Tewarson yields (cellulosics)",
+    "status": "TODO_VERIFY",
+    "dist": {
+     "type": "uniform",
+     "lo": 0.002,
+     "hi": 0.02
+    }
+   }
+  }
+ },
+ "spread": {
+  "C_thin": {
+   "value": 0.7853981633974483,
+   "units": "-",
+   "note": "pi/4 with FULL thickness d (Quintiere simplified de Ris). de Ris exact form sqrt(2)/tau with tau=d/2 equals 2*sqrt(2)/d, i.e. 3.6x larger; the PRD's claimed equivalence is incorrect (see HUMAN_TASKS).",
+   "source": "quintiere-ffp",
+   "status": "ok"
+  },
+  "blend_exponent": {
+   "value": 4.0,
+   "units": "-",
+   "note": "smooth-max p-norm blend of thin and thick limits (numerical choice, not a property)",
+   "source": "numerical choice",
+   "status": "ok"
+  },
+  "low_flow_quench_cm_s": {
+   "value": 5.0,
+   "units": "cm/s",
+   "note": "BASS-II flames sensitive to flow in 0-5 cm/s; some survive below 1 cm/s",
+   "source": "bass2-sci-rep-2017",
+   "status": "TODO_VERIFY"
+  }
+ },
+ "droplet": {
+  "a_eff_prior": {
+   "value": 0.5,
+   "units": "1/m",
+   "source": "chao-law-tien-1990",
+   "status": "TODO_VERIFY"
+  }
+ },
+ "suppression": {
+  "T_crit_literature": {
+   "value": 1600.0,
+   "units": "K",
+   "note": "reference only (different T_ad convention)",
+   "source": "sfpe-beyler",
+   "status": "TODO_VERIFY"
+  },
+  "cup_burner_N2_MEC_heptane": {
+   "value": 0.32,
+   "units": "mole fraction N2 added to air",
+   "note": "candidate 30-34 vol%",
+   "source": "nfpa-2001",
+   "status": "TODO_VERIFY",
+   "dist": {
+    "type": "uniform",
+    "lo": 0.3,
+    "hi": 0.34
+   }
+  }
+ },
+ "smoke": {
+  "N0_default": {
+   "value": 1000000000000.0,
+   "units": "1/m3",
+   "note": "placeholder until SAME-R fit; typical smoldering smoke number concentration order",
+   "source": "same-r",
+   "status": "TODO_VERIFY"
+  },
+  "d0_default_nm": {
+   "value": 100.0,
+   "units": "nm",
+   "source": "same-r",
+   "status": "TODO_VERIFY"
+  },
+  "sigma_g": {
+   "value": 1.32,
+   "units": "-",
+   "note": "self-preserving size distribution for Brownian coagulation (continuum ~1.32)",
+   "source": "seinfeld-pandis",
+   "status": "TODO_VERIFY"
+  },
+  "photoelectric_threshold_nm": {
+   "value": 300.0,
+   "units": "nm",
+   "note": "photoelectric (scattering) favours d > ~0.3 um",
+   "source": "same-r",
+   "status": "TODO_VERIFY"
+  }
+ },
+ "habitat": {
+  "h_w": {
+   "value": 5.0,
+   "units": "W/m2/K",
+   "note": "uncalibrated prior for cabin wall convection; to be fitted on Saffire",
+   "source": "ntrs-20210011521",
+   "status": "TODO_VERIFY",
+   "dist": {
+    "type": "uniform",
+    "lo": 2.0,
+    "hi": 15.0
+   }
+  },
+  "chi_r_lost": {
+   "value": 0.0,
+   "units": "-",
+   "note": "fraction of HRR not heating cabin gas (absorbed directly by walls)",
+   "source": "ntrs-20210011521",
+   "status": "TODO_VERIFY",
+   "dist": {
+    "type": "uniform",
+    "lo": 0.0,
+    "hi": 0.3
+   }
+  },
+  "T_wall": {
+   "value": 298.15,
+   "units": "K",
+   "source": "assumed equal to initial cabin temperature",
+   "status": "ok"
+  },
+  "scrubber_rate": {
+   "value": 0.0002,
+   "units": "1/s",
+   "note": "first-order CO2 removal when scrubber on (placeholder)",
+   "source": "placeholder",
+   "status": "TODO_VERIFY"
+  },
+  "wall_area_factor": {
+   "value": 6.0,
+   "units": "-",
+   "note": "A_w = factor * V^(2/3) (cube); geometry placeholder",
+   "source": "geometric assumption",
+   "status": "TODO_VERIFY"
+  }
+ }
+}

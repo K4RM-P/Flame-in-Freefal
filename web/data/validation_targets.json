@@ -1,0 +1,109 @@
+{
+ "V1": {
+  "quantity": "n-heptane droplet LOI, O2/N2, 1 atm",
+  "fuel": "n-heptane",
+  "diluent": "N2",
+  "value": 0.15,
+  "tol": 0.02,
+  "units": "x_o2",
+  "source": "dietrich-2014",
+  "locator": "abstract",
+  "status": "ok"
+ },
+ "V2": {
+  "quantity": "methanol droplet LOI, O2/N2, 1 atm",
+  "fuel": "methanol",
+  "diluent": "N2",
+  "value": 0.12,
+  "tol": 0.02,
+  "units": "x_o2",
+  "source": "dietrich-2014",
+  "locator": "abstract",
+  "status": "ok"
+ },
+ "V3": {
+  "quantity": "n-heptane LOI, CO2 dispersed into air, 1 atm",
+  "fuel": "n-heptane",
+  "diluent": "CO2",
+  "value": 0.17,
+  "tol": 0.02,
+  "units": "x_o2",
+  "source": "dietrich-2014",
+  "locator": "abstract",
+  "status": "ok"
+ },
+ "V4": {
+  "quantity": "methanol LOI, CO2 dispersed into air, 1 atm",
+  "fuel": "methanol",
+  "diluent": "CO2",
+  "value": 0.14,
+  "tol": 0.02,
+  "units": "x_o2",
+  "source": "dietrich-2014",
+  "locator": "abstract",
+  "status": "ok"
+ },
+ "V4b": {
+  "quantity": "LOI with He dispersed into air, 1 atm (heptane 0.15, methanol 0.14)",
+  "fuel": "both",
+  "diluent": "HE",
+  "value": {
+   "n-heptane": 0.15,
+   "methanol": 0.14
+  },
+  "tol": 0.02,
+  "units": "x_o2",
+  "source": "dietrich-2014",
+  "locator": "abstract",
+  "status": "ok"
+ },
+ "V5": {
+  "quantity": "FLEX burning-rate constant K, held-out tests",
+  "criterion": "MAPE <= 20%",
+  "source": "ntrs-20150023456",
+  "locator": "Table IX"
+ },
+ "V6": {
+  "quantity": "PMMA rod limiting O2, ug vs 1 g",
+  "value": {
+   "ug": 0.17,
+   "1g": 0.18
+  },
+  "tol": 0.01,
+  "source": "bass2-sci-rep-2017",
+  "status": "TODO_VERIFY",
+  "data_needed": "digitized BASS-II burn/extinct points"
+ },
+ "V7": {
+  "quantity": "BASS-II opposed spread vs flow (held-out)",
+  "criterion": "MAPE <= 30%, peak at intermediate flow",
+  "source": "bass2-sci-rep-2017",
+  "status": "TODO_VERIFY",
+  "data_needed": "digitized BASS-II spread-rate figure"
+ },
+ "V8": {
+  "quantity": "ACME BRE: extinct at 21% O2 within 40 s; steady at 26.5/34/40%",
+  "criterion": "classification",
+  "source": "dehghani-bre",
+  "status": "TODO_VERIFY",
+  "data_needed": "BRE outcome table"
+ },
+ "V9": {
+  "quantity": "Saffire vehicle T, P, CO2 rise for ~10 kW fire",
+  "criterion": "within 30% on held-out flight",
+  "source": "ntrs-20210011521",
+  "status": "TODO_VERIFY",
+  "data_needed": "Saffire IV-V vehicle time series"
+ },
+ "V10": {
+  "quantity": "SAME-R mean particle size after aging",
+  "value": [
+   200,
+   400
+  ],
+  "units": "nm",
+  "source": "same-r",
+  "status": "TODO_VERIFY",
+  "data_needed": "SAME-R aging series"
+ }
+}

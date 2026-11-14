@@ -1,0 +1,394 @@
+# Investigation cards. Summaries of public NASA descriptions; status TODO_VERIFY until the science
+# checker confirms each field against the PSI page / cited paper. fuel_class: solid | liquid | gas.
+# o2/p/flow ranges are the nominal test-matrix spans reported in the cited source (null = not tabulated yet).
+FLEX:
+  name: "Flame Extinguishment Experiment"
+  family: droplet
+  fuel_class: liquid
+  years: "2009-2011"
+  platform: "ISS, Combustion Integrated Rack (CIR) / Multi-user Droplet Combustion Apparatus (MDCA)"
+  objective: "Measure burning and extinction of isolated free-floating fuel droplets to assess gaseous suppressants for spacecraft."
+  approach: "Free-floating or tethered droplets ignited in a sealed chamber at controlled O2, pressure and diluent (CO2, He)."
+  hardware: "MDCA in CIR; droplet deployment needles, hot-wire igniters"
+  fuels: [n-heptane, methanol]
+  o2_range: [0.13, 0.40]
+  p_range_kpa: [70, 310]
+  flow_range_cm_s: [0, 0]
+  diluents: [N2, CO2, He]
+  variables_varied: ["O2 mole fraction", "pressure", "diluent (CO2, He)", "initial droplet diameter"]
+  held_constant: ["quiescent ambient (microgravity, no forced flow)", "room-temperature ambient"]
+  sensors: ["HiBMs droplet backlit imaging", "LLUV OH* flame imaging", "color video", "radiometer"]
+  key_findings:
+    - {text: "LOI about 0.12 (methanol) and 0.15 (heptane) in O2/N2; about 0.14/0.17 with CO2 dispersed into air; about 0.14/0.15 with He.", source_id: dietrich-2014, locator: abstract}
+    - {text: "Lowering O2 grows the diffusive-extinction diameter and shrinks the radiative-extinction diameter; quasi-steady burning exists between them.", source_id: dietrich-2014, locator: abstract}
+    - {text: "Large heptane droplets continued burning with a cool flame after radiative extinction of the hot flame.", source_id: dietrich-2014, locator: abstract}
+  pillars: [suppression, prevention]
+  psi_url: "https://psi.nasa.gov"
+  dois: ["10.1007/s12217-014-9372-2"]
+  sources: [ntrs-20150023456, dietrich-2014]
+  scale: 0.15
+  status: TODO_VERIFY
+FLEX-2:
+  name: "Flame Extinguishment Experiment 2"
+  family: droplet
+  fuel_class: liquid
+  years: "2012-2016"
+  platform: "ISS CIR / MDCA"
+  objective: "Extend FLEX to fuel mixtures, droplet arrays and weak convective flows."
+  approach: "Single and multiple droplets of pure and blended fuels with and without slow imposed motion."
+  hardware: "MDCA in CIR"
+  fuels: [n-heptane, n-decane, "heptane/iso-octane blends", "decane/hexanol blends"]
+  o2_range: null
+  p_range_kpa: null
+  flow_range_cm_s: null
+  diluents: [N2]
+  variables_varied: ["fuel composition", "droplet spacing", "relative velocity"]
+  held_constant: ["microgravity"]
+  sensors: ["droplet imaging", "flame imaging"]
+  key_findings: []
+  pillars: [prevention]
+  psi_url: "https://psi.nasa.gov"
+  dois: []
+  sources: [psi]
+  scale: 0.15
+  status: TODO_VERIFY
+CFI:
+  name: "Cool Flames Investigation"
+  family: droplet
+  fuel_class: liquid
+  years: "2016-2019"
+  platform: "ISS CIR / MDCA"
+  objective: "Study low-temperature (cool-flame) combustion chemistry revealed after hot-flame radiative extinction in microgravity."
+  approach: "Large n-alkane droplets ignited at conditions favouring radiative extinction and cool-flame transition."
+  hardware: "MDCA in CIR"
+  fuels: [n-heptane, n-decane, n-dodecane]
+  o2_range: null
+  p_range_kpa: null
+  flow_range_cm_s: [0, 0]
+  diluents: [N2, CO2, He]
+  variables_varied: ["O2", "pressure", "diluent", "droplet size"]
+  held_constant: ["quiescent microgravity"]
+  sensors: ["droplet imaging", "radiometer"]
+  key_findings: []
+  pillars: [prevention]
+  psi_url: "https://psi.nasa.gov"
+  dois: []
+  sources: [psi]
+  scale: 0.15
+  status: TODO_VERIFY
+BASS:
+  name: "Burning and Suppression of Solids"
+  family: solid_spread
+  fuel_class: solid
+  years: "2011-2012"
+  platform: "ISS Microgravity Science Glovebox (MSG)"
+  objective: "Examine flame spread, flammability and suppression of solid materials in low-speed flows."
+  approach: "Small solid samples (flat sheets, rods, spheres) burned in a flow duct with adjustable air speed; N2 suppression tests."
+  hardware: "Small flow duct in MSG"
+  fuels: [PMMA, SIBAL, cotton/fiberglass fabric, Ultem]
+  o2_range: [0.21, 0.21]
+  p_range_kpa: [101, 101]
+  flow_range_cm_s: [0, 40]
+  diluents: [N2]
+  variables_varied: ["flow speed", "geometry", "material", "N2 suppression flow"]
+  held_constant: ["cabin air in MSG"]
+  sensors: ["video", "thermocouples"]
+  key_findings: []
+  pillars: [prevention, suppression]
+  psi_url: "https://psi.nasa.gov"
+  dois: []
+  sources: [psi]
+  scale: 0.35
+  status: TODO_VERIFY
+BASS-II:
+  name: "Burning and Suppression of Solids II"
+  family: solid_spread
+  fuel_class: solid
+  years: "2012-2013"
+  platform: "ISS MSG with Combustion Chamber"
+  objective: "Map opposed and concurrent flame spread and flammability limits of solids vs O2 and flow."
+  approach: "PMMA rods/slabs and fabric samples in a duct at reduced O2 and controlled low-speed flow."
+  hardware: "MSG flow duct inside a sealed chamber with O2 control"
+  fuels: [PMMA, SIBAL]
+  o2_range: [0.15, 0.21]
+  p_range_kpa: [101, 101]
+  flow_range_cm_s: [0.4, 8]
+  diluents: [N2]
+  variables_varied: ["O2", "flow speed", "sample thickness/diameter"]
+  held_constant: ["1 atm"]
+  sensors: ["video", "thermocouples"]
+  key_findings:
+    - {text: "Limiting O2 for PMMA rods was lower in microgravity (about 17%) than in normal gravity (about 18%) (value to verify).", source_id: bass2-sci-rep-2017, locator: "TODO_VERIFY"}
+    - {text: "Opposed spread rate peaks at intermediate flow; flames are sensitive to flow below about 5 cm/s.", source_id: bass2-sci-rep-2017, locator: "TODO_VERIFY"}
+  pillars: [prevention]
+  psi_url: "https://psi.nasa.gov"
+  dois: ["10.1038/s41598-017-18398-4"]
+  sources: [bass2-sci-rep-2017, ntrs-20160000593, ntrs-20150008962]
+  scale: 0.35
+  status: TODO_VERIFY
+SAME:
+  name: "Smoke Aerosol Measurement Experiment (SAME / SAME-R)"
+  family: smoke
+  fuel_class: solid
+  years: "2008-2016"
+  platform: "ISS MSG"
+  objective: "Characterize smoke particle size from overheated spacecraft materials to inform smoke detector design."
+  approach: "Heat material samples, age the smoke in a chamber for set times, and measure size moments."
+  hardware: "Smoke generation carousel, aging chamber, particle instruments in MSG"
+  fuels: [Teflon, Kapton, silicone rubber, cellulose, dibutyl phthalate]
+  o2_range: [0.21, 0.21]
+  p_range_kpa: [101, 101]
+  flow_range_cm_s: null
+  diluents: [N2]
+  variables_varied: ["material", "heating temperature", "aging time (10-1800 s)"]
+  held_constant: ["cabin air"]
+  sensors: ["ionization counter", "number and mass concentration instruments"]
+  key_findings:
+    - {text: "Average smoke particle sizes mostly fell in the 200-400 nm range (to verify against the SAME-R paper).", source_id: same-r, locator: "TODO_VERIFY"}
+  pillars: [detection]
+  psi_url: "https://psi.nasa.gov"
+  dois: []
+  sources: [same-r]
+  scale: 0.2
+  status: TODO_VERIFY
+Saffire-I-III:
+  name: "Spacecraft Fire Safety Experiment I-III"
+  family: large_scale
+  fuel_class: solid
+  years: "2016-2017"
+  platform: "Cygnus cargo vehicle after ISS departure"
+  objective: "Burn large samples in a spacecraft-scale flow to measure flame growth and flammability at realistic scale."
+  approach: "Large fabric sheet (Saffire I, III) or 9 smaller samples (Saffire II) burned in a flow duct inside Cygnus."
+  hardware: "Saffire flow unit in Cygnus"
+  fuels: [SIBAL, PMMA, Nomex, silicone]
+  o2_range: [0.21, 0.21]
+  p_range_kpa: [101, 101]
+  flow_range_cm_s: [20, 25]
+  diluents: [N2]
+  variables_varied: ["material", "flow speed", "sample geometry"]
+  held_constant: ["cabin air"]
+  sensors: ["video", "radiometers", "thermocouples", "O2/CO2 sensors"]
+  key_findings: []
+  pillars: [prevention]
+  psi_url: "https://psi.nasa.gov"
+  dois: []
+  sources: [ntrs-20180005168]
+  scale: 1.0
+  status: TODO_VERIFY
+Saffire-IV-VI:
+  name: "Spacecraft Fire Safety Experiment IV-VI"
+  family: large_scale
+  fuel_class: solid
+  years: "2019-2021"
+  platform: "Cygnus cargo vehicle"
+  objective: "Measure vehicle-level response (pressure, temperature, gas composition) to fires and test detection and cleanup."
+  approach: "Multiple samples burned with vehicle sensors recording cabin response; smoke detector and cleanup tests."
+  hardware: "Saffire flow unit + combustion product monitors in Cygnus"
+  fuels: [SIBAL, PMMA, Nomex, Kapton]
+  o2_range: [0.21, 0.21]
+  p_range_kpa: [101, 101]
+  flow_range_cm_s: null
+  diluents: [N2]
+  variables_varied: ["material", "fire size"]
+  held_constant: ["vehicle volume"]
+  sensors: ["vehicle temperature, pressure", "CO2/CO/O2 analyzers", "smoke sensors"]
+  key_findings: []
+  pillars: [detection, suppression]
+  psi_url: "https://psi.nasa.gov"
+  dois: []
+  sources: [ntrs-20210011521, ices-2024-365]
+  scale: 1.0
+  status: TODO_VERIFY
+ACME-BRE:
+  name: "ACME Burning Rate Emulator"
+  family: gas_jet
+  fuel_class: gas
+  years: "2017-2020"
+  platform: "ISS CIR (ACME insert)"
+  objective: "Emulate condensed-fuel burning with a porous gas burner to study flammability without solid-fuel complexity."
+  approach: "Gaseous fuel issued through a porous burner; heat flux and flame stability measured vs O2 in still air."
+  hardware: "ACME chamber insert with porous burner, heat-flux gauges"
+  fuels: [ethylene, methane]
+  o2_range: [0.21, 0.40]
+  p_range_kpa: [101, 101]
+  flow_range_cm_s: [0, 0]
+  diluents: [N2]
+  variables_varied: ["fuel flow", "O2", "burner size"]
+  held_constant: ["quiescent ambient"]
+  sensors: ["heat-flux gauges", "thermocouples", "cameras"]
+  key_findings:
+    - {text: "Flames extinguished at 21% O2 within about 40 s; steady flames were observed at 26.5, 34 and 40% O2 (to verify).", source_id: dehghani-bre, locator: "TODO_VERIFY"}
+  pillars: [prevention]
+  psi_url: "https://psi.nasa.gov"
+  dois: []
+  sources: [dehghani-bre]
+  scale: 0.2
+  status: TODO_VERIFY
+ACME-sFlame:
+  name: "ACME Structure and Response of Spherical Diffusion Flames (s-Flame)"
+  family: gas_jet
+  fuel_class: gas
+  years: "2017-2020"
+  platform: "ISS CIR (ACME)"
+  objective: "Study spherical diffusion flames, soot and extinction to test chemical-kinetic models."
+  approach: "Gas issued from a porous sphere into quiescent oxidizer."
+  hardware: "ACME porous-sphere burner"
+  fuels: [hydrogen, methane, ethylene]
+  o2_range: null
+  p_range_kpa: null
+  flow_range_cm_s: [0, 0]
+  diluents: [N2, He, CO2]
+  variables_varied: ["fuel/oxidizer dilution", "flow rate"]
+  held_constant: ["microgravity"]
+  sensors: ["radiometer", "cameras", "thermocouples"]
+  key_findings: []
+  pillars: [prevention]
+  psi_url: "https://psi.nasa.gov"
+  dois: []
+  sources: [psi]
+  scale: 0.1
+  status: TODO_VERIFY
+ACME-CLD:
+  name: "ACME Coflow Laminar Diffusion Flame"
+  family: gas_jet
+  fuel_class: gas
+  years: "2017-2020"
+  platform: "ISS CIR (ACME)"
+  objective: "Measure coflow laminar diffusion flames, soot and lift-off to validate models."
+  approach: "Fuel jet with surrounding coflow of oxidizer."
+  hardware: "ACME coflow burner"
+  fuels: [methane, ethylene]
+  o2_range: null
+  p_range_kpa: null
+  flow_range_cm_s: null
+  diluents: [N2]
+  variables_varied: ["coflow speed", "fuel dilution", "O2"]
+  held_constant: ["microgravity"]
+  sensors: ["cameras", "soot pyrometry"]
+  key_findings: []
+  pillars: [prevention]
+  psi_url: "https://psi.nasa.gov"
+  dois: []
+  sources: [psi]
+  scale: 0.1
+  status: TODO_VERIFY
+ACME-FlameDesign:
+  name: "ACME Flame Design"
+  family: gas_jet
+  fuel_class: gas
+  years: "2017-2020"
+  platform: "ISS CIR (ACME)"
+  objective: "Study soot formation and 'flame design' of spherical flames by varying where inert is added."
+  approach: "Spherical gas diffusion flames with inert added to fuel or oxidizer side."
+  hardware: "ACME porous-sphere burner"
+  fuels: [ethylene]
+  o2_range: null
+  p_range_kpa: null
+  flow_range_cm_s: [0, 0]
+  diluents: [N2]
+  variables_varied: ["stoichiometric mixture fraction", "flow rate"]
+  held_constant: ["microgravity"]
+  sensors: ["cameras", "radiometer"]
+  key_findings: []
+  pillars: [prevention]
+  psi_url: "https://psi.nasa.gov"
+  dois: []
+  sources: [psi]
+  scale: 0.1
+  status: TODO_VERIFY
+ACME-EFIT:
+  name: "ACME Electric-Field Effects on Laminar Diffusion Flames (E-FIT)"
+  family: gas_jet
+  fuel_class: gas
+  years: "2017-2020"
+  platform: "ISS CIR (ACME)"
+  objective: "Measure the effect of electric fields on flame stability and soot."
+  approach: "Coflow flames with an applied electric field."
+  hardware: "ACME coflow burner with electrodes"
+  fuels: [methane, ethylene]
+  o2_range: null
+  p_range_kpa: null
+  flow_range_cm_s: null
+  diluents: [N2]
+  variables_varied: ["field strength", "flow"]
+  held_constant: ["microgravity"]
+  sensors: ["cameras", "ion current"]
+  key_findings: []
+  pillars: [suppression]
+  psi_url: "https://psi.nasa.gov"
+  dois: []
+  sources: [psi]
+  scale: 0.1
+  status: TODO_VERIFY
+SoFIE:
+  name: "Solid Fuel Ignition and Extinction"
+  family: solid_spread
+  fuel_class: solid
+  years: "2022-"
+  platform: "ISS CIR (SoFIE insert)"
+  objective: "Study ignition, spread and extinction of solid fuels across O2, pressure and flow, including exploration atmospheres."
+  approach: "Solid samples in a flow duct inside the CIR chamber at controlled O2 and pressure."
+  hardware: "SoFIE flow duct insert in CIR"
+  fuels: [PMMA, cotton/fiberglass fabric]
+  o2_range: null
+  p_range_kpa: null
+  flow_range_cm_s: null
+  diluents: [N2]
+  variables_varied: ["O2", "pressure", "flow", "external heat flux"]
+  held_constant: ["microgravity"]
+  sensors: ["cameras", "thermocouples", "radiometers"]
+  key_findings: []
+  pillars: [prevention]
+  psi_url: "https://psi.nasa.gov"
+  dois: []
+  sources: [psi]
+  scale: 0.35
+  status: TODO_VERIFY
+SPICE:
+  name: "Smoke Point In Coflow Experiment"
+  family: gas_jet
+  fuel_class: gas
+  years: "2010-2012"
+  platform: "ISS MSG"
+  objective: "Measure smoke points of gaseous jet flames in microgravity."
+  approach: "Coflow jet flames at varying fuel flow to locate the smoke point."
+  hardware: "MSG coflow burner"
+  fuels: [ethylene, propane, methane, propylene]
+  o2_range: [0.21, 0.21]
+  p_range_kpa: [101, 101]
+  flow_range_cm_s: null
+  diluents: [N2]
+  variables_varied: ["fuel flow", "burner diameter", "coflow speed"]
+  held_constant: ["cabin air"]
+  sensors: ["cameras"]
+  key_findings: []
+  pillars: [detection]
+  psi_url: "https://psi.nasa.gov"
+  dois: []
+  sources: [psi]
+  scale: 0.1
+  status: TODO_VERIFY
+SLICE:
+  name: "Structure and Liftoff In Combustion Experiment"
+  family: gas_jet
+  fuel_class: gas
+  years: "2012"
+  platform: "ISS MSG"
+  objective: "Study lift-off and blow-out of laminar jet flames in microgravity."
+  approach: "Coflow jet flames with varied coflow and fuel dilution."
+  hardware: "MSG coflow burner"
+  fuels: [methane, ethylene]
+  o2_range: [0.21, 0.21]
+  p_range_kpa: [101, 101]
+  flow_range_cm_s: null
+  diluents: [N2]
+  variables_varied: ["coflow speed", "fuel dilution"]
+  held_constant: ["cabin air"]
+  sensors: ["cameras"]
+  key_findings: []
+  pillars: [suppression]
+  psi_url: "https://psi.nasa.gov"
+  dois: []
+  sources: [psi]
+  scale: 0.1
+  status: TODO_VERIFY

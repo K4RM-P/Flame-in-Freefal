@@ -1,0 +1,22 @@
+{
+ "model_id": "suppression",
+ "version": "0.1.0",
+ "T_inf_K": 298.15,
+ "fuels": {
+  "n-heptane": {
+   "T_crit_ug": 1963.4903729994624,
+   "T_crit_ug_sd": 22.250096337570156,
+   "loi_used": 0.15
+  },
+  "methanol": {
+   "T_crit_ug": 1589.4967877913973,
+   "T_crit_ug_sd": 20.40077247393627,
+   "loi_used": 0.12
+  }
+ },
+ "fitted_on": [
+  "V1",
+  "V2"
+ ],
+ "source_id": "dietrich-2014"
+}

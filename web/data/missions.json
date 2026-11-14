@@ -1,0 +1,86 @@
+{
+ "ISS": {
+  "name": "International Space Station",
+  "x_o2": 0.21,
+  "P_kPa": 101.3,
+  "gravity_g": 0.0,
+  "flow_cm_s": 10.0,
+  "V_free_m3": {
+   "value": 388.0,
+   "note": "ISS habitable volume",
+   "source": "nasa-iss-facts",
+   "status": "TODO_VERIFY"
+  },
+  "source": "nasa-iss-facts"
+ },
+ "Orion": {
+  "name": "Orion crew module",
+  "x_o2": 0.21,
+  "P_kPa": 101.3,
+  "gravity_g": 0.0,
+  "flow_cm_s": 10.0,
+  "V_free_m3": {
+   "value": 9.0,
+   "note": "habitable volume ~316 ft3",
+   "source": "nasa-orion",
+   "status": "TODO_VERIFY"
+  },
+  "source": "nasa-orion"
+ },
+ "MoonBase": {
+  "name": "Challenge-spec Moon base",
+  "x_o2": 0.3,
+  "P_kPa": 70.3,
+  "gravity_g": 0.165,
+  "flow_cm_s": 5.0,
+  "V_free_m3": {
+   "value": 100.0,
+   "note": "placeholder",
+   "source": "space-apps-2026",
+   "status": "TODO_VERIFY"
+  },
+  "source": "space-apps-2026"
+ },
+ "LunarHabitat": {
+  "name": "Lunar surface habitat (exploration atmosphere)",
+  "x_o2": 0.34,
+  "P_kPa": 56.5,
+  "gravity_g": 0.165,
+  "flow_cm_s": 5.0,
+  "V_free_m3": {
+   "value": 100.0,
+   "note": "placeholder module volume",
+   "source": "ntrs-20240003211",
+   "status": "TODO_VERIFY"
+  },
+  "source": "ntrs-20240003211"
+ },
+ "Rover": {
+  "name": "Pressurized rover (exploration atmosphere)",
+  "x_o2": 0.34,
+  "P_kPa": 56.5,
+  "gravity_g": 0.165,
+  "flow_cm_s": 5.0,
+  "V_free_m3": {
+   "value": 20.0,
+   "note": "golden question 7 uses 20 m3",
+   "source": "ntrs-20240003211",
+   "status": "TODO_VERIFY"
+  },
+  "source": "ntrs-20240003211"
+ },
+ "Mars": {
+  "name": "Mars habitat (exploration atmosphere)",
+  "x_o2": 0.34,
+  "P_kPa": 56.5,
+  "gravity_g": 0.378,
+  "flow_cm_s": 5.0,
+  "V_free_m3": {
+   "value": 100.0,
+   "note": "placeholder",
+   "source": "ntrs-20240003211",
+   "status": "TODO_VERIFY"
+  },
+  "source": "ntrs-20240003211"
+ }
+}
