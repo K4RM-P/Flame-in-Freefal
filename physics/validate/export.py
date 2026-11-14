@@ -29,6 +29,20 @@ def main() -> None:
                                  "url": c["psi_url"], "doi": c.get("doi")})
     save_json(WEB / "sources.json", sources)
     save_json(WEB / "psi_catalog.json", catalog)
+    # PSI Experimental tables (ingest_psi.py): small derived products bundled; full tables served lazily from web/public.
+    psi_dir = PARAMS.parent / "psi"
+    if psi_dir.exists():
+        for name in ("earth_vs_orbit", "bre_atmospheres", "smoke_measures", "flex_crosscheck", "spotcheck"):
+            if (psi_dir / f"{name}.json").exists():
+                save_json(WEB / "psi" / f"{name}.json", json.loads((psi_dir / f"{name}.json").read_text()))
+        index = []
+        pub = ROOT / "web" / "public" / "psi"
+        for f in sorted(psi_dir.glob("*.csv")):
+            df = pd.read_csv(f).replace({np.nan: None})
+            save_json(pub / f"{f.stem}.json", df.to_dict(orient="records"))
+            index.append({"key": f.stem, "rows": int(len(df)), "accessions": sorted(set(df.accession)), "columns": [c for c in df.columns if c != "raw"],
+                          "qc_rows": int((df.qc_flag.fillna("") != "").sum()), "files": sorted({loc.split(", ")[0] for loc in df.locator})})
+        save_json(WEB / "psi" / "tables_index.json", index)
     save_json(WEB / "thermo.json", {
         "source": "gri30 (thermo30.dat); He constant cp = 5/2 R (nist-webbook-he)",
         "nasa7": {s: {"T_mid": v[0], "high": v[1], "low": v[2]} for s, v in thermo.nasa7().items()},

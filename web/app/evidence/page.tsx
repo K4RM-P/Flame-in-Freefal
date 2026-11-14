@@ -6,6 +6,7 @@ import { TEST_POINTS } from "@/lib/testPoints";
 import { SourcePill, fmt } from "@/components/bits";
 import { download } from "@/lib/report";
 import { PSI_FETCHED_AT, PSI_LIST, psiEntries } from "@/lib/psi";
+import { PsiTables } from "@/components/PsiTables";
 
 export default function Evidence() {
   const m = useMission();
@@ -77,6 +78,7 @@ export default function Evidence() {
                 <td className="num">{p.files_listed ? p.file_count : "API error"}</td><td className="text-xs text-mute">{p.manifest.map((f) => f.file.replace(`${p.accession}_`, "")).join("; ") || "—"}</td></tr>))}</tbody></table>
         </div>
       </section>
+      <PsiTables />
       <section className="card">
         <div className="mb-2 flex flex-wrap items-center gap-2 text-sm">
           <span className="label">Verified PSI test points ({rows.length})</span>

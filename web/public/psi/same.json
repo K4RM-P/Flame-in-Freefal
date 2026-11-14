@@ -1,0 +1,98 @@
+[
+ {
+  "id": "PSI-102:SAME:2",
+  "accession": "PSI-102",
+  "table": "SAME",
+  "row_index": 0,
+  "source_id": "PSI-102",
+  "locator": "PSI-102_Experimental table_SAME.csv, line 2",
+  "raw": "{\"Sample #\": \"1\", \"Sample Material\": \"Teflon\", \"Air Flow (cm/s)\": \"5\", \"Weight loss rate (mg/min)\": \"2\", \"Aging Duration (minutes)\": \"1\"}",
+  "qc_flag": null,
+  "verified": false,
+  "digitized": false
+ },
+ {
+  "id": "PSI-102:SAME:3",
+  "accession": "PSI-102",
+  "table": "SAME",
+  "row_index": 1,
+  "source_id": "PSI-102",
+  "locator": "PSI-102_Experimental table_SAME.csv, line 3",
+  "raw": "{\"Sample #\": \"2\", \"Sample Material\": \"Teflon\", \"Air Flow (cm/s)\": \"5\", \"Weight loss rate (mg/min)\": \"1\", \"Aging Duration (minutes)\": \"1\"}",
+  "qc_flag": null,
+  "verified": false,
+  "digitized": false
+ },
+ {
+  "id": "PSI-102:SAME:4",
+  "accession": "PSI-102",
+  "table": "SAME",
+  "row_index": 2,
+  "source_id": "PSI-102",
+  "locator": "PSI-102_Experimental table_SAME.csv, line 4",
+  "raw": "{\"Sample #\": \"3\", \"Sample Material\": \"Teflon\", \"Air Flow (cm/s)\": \"5\", \"Weight loss rate (mg/min)\": \"2\", \"Aging Duration (minutes)\": \"20\"}",
+  "qc_flag": null,
+  "verified": false,
+  "digitized": false
+ },
+ {
+  "id": "PSI-102:SAME:5",
+  "accession": "PSI-102",
+  "table": "SAME",
+  "row_index": 3,
+  "source_id": "PSI-102",
+  "locator": "PSI-102_Experimental table_SAME.csv, line 5",
+  "raw": "{\"Sample #\": \"4\", \"Sample Material\": \"Teflon\", \"Air Flow (cm/s)\": \"10\", \"Weight loss rate (mg/min)\": \"2\", \"Aging Duration (minutes)\": \"1\"}",
+  "qc_flag": null,
+  "verified": false,
+  "digitized": false
+ },
+ {
+  "id": "PSI-102:SAME:6",
+  "accession": "PSI-102",
+  "table": "SAME",
+  "row_index": 4,
+  "source_id": "PSI-102",
+  "locator": "PSI-102_Experimental table_SAME.csv, line 6",
+  "raw": "{\"Sample #\": \"5\", \"Sample Material\": \"Kapton: same conditions as 1-4\"}",
+  "qc_flag": null,
+  "verified": false,
+  "digitized": false
+ },
+ {
+  "id": "PSI-102:SAME:7",
+  "accession": "PSI-102",
+  "table": "SAME",
+  "row_index": 5,
+  "source_id": "PSI-102",
+  "locator": "PSI-102_Experimental table_SAME.csv, line 7",
+  "raw": "{\"Sample #\": \"6\", \"Sample Material\": \"Silicone Rubber: same conditions as 1-4\"}",
+  "qc_flag": null,
+  "verified": false,
+  "digitized": false
+ },
+ {
+  "id": "PSI-102:SAME:8",
+  "accession": "PSI-102",
+  "table": "SAME",
+  "row_index": 6,
+  "source_id": "PSI-102",
+  "locator": "PSI-102_Experimental table_SAME.csv, line 8",
+  "raw": "{\"Sample #\": \"7\", \"Sample Material\": \"Lampwick: same conditions as 1-4\"}",
+  "qc_flag": null,
+  "verified": false,
+  "digitized": false
+ },
+ {
+  "id": "PSI-102:SAME:9",
+  "accession": "PSI-102",
+  "table": "SAME",
+  "row_index": 7,
+  "source_id": "PSI-102",
+  "locator": "PSI-102_Experimental table_SAME.csv, line 9",
+  "raw": "{\"Sample #\": \"8\", \"Sample Material\": \"Dibutyl Phthalate: same conditions as 1-4\"}",
+  "qc_flag": null,
+  "verified": false,
+  "digitized": false
+ }
+]

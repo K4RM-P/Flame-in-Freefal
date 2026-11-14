@@ -6,6 +6,9 @@ import { useMission } from "@/lib/store";
 import { CONFLICTS, COVERAGE, proposeExperiments } from "@/lib/gaps";
 import { GOLDEN_QUESTIONS } from "@/lib/ai/questions";
 
+import psiIndex from "@/data/psi/tables_index.json";
+const PSI_TABLES = psiIndex as { key: string; rows: number; accessions: string[]; qc_rows: number }[];
+
 export default function Gaps() {
   const m = useMission();
   const props = useMemo(() => proposeExperiments(m, 10), [m]);
@@ -24,6 +27,12 @@ export default function Gaps() {
               layout={{ margin: { l: 60, r: 8, t: 8, b: 56 }, xaxis: { title: { text: "O₂" }, tickangle: -45 }, yaxis: { title: { text: "kPa" } } }} />
           </div>
         ))}
+      </section>
+      <section className="card text-sm" data-testid="psi-coverage">
+        <span className="label">PSI Experimental tables ingested (unverified until human spot-check)</span>
+        <table className="data mt-2"><thead><tr><th>table</th><th>accession</th><th>rows</th><th>rows with qc_flag</th></tr></thead>
+          <tbody>{PSI_TABLES.map((t) => <tr key={t.key}><td>{t.key}</td><td className="num">{t.accessions.join(", ")}</td><td className="num">{t.rows}</td><td className="num">{t.qc_rows}</td></tr>)}</tbody></table>
+        <p className="mt-2 text-xs text-mute">Still missing: burn/extinction outcomes and spread rates for BASS/BASS-II (not in the PSI tables, so V6/V7 stay pending); PSI-21 (CLD Flame) and PSI-106 (SLICE) file listings return HTTP 500 from the PSI API; BRE chamber pressures are not identified in the PSI-20 table. No PSI table contains partial-gravity tests.</p>
       </section>
       <section className="card space-y-4">
         <span className="label">Conflicting evidence</span>

@@ -1,0 +1,125 @@
+{
+ "n_days": 18,
+ "total_flames_ignited": 194,
+ "by_o2": {
+  "21.0": {
+   "o2_pct": 21.0,
+   "test_days": 5,
+   "fuels": [
+    "100% C2H4",
+    "50% C2H4"
+   ],
+   "burners_mm": [
+    25
+   ],
+   "locators": [
+    "PSI-20_Experimental table_ACME BRE.csv, line 2",
+    "PSI-20_Experimental table_ACME BRE.csv, line 4",
+    "PSI-20_Experimental table_ACME BRE.csv, line 9",
+    "PSI-20_Experimental table_ACME BRE.csv, line 10",
+    "PSI-20_Experimental table_ACME BRE.csv, line 18"
+   ]
+  },
+  "25.0": {
+   "o2_pct": 25.0,
+   "test_days": 6,
+   "fuels": [
+    "100% C2H4",
+    "100% CH4",
+    "50% C2H4"
+   ],
+   "burners_mm": [
+    25,
+    50
+   ],
+   "locators": [
+    "PSI-20_Experimental table_ACME BRE.csv, line 11",
+    "PSI-20_Experimental table_ACME BRE.csv, line 13",
+    "PSI-20_Experimental table_ACME BRE.csv, line 14",
+    "PSI-20_Experimental table_ACME BRE.csv, line 15",
+    "PSI-20_Experimental table_ACME BRE.csv, line 17",
+    "PSI-20_Experimental table_ACME BRE.csv, line 19"
+   ]
+  },
+  "26.5": {
+   "o2_pct": 26.5,
+   "test_days": 9,
+   "fuels": [
+    "100% C2H4",
+    "50% C2H4"
+   ],
+   "burners_mm": [
+    25
+   ],
+   "locators": [
+    "PSI-20_Experimental table_ACME BRE.csv, line 2",
+    "PSI-20_Experimental table_ACME BRE.csv, line 3",
+    "PSI-20_Experimental table_ACME BRE.csv, line 4",
+    "PSI-20_Experimental table_ACME BRE.csv, line 5",
+    "PSI-20_Experimental table_ACME BRE.csv, line 7",
+    "PSI-20_Experimental table_ACME BRE.csv, line 8",
+    "PSI-20_Experimental table_ACME BRE.csv, line 10",
+    "PSI-20_Experimental table_ACME BRE.csv, line 12",
+    "PSI-20_Experimental table_ACME BRE.csv, line 18"
+   ]
+  },
+  "34.0": {
+   "o2_pct": 34.0,
+   "test_days": 13,
+   "fuels": [
+    "100% C2H4",
+    "100% CH4",
+    "50% C2H4"
+   ],
+   "burners_mm": [
+    25,
+    50
+   ],
+   "locators": [
+    "PSI-20_Experimental table_ACME BRE.csv, line 3",
+    "PSI-20_Experimental table_ACME BRE.csv, line 4",
+    "PSI-20_Experimental table_ACME BRE.csv, line 6",
+    "PSI-20_Experimental table_ACME BRE.csv, line 7",
+    "PSI-20_Experimental table_ACME BRE.csv, line 8",
+    "PSI-20_Experimental table_ACME BRE.csv, line 10",
+    "PSI-20_Experimental table_ACME BRE.csv, line 11",
+    "PSI-20_Experimental table_ACME BRE.csv, line 12",
+    "PSI-20_Experimental table_ACME BRE.csv, line 13",
+    "PSI-20_Experimental table_ACME BRE.csv, line 16",
+    "PSI-20_Experimental table_ACME BRE.csv, line 17",
+    "PSI-20_Experimental table_ACME BRE.csv, line 18",
+    "PSI-20_Experimental table_ACME BRE.csv, line 19"
+   ]
+  },
+  "40.0": {
+   "o2_pct": 40.0,
+   "test_days": 10,
+   "fuels": [
+    "100% C2H4",
+    "100% CH4",
+    "50% C2H4"
+   ],
+   "burners_mm": [
+    25,
+    50
+   ],
+   "locators": [
+    "PSI-20_Experimental table_ACME BRE.csv, line 2",
+    "PSI-20_Experimental table_ACME BRE.csv, line 4",
+    "PSI-20_Experimental table_ACME BRE.csv, line 5",
+    "PSI-20_Experimental table_ACME BRE.csv, line 11",
+    "PSI-20_Experimental table_ACME BRE.csv, line 13",
+    "PSI-20_Experimental table_ACME BRE.csv, line 14",
+    "PSI-20_Experimental table_ACME BRE.csv, line 15",
+    "PSI-20_Experimental table_ACME BRE.csv, line 16",
+    "PSI-20_Experimental table_ACME BRE.csv, line 17",
+    "PSI-20_Experimental table_ACME BRE.csv, line 19"
+   ]
+  }
+ },
+ "pressure_note": "The PSI-20 table states chamber pressures were varied but are not identified in the summary table.",
+ "table_notes": "Oxygen Conc. (as diluted with nitrogen on a volume basis) was varied between tests where approximate concentrations for tests that ignited are listed. The chamber pressures were also varied but are not identified in this summary table. Flames Ignited is the number ignited on that day (neglecting the day change on ISS).",
+ "source_ids": [
+  "PSI-20"
+ ]
+}

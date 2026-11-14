@@ -1,0 +1,98 @@
+[
+ {
+  "id": "PSI-142:PSI-142 data summary:2",
+  "accession": "PSI-142",
+  "table": "PSI-142 data summary",
+  "row_index": 0,
+  "source_id": "PSI-142",
+  "locator": "PSI-142_Experimental table_Data Summary Table.csv, line 2",
+  "raw": "{\"Data ID\": \"1\", \"Data Description\": \"CFE limit with ozone\", \"Reference Publication Link\": \"http://dx.doi.org/10.1016/j.combustflame.2017.01.028\", \"Figure ID in Reference\": \"4\"}",
+  "qc_flag": null,
+  "verified": false,
+  "digitized": false
+ },
+ {
+  "id": "PSI-142:PSI-142 data summary:3",
+  "accession": "PSI-142",
+  "table": "PSI-142 data summary",
+  "row_index": 1,
+  "source_id": "PSI-142",
+  "locator": "PSI-142_Experimental table_Data Summary Table.csv, line 3",
+  "raw": "{\"Data ID\": \"2\", \"Data Description\": \"CFE limit without ozone\", \"Reference Publication Link\": \"http://dx.doi.org/10.1016/j.combustflame.2017.01.028\", \"Figure ID in Reference\": \"5\"}",
+  "qc_flag": null,
+  "verified": false,
+  "digitized": false
+ },
+ {
+  "id": "PSI-142:PSI-142 data summary:4",
+  "accession": "PSI-142",
+  "table": "PSI-142 data summary",
+  "row_index": 2,
+  "source_id": "PSI-142",
+  "locator": "PSI-142_Experimental table_Data Summary Table.csv, line 4",
+  "raw": "{\"Data ID\": \"3\", \"Data Description\": \"CFE and HFE Predicted vs Measured \", \"Reference Publication Link\": \"http://dx.doi.org/10.1016/j.combustflame.2017.01.028\", \"Figure ID in Reference\": \"7\"}",
+  "qc_flag": null,
+  "verified": false,
+  "digitized": false
+ },
+ {
+  "id": "PSI-142:PSI-142 data summary:5",
+  "accession": "PSI-142",
+  "table": "PSI-142 data summary",
+  "row_index": 3,
+  "source_id": "PSI-142",
+  "locator": "PSI-142_Experimental table_Data Summary Table.csv, line 5",
+  "raw": "{\"Data ID\": \"4\", \"Data Description\": \"Measured and computed DME/O2/O3 CFE and HFE\", \"Reference Publication Link\": \"https://doi.org/10.1016/j.proci.2018.07.050\", \"Figure ID in Reference\": \"2\"}",
+  "qc_flag": null,
+  "verified": false,
+  "digitized": false
+ },
+ {
+  "id": "PSI-142:PSI-142 data summary:6",
+  "accession": "PSI-142",
+  "table": "PSI-142 data summary",
+  "row_index": 4,
+  "source_id": "PSI-142",
+  "locator": "PSI-142_Experimental table_Data Summary Table.csv, line 6",
+  "raw": "{\"Data ID\": \"5\", \"Data Description\": \"CH2O PLIF and thermometry\", \"Reference Publication Link\": \"https://doi.org/10.1016/j.combustflame.2018.03.013\", \"Figure ID in Reference\": \"8\"}",
+  "qc_flag": null,
+  "verified": false,
+  "digitized": false
+ },
+ {
+  "id": "PSI-142:PSI-142 data summary:7",
+  "accession": "PSI-142",
+  "table": "PSI-142 data summary",
+  "row_index": 5,
+  "source_id": "PSI-142",
+  "locator": "PSI-142_Experimental table_Data Summary Table.csv, line 7",
+  "raw": "{\"Data ID\": \"6\", \"Data Description\": \"nC7/nC10/nC12 chemiluminescence\", \"Reference Publication Link\": \"https://doi.org/10.1016/j.proci.2018.06.161\", \"Figure ID in Reference\": \"2\"}",
+  "qc_flag": null,
+  "verified": false,
+  "digitized": false
+ },
+ {
+  "id": "PSI-142:PSI-142 data summary:8",
+  "accession": "PSI-142",
+  "table": "PSI-142 data summary",
+  "row_index": 6,
+  "source_id": "PSI-142",
+  "locator": "PSI-142_Experimental table_Data Summary Table.csv, line 8",
+  "raw": "{\"Data ID\": \"7\", \"Data Description\": \"nC12 chemiluminescence\", \"Reference Publication Link\": \"https://doi.org/10.1016/j.proci.2018.06.162\", \"Figure ID in Reference\": \"7\"}",
+  "qc_flag": null,
+  "verified": false,
+  "digitized": false
+ },
+ {
+  "id": "PSI-142:PSI-142 data summary:9",
+  "accession": "PSI-142",
+  "table": "PSI-142 data summary",
+  "row_index": 7,
+  "source_id": "PSI-142",
+  "locator": "PSI-142_Experimental table_Data Summary Table.csv, line 9",
+  "raw": "{\"Data ID\": \"8\", \"Data Description\": \"nC12 thermometry\", \"Reference Publication Link\": \"https://doi.org/10.1016/j.proci.2018.06.163\", \"Figure ID in Reference\": \"9\"}",
+  "qc_flag": null,
+  "verified": false,
+  "digitized": false
+ }
+]

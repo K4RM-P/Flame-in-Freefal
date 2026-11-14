@@ -15,3 +15,13 @@
 6. **Keys/accounts:** provide `ANTHROPIC_API_KEY` (Vercel env) and the Vercel account/team.
 7. **Video:** record the 30-second video on the production URL (script in PRD §13), English subtitles.
 - Drop-tower suppressant study (PRD §2): supply the full citation for `drop-tower-suppressant` in sources.yaml.
+
+## PSI table spot-check (verified=false until done)
+Open each file from psi.nasa.gov (or `physics/data/raw/psi/`) and compare the listed rows with `physics/data/processed/psi/<table>.csv` (normalized columns + `raw`). Record name/date per table in `physics/data/verification.yaml → psi_spotcheck`.
+
+- **bass**: `PSI-26_Experimental table_BASS.csv` lines 3, 13, 19, 23, 31, 39, 44, 60, 61, 72, 80, 84, 85, 91, 98, 100, 108, 117, 119, 121
+- **bass2**: `PSI-25_Experimental table_BASS-II.csv` lines 16, 35, 42, 44, 48, 49, 59, 70, 75, 78, 85, 87, 94, 103, 108, 114, 115, 117, 118, 128
+- **bre**: `PSI-20_Experimental table_ACME BRE.csv` lines 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19
+- **saffire**: `PSI-100_Experimental table_SAFFIRE-3.csv` lines 2, 3; `PSI-98_Experimental table_SAFFIRE-1.csv` lines 2, 3; `PSI-99_Experimental table_SAFFIRE-2.csv` lines 2, 3, 4, 5, 6, 7, 8, 9, 10
+- **same_r**: `PSI-101_Experimental table_SAME-R.csv` lines 3, 9, 15, 18, 24, 27, 30, 32, 58, 60, 67, 69, 71, 73, 77, 79, 84, 90, 92, 98
+- **spice**: `PSI-107_Experimental table_Spice.csv` lines 5, 41, 50, 51, 59, 133, 137, 142, 167, 174, 179, 192, 204, 252, 291, 299, 375, 382, 385, 444

@@ -1,0 +1,9 @@
+id,accession,table,row_index,source_id,locator,raw,qc_flag,verified,digitized
+PSI-102:SAME:2,PSI-102,SAME,0,PSI-102,"PSI-102_Experimental table_SAME.csv, line 2","{""Sample #"": ""1"", ""Sample Material"": ""Teflon"", ""Air Flow (cm/s)"": ""5"", ""Weight loss rate (mg/min)"": ""2"", ""Aging Duration (minutes)"": ""1""}",,False,False
+PSI-102:SAME:3,PSI-102,SAME,1,PSI-102,"PSI-102_Experimental table_SAME.csv, line 3","{""Sample #"": ""2"", ""Sample Material"": ""Teflon"", ""Air Flow (cm/s)"": ""5"", ""Weight loss rate (mg/min)"": ""1"", ""Aging Duration (minutes)"": ""1""}",,False,False
+PSI-102:SAME:4,PSI-102,SAME,2,PSI-102,"PSI-102_Experimental table_SAME.csv, line 4","{""Sample #"": ""3"", ""Sample Material"": ""Teflon"", ""Air Flow (cm/s)"": ""5"", ""Weight loss rate (mg/min)"": ""2"", ""Aging Duration (minutes)"": ""20""}",,False,False
+PSI-102:SAME:5,PSI-102,SAME,3,PSI-102,"PSI-102_Experimental table_SAME.csv, line 5","{""Sample #"": ""4"", ""Sample Material"": ""Teflon"", ""Air Flow (cm/s)"": ""10"", ""Weight loss rate (mg/min)"": ""2"", ""Aging Duration (minutes)"": ""1""}",,False,False
+PSI-102:SAME:6,PSI-102,SAME,4,PSI-102,"PSI-102_Experimental table_SAME.csv, line 6","{""Sample #"": ""5"", ""Sample Material"": ""Kapton: same conditions as 1-4""}",,False,False
+PSI-102:SAME:7,PSI-102,SAME,5,PSI-102,"PSI-102_Experimental table_SAME.csv, line 7","{""Sample #"": ""6"", ""Sample Material"": ""Silicone Rubber: same conditions as 1-4""}",,False,False
+PSI-102:SAME:8,PSI-102,SAME,6,PSI-102,"PSI-102_Experimental table_SAME.csv, line 8","{""Sample #"": ""7"", ""Sample Material"": ""Lampwick: same conditions as 1-4""}",,False,False
+PSI-102:SAME:9,PSI-102,SAME,7,PSI-102,"PSI-102_Experimental table_SAME.csv, line 9","{""Sample #"": ""8"", ""Sample Material"": ""Dibutyl Phthalate: same conditions as 1-4""}",,False,False
