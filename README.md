@@ -76,17 +76,10 @@ an honest, documented evidence gap. Spread, habitat and smoke ship as "Uncalibra
 make venv          # Python 3.11 venv via uv
 make all           # data → fit → validate → vectors → export → test
 cd web && pnpm install && pnpm dev     # http://localhost:3000
-pnpm test && pnpm build && pnpm e2e    # vitest (golden vectors, guard, golden questions), build, Playwright
-pnpm demo-cache    # rebuild the 12 golden answers (live Claude if ANTHROPIC_API_KEY is set)
+pnpm test && pnpm build && pnpm e2e    # vitest (golden vectors, guard, secret scan), build, Playwright
 pip install "git+https://github.com/K4RM-P/Flame-in-Freefal.git#subdirectory=physics"
 ```
-Environment: set `OPENAI_API_KEY` as a server-side deployment secret for Aster, then redeploy. `OPENAI_MODEL` optionally overrides `gpt-4.1-mini`. If the OpenAI key is absent, the app uses a configured `ANTHROPIC_API_KEY` or the cached demo. `DEMO_MODE=1` forces cached answers. Use **Ask Aster** in the lower corner or the existing Ask page.
-
-### Deploy to GitHub Pages (static)
-`.github/workflows/pages.yml` builds a static export (`STATIC_EXPORT=1`, base path `/<repo>`) on every push to `main` and deploys it to
-https://k4rm-p.github.io/Flame-in-Freefal/. One-time admin setting: **Settings → Pages → Source = "GitHub Actions"** (until then Pages keeps
-rendering this README with Jekyll). The static site has no server, so Ask serves the 12 cached golden answers; live Claude answers need the
-server deployment (Vercel). Local preview: `STATIC_EXPORT=1 PAGES_BASE_PATH=/Flame-in-Freefal pnpm -C web build` (move `web/app/api` aside first).
+Environment (server-side only, never `NEXT_PUBLIC_`): `OPENAI_API_KEY` in `web/.env.local` (template: `web/.env.example`) or in Vercel env vars; `OPENAI_MODEL` optional, default `gpt-5.4-mini`. Without a key the scenario builder and interpretation return "Add OPENAI_API_KEY to enable interpretation"; there is no canned answer.
 
 ## Limitations
 - **Small n.** Many flight results are single tests (e.g. SAFFIRE-II: one test per material and thickness; 7 like-for-like samples in the Earth-vs-orbit matrix).
@@ -137,18 +130,9 @@ See `physics/data/sources.yaml` (rendered on /methods) — FLEX (Dietrich et al.
 Saffire (NTRS 20180005168, 20210011521, ICES-2024-365), ACME BRE (Dehghani), SAME/SAME-R, de Ris 1969, Fernandez-Pello 1981, Olson 1991,
 Turns, Quintiere, Huggett 1980, SFPE Handbook, NFPA 2001, Chao–Law–T'ien 1990, Westbrook–Dryer 1981, GRI-Mech 3.0, NIST WebBook, Incropera,
 JSC 20584 Rev C, NASA-STD-3001, LUCI and FM2 (outside PSI). Software: Next.js, React, Tailwind CSS, Plotly.js, KaTeX, Zustand, Zod,
-Anthropic SDK, Vitest, Playwright, NumPy, SciPy, pandas, PyArrow, scikit-learn, PyYAML, pdfplumber, pytest.
-APIs: NASA PSI API (psi.nasa.gov/geode-py), NASA NTRS, Claude API (Anthropic). Fonts: Inter, JetBrains Mono, Newsreader (SIL OFL 1.1). Images: none.
+OpenAI SDK, Vitest, Playwright, NumPy, SciPy, pandas, PyArrow, scikit-learn, PyYAML, pdfplumber, pytest.
+APIs: NASA PSI API (psi.nasa.gov/geode-py), NASA NTRS, OpenAI API (scenario builder + interpretation). Fonts: Inter, JetBrains Mono, Newsreader (SIL OFL 1.1). Images: none.
 
 ## License
 MIT (OSI-approved) — see LICENSE. All third-party libraries are under OSI-approved licenses (MIT, BSD-3-Clause, Apache-2.0, MPL-2.0) and fonts under SIL OFL 1.1; see `docs/REFERENCES.json`. Credits in CREDITS.md.
 
-### Live Aster on GitHub Pages
-
-Deploy the Worker from the repository root with
-`npx wrangler deploy --config web/worker/wrangler.jsonc`. Add
-`OPENAI_API_KEY` in Cloudflare as a Worker secret. The rate-limit binding is
-included in the configuration. It limits traffic per Cloudflare location.
-In GitHub, set the Actions repository variable `ASTER_URL` to
-`https://emberatlas-aster.anujanspace.workers.dev/api/ask`, then rerun the
-GitHub Pages workflow. The frontend uses its cached answers if the Worker fails.

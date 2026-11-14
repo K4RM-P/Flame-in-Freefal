@@ -8,17 +8,16 @@
     "start": "next start",
     "test": "vitest run",
     "lint": "tsc --noEmit",
-    "e2e": "playwright test",
-    "demo-cache": "tsx scripts/build-demo-cache.ts"
+    "e2e": "playwright test"
   },
   "dependencies": {
-    "@anthropic-ai/sdk": "0.54.0",
     "katex": "0.16.22",
     "motion": "12.18.1",
     "next": "15.5.29",
+    "openai": "7.57.0",
     "plotly.js-dist-min": "3.0.1",
-    "react": "19.1.7",
-    "react-dom": "19.1.7",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
     "react-plotly.js": "2.6.0",
     "zod": "3.25.67",
     "zustand": "5.0.5"
@@ -37,5 +36,9 @@
     "tsx": "4.20.3",
     "typescript": "5.8.3",
     "vitest": "3.2.4"
-  }
+  },
+  "engines": {
+    "node": "22.x"
+  },
+  "packageManager": "pnpm@10.34.8"
 }

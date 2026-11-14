@@ -1,102 +1,164 @@
 // SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
+// Plain-language methods: engine loop, sub-models + calibration source, validation, limitations, data, use of AI.
+import fs from "node:fs";
+import path from "node:path";
 import { EQUATIONS } from "@/lib/equations";
 import { SOURCES } from "@/lib/sources";
 import { Tex } from "@/components/Tex";
-import { SourcePill } from "@/components/bits";
-import { ValidationLab } from "@/components/methods/ValidationLab";
-import { MODEL_IDS } from "@/components/methods/modelIds";
-import { ModelDetails } from "@/components/methods/ModelDetails";
-import { RULES } from "@/lib/review/rules";
+import catalogJson from "@/data/psi_catalog.json";
+import summary from "@/data/validation/summary.json";
 
-const VERDICT_LABEL: Record<string, string> = { pending: "Pending", likely: "Likely to sustain fire", acceptable: "Acceptable margin", marginal: "Marginal", no_burn_data: "No orbit burn data" };
-const DATA_AUDIT = "https://github.com/K4RM-P/Flame-in-Freefal/blob/emberatlas-build/docs/DATA_AUDIT.md";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// Read at build time so a missing or not-yet-calibrated file shows as "Theory-only", never as an invented value.
+function params(name: string): any {
+  try { return JSON.parse(fs.readFileSync(path.join(process.cwd(), "data", "params", `${name}.json`), "utf8")); } catch { return null; }
+}
 
-const LIBS = ["openpyxl", "xlrd", "Next.js 15", "React 19", "Tailwind CSS 3", "Plotly.js 3 / react-plotly.js", "KaTeX", "Zustand", "Zod", "Anthropic TypeScript SDK (Claude API)", "Vitest",
-  "NumPy", "SciPy", "pandas", "PyArrow", "scikit-learn", "PyYAML", "pdfplumber", "pytest"];
+const MODELS = [
+  { id: "spread", name: "Flame spread over each item", plain: "How fast the flame front moves across a material, from the oxygen level, pressure and the air flowing past it. Gravity enters only as an equivalent extra flow (buoyancy), so Moon and Mars values are bounded between microgravity and 1 g.", eqs: ["SP1", "SP2", "SP3", "SP4", "SP5", "GR1", "GR2", "BS2"], params: "spread" },
+  { id: "habitat", name: "Cabin atmosphere (one well-mixed zone)", plain: "The burning area times the burning rate gives the heat released. That heat, the oxygen used and the CO₂ and CO made are mixed instantly through the whole cabin, with heat lost to the walls.", eqs: ["HA1", "HA2", "HA3", "HA4"], params: "habitat" },
+  { id: "smoke", name: "Smoke ageing and transport to the detector", plain: "Smoke particles stick together as they age (coagulation) while the air carries them to the detector; the detector alarms when its threshold is crossed.", eqs: ["SM1", "SM2", "SM3", "SM4"], params: "smoke" },
+  { id: "suppression", name: "Suppression by CO₂ or N₂", plain: "The released agent dilutes the cabin oxygen. A flame goes out when the calculated flame temperature falls below a critical value, or the oxygen falls below the inerting limit.", eqs: ["SU1", "SU2"], params: "suppression" },
+] as const;
+
+const LOOP = [
+  "Each burning item spreads its flame front with the spread model at the current cabin O₂, pressure and flow; gravity enters through the equivalent-flow mapping. Its burning area grows.",
+  "Heat release = burning area × mass burning flux × heat of combustion (sourced material properties).",
+  "The cabin temperature, pressure, O₂, CO₂ and CO advance with the well-mixed cabin equations.",
+  "Smoke ages by coagulation and reaches the detector after a transport delay = distance ÷ flow speed; the detector alarms when its threshold is crossed.",
+  "After the alarm (plus any set delay) the fan can switch off and the agent is released; the agent dilutes the O₂.",
+  "An item goes out at burnout, when O₂ falls below the inerting limit, or when the flow is too weak to sustain it (quench).",
+  "Every event (ignition, alarm, fan off, agent released, extinguished, a limit exceeded) is logged with its time.",
+  "Steps are 0.5 s, up to 600 s. Monte Carlo (200 seeded runs) samples the property and parameter uncertainty for the p05–p95 bands and outcome probabilities.",
+];
+
+const KEY_PSI = ["PSI-25", "PSI-26", "PSI-98", "PSI-99", "PSI-100", "PSI-101", "PSI-69", "PSI-102"];
+const ROLE: Record<string, string> = {
+  "PSI-25": "spread rates, fan calibration (BASS-II)", "PSI-26": "spread (BASS)", "PSI-98": "spread, large-scale burns (SAFFIRE-I)",
+  "PSI-99": "Earth test vs orbit (SAFFIRE-II)", "PSI-100": "cabin telemetry for the Saffire replay (SAFFIRE-III)",
+  "PSI-101": "smoke ageing (SAME-R)", "PSI-102": "smoke (SAME)", "PSI-69": "droplet extinction and suppression (FLEX)",
+};
 
 export default function Methods() {
+  const cat: Record<string, any> = (catalogJson as any).investigations;
+  const invs = Object.values(cat) as any[];
+  const targets = (summary as any).targets as any[];
   return (
-    <div className="prose-invert max-w-6xl space-y-6 text-sm">
-      <h1 className="display text-[32px]">Methods &amp; Validation</h1>
+    <div className="mx-auto max-w-5xl space-y-6 text-[14px]">
+      <h1 className="display text-[32px]">Methods &amp; validation</h1>
       <nav aria-label="On this page" className="flex flex-wrap gap-x-4 gap-y-1 text-[13px] text-mute">
-        {[["verdict-rules", "Verdict rules"], ["validation", "Validation"], ["models", "Models"], ["limitations", "Limitations"], ["use-of-ai", "Use of AI"], ["references", "References"]].map(([id, l]) => <a key={id} href={`#${id}`} className="underline underline-offset-2">{l}</a>)}
-        <a href={DATA_AUDIT} className="underline underline-offset-2">Data audit</a>
+        {[["loop", "How a run works"], ["models", "Sub-models"], ["validation", "Validation"], ["limitations", "Limitations"], ["data", "NASA data"], ["use-of-ai", "Use of AI"], ["references", "References"]].map(([id, l]) =>
+          <a key={id} href={`#${id}`} className="underline underline-offset-2">{l}</a>)}
       </nav>
-      <section className="card space-y-2" id="verdict-rules">
-        <h2 className="label">Verdict rules</h2>
-        <p className="text-mute">How the Review turns orbit test outcomes into a verdict. Rules are applied as written; partial gravity never upgrades a verdict.</p>
-        <dl className="space-y-2">
-          {Object.entries(RULES.verdictText).map(([k, t]) => <div key={k}><dt className="font-medium">{VERDICT_LABEL[k] ?? k}</dt><dd className="text-mute">{t}</dd></div>)}
-        </dl>
-        <p className="text-mute">Earth-gravity comparisons: {RULES.earthCaveat}</p>
+
+      <section id="loop" className="card space-y-2">
+        <h2 className="text-[20px] font-semibold">How a run works</h2>
+        <p className="measure text-mute">You describe a cabin (or load a preset). The engine then repeats these steps every half second. The same inputs and seed always give the same result.</p>
+        <ol className="measure ml-5 list-decimal space-y-1">{LOOP.map((s, i) => <li key={i}>{s}</li>)}</ol>
       </section>
-      <section className="card space-y-1" id="data-audit">
-        <h2 className="label">Data audit</h2>
-        <p>Every row, its source locator and its verification status are listed in the <a href={DATA_AUDIT} className="underline underline-offset-2">data audit (docs/DATA_AUDIT.md)</a>. Models train only on verified rows; held-out test rows are never fitted.</p>
+
+      <section id="models" className="space-y-3">
+        <h2 className="text-[20px] font-semibold">Sub-models and what calibrates them</h2>
+        {MODELS.map((m) => {
+          const p = params(m.params);
+          const calibrated = m.id === "suppression" ? !!p?.fuels : p?.calibrated === true;
+          return (
+            <article key={m.id} className="card space-y-2">
+              <div className="flex flex-wrap items-center gap-2">
+                <h3 className="text-[16px] font-semibold">{m.name}</h3>
+                {calibrated ? <span className="chip border border-ok/40 text-ok">Calibrated</span>
+                  : <span className="chip border border-dashed border-theory/60 text-theory">◌ Theory-only</span>}
+              </div>
+              <p className="measure text-mute">{m.plain}</p>
+              {m.eqs.filter((e) => EQUATIONS[e]).map((e) => (
+                <div key={e} className="border-t border-line pt-1"><p className="text-[12px] text-mute">{e} · {EQUATIONS[e].text}</p><Tex tex={EQUATIONS[e].tex} block /></div>
+              ))}
+              <Calibration id={m.id} p={p} calibrated={calibrated} />
+            </article>
+          );
+        })}
       </section>
-      <section className="card space-y-2">
-        <h2 className="label">Pipeline</h2>
-        <ol className="ml-5 list-decimal space-y-1">
-          <li><b>Fetch</b> NASA/TP-2015-216046 (FLEX) from NTRS; SHA-256 recorded.</li>
-          <li><b>Extract</b> Table IX (276 tests) with pdfplumber; extinction mode taken only from the authors&apos; Appendix B captions (radiative/diffusive; cool-flame captions → radiative with an &quot;inferred&quot; flag, per Dietrich et al. 2014).</li>
-          <li><b>Normalize</b> to SI, carrying O₂ as x<sub>O₂</sub>, p<sub>O₂</sub> and Y<sub>O₂</sub>; FLEX-114 excluded (pressure printed as 0).</li>
-          <li><b>Verify</b>: rendered PDF page compared cell-by-cell with extracted values (35 rows, 0 mismatches); human countersign pending.</li>
-          <li><b>Split</b> by test campaign (grouped, seeded, 25% held out). <b>Fit</b> on train only. <b>Validate</b> on test and published LOIs.</li>
-          <li><b>Export</b> JSON for the web; TypeScript ports reproduce 1,400+ Python golden vectors to 1e-6 relative.</li>
-        </ol>
+
+      <section id="validation" className="card space-y-2">
+        <h2 className="text-[20px] font-semibold">Validation</h2>
+        <p className="measure text-mute">Each target compares a prediction with a held-out measurement or a published value. Failures are shown as failures.</p>
+        <div className="overflow-x-auto">
+          <table className="data">
+            <thead><tr><th>id</th><th>model</th><th>quantity</th><th>measured / published</th><th>predicted</th><th>criterion</th><th>result</th></tr></thead>
+            <tbody>{targets.map((t) => (
+              <tr key={t.id}>
+                <td className="num">{t.id}</td><td>{t.model}</td><td>{t.quantity}{t.note && <p className="text-[12px] text-faint">{t.note}</p>}</td>
+                <td className="num">{Array.isArray(t.published) ? `(${t.published.join("–")})` : t.published == null ? "—" : typeof t.published === "object" ? JSON.stringify(t.published) : String(t.published)}</td>
+                <td className="num">{t.predicted == null ? "∅" : typeof t.predicted === "number" ? Number(t.predicted.toPrecision(3)) : String(t.predicted)}</td>
+                <td>{t.criterion}</td>
+                <td><span className={`chip border ${t.status === "pass" ? "border-ok/40 text-ok" : t.status === "fail" ? "border-bad/50 text-bad" : "border-line text-mute"}`}>{t.status}</span></td>
+              </tr>))}</tbody>
+          </table>
+        </div>
+        <p className="text-[13px] text-mute">The Saffire replay reports RMSE and MAPE for simulated vs PSI-100 T and P telemetry when the replay is run. PSI-100 contains no O₂ telemetry, so O₂ replay error is No data. An unsourced detector threshold does not block a run; alarm and time-to-alarm show No data.</p>
       </section>
-      <section className="card">
-        <h2 className="label">Equations</h2>
-        {Object.entries(EQUATIONS).map(([id, e]) => (
-          <div key={id} className="mt-2 border-b border-line pb-2"><div className="text-xs text-mute">{id} · {e.text} <SourcePill id={e.ref} /></div><Tex tex={e.tex} block /></div>
-        ))}
-      </section>
-      <section className="card space-y-1" id="data">
-        <h2 className="label">NASA data</h2>
-        <p>Primary NASA resource (challenge Resources tab): <a className="text-ink underline" href="https://psi.nasa.gov/physci/repo/search?q=combustion" data-testid="psi-resource-link">PSI Data Repository: Combustion Science</a>.
-          EmberAtlas reads PSI investigation metadata, DOIs and Experimental tables through the public PSI API (GET only; no zips or video) and cites every
-          record by its PSI accession (PSI-xx) plus file name and line.</p>
-      </section>
-      <section id="validation" className="scroll-mt-20"><ValidationLab /></section>
-      <section id="models" className="card space-y-2 scroll-mt-20">
-        <h2 className="label">Models</h2>
-        <p className="text-mute">Each model with its equations, inputs and p05–p95 band. Open one to run it against the current mission.</p>
-        {MODEL_IDS.map((id) => <ModelDetails key={id} id={id} />)}
-      </section>
-      <section className="card space-y-1" id="limitations" data-testid="limitations">
-        <h2 className="label">Limitations</h2>
-        <ul className="ml-5 list-disc space-y-1">
-          <li><b>Small n.</b> Many flight results are single tests; SAFFIRE-II has one test per material and thickness (7 like-for-like samples in Earth test vs orbit).</li>
-          <li><b>Like-for-like caveats.</b> Comparisons hold only for the same material, thickness, O₂, flow speed and direction, and never as a verdict on a ground test standard.</li>
-          <li><b>Calculated vs measured.</b> Flame temperatures (Burke–Schumann, T<sub>crit</sub>) are ideal calculated values; spread, habitat and smoke models are uncalibrated theory.</li>
-          <li><b>No partial-gravity data in PSI.</b> Moon and Mars values are bounded estimates between µg and 1 g.</li>
-          <li><b>Extracted and digitized values.</b> FLEX rows were extracted from NASA/TP-2015-216046 and cross-checked against the PSI-69 table (0 mismatches in 1,533 values); PSI table rows stay verified=false until the human spot-check. No values are hand-digitized from figures yet.</li>
-          <li>The droplet model under-predicts the heptane LOI and both models miss the helium effect (non-unity Lewis number); see the Validation Lab.</li>
-          <li>Many property values are literature candidates marked TODO_VERIFY in physics/data/*.yaml pending a science-checker review.</li>
-          <li>Not for engineering certification. AI answers are generated from tool outputs and may still be wrong; verify.</li>
+
+      <section id="limitations" className="card space-y-1" data-testid="limitations">
+        <h2 className="text-[20px] font-semibold">Limitations</h2>
+        <ul className="measure ml-5 list-disc space-y-1">
+          <li><b>One well-mixed zone.</b> The cabin is a single zone with instant mixing, like a simplified form of NIST&apos;s CFAST zone model. Real cabins have hot layers, plumes and dead spots.</li>
+          <li><b>1D flame spread per item.</b> Each item has one flame front moving along its length; there is no flame-to-item heat transfer.</li>
+          <li><b>Partial gravity is a bounded estimate.</b> PSI holds microgravity and 1 g tests only. Moon and Mars values sit between those two bounds and are never measurements.</li>
+          <li><b>Theory-only parts.</b> Every sub-model marked Theory-only above is uncalibrated physics; its numbers carry that label in the simulator too.</li>
+          <li><b>Small n.</b> Many ISS results are single tests (SAFFIRE-II has one test per material and thickness). Earth-vs-orbit comparisons are like-for-like only and never a verdict on a ground test standard.</li>
+          <li><b>Unsourced inputs are required.</b> Where no sourced value exists (for example a cabin volume or a detector threshold) the field stays empty until you enter it.</li>
+          <li>Not for flight certification. AI text is generated from engine output and cited PSI data and can still be wrong.</li>
         </ul>
       </section>
-      <section className="card space-y-1">
-        <h2 className="label">Use it</h2>
-        <pre className="overflow-x-auto rounded bg-bg p-2 font-mono text-xs">{`pip install "git+https://github.com/K4RM-P/Flame-in-Freefal.git#subdirectory=physics"
-python -c "from emberphys.models import run_droplet; print(run_droplet('n-heptane', 0.21, 101.3, 3.0).value)"`}</pre>
-        <p>License: MIT. Cite as: EmberAtlas team (2026), <i>EmberAtlas: validated microgravity fire-safety models on NASA PSI data</i>, NASA Space Apps Challenge.</p>
+
+      <section id="data" className="card space-y-2">
+        <h2 className="text-[20px] font-semibold">NASA data</h2>
+        <p className="measure text-mute">Every PSI row is cited by its accession (PSI-xx) plus file name and line. Data come from the public PSI API (GET only; no zips or video): <a className="underline underline-offset-2" href="https://psi.nasa.gov/physci/repo/search?q=combustion">PSI Data Repository: Combustion Science</a>.</p>
+        <table className="data">
+          <thead><tr><th>accession</th><th>investigation</th><th>used for</th><th>DOI</th></tr></thead>
+          <tbody>{KEY_PSI.map((acc) => {
+            const e = invs.find((x) => x.accession === acc);
+            return (
+              <tr key={acc}><td className="num">{acc}</td><td>{e?.short_name ?? "—"}{e?.title && <span className="text-mute"> · {e.title}</span>}</td><td>{ROLE[acc]}</td>
+                <td>{e?.doi ? <a className="num underline underline-offset-2" href={`https://doi.org/${e.doi}`}>{e.doi}</a> : "—"}</td></tr>);
+          })}</tbody>
+        </table>
       </section>
-      <section className="card space-y-1" id="use-of-ai">
-        <h2 className="label">Use of AI</h2>
-        <ul className="ml-5 list-disc space-y-1">
+
+      <section id="use-of-ai" className="card space-y-1">
+        <h2 className="text-[20px] font-semibold">Use of AI</h2>
+        <ul className="measure ml-5 list-disc space-y-1">
           <li>Claude Code (Anthropic) wrote the code, under human direction and review.</li>
-          <li>The Claude API powers Ask EmberAtlas. Answers are grounded only on tool outputs (model runs, PSI rows, cited sources); a numeric guard (lib/ai/guard.ts) rejects any number not present in those outputs.</li>
-          <li>No AI-generated images are used anywhere in EmberAtlas.</li>
+          <li>The OpenAI API powers two features: turning a plain-English description into scenario fields (which you review before running), and the interpretation of each run.</li>
+          <li>The interpretation is grounded only on the engine output and the ranked PSI evidence; a numeric guard (lib/ai/guard.ts) rejects any number not present in them. Without an API key, the app says so instead of showing any text.</li>
+          <li>No AI-generated images are used.</li>
         </ul>
       </section>
-      <section className="card" id="references">
-        <h2 className="label">References</h2>
-        <ul className="ml-5 list-disc space-y-1">
-          {Object.values(SOURCES).map((s) => <li key={s.id}><span className="num text-xs text-mute">[{s.id}]</span> {s.title}{s.year ? ` (${s.year})` : ""}{s.url && <> — <a className="text-ink" href={s.url}>{s.url}</a></>}</li>)}
-          {LIBS.map((l) => <li key={l}>Software: {l}</li>)}
+
+      <section id="references" className="card">
+        <h2 className="text-[20px] font-semibold">References</h2>
+        <ul className="ml-5 list-disc space-y-1 text-[13px]">
+          {Object.values(SOURCES).map((s) => <li key={s.id}><span className="num text-mute">[{s.id}]</span> {s.title}{s.year ? ` (${s.year})` : ""}{s.url && <> — <a className="underline" href={s.url}>{s.url}</a></>}</li>)}
+          <li>NIST CFAST (Consolidated Fire and Smoke Transport) zone model, for the single-zone comparison.</li>
         </ul>
       </section>
+    </div>
+  );
+}
+
+function Calibration({ id, p, calibrated }: { id: string; p: any; calibrated: boolean }) {
+  if (!p) return <p className="text-[13px] text-mute">∅ No parameter file: runs on theory only.</p>;
+  if (id === "suppression") return (
+    <p className="text-[13px] text-mute">Critical flame temperature fitted per fuel on FLEX ({p.source_id}; fitted on {(p.fitted_on ?? []).join(", ")}):{" "}
+      {Object.entries(p.fuels ?? {}).map(([f, v]: [string, any]) => `${f} ${Math.round(v.T_crit_ug)} ± ${Math.round(v.T_crit_ug_sd)} K`).join("; ")}. Solids use the 1 g cup-burner reference.</p>
+  );
+  const params = Object.entries(p.params ?? {});
+  return (
+    <div className="space-y-1 text-[13px]">
+      {calibrated ? <p className="text-mute">Calibrated on {(p.sources ?? []).map((s: any) => typeof s === "string" ? s : s?.source_id ?? "unsourced").join(", ") || "—"}{p.n_train != null && ` · ${p.n_train} train / ${p.n_test ?? "?"} held-out rows`}.</p>
+        : <p className="text-mute">Not calibrated{p.note ? `: ${p.note}` : ""}. Values come from cited literature properties only.</p>}
+      {params.length > 0 && <p className="num text-[12px]">{params.map(([k, v]) => `${k} = ${typeof v === "number" ? Number(v.toPrecision(4)) : JSON.stringify(v)}`).join(" · ")}</p>}
+      {p.metrics && <p className="num text-[12px] text-mute">held-out: {Object.entries(p.metrics).map(([k, v]) => `${k} ${typeof v === "number" ? Number((v as number).toPrecision(3)) : JSON.stringify(v)}`).join(" · ")}</p>}
     </div>
   );
 }

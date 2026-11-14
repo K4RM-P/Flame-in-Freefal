@@ -1,8 +1,4 @@
-# SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
-# Builds the EmberAtlas web app as a static site and deploys it to GitHub Pages.
-# One-time repo setting (admin): Settings → Pages → Build and deployment → Source = "GitHub Actions".
-# The static site has no server, so /api/ask is removed before the build and Ask serves the 12 cached golden answers.
-name: Deploy web app to GitHub Pages
+name: Deploy newest simulator to GitHub Pages
 
 on:
   push:
@@ -25,22 +21,23 @@ jobs:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
         with:
-          version: 9.15.0
+          version: 10.34.8
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: pnpm
           cache-dependency-path: web/pnpm-lock.yaml
-      - run: pnpm -C web install --no-frozen-lockfile
-      - name: Remove the server-only Ask route (static hosting)
+      - name: Install dependencies
+        run: pnpm -C web install --no-frozen-lockfile
+      - name: Remove server-only API routes (GitHub Pages is static hosting)
         run: rm -rf web/app/api
-      - name: Static export
+      - name: Build static simulator
         run: pnpm -C web build
         env:
-          NEXT_PUBLIC_ASTER_URL: ${{ vars.ASTER_URL }}
           STATIC_EXPORT: "1"
           PAGES_BASE_PATH: /${{ github.event.repository.name }}
-      - run: touch web/out/.nojekyll
+      - name: Add Pages marker
+        run: touch web/out/.nojekyll
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

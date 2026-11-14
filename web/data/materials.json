@@ -1,0 +1,941 @@
+[
+ {
+  "material_key": "pmma",
+  "display_name": "PMMA & Nomex",
+  "n_tests": 43,
+  "investigations": [
+   "PSI-99",
+   "PSI-25"
+  ],
+  "o2_range": [
+   0.142,
+   0.222
+  ],
+  "flow_range_m_s": [
+   0.010065999999999999,
+   0.493234
+  ],
+  "thicknesses_m": [
+   0.0001,
+   0.0002,
+   0.0003,
+   0.001,
+   0.002,
+   0.003,
+   0.004,
+   0.005
+  ],
+  "has_burn_data": true,
+  "has_smoke_data": false,
+  "properties_key": "pmma",
+  "sources": [
+   {
+    "source_id": "PSI-99",
+    "locator": "PSI-99_Experimental table_SAFFIRE-2.csv, line 8"
+   },
+   {
+    "source_id": "PSI-99",
+    "locator": "PSI-99_Experimental table_SAFFIRE-2.csv, line 9"
+   },
+   {
+    "source_id": "PSI-25",
+    "locator": "PSI-25_Experimental table_BASS-II.csv, line 2"
+   },
+   {
+    "source_id": "PSI-25",
+    "locator": "PSI-25_Experimental table_BASS-II.csv, line 3"
+   },
+   {
+    "source_id": "PSI-25",
+    "locator": "PSI-25_Experimental table_BASS-II.csv, line 5"
+   },
+   {
+    "source_id": "PSI-25",
+    "locator": "PSI-25_Experimental table_BASS-II.csv, line 7"
+   },
+   {
+    "source_id": "PSI-25",
+    "locator": "PSI-25_Experimental table_BASS-II.csv, line 9"
+   },
+   {
+    "source_id": "PSI-25",
+    "locator": "PSI-25_Experimental table_BASS-II.csv, line 10"
+   },
+   {
+    "source_id": "PSI-25",
+    "locator": "PSI-25_Experimental table_BASS-II.csv, line 11"
+   },
+   {
+    "source_id": "PSI-25",
+    "locator": "PSI-25_Experimental table_BASS-II.csv, line 12"
+   },
+   {
+    "source_id": "PSI-25",
+    "locator": "PSI-25_Experimental table_BASS-II.csv, line 15"
+   },
+   {
+    "source_id": "PSI-25",
+    "locator": "PSI-25_Experimental table_BASS-II.csv, line 16"
+   },
+   {
+    "source_id": "PSI-25",
+    "locator": "PSI-25_Experimental table_BASS-II.csv, line 17"
+   },
+   {
+    "source_id": "PSI-25",
+    "locator": "PSI-25_Experimental table_BASS-II.csv, line 18"
+   },
+   {
+    "source_id": "PSI-25",
+    "locator": "PSI-25_Experimental table_BASS-II.csv, line 19"
+   },
+   {
+    "source_id": "PSI-25",
+    "locator": "PSI-25_Experimental table_BASS-II.csv, line 20"
+   },
+   {
+    "source_id": "PSI-25",
+    "locator": "PSI-25_Experimental table_BASS-II.csv, line 21"
+   },
+   {
+    "source_id": "PSI-25",
+    "locator": "PSI-25_Experimental table_BASS-II.csv, line 22"
+   },
+   {
+    "source_id": "PSI-25",
+    "locator": "PSI-25_Experimental table_BASS-II.csv, line 23"
+   },
+   {
+    "source_id": "PSI-25",
+    "locator": "PSI-25_Experimental table_BASS-II.csv, line 28"
+   },
+   {
+    "source_id": "PSI-25",
+    "locator": "PSI-25_Experimental table_BASS-II.csv, line 29"
+   },
+   {
+    "source_id": "PSI-25",
+    "locator": "PSI-25_Experimental table_BASS-II.csv, line 30"
+   },
+   {
+    "source_id": "PSI-25",
+    "locator": "PSI-25_Experimental table_BASS-II.csv, line 31"
+   },
+   {
+    "source_id": "PSI-25",
+    "locator": "PSI-25_Experimental table_BASS-II.csv, line 32"
+   },
+   {
+    "source_id": "PSI-25",
+    "locator": "PSI-25_Experimental table_BASS-II.csv, line 33"
+   },
+   {
+    "source_id": "PSI-25",
+    "locator": "PSI-25_Experimental table_BASS-II.csv, line 34"
+   },
+   {
+    "source_id": "PSI-25",
+    "locator": "PSI-25_Experimental table_BASS-II.csv, line 35"
+   },
+   {
+    "source_id": "PSI-25",
+    "locator": "PSI-25_Experimental table_BASS-II.csv, line 36"
+   },
+   {
+    "source_id": "PSI-25",
+    "locator": "PSI-25_Experimental table_BASS-II.csv, line 37"
+   },
+   {
+    "source_id": "PSI-25",
+    "locator": "PSI-25_Experimental table_BASS-II.csv, line 38"
+   },
+   {
+    "source_id": "PSI-25",
+    "locator": "PSI-25_Experimental table_BASS-II.csv, line 39"
+   },
+   {
+    "source_id": "PSI-25",
+    "locator": "PSI-25_Experimental table_BASS-II.csv, line 40"
+   },
+   {
+    "source_id": "PSI-25",
+    "locator": "PSI-25_Experimental table_BASS-II.csv, line 41"
+   },
+   {
+    "source_id": "PSI-25",
+    "locator": "PSI-25_Experimental table_BASS-II.csv, line 42"
+   },
+   {
+    "source_id": "PSI-25",
+    "locator": "PSI-25_Experimental table_BASS-II.csv, line 43"
+   },
+   {
+    "source_id": "PSI-25",
+    "locator": "PSI-25_Experimental table_BASS-II.csv, line 44"
+   },
+   {
+    "source_id": "PSI-25",
+    "locator": "PSI-25_Experimental table_BASS-II.csv, line 45"
+   },
+   {
+    "source_id": "PSI-25",
+    "locator": "PSI-25_Experimental table_BASS-II.csv, line 46"
+   },
+   {
+    "source_id": "PSI-25",
+    "locator": "PSI-25_Experimental table_BASS-II.csv, line 47"
+   },
+   {
+    "source_id": "PSI-25",
+    "locator": "PSI-25_Experimental table_BASS-II.csv, line 53"
+   },
+   {
+    "source_id": "PSI-25",
+    "locator": "PSI-25_Experimental table_BASS-II.csv, line 54"
+   },
+   {
+    "source_id": "PSI-25",
+    "locator": "PSI-25_Experimental table_BASS-II.csv, line 63"
+   },
+   {
+    "source_id": "PSI-25",
+    "locator": "PSI-25_Experimental table_BASS-II.csv, line 64"
+   }
+  ]
+ },
+ {
+  "material_key": "sibal",
+  "display_name": "SIBAL Fabric",
+  "n_tests": 32,
+  "investigations": [
+   "PSI-98",
+   "PSI-99",
+   "PSI-100",
+   "PSI-25"
+  ],
+  "o2_range": [
+   0.16399999999999998,
+   0.221
+  ],
+  "flow_range_m_s": [
+   0.05033000000000001,
+   0.3
+  ],
+  "thicknesses_m": [
+   0.00037,
+   0.0033,
+   0.0037
+  ],
+  "has_burn_data": true,
+  "has_smoke_data": false,
+  "properties_key": "sibal",
+  "sources": [
+   {
+    "source_id": "PSI-98",
+    "locator": "PSI-98_Experimental table_SAFFIRE-1.csv, line 2"
+   },
+   {
+    "source_id": "PSI-98",
+    "locator": "PSI-98_Experimental table_SAFFIRE-1.csv, line 3"
+   },
+   {
+    "source_id": "PSI-99",
+    "locator": "PSI-99_Experimental table_SAFFIRE-2.csv, line 6"
+   },
+   {
+    "source_id": "PSI-100",
+    "locator": "PSI-100_Experimental table_SAFFIRE-3.csv, line 2"
+   },
+   {
+    "source_id": "PSI-100",
+    "locator": "PSI-100_Experimental table_SAFFIRE-3.csv, line 3"
+   },
+   {
+    "source_id": "PSI-25",
+    "locator": "PSI-25_Experimental table_BASS-II.csv, line 102"
+   },
+   {
+    "source_id": "PSI-25",
+    "locator": "PSI-25_Experimental table_BASS-II.csv, line 103"
+   },
+   {
+    "source_id": "PSI-25",
+    "locator": "PSI-25_Experimental table_BASS-II.csv, line 105"
+   },
+   {
+    "source_id": "PSI-25",
+    "locator": "PSI-25_Experimental table_BASS-II.csv, line 106"
+   },
+   {
+    "source_id": "PSI-25",
+    "locator": "PSI-25_Experimental table_BASS-II.csv, line 107"
+   },
+   {
+    "source_id": "PSI-25",
+    "locator": "PSI-25_Experimental table_BASS-II.csv, line 109"
+   },
+   {
+    "source_id": "PSI-25",
+    "locator": "PSI-25_Experimental table_BASS-II.csv, line 110"
+   },
+   {
+    "source_id": "PSI-25",
+    "locator": "PSI-25_Experimental table_BASS-II.csv, line 111"
+   },
+   {
+    "source_id": "PSI-25",
+    "locator": "PSI-25_Experimental table_BASS-II.csv, line 112"
+   },
+   {
+    "source_id": "PSI-25",
+    "locator": "PSI-25_Experimental table_BASS-II.csv, line 113"
+   },
+   {
+    "source_id": "PSI-25",
+    "locator": "PSI-25_Experimental table_BASS-II.csv, line 114"
+   },
+   {
+    "source_id": "PSI-25",
+    "locator": "PSI-25_Experimental table_BASS-II.csv, line 115"
+   },
+   {
+    "source_id": "PSI-25",
+    "locator": "PSI-25_Experimental table_BASS-II.csv, line 116"
+   },
+   {
+    "source_id": "PSI-25",
+    "locator": "PSI-25_Experimental table_BASS-II.csv, line 117"
+   },
+   {
+    "source_id": "PSI-25",
+    "locator": "PSI-25_Experimental table_BASS-II.csv, line 118"
+   },
+   {
+    "source_id": "PSI-25",
+    "locator": "PSI-25_Experimental table_BASS-II.csv, line 119"
+   },
+   {
+    "source_id": "PSI-25",
+    "locator": "PSI-25_Experimental table_BASS-II.csv, line 120"
+   },
+   {
+    "source_id": "PSI-25",
+    "locator": "PSI-25_Experimental table_BASS-II.csv, line 121"
+   },
+   {
+    "source_id": "PSI-25",
+    "locator": "PSI-25_Experimental table_BASS-II.csv, line 122"
+   },
+   {
+    "source_id": "PSI-25",
+    "locator": "PSI-25_Experimental table_BASS-II.csv, line 123"
+   },
+   {
+    "source_id": "PSI-25",
+    "locator": "PSI-25_Experimental table_BASS-II.csv, line 124"
+   },
+   {
+    "source_id": "PSI-25",
+    "locator": "PSI-25_Experimental table_BASS-II.csv, line 125"
+   },
+   {
+    "source_id": "PSI-25",
+    "locator": "PSI-25_Experimental table_BASS-II.csv, line 126"
+   },
+   {
+    "source_id": "PSI-25",
+    "locator": "PSI-25_Experimental table_BASS-II.csv, line 127"
+   },
+   {
+    "source_id": "PSI-25",
+    "locator": "PSI-25_Experimental table_BASS-II.csv, line 128"
+   },
+   {
+    "source_id": "PSI-25",
+    "locator": "PSI-25_Experimental table_BASS-II.csv, line 129"
+   },
+   {
+    "source_id": "PSI-25",
+    "locator": "PSI-25_Experimental table_BASS-II.csv, line 130"
+   }
+  ]
+ },
+ {
+  "material_key": "kapton",
+  "display_name": "Kapton",
+  "n_tests": 29,
+  "investigations": [
+   "PSI-101"
+  ],
+  "o2_range": null,
+  "flow_range_m_s": null,
+  "thicknesses_m": [],
+  "has_burn_data": false,
+  "has_smoke_data": true,
+  "properties_key": null,
+  "sources": [
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 2"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 3"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 4"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 5"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 6"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 7"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 8"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 9"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 10"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 11"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 12"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 13"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 14"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 15"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 16"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 17"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 18"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 19"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 20"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 21"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 22"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 23"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 24"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 25"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 26"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 27"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 28"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 29"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 30"
+   }
+  ]
+ },
+ {
+  "material_key": "silicone",
+  "display_name": "Silicone",
+  "n_tests": 26,
+  "investigations": [
+   "PSI-99",
+   "PSI-101"
+  ],
+  "o2_range": [
+   0.215,
+   0.221
+  ],
+  "flow_range_m_s": [
+   0.2,
+   0.2
+  ],
+  "thicknesses_m": [
+   0.00027,
+   0.00037,
+   0.00061,
+   0.00103
+  ],
+  "has_burn_data": true,
+  "has_smoke_data": true,
+  "properties_key": null,
+  "sources": [
+   {
+    "source_id": "PSI-99",
+    "locator": "PSI-99_Experimental table_SAFFIRE-2.csv, line 2"
+   },
+   {
+    "source_id": "PSI-99",
+    "locator": "PSI-99_Experimental table_SAFFIRE-2.csv, line 3"
+   },
+   {
+    "source_id": "PSI-99",
+    "locator": "PSI-99_Experimental table_SAFFIRE-2.csv, line 4"
+   },
+   {
+    "source_id": "PSI-99",
+    "locator": "PSI-99_Experimental table_SAFFIRE-2.csv, line 5"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 31"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 32"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 33"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 34"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 35"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 36"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 37"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 38"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 39"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 40"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 41"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 42"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 43"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 44"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 45"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 46"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 47"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 48"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 49"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 50"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 51"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 52"
+   }
+  ]
+ },
+ {
+  "material_key": "lamp_wick",
+  "display_name": "Lampwick",
+  "n_tests": 20,
+  "investigations": [
+   "PSI-101"
+  ],
+  "o2_range": null,
+  "flow_range_m_s": null,
+  "thicknesses_m": [],
+  "has_burn_data": false,
+  "has_smoke_data": true,
+  "properties_key": null,
+  "sources": [
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 53"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 54"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 55"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 56"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 57"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 58"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 59"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 60"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 61"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 62"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 63"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 64"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 65"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 66"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 67"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 68"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 69"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 70"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 71"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 72"
+   }
+  ]
+ },
+ {
+  "material_key": "pyrell",
+  "display_name": "Pyrell",
+  "n_tests": 20,
+  "investigations": [
+   "PSI-101"
+  ],
+  "o2_range": null,
+  "flow_range_m_s": null,
+  "thicknesses_m": [],
+  "has_burn_data": false,
+  "has_smoke_data": true,
+  "properties_key": null,
+  "sources": [
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 91"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 92"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 93"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 94"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 95"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 96"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 97"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 98"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 99"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 100"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 101"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 102"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 103"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 104"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 105"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 106"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 107"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 108"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 109"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 110"
+   }
+  ]
+ },
+ {
+  "material_key": "teflon",
+  "display_name": "Teflon",
+  "n_tests": 18,
+  "investigations": [
+   "PSI-101"
+  ],
+  "o2_range": null,
+  "flow_range_m_s": null,
+  "thicknesses_m": [],
+  "has_burn_data": false,
+  "has_smoke_data": true,
+  "properties_key": null,
+  "sources": [
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 73"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 74"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 75"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 76"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 77"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 78"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 79"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 80"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 81"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 82"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 83"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 84"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 85"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 86"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 87"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 88"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 89"
+   },
+   {
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv, line 90"
+   }
+  ]
+ },
+ {
+  "material_key": "nomex",
+  "display_name": "Nomex",
+  "n_tests": 3,
+  "investigations": [
+   "PSI-25"
+  ],
+  "o2_range": [
+   0.21,
+   0.222
+  ],
+  "flow_range_m_s": [
+   0.08052799999999999,
+   0.15099
+  ],
+  "thicknesses_m": [],
+  "has_burn_data": true,
+  "has_smoke_data": false,
+  "properties_key": null,
+  "sources": [
+   {
+    "source_id": "PSI-25",
+    "locator": "PSI-25_Experimental table_BASS-II.csv, line 24"
+   },
+   {
+    "source_id": "PSI-25",
+    "locator": "PSI-25_Experimental table_BASS-II.csv, line 25"
+   },
+   {
+    "source_id": "PSI-25",
+    "locator": "PSI-25_Experimental table_BASS-II.csv, line 26"
+   }
+  ]
+ }
+]

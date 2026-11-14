@@ -13,3 +13,5 @@ web/playwright-report/
 .DS_Store
 .vercel
 *.tsbuildinfo
+*.egg-info/
+web/e2e-results/

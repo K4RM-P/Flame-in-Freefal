@@ -1,5 +1,9 @@
 # EmberAtlas — Pitch
 
+## 30-second script
+
+Saffire replay → ISS vs Lunar compare → AI interpretation → next test. EmberAtlas replays a real NASA PSI-100 cabin-fire record, compares it with measured temperature and pressure, then compares the same material under ISS and bounded lunar conditions. Every result carries its evidence and limitations. The OpenAI API turns reviewed engine output into a cited interpretation. When evidence is thin, EmberAtlas says so and proposes the next test to fly.
+
 **One-liner:** EmberAtlas turns NASA's ISS fire experiments into a defensible fire-safety verdict for the materials going into lunar habitats, with every claim traced to the PSI data behind it.
 
 ## 30-second video script (~75 spoken words; English subtitles burned in)

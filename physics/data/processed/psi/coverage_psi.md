@@ -4,10 +4,10 @@ All rows verified=False until the human spot-check (docs/HUMAN_TASKS.md). Normal
 
 | table key | accession | source file | rows | normalized | rows with qc_flag |
 |---|---|---|---:|---|---:|
-| bass2 | PSI-25 | PSI-25_Experimental table_BASS-II.csv | 129 | yes | 57 |
+| bass2 | PSI-25 | PSI-25_Experimental table_BASS-II.csv | 129 | yes | 67 |
 | bass | PSI-26 | PSI-26_Experimental table_BASS.csv | 122 | yes | 121 |
-| saffire | PSI-100, PSI-98, PSI-99 | PSI-100_Experimental table_SAFFIRE-3.csv; PSI-98_Experimental table_SAFFIRE-1.csv; PSI-99_Experimental table_SAFFIRE-2.csv | 13 | yes | 12 |
-| same_r | PSI-101 | PSI-101_Experimental table_SAME-R.csv | 109 | yes | 0 |
+| saffire | PSI-100, PSI-98, PSI-99 | PSI-100_Experimental table_SAFFIRE-3.csv; PSI-98_Experimental table_SAFFIRE-1.csv; PSI-99_Experimental table_SAFFIRE-2.csv | 13 | yes | 13 |
+| same_r | PSI-101 | PSI-101_Experimental table_SAME-R.csv | 109 | yes | 42 |
 | bre | PSI-20 | PSI-20_Experimental table_ACME BRE.csv | 18 | yes | 2 |
 | same | PSI-102 | PSI-102_Experimental table_SAME.csv | 8 | raw only | 0 |
 | daft | PSI-47 | PSI-47_Experimental table_DAFT.csv | 2 | raw only | 0 |

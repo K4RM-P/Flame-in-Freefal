@@ -50,7 +50,7 @@ def num(s) -> float | None:
     """First number in a cell ('~ 22.1' -> 22.1, '80 W' -> 80). None for blanks/'n/a'/text."""
     if s is None or (isinstance(s, float) and np.isnan(s)):
         return None
-    m = re.search(r"-?\d+(?:\.\d+)?", str(s).replace(",", ""))
+    m = re.search(r"-?(?:\d+(?:\.\d+)?|\.\d+)", str(s).replace(",", ""))  # '.33 cm' -> 0.33, not 33
     return float(m.group()) if m else None
 
 
@@ -138,6 +138,8 @@ def bass2() -> pd.DataFrame:
             v = num(r[col])
             row[key] = v / 100 if v is not None else None
         row["co_ppm_initial"], row["co_ppm_final"] = num(r["Initial CO (ppm)"]), num(r["Final CO (ppm)"])
+        if any(v is not None and v < 0 for v in (row["co_ppm_initial"], row["co_ppm_final"])):
+            flag(row, "co_negative_in_source")  # sensor offset; kept as tabulated, never used as a concentration
         row["fan_display"], row["flow_restrictor"] = num(r["Fan display"]), r["Flow restrictor"]
         row["pressure_kpa"] = None
         row["gravity_g"] = 0.0
@@ -195,8 +197,8 @@ def o2_range(s: str) -> tuple[float | None, float | None, bool]:
 
 def thickness_mm(s: str) -> tuple[float | None, str]:
     t = str(s).strip().lower()
-    if re.fullmatch(r"0\d+\s*mm", t):  # e.g. "037 mm": 0.37 mm or 3.7 mm? not resolvable from the table
-        return None, "thickness_ambiguous_in_source"
+    if m := re.fullmatch(r"0(\d+)\s*mm", t):  # "037 mm": missing decimal point; the flight paper's Table 1 lists 0.37 mm
+        return float("0." + m.group(1)), "thickness_decimal_missing_in_source_read_as_0.37mm_per_ntrs-20180005168_p30"
     if " and " in t or "see" in t or not t:
         return None, "thickness_not_tabulated" if "see" in t else ("thickness_composite" if " and " in t else "thickness_missing")
     v = num(t)
@@ -246,7 +248,14 @@ def saffire() -> pd.DataFrame:
             row["g1_burn_length_raw"], row["g1_spread_rate_raw"] = g("1-g Burn"), g("1-g Spread")
             row["gravity_g"] = 0.0
             row["notes"] = " | ".join(notes) if notes else None
+            # The same SIBAL fabric is 0.37 mm in SAFFIRE-II and in the flight paper (ntrs-20180005168 p.30, Table 1), but the
+            # SAFFIRE-I table column is "(cm)" (0.37 cm = 3.7 mm) and SAFFIRE-III states ".33 cm": keep as tabulated, flag the conflict.
+            if acc in ("PSI-98", "PSI-100") and row["thickness_mm"] is not None and abs(row["thickness_mm"] - 0.37) > 1e-9:
+                flag(row, "thickness_conflicts_other_flights_and_ntrs-20180005168")
+            if acc == "PSI-100" and row["flow_cm_s"] is not None and row["flow_cm_s"] != 25:
+                flag(row, "flow_conflicts_ntrs-20180005168_p30_25cm_s")
             out.append(row)
+        # SAFFIRE-I rows F1C1/F1C2, F2C1/F2C2 are pre-test flow-visualization records, not burns: excluded by the sample regex.
     return pd.DataFrame(out)
 
 
@@ -361,6 +370,10 @@ def same_r() -> pd.DataFrame:
                    inlet_velocity_cm_s=num(r["Inlet velocity (cm/s)"]), rt_r0=num(r["Rt/R0"]), duration_s=num(r["Duration (sec)"]),
                    primary_aging_s=num(r["Primary aging time (sec)"]), primary_mixing_s=num(r["Primary mixing time (sec)"]),
                    net_aging_s=num(r["Net aging time (sec)"]), gravity_g=0.0)
+        t = str(r["SAME Test #"]).strip()
+        row["aged_repeat_of"] = t[:-1] if t.endswith("a") else None  # "51a" = the same smoke sample re-measured after aging
+        if row["aged_repeat_of"]:
+            flag(row, "aged_repeat")
     return pd.DataFrame(rows)
 
 

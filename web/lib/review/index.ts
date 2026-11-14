@@ -66,7 +66,7 @@ export function buildReview(material_key: string, mission: ReviewMission, data: 
   // ---- Q1 verdict (conservative rules; documented on Methods) ----
   const burned = orbit.filter((t) => t.outcome === "burn" && t.x_o2 <= mission.x_o2 + 1e-9);
   const atOrAbove = orbit.filter((t) => t.x_o2 >= mission.x_o2 - 1e-9 && (t.flow_cm_s ?? 0) >= RULES.flowRange_cm_s[0] && (t.flow_cm_s ?? 0) <= RULES.flowRange_cm_s[1]);
-  const inside = inRange(mission.x_o2, material.o2_range_tested) && inRange(mission.P_kPa, material.p_range_kpa) && inRange(mission.flow_cm_s, material.flow_range_cm_s);
+  const inside = inRange(mission.x_o2, material.o2_range_tested ?? null) && inRange(mission.P_kPa, material.p_range_kpa ?? null) && inRange(mission.flow_cm_s, material.flow_range_cm_s ?? null);
   const reasons: string[] = [];
   let kind: VerdictKind;
   if (!material.has_burn_data || orbit.length === 0) {
