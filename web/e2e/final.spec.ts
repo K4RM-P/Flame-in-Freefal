@@ -20,16 +20,40 @@ test("Saffire replay → Run → outcome, evidence, telemetry overlay → Compar
   // Test input only: Saffire-IV Cygnus free volume, NTRS 20210011521 Table 1 (physics/data/saffire_ntrs.yaml).
   await page.getByRole("spinbutton", { name: /Free volume/ }).fill("17.9");
   await page.getByTestId("run").click();
+  // Workspace: full height, no page scroll on desktop; cabin viewport, legend and layers are visible.
+  await expect(page.getByTestId("workspace")).toBeVisible();
+  await expect(page.getByTestId("cabin-view")).toBeVisible();
+  await expect(page.getByTestId("legend")).toBeVisible();
   const outcome = page.getByTestId("outcome-card");
-  await expect(outcome).toBeVisible({ timeout: 60_000 });
-  await expect(outcome.locator("[data-receipt]").first()).toBeVisible();
+  await expect(outcome.locator("[data-receipt]").first()).toBeVisible({ timeout: 60_000 });
+  expect(await page.evaluate(() => document.documentElement.scrollHeight <= window.innerHeight + 1)).toBe(true);
+  await expect(page.getByTestId("mitigation")).toContainText("No data"); // Saffire preset has no sourced detector threshold
+  // Scrub the playhead: the HUD reads engine values at that frame.
+  await page.getByRole("slider", { name: "Simulation time" }).evaluate((el: HTMLInputElement) => {
+    Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value")!.set!.call(el, "10");
+    el.dispatchEvent(new Event("input", { bubbles: true }));
+  });
+  await expect(page.getByTestId("hud").locator("[data-receipt]").first()).toBeVisible();
+  await page.getByRole("button", { name: "Assumptions / evidence" }).click();
+  await expect(page.getByTestId("assumptions")).toContainText("theory-only");
+  await page.getByTestId("assumptions").getByRole("button", { name: "Close" }).click();
+  await page.getByTestId("tab-evidence").click();
   const evidence = page.getByTestId("evidence-list");
   await expect(evidence).toBeVisible();
   await expect(evidence).toContainText("PSI-");
+  await page.getByRole("tab", { name: "Replay vs telemetry" }).click();
   await expect(page.getByTestId("telemetry-overlay")).toBeVisible();
   // Test server runs without a key, so the request must pass validation and reach the no-key message.
+  await page.getByTestId("tab-assistant").click();
   await expect(page.getByTestId("interpretation")).toContainText("OPENAI_API_KEY", { timeout: 30_000 });
   await expect(page.getByTestId("interpretation")).not.toContainText("invalid request");
+  // Assistant: same no-key error, never a canned answer; the simulator stays usable.
+  await page.getByRole("button", { name: "Why did the fire continue?" }).click();
+  const answer = page.getByTestId("assistant-answer").last();
+  await expect(answer).toContainText("OPENAI_API_KEY", { timeout: 30_000 });
+  await expect(answer).not.toContainText("invalid request");
+  await expect(page.getByTestId("run")).toBeEnabled();
   await page.getByTestId("compare").click();
   await expect(page.getByTestId("compare")).toBeVisible();
+  await expect(page.getByTestId("cabin-view")).toHaveCount(2);
 });

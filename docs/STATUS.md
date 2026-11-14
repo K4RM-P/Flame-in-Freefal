@@ -94,3 +94,11 @@ Plan and per-item commits: docs/ADOPTION_PLAN.md. Every feature passed pytest, v
 - Review screen `/review`: verdict, Q1–Q3 with receipts, hero map, Earth vs orbit, actions + next test, evidence used, Export Evidence Brief (print→PDF + Markdown).
 - Without materials.json the Review shows an honest "Data pending" state (no mock numbers).
 - Next steps (skipped, time-box): cabin comparison mode (ISS vs Lunar side by side), Lighthouse tuning, new animations, after-cohesion screenshot set, full README rewrite.
+
+## Simulation Hub (2026-11-14, feature/simulation-hub)
+- `/` with a scenario is now a full-height workspace (`web/components/sim/Workspace.tsx`): toolbar (project, scenario/preset, Run, play/pause/reset, time scrubber, elevation/section, Compare, Export), left project tree + setup + saved states, center cabin viewport + chart dock, right Outputs / Evidence / AI assistant. No page scroll at 1440×900 (e2e asserts it).
+- Cabin viewport (`CabinView.tsx`): schematic module interior in perspective; layers for geometry, flame/heat, smoke, airflow, detector, suppression. To scale: item size, flame front, burning length, detector distance. Flame follows burning length, Q, current O₂/initial O₂, u and g; alarm, fan-off and agent appear only at engine events. The detector circle = transport distance d (no sensing radius is modeled). Reduced motion keeps the playhead static and slows playback.
+- No material in materials.json has a sourced smoke yield, so smoke at the detector shows "∅ No data" and no plume is drawn. Added the optional crew-reported alarm field (schema `detection.manual_alarm_s`) so the alarm/fan-off/agent path can be exercised.
+- AI assistant: `/api/ask` (`lib/ai/ask.ts`) answers only from the posted scenario, engine result, ranked PSI evidence, sensitivity, next-test, replay metrics and compare B; numbers, PSI ids and [S:path] fact citations are guarded (one regeneration, then strip). No key → 503 error shown in the panel, no canned answer.
+- Tests: vitest 52 (+6 in tests/ask.test.ts), e2e rewritten for the tabbed layout (no-scroll, scrubber, assumptions drawer, assistant no-key error, two viewports in Compare).
+- Not done: the old RunPanel/ResultPanel/Schematic screens are no longer rendered but kept, since Workspace imports helpers from them; no flame imagery; no WebGL.

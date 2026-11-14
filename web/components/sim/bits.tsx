@@ -21,10 +21,10 @@ export function Num({ value, units, band, title, sources, note, className = "" }
   );
 }
 
-export function Section({ title, children, open: initial = true, right, testid }: { title: string; children: React.ReactNode; open?: boolean; right?: React.ReactNode; testid?: string }) {
+export function Section({ title, children, open: initial = true, right, testid, id }: { title: string; children: React.ReactNode; open?: boolean; right?: React.ReactNode; testid?: string; id?: string }) {
   const [open, setOpen] = useState(initial);
   return (
-    <section className="border-b border-line py-2" data-testid={testid}>
+    <section className="scroll-mt-2 border-b border-line py-2" data-testid={testid} id={id}>
       <div className="flex items-center justify-between gap-2">
         <button type="button" className="label flex items-center gap-1 py-1 hover:text-ink" aria-expanded={open} onClick={() => setOpen(!open)}>
           <span aria-hidden className="inline-block w-3">{open ? "▾" : "▸"}</span>{title}

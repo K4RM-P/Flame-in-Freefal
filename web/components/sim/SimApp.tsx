@@ -5,9 +5,8 @@ import { useEffect } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { spring } from "@/lib/ui/motion";
 import { bandSig, fmtBand, sig } from "@/lib/ui/format";
-import { ScenarioPanel, fmtProv } from "./ScenarioPanel";
-import { RunPanel } from "./RunPanel";
-import { ResultPanel } from "./ResultPanel";
+import { fmtProv } from "./ScenarioPanel";
+import { Workspace } from "./Workspace";
 import { useSim } from "./store";
 import { Onboarding } from "./Onboarding";
 
@@ -17,22 +16,16 @@ export function SimApp() {
   const { a, topOpen, set } = useSim();
   return (
     <div className="space-y-4">
-      <div className="border-b border-line pb-3" data-noprint>
+      {!a && <div className="border-b border-line pb-3" data-noprint>
         <button type="button" className="flex w-full items-start gap-2 text-left" aria-expanded={topOpen} onClick={() => set({ topOpen: !topOpen })}>
           <span aria-hidden className="mt-0.5 text-faint">{topOpen ? "▾" : "▸"}</span>
           <span className={`measure text-[16px] ${topOpen ? "" : "truncate"}`}>{PRODUCT}</span>
         </button>
         {topOpen && <a className="ml-5 text-[13px] text-mute underline underline-offset-2" href="https://psi.nasa.gov/physci/repo/search?q=combustion" target="_blank" rel="noreferrer" data-testid="psi-resource-link">
           Built on NASA PSI Data Repository: Combustion Science</a>}
-      </div>
+      </div>}
       <PrintHeader />
-      {!a ? <Onboarding /> : (
-        <div className="grid gap-4 lg:grid-cols-[300px_minmax(0,1fr)_360px]">
-          <div className="min-w-0 lg:sticky lg:top-16 lg:max-h-[calc(100vh-80px)] lg:overflow-y-auto lg:pr-1" data-noprint><ScenarioPanel /></div>
-          <div className="min-w-0"><RunPanel /></div>
-          <div className="min-w-0"><ResultPanel /></div>
-        </div>
-      )}
+      {!a ? <Onboarding /> : <Workspace />}
       <ReceiptDrawer />
     </div>
   );
