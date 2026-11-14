@@ -13,6 +13,7 @@ export const EvidenceSchema = z.object({
 }).passthrough();
 export const InterpretRequestSchema = z.object({
   scenario: z.record(z.unknown()),
+  question: z.string().max(800).optional(),
   result: z.object({
     outcome: z.record(z.unknown()),
     events: z.array(z.record(z.unknown())).max(200).default([]),
@@ -28,7 +29,7 @@ export type InterpretRequest = z.infer<typeof InterpretRequestSchema>;
 export function buildFacts(r: InterpretRequest) {
   const { outcome, events, warnings, provenance } = r.result as Record<string, unknown>;
   return {
-    scenario: r.scenario, outcome, events, warnings,
+    scenario: r.scenario, question: r.question, outcome, events, warnings,
     calibration: (provenance as { params?: unknown } | undefined)?.params,
     evidence: r.evidence.map(({ accession, title, summary, role, doi }) => ({ accession, title, summary, role, doi })),
     sensitivity: r.sensitivity, next_test: r.next_test,
@@ -69,6 +70,7 @@ export const INSTRUCTIONS = [
   "Use ONLY numbers that appear in the JSON facts, copied with their units; do not compute new numbers.",
   "Cite PSI accessions (e.g. PSI-99) only from the evidence list. Never call partial-gravity results measured: they are bounded estimates between microgravity and 1 g.",
   "If a sub-model is marked uncalibrated or a warning says theory-only, say so plainly. Do not soften failures.",
+  "If a user question is included, answer that question directly while staying within the supplied facts and cite every PSI accession you use.",
 ].join("\n");
 
 export interface InterpretResponse { text: string; citations: string[]; guard: { ok: boolean; unsupported: number[]; unknown_ids: string[]; regenerated: boolean; stripped: boolean }; model: string }
