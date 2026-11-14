@@ -1,7 +1,7 @@
 "use client";
 // SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 // Simulation Hub: full-height engineering workspace (desktop-first, no page scroll while simulating).
-// Toolbar for scenario actions; playback and view controls sit beside the cabin.
+// Toolbar · left project tree + scenario setup + saved states · center cabin viewport + chart dock · right outputs/evidence/assistant.
 // Reuses the existing engine (runAll), receipts (Num), outcome/evidence/sensitivity/next-test panels and manual setup.
 import { useEffect, useRef, useState } from "react";
 import { PRESETS } from "@/lib/sim/presets";
@@ -22,16 +22,12 @@ import { LAYERS, useSim } from "./store";
 
 export function Workspace() {
   usePlayback();
+  const [inspectorOpen, setInspectorOpen] = useState(false);
   return (
-    <div className="flex flex-col gap-2 xl:fixed xl:inset-x-0 xl:bottom-0 xl:top-14 xl:z-30 xl:gap-0 xl:bg-bg print:static" data-testid="workspace">
-      <Toolbar />
-      <nav aria-label="Simulator sections" className="flex flex-wrap gap-2 px-3 xl:hidden" data-noprint>
-        <a className="btn" href="#sim-setup">Setup</a>
-        <a className="btn" href="#sim-cabin">Cabin view</a>
-        <a className="btn" href="#sim-results">Results</a>
-      </nav>
-      <div className="grid min-h-0 flex-1 gap-3 lg:grid-cols-[230px_minmax(0,1fr)] xl:grid-cols-[clamp(220px,17vw,270px)_minmax(0,1fr)_clamp(290px,24vw,360px)] xl:gap-0">
-        <aside id="sim-setup" className="min-h-0 min-w-0 scroll-mt-16 overflow-y-auto border-line px-3 pb-3 lg:border-r" data-noprint aria-label="Project and scenario setup">
+    <div className="flex flex-col gap-2 lg:fixed lg:inset-x-0 lg:bottom-0 lg:top-14 lg:z-30 lg:gap-0 lg:bg-bg print:static" data-testid="workspace">
+      <Toolbar inspectorOpen={inspectorOpen} onToggleInspector={() => setInspectorOpen((v) => !v)} />
+      <div className="grid min-h-0 flex-1 gap-2 lg:grid-cols-[288px_minmax(0,1fr)_384px] lg:gap-0">
+        <aside className="min-h-0 overflow-y-auto border-line px-3 pb-3 lg:border-r" data-noprint aria-label="Project and scenario setup">
           <ProjectTree />
           <details className="border-b border-line" open={false}>
             <summary className="cursor-pointer list-none py-2 text-[12px] font-medium text-mute hover:text-ink">
@@ -39,10 +35,13 @@ export function Workspace() {
             </summary>
             <div className="pb-2"><ScenarioPanel /></div>
           </details>
-          <SavedStates />
+          <details className="border-b border-line" open={false}>
+            <summary className="cursor-pointer list-none py-2 text-[12px] font-medium text-mute hover:text-ink"><span className="mr-2 text-faint">▸</span>Saved states</summary>
+            <SavedStates />
+          </details>
         </aside>
         <Center />
-        <aside id="sim-results" className="flex min-h-0 min-w-0 scroll-mt-16 flex-col border border-line bg-panel lg:col-span-2 xl:col-span-1 xl:border-y-0 xl:border-r-0" aria-label="Results, evidence and assistant"><RightPanel /></aside>
+        <aside className={`flex min-h-0 flex-col border-line lg:border-l ${inspectorOpen ? "" : "hidden"}`} aria-label="Outputs, evidence and assistant"><RightPanel /></aside>
       </div>
       <StatusBar />
     </div>
@@ -69,8 +68,8 @@ function usePlayback() {
 }
 
 /* ---------- toolbar ---------- */
-function Toolbar() {
-  const { a, b, ra, rb, editing, running, set } = useSim();
+function Toolbar({ inspectorOpen, onToggleInspector }: { inspectorOpen: boolean; onToggleInspector: () => void }) {
+  const { a, b, ra, rb, editing, running, playing, frame, view, set } = useSim();
   // Shared with /dashboard: ea.project = { name, description } (a legacy plain string is still read).
   const [project, setProject] = useState("Untitled project");
   const [desc, setDesc] = useState("");
@@ -81,6 +80,7 @@ function Toolbar() {
   }, []);
   if (!a) return null;
   const missing = [...missingFields(a), ...(b ? missingFields(b).map((m) => `B: ${m}`) : [])];
+  const last = ra ? ra.t.length - 1 : 0;
   const slug = a.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "scenario";
   return (
     <div className="flex flex-wrap items-center gap-2 border-b border-line bg-panel px-3 py-1.5 lg:h-11 lg:flex-nowrap lg:py-0" role="toolbar" aria-label="Simulation" data-noprint>
@@ -98,10 +98,22 @@ function Toolbar() {
       <span className="h-5 w-px bg-line" aria-hidden />
       <button type="button" className="btn-accent px-4 py-1" data-testid="run" disabled={running || missing.length > 0} onClick={runAll}
         aria-describedby={missing.length ? "run-missing" : undefined}>{running ? `Running ${MC_N} runs…` : "▶ Run"}</button>
+      <button type="button" className="btn px-2" disabled={!ra} aria-label={playing ? "Pause" : "Play"} onClick={() => { if (!playing && frame >= last) set({ frame: 0 }); set({ playing: !playing }); }}>{playing ? "❚❚" : "▷"}</button>
+      <button type="button" className="btn px-2" disabled={!ra} aria-label="Reset playhead" onClick={() => set({ playing: false, frame: 0 })}>⟲</button>
+      <input type="range" className="min-w-[120px] flex-1" min={0} max={last} value={Math.min(frame, last)} disabled={!ra} aria-label="Simulation time"
+        onChange={(e) => set({ playing: false, frame: Number(e.target.value) })} />
+      <span className="num w-28 shrink-0 whitespace-nowrap text-right text-[12px]">{ra ? `${sig(ra.t[Math.min(frame, last)], 3)} / ${sig(ra.t[last], 3)} s` : "— s"}</span>
+      <span className="h-5 w-px bg-line" aria-hidden />
+      <div className="flex" role="group" aria-label="View">
+        {(["elevation", "section"] as const).map((v) => <button key={v} type="button" aria-pressed={view === v} className={`btn px-2 py-1 text-[12px] ${view === v ? "bg-surface2" : ""}`} onClick={() => set({ view: v })}>{v === "elevation" ? "Elevation" : "Section"}</button>)}
+      </div>
       <button type="button" className={`btn px-2 py-1 text-[12px] ${b ? "bg-surface2" : ""}`} data-testid="compare" aria-pressed={!!b} onClick={() => {
         if (b) set({ b: null, rb: null, editing: "a" });
         else set({ b: { ...structuredClone(a), name: `${a.name} (B)` }, rb: null, editing: "b" });
       }}>{b ? "Compare on · remove B" : "Compare"}</button>
+      <button type="button" className={`btn px-2 py-1 text-[12px] ${inspectorOpen ? "bg-surface2" : ""}`} aria-expanded={inspectorOpen} onClick={onToggleInspector}>
+        {inspectorOpen ? "Hide inspector" : "Results & evidence"}
+      </button>
       <details className="relative">
         <summary className="btn cursor-pointer list-none px-2 py-1 text-[12px]">Export ▾</summary>
         <div className="absolute right-0 z-40 mt-1 flex w-52 flex-col gap-1 border border-line bg-panel p-2 shadow-xl" style={{ borderRadius: 6 }} role="menu">
@@ -188,47 +200,31 @@ function SavedStates() {
 }
 
 /* ---------- center: viewport(s), layers, legend, assumptions drawer, chart dock ---------- */
-function Playback() {
-  const { ra, playing, frame, set } = useSim();
-  const last = ra ? ra.t.length - 1 : 0;
-  return (
-    <div className="flex flex-wrap items-center gap-2 border-t border-line bg-panel px-3 py-2" role="group" aria-label="Cabin playback" data-noprint>
-      <button type="button" className="btn px-2" disabled={!ra} aria-label={playing ? "Pause" : "Play"} onClick={() => { if (!playing && frame >= last) set({ frame: 0 }); set({ playing: !playing }); }}>{playing ? "Pause" : "Play"}</button>
-      <button type="button" className="btn px-2" disabled={!ra} aria-label="Reset playhead" onClick={() => set({ playing: false, frame: 0 })}>⟲</button>
-      <input type="range" className="min-w-[70px] flex-1" min={0} max={last} value={Math.min(frame, last)} disabled={!ra} aria-label="Simulation time"
-        onChange={(e) => set({ playing: false, frame: Number(e.target.value) })} />
-      <span className="num shrink-0 whitespace-nowrap text-right text-[12px]">{ra ? `${sig(ra.t[Math.min(frame, last)], 3)} / ${sig(ra.t[last], 3)} s` : "— s"}</span>
-    </div>
-  );
-}
-
 function Center() {
-  const { a, b, ra, rb, frame, runError, layers, assumptionsOpen, view, set } = useSim();
+  const { a, b, ra, rb, frame, runError, layers, assumptionsOpen, set } = useSim();
   if (!a) return null;
   const missing = [...missingFields(a), ...(b ? missingFields(b).map((m) => `B: ${m}`) : [])];
   return (
-    <section id="sim-cabin" className="flex min-h-0 min-w-0 scroll-mt-16 flex-col" aria-label="Simulation viewport">
-      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-line bg-panel px-3 py-2">
-        <h2 className="text-sm font-semibold">Cabin view</h2>
-        <div className="flex" role="group" aria-label="View">
-          {(["elevation", "section"] as const).map((v) => <button key={v} type="button" aria-pressed={view === v} className={`btn px-2 py-1 text-[12px] ${view === v ? "bg-surface2" : ""}`} onClick={() => set({ view: v })}>{v === "elevation" ? "Elevation" : "Section"}</button>)}
-        </div>
-      </div>
+    <section className="flex min-h-0 flex-col" aria-label="Simulation viewport">
       <div className="flex flex-wrap items-center gap-1 border-b border-line px-2 py-1 text-[12px]" data-noprint>
         <span className="label mr-1">Layers</span>
-        {LAYERS.map((l) => <label key={l.k} className="flex items-center gap-1 px-1"><input type="checkbox" checked={layers[l.k]} onChange={(e) => set({ layers: { ...layers, [l.k]: e.target.checked } })} />{l.label}</label>)}
+        <details className="relative">
+          <summary className="btn cursor-pointer list-none px-2 py-0.5 text-[12px]">Layers ▾</summary>
+          <div className="absolute left-0 top-7 z-30 grid min-w-44 gap-1 border border-line bg-panel p-2 shadow-xl">
+            {LAYERS.map((l) => <label key={l.k} className="flex items-center gap-1 px-1"><input type="checkbox" checked={layers[l.k]} onChange={(e) => set({ layers: { ...layers, [l.k]: e.target.checked } })} />{l.label}</label>)}
+          </div>
+        </details>
         <button type="button" className="btn ml-auto px-2 py-0.5 text-[12px]" aria-expanded={assumptionsOpen} onClick={() => set({ assumptionsOpen: !assumptionsOpen })}>Assumptions / evidence</button>
       </div>
-      <div className="relative min-h-[280px] flex-1 sm:min-h-[340px] xl:min-h-0">
+      <div className="relative min-h-[320px] flex-1 lg:min-h-0">
         {missing.length > 0 && <p id="run-missing" className="absolute inset-x-2 top-2 z-10 border border-warn/50 bg-panel px-2 py-1 text-[13px] text-warn" style={{ borderRadius: 6 }}>Enter {missing.join(", ")} to run: there is no sourced value.</p>}
         {runError && <p className="absolute inset-x-2 top-10 z-10 bg-panel px-2 text-[13px] text-bad" role="alert">Run failed: {runError}</p>}
-        <div className={`grid h-full ${b ? "divide-y divide-line sm:grid-cols-2 sm:divide-x sm:divide-y-0" : ""}`}>
+        <div className={`grid h-full ${b ? "grid-cols-2 divide-x divide-line" : ""}`}>
           <CabinView sc={a} r={ra} frame={frame} label={b ? `A · ${a.name}` : a.name} compact={!!b} />
           {b && <CabinView sc={b} r={rb} frame={frame} label={`B · ${b.name}`} compact />}
         </div>
         {assumptionsOpen && <Assumptions sc={a} r={ra} />}
       </div>
-      <Playback />
       <div className="border-t border-line px-3 py-1"><Legend /></div>
       <Dock />
     </section>
@@ -290,12 +286,12 @@ function Dock() {
 function RightPanel() {
   const { a, b, ra, rb, rightTab, set } = useSim();
   if (!a) return null;
-  const tabs = [["outputs", "Results"], ["evidence", "Evidence"], ["assistant", "AI assistant"]] as const;
+  const tabs = [["outputs", "Outputs"], ["evidence", "Evidence"], ["assistant", "AI assistant"]] as const;
   return (
     <>
-      <div className="flex border-b border-line bg-surface2" role="tablist" aria-label="Results">
+      <div className="flex border-b border-line" role="tablist" aria-label="Results">
         {tabs.map(([k, l]) => <button key={k} type="button" role="tab" aria-selected={rightTab === k} data-testid={`tab-${k}`}
-          className={`flex-1 px-2 py-2 text-[13px] ${rightTab === k ? "border-b-2 border-accent font-semibold text-ink" : "text-mute hover:text-ink"}`} onClick={() => set({ rightTab: k })}>{l}</button>)}
+          className={`flex-1 px-2 py-2 text-[13px] ${rightTab === k ? "border-b-2 border-ink font-medium text-ink" : "text-mute hover:text-ink"}`} onClick={() => set({ rightTab: k })}>{l}</button>)}
       </div>
       <div className="min-h-0 flex-1 overflow-y-auto p-3" role="tabpanel">
         {rightTab === "outputs" && <div className="space-y-2">
@@ -334,7 +330,7 @@ function Mitigation({ sc, r, label }: { sc: Scenario; r: SimResult | null; label
       : `${sc.suppression.agent} ${sig(sc.suppression.mass_kg, 3)} kg armed · alarm + ${sig(sc.suppression.delay_s, 3)} s${F && F.tAlarm == null ? " · not released (no alarm)" : ""}`;
   const f = r ? Math.min(frame, r.t.length - 1) : 0;
   return (
-    <section className="card space-y-2 text-[13px]" data-testid="mitigation">
+    <section className="space-y-1 border-b border-line pb-2 text-[13px]" data-testid="mitigation">
       <p className="label">Mitigation status{label ? ` · ${label}` : ""} {r && <span className="num normal-case tracking-normal text-faint">@ {sig(r.t[f], 3)} s</span>}</p>
       <div className="grid grid-cols-[92px_minmax(0,1fr)] gap-x-2 gap-y-0.5">
         <span className="text-mute">Detection</span><span>{det}</span>

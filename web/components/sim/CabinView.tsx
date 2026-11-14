@@ -171,8 +171,8 @@ export function CabinView({ sc, r, frame, label, compact = false }: { sc: Scenar
         <defs>
           <pattern id="hatch-agent" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="8" stroke="rgb(var(--blue))" strokeWidth="2" /></pattern>
           <pattern id="hatch-char" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(-45)"><line x1="0" y1="0" x2="0" y2="5" stroke="rgb(var(--faint))" strokeWidth="1.2" /></pattern>
-          <filter id="smoke-soft" x="-35%" y="-35%" width="170%" height="170%"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="3" seed="7" result="noise" /><feDisplacementMap in="SourceGraphic" in2="noise" scale="11" /><feGaussianBlur stdDeviation="2.2" /></filter>
-          <filter id="flame-glow" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="5" result="blur" /><feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge></filter>
+          <filter id="smoke-soft" x="-25%" y="-25%" width="150%" height="150%"><feGaussianBlur stdDeviation="2.2" /></filter>
+          <filter id="flame-glow" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="4" result="blur" /><feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge></filter>
           <marker id="arrow" viewBox="0 0 10 10" refX="2" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M10 0 L0 5 L10 10 z" fill="rgb(var(--blue))" /></marker>
         </defs>
 
@@ -195,7 +195,7 @@ export function CabinView({ sc, r, frame, label, compact = false }: { sc: Scenar
             const sp = 22, phase = reduced ? 0 : (sc.cabin.flow_m_s * tEff * s) % sp;
             const n = Math.max(0, Math.floor(Lp / sp));
             const yBase = view === "section" ? sheetY - 30 : sheetY;
-            return <g key={x.it.id} aria-hidden filter="url(#smoke-soft)">
+            return <g key={x.it.id} aria-hidden className={reduced ? undefined : "cabin-smoke"} filter="url(#smoke-soft)">
               {Array.from({ length: n + 1 }, (_, k) => {
                 const dx = k * sp + phase; if (dx > Lp) return null;
                 const age = Lp > 0 ? dx / Lp : 0;
@@ -234,15 +234,16 @@ export function CabinView({ sc, r, frame, label, compact = false }: { sc: Scenar
             {on("heat") && burning && <ellipse cx={(x.fx0 + x.fx1) / 2} cy={view === "elevation" ? sheetY : sheetY - hf / 2} rx={(x.fx1 - x.fx0) / 2 + 14 + 50 * Math.sqrt(Qrel)} ry={(view === "elevation" ? x.h / 2 : hf / 2) + 10 + 30 * Math.sqrt(Qrel)}
               fill="rgb(var(--warn))" fillOpacity={0.07} stroke="rgb(var(--warn))" strokeOpacity={0.6} strokeDasharray="4 4" />}
             {on("heat") && burning && (view === "elevation"
-              ? <g>
+              ? <g className={reduced ? undefined : "cabin-flame"}>
                   {/* flame envelope on the face: pinned at the pyrolysis front, trailing downstream with the flow (lean ∝ u), scaled by Q and O₂ */}
                   <path filter="url(#flame-glow)" d={`M${x.fx1} ${top} C${x.fx0} ${top - 4 * o2r} ${x.fx0 - lean} ${top + hh * 0.2} ${x.fx0 - lean * 1.2} ${sheetY} C${x.fx0 - lean} ${top + hh * 0.8} ${x.fx0} ${top + hh + 4 * o2r} ${x.fx1} ${top + hh} Z`}
                     fill="rgb(var(--accent))" fillOpacity={op * 0.35} stroke="rgb(var(--accent))" strokeOpacity={0.8} strokeDasharray={dash} />
-                  <rect x={x.fx0} y={top} width={Math.max(2, x.fx1 - x.fx0)} height={hh} fill="rgb(var(--accent))" opacity={op} />
+                  <path filter="url(#flame-glow)" d={`M${x.fx0} ${top + hh} C${x.fx0 + (x.fx1 - x.fx0) * .15} ${top + hh * .55} ${x.fx0 + (x.fx1 - x.fx0) * .35} ${top + hh * .25} ${x.fx1} ${top} L${x.fx1} ${top + hh} Z`} fill="rgb(var(--warn))" opacity={Math.min(1, op * .9)} />
+                  <path d={`M${x.fx0 + Math.max(2, (x.fx1 - x.fx0) * .25)} ${top + hh} C${x.fx0 + (x.fx1 - x.fx0) * .35} ${top + hh * .58} ${x.fx0 + (x.fx1 - x.fx0) * .5} ${top + hh * .42} ${x.fx1 - Math.max(1, (x.fx1 - x.fx0) * .12)} ${top + hh * .12} L${x.fx1 - Math.max(1, (x.fx1 - x.fx0) * .08)} ${top + hh} Z`} fill="rgb(var(--bg))" opacity={Math.min(.92, op * .72)} />
                 </g>
               : [-1, 1].map((side) => {
                   const base = side < 0 ? top : top + hh, hs = side < 0 ? hf : hf * (g > 0 ? 0.35 : 1);
-                  return <path key={side} filter="url(#flame-glow)" d={`M${x.fx0} ${base} Q${(x.fx0 + x.fx1) / 2 - lean} ${base + side * hs * 1.3} ${x.fx1} ${base} Z`} fill="rgb(var(--accent))" opacity={op} stroke="rgb(var(--accent))" strokeDasharray={dash} />;
+                  return <path key={side} className={reduced ? undefined : "cabin-flame"} filter="url(#flame-glow)" d={`M${x.fx0} ${base} C${x.fx0 - lean * .25} ${base + side * hs * .45} ${(x.fx0 + x.fx1) / 2 - lean} ${base + side * hs * 1.3} ${x.fx1} ${base} C${(x.fx0 + x.fx1) / 2} ${base + side * hs * .3} ${x.fx0 + lean * .2} ${base + side * hs * .2} ${x.fx0} ${base} Z`} fill="rgb(var(--accent))" opacity={op} stroke="rgb(var(--accent))" strokeDasharray={dash} />;
                 }))}
             {burning && <line x1={x.fx1} x2={x.fx1} y1={top - 6} y2={top + hh + 6} stroke="rgb(var(--accent))" strokeWidth={2} />}
             <text x={x.x + x.w / 2} y={top - (view === "section" && burning ? hf + 14 : 10)} fontSize={12} textAnchor="middle" fill={burning ? "rgb(var(--ink))" : "rgb(var(--mute))"}>

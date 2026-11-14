@@ -117,6 +117,10 @@ table.data td { @apply border-b border-line/60 px-2 py-1.5 align-top; }
 .schematic-detector { fill: rgb(var(--surface2)); stroke: rgb(var(--mute)); stroke-width: 1.5; }
 .schematic-leader { stroke: rgb(var(--line)); stroke-width: 1; }
 .schematic-label { fill: rgb(var(--faint)); font: 9px var(--font-mono); letter-spacing: .06em; }
+.cabin-flame { transform-box: fill-box; transform-origin: 50% 100%; animation: cabin-flame-flicker 180ms ease-in-out infinite alternate; }
+.cabin-smoke { transform-box: fill-box; transform-origin: 50% 100%; animation: cabin-smoke-drift 2.4s ease-in-out infinite alternate; }
+@keyframes cabin-flame-flicker { from { transform: skewX(-1deg) scaleY(.97); opacity: .88; } to { transform: skewX(2deg) scaleY(1.035); opacity: 1; } }
+@keyframes cabin-smoke-drift { from { transform: translate3d(0, 1px, 0); opacity: .84; } to { transform: translate3d(-5px, -3px, 0); opacity: 1; } }
 .landing-decision { background: rgb(var(--panel) / .4); }
 .landing-model-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid rgb(var(--line)); border-left: 1px solid rgb(var(--line)); }
 .landing-model { min-width: 0; min-height: 142px; border-right: 1px solid rgb(var(--line)); border-bottom: 1px solid rgb(var(--line)); padding: 1rem; }
