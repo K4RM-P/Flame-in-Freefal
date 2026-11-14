@@ -215,5 +215,167 @@
   "type": "external",
   "title": "Drop-tower gaseous-suppressant study finding helium most effective (cited in PRD \u00a72; full reference TODO_VERIFY) - OUTSIDE PSI",
   "year": null
+ },
+ "psi-combustion-repo": {
+  "type": "psi",
+  "title": "NASA PSI Data Repository: Combustion Science (Space Apps 2026 challenge Resources tab)",
+  "url": "https://psi.nasa.gov/physci/repo/search?q=combustion",
+  "accessed": "2026-11-14"
+ },
+ "nasa-iss-combustion-guide": {
+  "type": "nasa",
+  "title": "A Researcher's Guide to International Space Station Combustion Science (challenge Resources tab)",
+  "url": "https://www.nasa.gov/missions/station/a-researchers-guide-to-combustion-science/",
+  "accessed": "2026-11-14"
+ },
+ "PSI-26": {
+  "type": "psi",
+  "title": "NASA PSI-26: Burning and Suppression of Solids (DOI 10.60555/58h4-dy80)",
+  "url": "https://doi.org/10.60555/58h4-dy80",
+  "doi": "10.60555/58h4-dy80"
+ },
+ "PSI-25": {
+  "type": "psi",
+  "title": "NASA PSI-25: Burning and Suppression of Solids - II (DOI 10.60555/4qc4-de67)",
+  "url": "https://doi.org/10.60555/4qc4-de67",
+  "doi": "10.60555/4qc4-de67"
+ },
+ "PSI-98": {
+  "type": "psi",
+  "title": "NASA PSI-98: Spacecraft Fire Safety Experiment-I (DOI 10.60555/0t15-1z43)",
+  "url": "https://doi.org/10.60555/0t15-1z43",
+  "doi": "10.60555/0t15-1z43"
+ },
+ "PSI-99": {
+  "type": "psi",
+  "title": "NASA PSI-99: Spacecraft Fire Experiment-II (DOI 10.60555/2chp-m469)",
+  "url": "https://doi.org/10.60555/2chp-m469",
+  "doi": "10.60555/2chp-m469"
+ },
+ "PSI-100": {
+  "type": "psi",
+  "title": "NASA PSI-100: Spacecraft Fire Experiment-III (DOI 10.60555/040q-4h36)",
+  "url": "https://doi.org/10.60555/040q-4h36",
+  "doi": "10.60555/040q-4h36"
+ },
+ "PSI-69": {
+  "type": "psi",
+  "title": "NASA PSI-69: Flame Extinguishment Experiment (DOI 10.60555/mbq8-0451)",
+  "url": "https://doi.org/10.60555/mbq8-0451",
+  "doi": "10.60555/mbq8-0451"
+ },
+ "PSI-68": {
+  "type": "psi",
+  "title": "NASA PSI-68: Flame Extinguishment Experiment - 2 (DOI 10.60555/byp8-h018)",
+  "url": "https://doi.org/10.60555/byp8-h018",
+  "doi": "10.60555/byp8-h018"
+ },
+ "PSI-39": {
+  "type": "psi",
+  "title": "NASA PSI-39: Cool Flames Investigation (DOI 10.60555/m6pj-a914)",
+  "url": "https://doi.org/10.60555/m6pj-a914",
+  "doi": "10.60555/m6pj-a914"
+ },
+ "PSI-20": {
+  "type": "psi",
+  "title": "NASA PSI-20: Advanced Combustion via Microgravity Experiments - Burning Rate Emulator (DOI 10.60555/vb93-3y72)",
+  "url": "https://doi.org/10.60555/vb93-3y72",
+  "doi": "10.60555/vb93-3y72"
+ },
+ "PSI-22": {
+  "type": "psi",
+  "title": "NASA PSI-22: Advanced Combustion via Microgravity Experiments Electric-Field Effects on Laminar Diffusion Flames (DOI 10.60555/se5a-8c73)",
+  "url": "https://doi.org/10.60555/se5a-8c73",
+  "doi": "10.60555/se5a-8c73"
+ },
+ "PSI-23": {
+  "type": "psi",
+  "title": "NASA PSI-23: Advanced Combustion via Microgravity Experiments-Structure and Response of Spherical Diffusion Flames (DOI 10.60555/k57n-p030)",
+  "url": "https://doi.org/10.60555/k57n-p030",
+  "doi": "10.60555/k57n-p030"
+ },
+ "PSI-21": {
+  "type": "psi",
+  "title": "NASA PSI-21: Advanced Combustion via Microgravity Experiments / Coflow Laminar Diffusion Flame (DOI 10.60555/23e1-9950)",
+  "url": "https://doi.org/10.60555/23e1-9950",
+  "doi": "10.60555/23e1-9950"
+ },
+ "PSI-10": {
+  "type": "psi",
+  "title": "NASA PSI-10: Advanced Combustion via Microgravity Experiments / Flame Design (DOI 10.60555/w4zy-bt45)",
+  "url": "https://doi.org/10.60555/w4zy-bt45",
+  "doi": "10.60555/w4zy-bt45"
+ },
+ "PSI-159": {
+  "type": "psi",
+  "title": "NASA PSI-159: Advanced Combustion via Microgravity Experiments / Cool Flames Investigation with Gases (DOI 10.60555/cyt1-kh64)",
+  "url": "https://doi.org/10.60555/cyt1-kh64",
+  "doi": "10.60555/cyt1-kh64"
+ },
+ "PSI-107": {
+  "type": "psi",
+  "title": "NASA PSI-107: Smoke Point In Co-flow Experiment (DOI 10.60555/9kbh-e962)",
+  "url": "https://doi.org/10.60555/9kbh-e962",
+  "doi": "10.60555/9kbh-e962"
+ },
+ "PSI-106": {
+  "type": "psi",
+  "title": "NASA PSI-106: Structure and Liftoff In Combustion Experiment (DOI 10.60555/pm12-rg61)",
+  "url": "https://doi.org/10.60555/pm12-rg61",
+  "doi": "10.60555/pm12-rg61"
+ },
+ "PSI-102": {
+  "type": "psi",
+  "title": "NASA PSI-102: Smoke and Aerosol Measurement Experiment (DOI 10.60555/gd4k-8h62)",
+  "url": "https://doi.org/10.60555/gd4k-8h62",
+  "doi": "10.60555/gd4k-8h62"
+ },
+ "PSI-101": {
+  "type": "psi",
+  "title": "NASA PSI-101: Smoke Aerosol Measurement Experiment-Reflight (DOI 10.60555/2np7-jv14)",
+  "url": "https://doi.org/10.60555/2np7-jv14",
+  "doi": "10.60555/2np7-jv14"
+ },
+ "PSI-47": {
+  "type": "psi",
+  "title": "NASA PSI-47: Dust and Aerosol Measurement Feasibility Test / Dust and Aerosol Measurement Feasibility Test-2 (DOI 10.60555/ztgj-d202)",
+  "url": "https://doi.org/10.60555/ztgj-d202",
+  "doi": "10.60555/ztgj-d202"
+ },
+ "PSI-179": {
+  "type": "psi",
+  "title": "NASA PSI-179: Aerosol Sampling Experiment (DOI 10.60555/pdgr-c961)",
+  "url": "https://doi.org/10.60555/pdgr-c961",
+  "doi": "10.60555/pdgr-c961"
+ },
+ "PSI-142": {
+  "type": "psi",
+  "title": "NASA PSI-142: Quantitative Studies of Cool Flame Transitions at Radiation / Stretch Extinction Using Counterflow Flames (DOI 10.60555/80qf-vj95)",
+  "url": "https://doi.org/10.60555/80qf-vj95",
+  "doi": "10.60555/80qf-vj95"
+ },
+ "PSI-117": {
+  "type": "psi",
+  "title": "NASA PSI-117: Effect of External Thermo-Convective Perturbation on Cool Flame Dynamics: A Multidimensional Multi-Physics CFD Analysis",
+  "url": "https://psi.nasa.gov",
+  "doi": null
+ },
+ "PSI-115": {
+  "type": "psi",
+  "title": "NASA PSI-115: Utilization of the Smoke Aerosol Measurement Experiment Data for Advanced Modeling and Simulation of Smoke Generation in Micro-Gravity",
+  "url": "https://psi.nasa.gov",
+  "doi": null
+ },
+ "PSI-62": {
+  "type": "psi",
+  "title": "NASA PSI-62: Concurrent Flame Spread Modeling using Flamelet Generated Manifolds in Microgravity with Comparison to BASS Experiments using Two-Color Tomography",
+  "url": "https://psi.nasa.gov",
+  "doi": null
+ },
+ "PSI-60": {
+  "type": "psi",
+  "title": "NASA PSI-60: Computational and Experimental Analysis of SPICE Data Sets",
+  "url": "https://psi.nasa.gov",
+  "doi": null
  }
 }

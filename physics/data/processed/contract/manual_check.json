@@ -1,0 +1,181 @@
+{
+ "sample": {
+  "PSI-25": [
+   "PSI-25_Experimental table_BASS-II.csv#row101",
+   "PSI-25_Experimental table_BASS-II.csv#row109",
+   "PSI-25_Experimental table_BASS-II.csv#row118",
+   "PSI-25_Experimental table_BASS-II.csv#row21",
+   "PSI-25_Experimental table_BASS-II.csv#row24",
+   "PSI-25_Experimental table_BASS-II.csv#row26",
+   "PSI-25_Experimental table_BASS-II.csv#row34",
+   "PSI-25_Experimental table_BASS-II.csv#row37",
+   "PSI-25_Experimental table_BASS-II.csv#row49",
+   "PSI-25_Experimental table_BASS-II.csv#row5",
+   "PSI-25_Experimental table_BASS-II.csv#row58",
+   "PSI-25_Experimental table_BASS-II.csv#row59",
+   "PSI-25_Experimental table_BASS-II.csv#row62",
+   "PSI-25_Experimental table_BASS-II.csv#row65",
+   "PSI-25_Experimental table_BASS-II.csv#row69",
+   "PSI-25_Experimental table_BASS-II.csv#row71",
+   "PSI-25_Experimental table_BASS-II.csv#row76",
+   "PSI-25_Experimental table_BASS-II.csv#row79",
+   "PSI-25_Experimental table_BASS-II.csv#row96",
+   "PSI-25_Experimental table_BASS-II.csv#row99"
+  ],
+  "PSI-26": [
+   "PSI-26_Experimental table_BASS.csv#row10",
+   "PSI-26_Experimental table_BASS.csv#row104",
+   "PSI-26_Experimental table_BASS.csv#row106",
+   "PSI-26_Experimental table_BASS.csv#row108",
+   "PSI-26_Experimental table_BASS.csv#row117",
+   "PSI-26_Experimental table_BASS.csv#row123",
+   "PSI-26_Experimental table_BASS.csv#row14",
+   "PSI-26_Experimental table_BASS.csv#row28",
+   "PSI-26_Experimental table_BASS.csv#row29",
+   "PSI-26_Experimental table_BASS.csv#row3",
+   "PSI-26_Experimental table_BASS.csv#row30",
+   "PSI-26_Experimental table_BASS.csv#row38",
+   "PSI-26_Experimental table_BASS.csv#row50",
+   "PSI-26_Experimental table_BASS.csv#row56",
+   "PSI-26_Experimental table_BASS.csv#row59",
+   "PSI-26_Experimental table_BASS.csv#row66",
+   "PSI-26_Experimental table_BASS.csv#row73",
+   "PSI-26_Experimental table_BASS.csv#row82",
+   "PSI-26_Experimental table_BASS.csv#row87",
+   "PSI-26_Experimental table_BASS.csv#row91"
+  ],
+  "PSI-101": [
+   "PSI-101_Experimental table_SAME-R.csv#row3",
+   "PSI-101_Experimental table_SAME-R.csv#row11",
+   "PSI-101_Experimental table_SAME-R.csv#row17",
+   "PSI-101_Experimental table_SAME-R.csv#row18",
+   "PSI-101_Experimental table_SAME-R.csv#row20",
+   "PSI-101_Experimental table_SAME-R.csv#row27",
+   "PSI-101_Experimental table_SAME-R.csv#row35",
+   "PSI-101_Experimental table_SAME-R.csv#row38",
+   "PSI-101_Experimental table_SAME-R.csv#row52",
+   "PSI-101_Experimental table_SAME-R.csv#row53",
+   "PSI-101_Experimental table_SAME-R.csv#row57",
+   "PSI-101_Experimental table_SAME-R.csv#row63",
+   "PSI-101_Experimental table_SAME-R.csv#row69",
+   "PSI-101_Experimental table_SAME-R.csv#row73",
+   "PSI-101_Experimental table_SAME-R.csv#row75",
+   "PSI-101_Experimental table_SAME-R.csv#row80",
+   "PSI-101_Experimental table_SAME-R.csv#row94",
+   "PSI-101_Experimental table_SAME-R.csv#row100",
+   "PSI-101_Experimental table_SAME-R.csv#row102",
+   "PSI-101_Experimental table_SAME-R.csv#row104",
+   "PSI-101_Experimental table_SAME-R.csv#row106"
+  ],
+  "PSI-98": [
+   "PSI-98_Experimental table_SAFFIRE-1.csv#row2",
+   "PSI-98_Experimental table_SAFFIRE-1.csv#row3"
+  ],
+  "PSI-99": [
+   "PSI-99_Experimental table_SAFFIRE-2.csv#row10",
+   "PSI-99_Experimental table_SAFFIRE-2.csv#row2",
+   "PSI-99_Experimental table_SAFFIRE-2.csv#row3",
+   "PSI-99_Experimental table_SAFFIRE-2.csv#row4",
+   "PSI-99_Experimental table_SAFFIRE-2.csv#row5",
+   "PSI-99_Experimental table_SAFFIRE-2.csv#row6",
+   "PSI-99_Experimental table_SAFFIRE-2.csv#row7",
+   "PSI-99_Experimental table_SAFFIRE-2.csv#row8",
+   "PSI-99_Experimental table_SAFFIRE-2.csv#row9"
+  ],
+  "PSI-100": [
+   "PSI-100_Experimental table_SAFFIRE-3.csv#row2",
+   "PSI-100_Experimental table_SAFFIRE-3.csv#row3"
+  ],
+  "PSI-102": [
+   "PSI-102_Experimental table_SAME.csv#row2",
+   "PSI-102_Experimental table_SAME.csv#row3",
+   "PSI-102_Experimental table_SAME.csv#row4",
+   "PSI-102_Experimental table_SAME.csv#row5",
+   "PSI-102_Experimental table_SAME.csv#row6",
+   "PSI-102_Experimental table_SAME.csv#row7",
+   "PSI-102_Experimental table_SAME.csv#row8",
+   "PSI-102_Experimental table_SAME.csv#row9"
+  ],
+  "PSI-47": [
+   "PSI-47_Experimental table_DAFT.csv#row2",
+   "PSI-47_Experimental table_DAFT.csv#row3"
+  ]
+ },
+ "results": {
+  "PSI-25": {
+   "rows_reviewed": 20,
+   "first_pass_discrepancies": [
+    "B20 geometry 'slab' for '100 micron thick PMMA' (film) -> rule order fixed",
+    "P4 first flow parsed 0.36 (a fan-pot value) instead of Air display 5 -> pot-token rule fixed"
+   ],
+   "mismatches": 0,
+   "method": "each listed row: normalized fields (material_key, thickness/diameter/width, x_o2, pressure, flow, outcome, flags) compared by eye with the raw line (and the As-Run row for PSI-26) after the fixes",
+   "by": "claude-code",
+   "date": "2026-11-14"
+  },
+  "PSI-26": {
+   "rows_reviewed": 20,
+   "first_pass_discrepancies": [
+    "all outcomes 'unknown' (observation column header not matched) -> header lookup fixed",
+    "As-run 84 'wake ign ... soot' and As-run 54 'Did not blow out' classified unknown -> burn rule extended"
+   ],
+   "mismatches": 0,
+   "method": "each listed row: normalized fields (material_key, thickness/diameter/width, x_o2, pressure, flow, outcome, flags) compared by eye with the raw line (and the As-Run row for PSI-26) after the fixes",
+   "by": "claude-code",
+   "date": "2026-11-14"
+  },
+  "PSI-101": {
+   "rows_reviewed": 21,
+   "first_pass_discrepancies": [
+    "test numbers repeat across materials (e.g. 57 Lampwick / 57 Teflon) -> ids now include material"
+   ],
+   "mismatches": 0,
+   "method": "each listed row: normalized fields (material_key, thickness/diameter/width, x_o2, pressure, flow, outcome, flags) compared by eye with the raw line (and the As-Run row for PSI-26) after the fixes",
+   "by": "claude-code",
+   "date": "2026-11-14"
+  },
+  "PSI-98": {
+   "rows_reviewed": 2,
+   "first_pass_discrepancies": [],
+   "mismatches": 0,
+   "method": "each listed row: normalized fields (material_key, thickness/diameter/width, x_o2, pressure, flow, outcome, flags) compared by eye with the raw line (and the As-Run row for PSI-26) after the fixes",
+   "by": "claude-code",
+   "date": "2026-11-14"
+  },
+  "PSI-99": {
+   "rows_reviewed": 9,
+   "first_pass_discrepancies": [],
+   "mismatches": 0,
+   "method": "each listed row: normalized fields (material_key, thickness/diameter/width, x_o2, pressure, flow, outcome, flags) compared by eye with the raw line (and the As-Run row for PSI-26) after the fixes",
+   "by": "claude-code",
+   "date": "2026-11-14"
+  },
+  "PSI-100": {
+   "rows_reviewed": 2,
+   "first_pass_discrepancies": [
+    "thickness '.33 cm' parsed as 330 mm (leading-dot number) -> number regex fixed"
+   ],
+   "mismatches": 0,
+   "method": "each listed row: normalized fields (material_key, thickness/diameter/width, x_o2, pressure, flow, outcome, flags) compared by eye with the raw line (and the As-Run row for PSI-26) after the fixes",
+   "by": "claude-code",
+   "date": "2026-11-14"
+  },
+  "PSI-102": {
+   "rows_reviewed": 8,
+   "first_pass_discrepancies": [],
+   "mismatches": 0,
+   "method": "each listed row: normalized fields (material_key, thickness/diameter/width, x_o2, pressure, flow, outcome, flags) compared by eye with the raw line (and the As-Run row for PSI-26) after the fixes",
+   "by": "claude-code",
+   "date": "2026-11-14"
+  },
+  "PSI-47": {
+   "rows_reviewed": 2,
+   "first_pass_discrepancies": [],
+   "mismatches": 0,
+   "method": "each listed row: normalized fields (material_key, thickness/diameter/width, x_o2, pressure, flow, outcome, flags) compared by eye with the raw line (and the As-Run row for PSI-26) after the fixes",
+   "by": "claude-code",
+   "date": "2026-11-14"
+  }
+ },
+ "note": "Second pass after fixes: 0 mismatches in every reviewed row. Human countersign pending (docs/HUMAN_TASKS.md)."
+}

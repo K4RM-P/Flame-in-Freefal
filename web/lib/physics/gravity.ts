@@ -1,3 +1,4 @@
+// SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 // Port of emberphys/gravity.py (GR1, GR2). Partial gravity = bounded estimate.
 import { prop, type Atm } from "./data";
 import { alpha } from "./thermo";

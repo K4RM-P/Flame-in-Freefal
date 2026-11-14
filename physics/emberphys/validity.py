@@ -1,3 +1,4 @@
+# SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 """Validity envelope: per-feature min/max of calibration data + nearest-neighbour distance (standardized)."""
 from __future__ import annotations
 

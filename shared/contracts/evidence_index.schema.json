@@ -1,0 +1,103 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "title": "evidence_index.json",
+ "description": "material_key -> ranked investigations for Q1 (will it burn), Q2 (how bad), Q3 (detect/suppress)",
+ "type": "object",
+ "additionalProperties": {
+  "type": "object",
+  "required": [
+   "Q1",
+   "Q2",
+   "Q3"
+  ],
+  "properties": {
+   "Q1": {
+    "type": "array",
+    "items": {
+     "type": "object",
+     "required": [
+      "investigation",
+      "why",
+      "source",
+      "n"
+     ],
+     "properties": {
+      "investigation": {
+       "type": "string",
+       "pattern": "^PSI-\\d+$"
+      },
+      "why": {
+       "type": "string",
+       "minLength": 5
+      },
+      "source": {
+       "type": "string"
+      },
+      "n": {
+       "type": "integer",
+       "minimum": 1
+      }
+     }
+    }
+   },
+   "Q2": {
+    "type": "array",
+    "items": {
+     "type": "object",
+     "required": [
+      "investigation",
+      "why",
+      "source",
+      "n"
+     ],
+     "properties": {
+      "investigation": {
+       "type": "string",
+       "pattern": "^PSI-\\d+$"
+      },
+      "why": {
+       "type": "string",
+       "minLength": 5
+      },
+      "source": {
+       "type": "string"
+      },
+      "n": {
+       "type": "integer",
+       "minimum": 1
+      }
+     }
+    }
+   },
+   "Q3": {
+    "type": "array",
+    "items": {
+     "type": "object",
+     "required": [
+      "investigation",
+      "why",
+      "source",
+      "n"
+     ],
+     "properties": {
+      "investigation": {
+       "type": "string",
+       "pattern": "^PSI-\\d+$"
+      },
+      "why": {
+       "type": "string",
+       "minLength": 5
+      },
+      "source": {
+       "type": "string"
+      },
+      "n": {
+       "type": "integer",
+       "minimum": 1
+      }
+     }
+    }
+   }
+  }
+ }
+}

@@ -9,8 +9,8 @@ habitat (well-mixed ODE), smoke (Smoluchowski), uq (seeded MC), validity (envelo
 ## Phase 2 — data, calibration, validation: PARTIAL
 - FLEX Table IX extracted from NASA/TP-2015-216046: 276 rows, 275 verified (visual spot-check, 0 mismatches; human countersign pending).
   81 tests carry an author-stated extinction mode from Appendix B captions.
-- Investigations with verified rows: **1 (FLEX)**. PRD R2 target (≥400 rows from ≥4 investigations) **not met**: BASS-II, Saffire,
-  BRE and SAME-R values exist only in figures and need human digitization (docs/HUMAN_TASKS.md #3).
+- Investigations with verified rows: **9** (see DATA CHECKPOINTS). Correction: an earlier version said the BASS-II, Saffire, BRE and SAME-R
+  values exist only in figures. That was wrong. PSI publishes an Experimental table (CSV) for each, and they are parsed row by row (docs/DATA_AUDIT.md).
 - Calibrated: droplet (f_k, C_D, a_eff per fuel), suppression (µg T_crit per fuel). Uncalibrated (theory only): spread, habitat, smoke.
 - Validation: V2, V4, V5 pass (droplet); V3, V4 pass (thermal suppression, held-out); V1, V3 fail (heptane droplet LOI);
   He LOIs fail in both models (documented evidence gap); V6–V10 pending data.
@@ -73,3 +73,21 @@ UI requests (cannot be derived honestly from existing outputs):
 - Review screen `/review`: verdict, Q1–Q3 with receipts, hero map, Earth vs orbit, actions + next test, evidence used, Export Evidence Brief (print→PDF + Markdown).
 - Without materials.json the Review shows an honest "Data pending" state (no mock numbers).
 - Next steps (skipped, time-box): cabin comparison mode (ISS vs Lunar side by side), Lighthouse tuning, new animations, after-cohesion screenshot set, full README rewrite.
+
+## DATA CHECKPOINTS
+- **CP1 (2026-11-14, feature/psi-data, data lane).** PSI fetch extended: 277 files, sha256 manifest, retry/backoff. Contract layer `physics/pipeline/contract.py`
+  writes 410 verified PSI rows: BASS-II PSI-25 155 · BASS PSI-26 122 · SAFFIRE-I PSI-98 2 · SAFFIRE-II PSI-99 10 · SAFFIRE-III PSI-100 2 ·
+  SAME-R PSI-101 109 · SAME PSI-102 8 · DAFT PSI-47 2. Plus 275 FLEX rows: 685 rows in `web/data/test_points.json`.
+  New files: `materials.json` (15), `earth_vs_orbit.json` (7 SAFFIRE-II rows: 4 orbit_better, 3 same, 0 orbit_worse), `evidence_index.json`,
+  `boundary.json` (`available: false`, reason inside), `provenance.json`. `investigations.json` now carries accession, psi_id, doi,
+  psi_investigation_url, title/objective_official, files_used (sha256) and n_verified_rows. Schemas are in `shared/contracts/` and checked in `make test`, along with
+  `trace_ui_numbers.py`.
+  **Notes for the product lane:**
+  1. `outcome` is null on smoke and aerosol rows.
+  2. FLEX keeps `diffusive_ext` / `radiative_ext`.
+  3. PSI rows have null `K_mm2_s`, `d0_mm` and `diluent`.
+  4. `web/lib/ai/tools.ts` still says "verified points are FLEX droplets only". That is now stale.
+  5. `earth_vs_orbit.json` is a root array (counts in processed/contract/earth_vs_orbit_meta.json).
+  6. `evidence_index.json` is a record: material_key → {Q1,Q2,Q3: [{investigation, why, source, n}]}.
+  7. `web/lib/contracts` Zod still differs from §2 in three places: files_used objects, forms objects, and nullable x_o2/pressure_kpa/outcome. The product lane has been notified.
+  The SAME-R/SAME smoke model port (SM4 settling) and the golden vectors come with this data push (web/lib/physics, data lane).

@@ -11,3 +11,7 @@ flex_table_ix:
   known_issues:
     - "FLEX-114: pressure printed as 0.0 mmHg in Table IX (other C11 tests ~535 mmHg). Row excluded (qc_flag), not corrected."
     - "FLEX-156, 205, 213, 228, 281-284 absent from Table IX."
+psi_spotcheck:
+  # One record per normalized PSI table (bass2, bass, saffire, same_r, bre, spice) once a human has compared the 20 rows
+  # listed in docs/HUMAN_TASKS.md with the PSI file. Until then every PSI row stays verified=false.
+  records: []

@@ -1,3 +1,4 @@
+// SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 // Port of emberphys/flame_temp.py (BS1, BS2).
 import { fuel, v, type Atm } from "./data";
 import { cpMassMix, moleToMass, stoichS } from "./thermo";

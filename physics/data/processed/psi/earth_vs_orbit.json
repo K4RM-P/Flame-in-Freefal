@@ -1,0 +1,196 @@
+{
+ "rows": [
+  {
+   "sample": "2-1",
+   "material": "Silicone",
+   "thickness": "0.27 mm",
+   "locator": "PSI-99_Experimental table_SAFFIRE-2.csv, line 2",
+   "source_id": "PSI-99",
+   "g1_burn_length": "Complete",
+   "g1_spread_rate": "Acceleratory",
+   "ug_burn_length": "~ 0",
+   "ug_spread": "n/a",
+   "ug_class": "none",
+   "g1_class": "full",
+   "x_o2_lo": 0.215,
+   "x_o2_hi": 0.215,
+   "o2_raw": "~ 21.5",
+   "flow_cm_s": 20.0,
+   "flow_direction": "Concurrent",
+   "length_cm": 29.0,
+   "agreement": "orbit better"
+  },
+  {
+   "sample": "2-2",
+   "material": "Silicone",
+   "thickness": "0.61 mm",
+   "locator": "PSI-99_Experimental table_SAFFIRE-2.csv, line 3",
+   "source_id": "PSI-99",
+   "g1_burn_length": "7.6 cm",
+   "g1_spread_rate": "1.2 mm/s",
+   "ug_burn_length": "~ 0",
+   "ug_spread": "n/a",
+   "ug_class": "none",
+   "g1_class": "partial",
+   "x_o2_lo": 0.221,
+   "x_o2_hi": 0.221,
+   "o2_raw": "~ 22.1",
+   "flow_cm_s": 20.0,
+   "flow_direction": "Concurrent",
+   "length_cm": 29.0,
+   "agreement": "orbit better"
+  },
+  {
+   "sample": "2-3",
+   "material": "Silicone",
+   "thickness": "1.03 mm",
+   "locator": "PSI-99_Experimental table_SAFFIRE-2.csv, line 4",
+   "source_id": "PSI-99",
+   "g1_burn_length": "~ 0",
+   "g1_spread_rate": "n/a",
+   "ug_burn_length": "~ 0",
+   "ug_spread": "n/a",
+   "ug_class": "none",
+   "g1_class": "none",
+   "x_o2_lo": 0.221,
+   "x_o2_hi": 0.221,
+   "o2_raw": "~ 22.1",
+   "flow_cm_s": 20.0,
+   "flow_direction": "Concurrent",
+   "length_cm": 29.0,
+   "agreement": "same verdict"
+  },
+  {
+   "sample": "2-4",
+   "material": "Silicone",
+   "thickness": "037 mm",
+   "locator": "PSI-99_Experimental table_SAFFIRE-2.csv, line 5",
+   "source_id": "PSI-99",
+   "g1_burn_length": "Complete",
+   "g1_spread_rate": "0.6 mm/s",
+   "ug_burn_length": "~ 0",
+   "ug_spread": "n/a",
+   "ug_class": "none",
+   "g1_class": "full",
+   "x_o2_lo": 0.221,
+   "x_o2_hi": 0.221,
+   "o2_raw": "~ 22.1",
+   "flow_cm_s": 20.0,
+   "flow_direction": "Opposed",
+   "length_cm": 29.0,
+   "agreement": "orbit better"
+  },
+  {
+   "sample": "2-5",
+   "material": "Cotton-Fiberglass (SIBAL)",
+   "thickness": "037 mm",
+   "locator": "PSI-99_Experimental table_SAFFIRE-2.csv, line 6",
+   "source_id": "PSI-99",
+   "g1_burn_length": "Complete",
+   "g1_spread_rate": "Acceleratory",
+   "ug_burn_length": "29 cm",
+   "ug_spread": "2.1 mm/s",
+   "ug_class": "full",
+   "g1_class": "full",
+   "x_o2_lo": 0.221,
+   "x_o2_hi": 0.221,
+   "o2_raw": "~ 22.1",
+   "flow_cm_s": 20.0,
+   "flow_direction": "Concurrent",
+   "length_cm": 29.0,
+   "agreement": "same verdict"
+  },
+  {
+   "sample": "2-7",
+   "material": "Nomex",
+   "thickness": "0.37 mm",
+   "locator": "PSI-99_Experimental table_SAFFIRE-2.csv, line 8",
+   "source_id": "PSI-99",
+   "g1_burn_length": "~ 0 (Nomex)",
+   "g1_spread_rate": "n/a",
+   "ug_burn_length": "0 (note 2)",
+   "ug_spread": "n/a",
+   "ug_class": "none",
+   "g1_class": "none",
+   "x_o2_lo": 0.221,
+   "x_o2_hi": 0.221,
+   "o2_raw": "~ 22.1",
+   "flow_cm_s": 20.0,
+   "flow_direction": "Concurrent",
+   "length_cm": 24.0,
+   "agreement": "same verdict"
+  },
+  {
+   "sample": "2-8",
+   "material": "PMMA",
+   "thickness": "See Fig. 5",
+   "locator": "PSI-99_Experimental table_SAFFIRE-2.csv, line 9",
+   "source_id": "PSI-99",
+   "g1_burn_length": "Complete",
+   "g1_spread_rate": "Acceleratory",
+   "ug_burn_length": "~ 10 cm (note 3)",
+   "ug_spread": "Note 4",
+   "ug_class": "partial",
+   "g1_class": "full",
+   "x_o2_lo": 0.22,
+   "x_o2_hi": 0.221,
+   "o2_raw": "22.1 to 22.0",
+   "flow_cm_s": 20.0,
+   "flow_direction": "Concurrent",
+   "length_cm": 29.0,
+   "agreement": "orbit better"
+  }
+ ],
+ "excluded": [
+  {
+   "sample": "2-6",
+   "material": null,
+   "thickness": "037 mm",
+   "locator": "PSI-99_Experimental table_SAFFIRE-2.csv, line 7",
+   "source_id": "PSI-99",
+   "reason": "material cell blank in the PSI table (not inferred)"
+  },
+  {
+   "sample": "2-7",
+   "material": "PMMA",
+   "thickness": "0.85 mm",
+   "locator": "PSI-99_Experimental table_SAFFIRE-2.csv, line 8",
+   "source_id": "PSI-99",
+   "reason": "no tabulated 1 g result for this component"
+  },
+  {
+   "sample": "2-9",
+   "material": null,
+   "thickness": "1 cm",
+   "locator": "PSI-99_Experimental table_SAFFIRE-2.csv, line 10",
+   "source_id": "PSI-99",
+   "reason": "material cell blank in the PSI table (not inferred)"
+  }
+ ],
+ "n": 7,
+ "counts": {
+  "orbit better": 4,
+  "same verdict": 3,
+  "orbit worse": 0
+ },
+ "conditions": {
+  "x_o2_min": 0.215,
+  "x_o2_max": 0.221,
+  "flows_cm_s": [
+   20.0
+  ],
+  "directions": [
+   "Concurrent",
+   "Opposed"
+  ]
+ },
+ "classification": "burn length 'Complete' or equal to the sample length = full; '~ 0' = none; otherwise partial. Agreement compares µg with 1 g on that ordinal scale.",
+ "caveats": [
+  "1 g test conditions (orientation, O2, flow) are not given in the PSI-99 table.",
+  "Each row is a single test (n = 1 per material and thickness).",
+  "SAFFIRE-II samples were 29 cm × 5 cm; results do not transfer to other sizes, flows or O2 levels."
+ ],
+ "source_ids": [
+  "PSI-99"
+ ]
+}

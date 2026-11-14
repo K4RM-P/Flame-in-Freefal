@@ -8,12 +8,16 @@ venv:
 
 data:
 	$(PY) physics/pipeline/fetch.py
+	$(PY) physics/pipeline/fetch_psi.py
+	$(PY) physics/pipeline/ingest_psi.py
+	$(PY) physics/pipeline/contract.py
 	$(PY) physics/pipeline/extract_tables.py
 	$(PY) physics/pipeline/build.py
 
 fit:
 	$(PY) physics/fit/fit_droplet.py
 	$(PY) physics/fit/fit_suppression.py
+	$(PY) physics/fit/fit_boundary.py
 
 validate:
 	$(PY) physics/validate/run_all.py

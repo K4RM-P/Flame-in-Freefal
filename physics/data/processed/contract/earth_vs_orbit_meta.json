@@ -1,0 +1,34 @@
+{
+ "excluded": [
+  {
+   "sample": "SAFFIRE-II 2-6",
+   "material_key": null,
+   "locator": "PSI-99_Experimental table_SAFFIRE-2.csv#row7",
+   "reason": "material cell blank in the PSI table (not inferred)"
+  },
+  {
+   "sample": "SAFFIRE-II 2-7",
+   "material_key": "pmma",
+   "locator": "PSI-99_Experimental table_SAFFIRE-2.csv#row8",
+   "reason": "no tabulated 1-g result for this sample/component"
+  },
+  {
+   "sample": "SAFFIRE-II 2-9",
+   "material_key": null,
+   "locator": "PSI-99_Experimental table_SAFFIRE-2.csv#row10",
+   "reason": "material cell blank in the PSI table (not inferred)"
+  }
+ ],
+ "counts": {
+  "orbit_better": 4,
+  "same": 3,
+  "orbit_worse": 0
+ },
+ "n": 7,
+ "scale": "ordinal: burn over full sample length (2) > partial burn (1) > insignificant / not ignited (0)",
+ "bass_pairs": [],
+ "bass_note": "BASS/BASS-II tables carry no 1-g result for the same material and thickness; no pairs emitted.",
+ "source_ids": [
+  "PSI-99"
+ ]
+}

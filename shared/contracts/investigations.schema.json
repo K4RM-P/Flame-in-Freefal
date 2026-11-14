@@ -1,0 +1,89 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "title": "investigations.json",
+ "type": "object",
+ "additionalProperties": {
+  "type": "object",
+  "required": [
+   "name",
+   "files_used",
+   "n_verified_rows"
+  ],
+  "properties": {
+   "accession": {
+    "type": "string",
+    "pattern": "^PSI-\\d+$"
+   },
+   "psi_id": {
+    "type": [
+     "integer",
+     "null"
+    ]
+   },
+   "doi": {
+    "type": [
+     "string",
+     "null"
+    ]
+   },
+   "psi_investigation_url": {
+    "type": "string",
+    "pattern": "^https://psi\\.nasa\\.gov/physci/repo/data/investigations/PSI-\\d+$"
+   },
+   "title_official": {
+    "type": [
+     "string",
+     "null"
+    ]
+   },
+   "objective_official": {
+    "type": [
+     "string",
+     "null"
+    ]
+   },
+   "n_verified_rows": {
+    "type": "integer",
+    "minimum": 0
+   },
+   "files_used": {
+    "type": "array",
+    "items": {
+     "type": "object",
+     "required": [
+      "file",
+      "bytes",
+      "sha256"
+     ],
+     "properties": {
+      "file": {
+       "type": "string"
+      },
+      "bytes": {
+       "type": "integer",
+       "maximum": 25000000
+      },
+      "sha256": {
+       "type": "string",
+       "pattern": "^[0-9a-f]{64}$"
+      }
+     }
+    }
+   }
+  },
+  "if": {
+   "required": [
+    "accession"
+   ]
+  },
+  "then": {
+   "required": [
+    "psi_id",
+    "doi",
+    "psi_investigation_url",
+    "title_official",
+    "objective_official"
+   ]
+  }
+ }
+}

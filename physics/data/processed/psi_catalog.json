@@ -1,0 +1,2892 @@
+{
+ "fetched_at": "2026-11-14T18:28:36+00:00",
+ "api": "https://psi.nasa.gov/geode-py/ws",
+ "investigations": {
+  "PSI-26": {
+   "accession": "PSI-26",
+   "accession_id": 26,
+   "group": "solid",
+   "short_name": "BASS",
+   "title": "Burning and Suppression of Solids",
+   "objective": "The two main objectives for BASS are to:\n    1.) Begin to bridge the gap between the normal gravity NASA-STD-6001 Test#1 method, ground-based microgravity tests, and actual material flammability in microgravity. The relation between these can be investigated by observing flames burning for the longer times available in flight. Practical, realistic (thicker) fuels in typical geometries will be examined, including wake flames which have characteristics of a fire burning behind another object (for example, a fire burning in tight area which may not be easily accessible).\n    2.) Assess the effectiveness of an inert, gaseous extinguishing agent (similar to that used on ISS) in putting out flames over different materials, geometries, preheating, and flow.",
+   "public_release_date": "30-Jun-2013",
+   "doi": "10.60555/58h4-dy80",
+   "psi_url": "https://doi.org/10.60555/58h4-dy80",
+   "psi_investigation_url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-26",
+   "file_count": 210,
+   "files_listed": true,
+   "manifest": [
+    {
+     "accession": "PSI-26",
+     "file": "PSI-26_Science Documents_Planned_Test Matrix.xlsx",
+     "category": "Science Documents",
+     "bytes": 20976,
+     "sha256": "e0a06f81c110efc83cb23841342734c2d0a7187e9d9cbf2c0100c78d66bab9f9",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-26/download?source=datamanager&file=PSI-26_Science+Documents_Planned_Test+Matrix.xlsx",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-26",
+     "file": "PSI-26_Science Documents_As Run_Test Matrix.xlsx",
+     "category": "Science Documents",
+     "bytes": 111886,
+     "sha256": "850910541fc9c802d00aa9de14758205103642184249b419c09868df2fbea6e8",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-26/download?source=datamanager&file=PSI-26_Science+Documents_As+Run_Test+Matrix.xlsx",
+     "fetched_at": "2026-11-14T17:22:56+00:00"
+    },
+    {
+     "accession": "PSI-26",
+     "file": "PSI-26_Experimental table_BASS.csv",
+     "category": "Experimental table",
+     "bytes": 4726,
+     "sha256": "ccfc3c54d948b64a1c5d2596a63c7c8019e51df0c91a1d62f039f48fa28c300f",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-26/download?source=datamanager&file=PSI-26_Experimental+table_BASS.csv",
+     "fetched_at": "2026-11-14T17:22:56+00:00"
+    }
+   ]
+  },
+  "PSI-25": {
+   "accession": "PSI-25",
+   "accession_id": 25,
+   "group": "solid",
+   "short_name": "BASS-II",
+   "title": "Burning and Suppression of Solids - II",
+   "objective": "BASS-II results contribute to the combustion computational models used in the design of fire detection and suppression systems in microgravity and on Earth.\nObjectives Include:\n  1) Study the ignition, flame growth, flame spread, and extinction limits for solid fuels burning in low-velocity forced flows in microgravity.\n  2) Begin to bridge the gap between the normal gravity NASA-STD-6001 Test #1 method, ground-based microgravity tests, and actual material flammability in microgravity.\n  3) Provide SoFIE PIs with preliminary data to refine Science Requirements.\n  4)  Practical, realistic (thicker) fuels in typical geometries will be examined, including slabs, cylinders, and spherical sections.\n\nThe primary variables include:\n     • Forced flow velocity (speed and direction)\n     • Ambient oxygen concentration (via working volume nitrogen vitiation)\n     • Sample geometry (rods, spherical section, slabs, films, and fabric sheets",
+   "public_release_date": "31-Dec-2022",
+   "doi": "10.60555/4qc4-de67",
+   "psi_url": "https://doi.org/10.60555/4qc4-de67",
+   "psi_investigation_url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-25",
+   "file_count": 695,
+   "files_listed": true,
+   "manifest": [
+    {
+     "accession": "PSI-25",
+     "file": "PSI-25_Reference Data_Fan calibration data.xlsx",
+     "category": "Reference Data",
+     "bytes": 23973,
+     "sha256": "bc0dca3efdef44a7774d8dd37aebc0cedae8d67d7bae8c9cbde9590014a3c983",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-25/download?source=datamanager&file=PSI-25_Reference+Data_Fan+calibration+data.xlsx",
+     "fetched_at": "2026-11-14T17:22:56+00:00"
+    },
+    {
+     "accession": "PSI-25",
+     "file": "PSI-25_Science Documents_BASS-II_Test.Matrices.xlsx",
+     "category": "Science Documents",
+     "bytes": 28956,
+     "sha256": "1a3b283dd0adec861793bbc4a454aab64d398cd32d6f37d7a1ad0f642879e686",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-25/download?source=datamanager&file=PSI-25_Science+Documents_BASS-II_Test.Matrices.xlsx",
+     "fetched_at": "2026-11-14T17:22:56+00:00"
+    },
+    {
+     "accession": "PSI-25",
+     "file": "PSI-25_Experimental table_BASS-II.csv",
+     "category": "Experimental table",
+     "bytes": 16590,
+     "sha256": "71e792bf6b5fb5ea620c5dd70fbbac05515992e12aefcf5dff47312caa48c042",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-25/download?source=datamanager&file=PSI-25_Experimental+table_BASS-II.csv",
+     "fetched_at": "2026-11-14T17:22:56+00:00"
+    }
+   ]
+  },
+  "PSI-98": {
+   "accession": "PSI-98",
+   "accession_id": 98,
+   "group": "solid",
+   "short_name": "SAFFIRE-I",
+   "title": "Spacecraft Fire Safety Experiment-I",
+   "objective": "The objectives of this investigation were to:\n(1) determine how rapidly a large scale fire grows in low-gravity and (2) investigate the low-g flammability limits compared to those obtained in NASA’s normal\ngravity material flammability screening test.",
+   "public_release_date": "18-Sep-2024",
+   "doi": "10.60555/0t15-1z43",
+   "psi_url": "https://doi.org/10.60555/0t15-1z43",
+   "psi_investigation_url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-98",
+   "file_count": 76,
+   "files_listed": true,
+   "manifest": [
+    {
+     "accession": "PSI-98",
+     "file": "PSI-98_Raw Data_Saffire-I Telemetry Data Good Process Version.xlsx",
+     "category": "Raw Data",
+     "bytes": 2775737,
+     "sha256": "2e6657842266b80d48bdfef9e6683ff522696a62f95c4b81222bb583b76f9ccf",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-98/download?source=datamanager&file=PSI-98_Raw+Data_Saffire-I+Telemetry+Data+Good+Process+Version.xlsx",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-98",
+     "file": "PSI-98_Experimental table_SAFFIRE-1.csv",
+     "category": "Experimental table",
+     "bytes": 469,
+     "sha256": "c01f29c62455f0a3b512290ab85e5687ecded326733189f002f580368402308d",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-98/download?source=datamanager&file=PSI-98_Experimental+table_SAFFIRE-1.csv",
+     "fetched_at": "2026-11-14T17:22:56+00:00"
+    }
+   ]
+  },
+  "PSI-99": {
+   "accession": "PSI-99",
+   "accession_id": 99,
+   "group": "solid",
+   "short_name": "SAFFIRE-II",
+   "title": "Spacecraft Fire Experiment-II",
+   "objective": "The objectives of SAFFIRE-II are to determine how rapidly a large scale fire grows in low-gravity and to investigate the low-g flammability limits compared to those obtained in NASA’s normal gravity material flammability screening test.",
+   "public_release_date": "18-Sep-2024",
+   "doi": "10.60555/2chp-m469",
+   "psi_url": "https://doi.org/10.60555/2chp-m469",
+   "psi_investigation_url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-99",
+   "file_count": 217,
+   "files_listed": true,
+   "manifest": [
+    {
+     "accession": "PSI-99",
+     "file": "PSI-99_Experimental table_SAFFIRE-2.csv",
+     "category": "Experimental table",
+     "bytes": 1973,
+     "sha256": "3c24390b9ef86f3d1ebaab911a1a3cc95a8759aebf42062371370e6d4b31b8ac",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-99/download?source=datamanager&file=PSI-99_Experimental+table_SAFFIRE-2.csv",
+     "fetched_at": "2026-11-14T17:22:56+00:00"
+    },
+    {
+     "accession": "PSI-99",
+     "file": "PSI-99_Raw Data_Saffire Sensor Data Sample 1.xlsx",
+     "category": "Raw Data",
+     "bytes": 13817030,
+     "sha256": "ade2fd82e01b22ed5ba2ce1676c2a595f4cfed3072e9e02fa8cca72a1631ae64",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-99/download?source=datamanager&file=PSI-99_Raw+Data_Saffire+Sensor+Data+Sample+1.xlsx",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    }
+   ]
+  },
+  "PSI-100": {
+   "accession": "PSI-100",
+   "accession_id": 100,
+   "group": "solid",
+   "short_name": "SAFFIRE-III",
+   "title": "Spacecraft Fire Experiment-III",
+   "objective": "The objectives of this investigation were to:\n(1) determine how rapidly a large scale fire grows in low-gravity and (2) investigate the low-g flammability limits compared to those obtained in NASA’s normal gravity material flammability screening test.",
+   "public_release_date": "18-Sep-2024",
+   "doi": "10.60555/040q-4h36",
+   "psi_url": "https://doi.org/10.60555/040q-4h36",
+   "psi_investigation_url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-100",
+   "file_count": 87,
+   "files_listed": true,
+   "manifest": [
+    {
+     "accession": "PSI-100",
+     "file": "PSI-100_Raw Data_Saffire_Data_Table2017.161.00.42.03-EU.csv",
+     "category": "Raw Data",
+     "bytes": 5230949,
+     "sha256": "71f8d11a2e040c22924b1c6320384cdcf58e945fe66c993876c44158bf6f57c5",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-100/download?source=datamanager&file=PSI-100_Raw+Data_Saffire_Data_Table2017.161.00.42.03-EU.csv",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-100",
+     "file": "PSI-100_Raw Data_Saffire-III Telemetry Data.xlsx",
+     "category": "Raw Data",
+     "bytes": 8677965,
+     "sha256": "8b047217d713dd235e1435940901c21f3215e1c4f9ea09f89ea5a98068861bc9",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-100/download?source=datamanager&file=PSI-100_Raw+Data_Saffire-III+Telemetry+Data.xlsx",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-100",
+     "file": "PSI-100_Raw Data_Raw telemetry file.csv",
+     "category": "Raw Data",
+     "bytes": 1656916,
+     "sha256": "dfb204ce3bdf8b1749652549afcbad31d180902bc268dfbe782c70fa38d170a2",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-100/download?source=datamanager&file=PSI-100_Raw+Data_Raw+telemetry+file.csv",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-100",
+     "file": "PSI-100_Experimental table_SAFFIRE-3.csv",
+     "category": "Experimental table",
+     "bytes": 239,
+     "sha256": "4d3c717ec20dd0247db670b2784a9fd7d746788bc54a936f80693e48eb8cd117",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-100/download?source=datamanager&file=PSI-100_Experimental+table_SAFFIRE-3.csv",
+     "fetched_at": "2026-11-14T17:22:56+00:00"
+    }
+   ]
+  },
+  "PSI-69": {
+   "accession": "PSI-69",
+   "accession_id": 69,
+   "group": "droplet",
+   "short_name": "FLEX",
+   "title": "Flame Extinguishment Experiment",
+   "objective": "The FLEX (Flame Extinguishment Experiment) investigation aims to map the flammability limits of liquid fuels in microgravity environments, measure the effectiveness of various gaseous fire suppressants such as CO2, He, and SF6, and develop reliable predictive models for combustion limits under reduced gravity conditions. The mission seeks to validate and improve simplified models by incorporating detailed chemical reactions, heat transfer, and material movement, using both space-based data and extensive ground-based tests. Key flight experiment goals include obtaining high-resolution measurements of droplet burning rates, flame extinction behavior, heat radiation, soot levels, and temperature profiles, while systematically analyzing the effects of different ambient conditions and suppressant concentrations. These investigations are essential for advancing the fundamental understanding of combustion processes in microgravity and enhancing fire safety protocols for future space missions.",
+   "public_release_date": "31-Jul-2016",
+   "doi": "10.60555/mbq8-0451",
+   "psi_url": "https://doi.org/10.60555/mbq8-0451",
+   "psi_investigation_url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-69",
+   "file_count": 6555,
+   "files_listed": true,
+   "manifest": [
+    {
+     "accession": "PSI-69",
+     "file": "PSI-69_Experimental table_FLEX.csv",
+     "category": "Experimental table",
+     "bytes": 24776,
+     "sha256": "37c88ce8ae9391b7544ff630a45ce87543d04d317cdbfbed104fe7d5c27e1b96",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-69/download?source=datamanager&file=PSI-69_Experimental+table_FLEX.csv",
+     "fetched_at": "2026-11-14T17:22:56+00:00"
+    }
+   ]
+  },
+  "PSI-68": {
+   "accession": "PSI-68",
+   "accession_id": 68,
+   "group": "droplet",
+   "short_name": "FLEX-2",
+   "title": "Flame Extinguishment Experiment - 2",
+   "objective": "The primary goal of the FLEX-2 flight experiments is to extend the results of FLEX-1 to fuels and environmental conditions that mimic real combustor conditions, as well as, provide benchmark experimental data on bi-component droplet combustion over a wide range of initial conditions in order to validate numerical simulations and to develop new theoretical models.\n\nDetailed experimental objectives can be further itemized as:\n  1. Investigate the role of liquid-phase mixing on the burning characteristics of bi-component fuel droplets.\n  2. Examine the steady and unsteady liquid and gas-phase phenomena in pure fuel combustion.\n  3. Study flame extinction mechanisms and their boundaries.\n  4. Analyze the soot formation process, including soot volume fraction soot-shell dynamics.\n  5. Determine the influence of droplet interactions on the flammability limits and extinction behavior of droplet arrays.\n  6. Validate theoretical models of droplet combustion through comprehensive experimental data collection in microgravity environments.",
+   "public_release_date": "30-Sep-2019",
+   "doi": "10.60555/byp8-h018",
+   "psi_url": "https://doi.org/10.60555/byp8-h018",
+   "psi_investigation_url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-68",
+   "file_count": 10156,
+   "files_listed": true,
+   "manifest": [
+    {
+     "accession": "PSI-68",
+     "file": "PSI-68_Experimental table_Flex2.csv",
+     "category": "Experimental table",
+     "bytes": 1029,
+     "sha256": "cc57ad1bd9977aa13e7ac6c3aa618303012686e232b36c052c6a9f1a74e5f528",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-68/download?source=datamanager&file=PSI-68_Experimental+table_Flex2.csv",
+     "fetched_at": "2026-11-14T17:22:56+00:00"
+    }
+   ]
+  },
+  "PSI-39": {
+   "accession": "PSI-39",
+   "accession_id": 39,
+   "group": "droplet",
+   "short_name": "CFI",
+   "title": "Cool Flames Investigation",
+   "objective": "The objectives of this investigation are to:\n    1) Examine the combustion behavior of n-dodecane and mixtures of n-dodecane/iso-dodecane at pressures ranging from 0.25 atm to 5 atm.\n    2) Analyze the effects of helium dilution on cool flame behavior.\n    3) Examine the behavior of combustion characteristics.\n    4) Investigate the relationship between droplet size, pressure, and flame extinction, and (5) understand the consequence of soot formation during cool flame combustion.",
+   "public_release_date": "18-Sep-2024",
+   "doi": "10.60555/m6pj-a914",
+   "psi_url": "https://doi.org/10.60555/m6pj-a914",
+   "psi_investigation_url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-39",
+   "file_count": 2812,
+   "files_listed": true,
+   "manifest": [
+    {
+     "accession": "PSI-39",
+     "file": "PSI-39_Experimental table_CFI.csv",
+     "category": "Experimental table",
+     "bytes": 7792,
+     "sha256": "fb898e28762353aa132c16b886dbd207a024b1dd3c9bed5928d70d8036d2ec7e",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-39/download?source=datamanager&file=PSI-39_Experimental+table_CFI.csv",
+     "fetched_at": "2026-11-14T17:22:56+00:00"
+    }
+   ]
+  },
+  "PSI-20": {
+   "accession": "PSI-20",
+   "accession_id": 20,
+   "group": "gas",
+   "short_name": "ACME BRE",
+   "title": "Advanced Combustion via Microgravity Experiments - Burning Rate Emulator",
+   "objective": "The BRE flight program seeks to establish the burning conditions in a quiescent microgravity ambient in terms of material properties.\nThe specific flight objectives are as follows.\n  1. Observe burning behavior in long-duration microgravity for CH4/N2 and C2H4/N2mixtures on porous circular burners of 25  and 50 mm diameter. Consider O2/N2 ambients with various pressures and ambient O2 concentrations and pressures. NASA - considered atmosphere for human space missions will be examined: 14.7 psia, 21 % oxygen: 10.2 psia, 26.5 %; and 8.2 psia, 34 % oxygen. Emphasize fuel conditions that can be related to a diverse range of condensed fuels.\n  2. Consider the conditions of Objective 1 for ambients of O2/CO2 (desired).\n  3. Consider the conditions of Objectives 1 – 2 for extinction limits.",
+   "public_release_date": "15-Sep-2022",
+   "doi": "10.60555/vb93-3y72",
+   "psi_url": "https://doi.org/10.60555/vb93-3y72",
+   "psi_investigation_url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-20",
+   "file_count": 2361,
+   "files_listed": true,
+   "manifest": [
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_19056A2_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1094,
+     "sha256": "b5ffb2e0b698b410f2ea4b63278f7bd29836b8ca2fa589d436c81bf08a85b31c",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_19056A2_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_19056B1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1192,
+     "sha256": "d0e4f5a63b4792fc3355cca61a077197fedb6c40d7bb0132d1a4bd27bc35b284",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_19056B1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_19056C1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1194,
+     "sha256": "89ff84120852821ddb52c6c69c70a2d871e6fb0142d21ea00c6d6079487fd84f",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_19056C1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_19056D2_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1096,
+     "sha256": "8ccf14960b4c041b8eacbac573c5d11486b09c2e677843374f28cf224606787c",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_19056D2_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_19056D3_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1196,
+     "sha256": "f5c4c53dfe3524b0e504b639b48ec5fbb5b0333e71be5c84687aa035d0c5804d",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_19056D3_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_19056F1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1194,
+     "sha256": "9e573d94fa51125e21f7719a997de97b1dd4bf01cf2efc5709bc9a91adeff9f1",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_19056F1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_19056A1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1094,
+     "sha256": "b62dfcf61d08d76e33cc6663c9e478ccbd89b3a9ba4a428d2874780c90b3efdb",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_19056A1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_19039A1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1082,
+     "sha256": "195750ec5197d8ca25f98e33b1bbcc7d64d8ab79c3e4df4c98ed53ab95ee281e",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_19039A1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20279B1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1194,
+     "sha256": "156d457c1e8e8616114e7b65ab5bf6e6311f03a95ecdfbb17d9718ecf5f1ddf7",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20279B1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20247A1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1098,
+     "sha256": "e42ffaea3237f98c8e4c21efa2c033d277f5cad98d695434fe952f4edf2afc31",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20247A1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20247C1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1210,
+     "sha256": "9acafeb303beb58715bd7ad1a35471ee9c39394ff1bb4f24cf08bae08012f2c5",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20247C1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_19039B3_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1080,
+     "sha256": "b9cb5d80421e6332787b661996935ae914206a6a2e980cd98551843f194c2877",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_19039B3_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20247D1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1196,
+     "sha256": "b77b09982db16e9e7ab6ec90b7c642d67c2608cc496210bd78f4eec7227bac43",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20247D1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20247F1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1194,
+     "sha256": "7e574a9347ffcacd86984a83f99e4258c5e288d406abff7a138ce0c2bbc4509c",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20247F1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20247G1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1110,
+     "sha256": "7d2def3dc9867b49b1188d24f05ffff1ee9e13cc86ae684e31a9dbc4ab1e30df",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20247G1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20247H2_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1194,
+     "sha256": "fe22fb5df604fcd7638456d68a342f8b52938536005d4e5691d518e936dc520a",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20247H2_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20247J1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1210,
+     "sha256": "fd9e4399ae2ea315b1d0c2782c4183d59aeaddc0396fb93eab45e50efb943ddf",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20247J1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20247K1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1212,
+     "sha256": "f493fbf4fc0dc3b25afe029ea957b443e91cfa81ac88647744e83ac2c7b4a830",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20247K1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_19039C1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1180,
+     "sha256": "a026907554bbf38fe03401173cf86f34d993fe7a1a43fb0165bda19a5eef827b",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_19039C1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_19039D1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1162,
+     "sha256": "34bff26a3d080e91c6d7beaa147000ddd997c924b10831d2c60b5923fd657b42",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_19039D1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20247L2_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1112,
+     "sha256": "d9544b07c250567e9854b12ab1c789c5258fadef07fea72e5e7b5e21abf0eab1",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20247L2_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_19039F1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1180,
+     "sha256": "45052ec77fde4a69b1ae8a7b60052ae9439f85aef0e703cd56af1e38bbb2a236",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_19039F1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_19039G1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1164,
+     "sha256": "473d04d7a348902804ad161080b727974351b16c39af9b942ae4c6ec0096d495",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_19039G1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20247M1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1114,
+     "sha256": "483e2634b89c4dbe3ddc39b05e82ba5781070f9d3f096c3758f4b8defeb43af5",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20247M1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_19039H1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1180,
+     "sha256": "3737b258c33987b8d71c1f0ec1e18e7ebd1d5dab1e78414ac94ce46efabec94c",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_19039H1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20247N1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1196,
+     "sha256": "aadcc209b573c54cd98c23e9842d6fc5752018046ea80bea15bf264f292a3b0b",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20247N1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_19039G2_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1180,
+     "sha256": "042a1a3d98704e25cdd997725069020a109c38e07981734b48f34ecd81a913cc",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_19039G2_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_19039H2_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1180,
+     "sha256": "ce5b6a1dd7eab59747183c69c24dcd22a2736ebc191327e4726a9599da287e8b",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_19039H2_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20247P1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1110,
+     "sha256": "d1f3bd4ca5a27268ededcc1d655eddfa507faaaf28e391c30fc1b201bfb4407e",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20247P1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_19051A1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1080,
+     "sha256": "571db7556f797c48b36d3edae26f051e153ad0fd6354a877d955a42868ebabcc",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_19051A1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_19051B1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1164,
+     "sha256": "cbc6c28debeb00942ebaa1af6403484c503720ed3f1e00db6646e6be65185acc",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_19051B1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_19051C3_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1164,
+     "sha256": "b2902486287811a14b17955b6dad681efbfb1f9d330f6e251d4e42547cc3e9d8",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_19051C3_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_19051D1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1078,
+     "sha256": "19dca52e71b128c12698071f3812d83db0dfa45f71e277e222d3fd70818d5517",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_19051D1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_19051F1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1178,
+     "sha256": "39dec1aaf960570437676c4a400a56f72ba50349bfe4e13214200d9e4e15bad1",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_19051F1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_19051G1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1180,
+     "sha256": "3780722bcb29463cfb43bd9ca19d49234459618ec6f63b135be9fa3b47b1b5ac",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_19051G1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_19051K1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1180,
+     "sha256": "38a7e69d82e28ff6e50633ea0549b42f5015175c53b946ed515aa71f6cd88e53",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_19051K1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_19051K1_1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1180,
+     "sha256": "6c1c90e524362885f257817aeed01c98058d596e65a074139e1ccf9a1bc4b8ea",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_19051K1_1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_19087A1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1096,
+     "sha256": "d538ccf162969437b4b4ca7c9f6738718aa9c411526fde01ab5efd9bcb4504ab",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_19087A1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_19087B1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1096,
+     "sha256": "b10da2085d942aa216df3928f71b04f70ab9cf29e77e481a7728809d8cf550d1",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_19087B1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_19087D1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1205,
+     "sha256": "50342fa55611e6d9a1503a45992f8edd3350371b22850c10656a34953f05d0e2",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_19087D1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_19087G1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1192,
+     "sha256": "67a67530822ba948af2448d8b07df83afef19638e84ebf6169f054ebf47fdc6e",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_19087G1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_19087H1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1094,
+     "sha256": "c8f1cd189d8fcfcf441662968f151ae50d74faadb5be6303c44c846732a5788b",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_19087H1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_19087J2_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1096,
+     "sha256": "e8b64be2339a5b9823aa4a5f35ac05ee86aa851892fac7e784cdb641f9f429b7",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_19087J2_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_19087K1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1870,
+     "sha256": "22fea5da7f9d055ffcdfd40d6471783def37a9a2ac754482dd86a14ebcc39dc3",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_19087K1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_21020G6_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1194,
+     "sha256": "74a986c83ec1a91af4fd0cd21910eac11a9a8d0e101e0c4a866fe61c33939ae5",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_21020G6_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_21020G5_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1194,
+     "sha256": "6652413417fcd76fcb6b0f1843e5eca7d7fede42adac69c3fb3ad80cb4ce3a09",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_21020G5_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_21020G4_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1194,
+     "sha256": "c385ee99d9139ad94db31f2b34d66139823088f31b378dd2b4db541ec18eb662",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_21020G4_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_21020G3_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1194,
+     "sha256": "f47066ca05d071a7f174516eea6664abb3e26d152f5f4bcb86702a2d5439f2a7",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_21020G3_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_19063B1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1194,
+     "sha256": "483841de806d0301a099cac319663925dc00f67be0856cfc9bc17c931b9a34a5",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_19063B1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_19063C1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1196,
+     "sha256": "b1b35d5967f1ffbdb251d3a1e58e3bdfc6c5b622530e5983dd3ad2560f3c0ab1",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_19063C1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_21020G2_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1194,
+     "sha256": "0cc29bb55fe533fd0d5176e4d47b14db75ab71ac51d932b7d421c840b0b773bb",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_21020G2_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20279B2_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1196,
+     "sha256": "4a3e936604f9ff31cf8f4a8af12ab5552d9d506cfe5610c995d312e8caad7f1d",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20279B2_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_21020F2_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1194,
+     "sha256": "55de48107e4c647d59ca016867cb312ddc7221454a9aaec913e6a07a29c92420",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_21020F2_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_19063D1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1194,
+     "sha256": "a46838f649b25f5379edb68c5328cae2e46f73dba21a9592b47394d62b5e0f14",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_19063D1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_21020F1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1196,
+     "sha256": "ef1cc8a7b3da3791ddc19251d32faa1adfd63f29688af6521a1b489e0d5862ef",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_21020F1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_19063F1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1178,
+     "sha256": "3f1ed5c44d9c98876398dfa1a88757f36255153912e195a261bcc816b746a5de",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_19063F1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_19063G1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1178,
+     "sha256": "c5e3773e0eabb1b46dd9bc7b714bbb7d8a1ce5a841a584f05bf23558e5c1fc69",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_19063G1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_21020D3_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1196,
+     "sha256": "faeb0fe07490e6bfc7cfe5f41a6818a95601ab6525eadf4f7b8fff18837a51a9",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_21020D3_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_19066A2_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1176,
+     "sha256": "50cc0b4333fda74a1b5dac7b1ed4a4543630f8e305cfb010d16e21f6d3b6f385",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_19066A2_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_21020D2_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1096,
+     "sha256": "ddacf1136e215e96f341fdbcbe6189c07fab9529bed1fa9eb08d8ef0a71938f1",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_21020D2_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_19066A3_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1192,
+     "sha256": "f44e8638fdba40d65abf47cfdad85f7a1385f546d40f42d758a5c81893469ac8",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_19066A3_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_19066D1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1194,
+     "sha256": "a749fbf1b3c7f190731f59f262527083f3ebb96aa2b8dc463453532ff12f4331",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_19066D1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20279B4_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1212,
+     "sha256": "a9f829f38f49155cddab0fbbccdb092a693bf9957637598ee60138a9eb846817",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20279B4_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_19066D2_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1196,
+     "sha256": "0a58a972d0a72234ce63a9f8c0f8b18f1bbcd887d5379266941abf91c38fab29",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_19066D2_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20279B5_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1212,
+     "sha256": "3ad493d1e9b29d0dbbe0ec9f3574816473aef79870a51ef6b71ee4023b0bf4b4",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20279B5_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_19066D3_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1098,
+     "sha256": "54e4b0e0eb109d4bb854d7e35a23d7e6537b9f77caa605b92635366fad0eabcc",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_19066D3_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_19066D4_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1096,
+     "sha256": "bd4f1ea717536aad360eaeee0ae1aa6f80b8b079e338002d1e8810b4cf25368c",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_19066D4_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_19066D5_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1082,
+     "sha256": "63598e1ce2c5f004688fac7e86c8570bb295454d4209f28c3bc494dcccc0c5ad",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_19066D5_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20358G7_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1210,
+     "sha256": "6d47ca86cb940a18e1ee37859c763cf78221e0ffdfad82bf3ff5c5eeb9ef9dd1",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20358G7_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20279B6_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1212,
+     "sha256": "5f591747c6e36132b0f1cc36c45f3d9d207de4f1d07126a8b18711b2d049dd7e",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20279B6_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20358G6_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1196,
+     "sha256": "4af95c3570f826bc382b5422111372a328c80bd1e22578a4a7cf5996fc2c4cf3",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20358G6_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20261A2_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1194,
+     "sha256": "6c595b751b17f0f4e0429da721cddcd5898ef4c5e851b4c20ad7bdf954f7defc",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20261A2_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20279B7_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1212,
+     "sha256": "e193627eb1f73f04347bc9e5ce0bb683642b874871504ca34e3158564825fd0a",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20279B7_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20279B8_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1196,
+     "sha256": "007a17f75800411c922ad2dff386dfcd69673ec123297044e9accca0ff3b2a6c",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20279B8_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20261B1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1110,
+     "sha256": "f1805ebfb91632accf6b2e1d766ff47953575fa3b71e656114b175afdca51b80",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20261B1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20358G5_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1180,
+     "sha256": "5b742049881bb7c36e48737e62c790317851b5d5e6f49fde9285f6da97263cdc",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20358G5_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20261C1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1110,
+     "sha256": "93824743a21662616d1c3a71bf1275c625b1db414ad5d07af900849a9b53bb68",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20261C1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20261D1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1162,
+     "sha256": "5ae8ed11e8cd31b339fb7dd5257930d4927b59db61e3828a2358efdf00e0c195",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20261D1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20358G4_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1212,
+     "sha256": "78444a1afcba9ec881843c594b362e1fef315b7caaf85b64462a848b5bd34093",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20358G4_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20279D1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1196,
+     "sha256": "0cb409573ac27fc9423d778ef4411bbcd4d464c9652c4c45fb3ac00112dbda2d",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20279D1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20261D2_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1114,
+     "sha256": "744825772697fbd41fffc081f78aa0a6ebf31804ab2f35ad1037f02116ff0b0a",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20261D2_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20261F1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1208,
+     "sha256": "3939bfc34d50fb22f967e8eef032a8263397ade4e920844598706e5369a3f3b5",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20261F1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20279D2_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1212,
+     "sha256": "95e15e75d1fed054d0dc95b79b72441b1c5c5eb899ed3fdd58d25a55da9d5b9f",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20279D2_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20261F2_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1110,
+     "sha256": "35d42ada3e014b4e0b2c3e5d13a6dbea4e712f52905b03472c891b560bcf9c6b",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20261F2_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20261G1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1112,
+     "sha256": "1932bd8c21c45b44eb0782f4f263d4754139ca8265b724aab2ffc806721e6810",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20261G1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20261G2_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1114,
+     "sha256": "9dcda04514b9f22c74562060b809486055db81cd7d497db48fc470518073d897",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20261G2_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20279D3_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1212,
+     "sha256": "e57f5786f9fc58b5618f6135ee81b90214af06e9353c601856f8e09c8c716f77",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20279D3_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20261H1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1194,
+     "sha256": "a612fbbb3e5978c5fd3051e8154b2ffb4a15de525a1207eeb113fe4acfe24baa",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20261H1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20358G3_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1210,
+     "sha256": "6c07fc0fc4d2cec1c21b07b32996064ae56ae0570fe90009d6cf68cee74eccaa",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20358G3_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20261H2_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1210,
+     "sha256": "1cae4c675537ddee274964e542c7e747f191f18deedafb83e872a4cfba9c38b1",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20261H2_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20358G2_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1210,
+     "sha256": "3d4ada89fb02e26456a00f3997e5b01303133c37d35ff04cdfd3bc7548f32fe0",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20358G2_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20261J1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1210,
+     "sha256": "e9af48efbfad53122fd95bc376634d934f94a9942f8c90c40658ef32c013e90b",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20261J1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20279D4_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1180,
+     "sha256": "04b298c83065101048e0260cda9ccc016533751ef0bc26217e36fc4bf3b094fe",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20279D4_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20261J2_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1210,
+     "sha256": "38cb17fd4c5524728cb4cec6b5f92d14ac20b1ac72019d9be4356fdcbb76cea2",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20261J2_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20358G1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1194,
+     "sha256": "d93946df73bed09e48b06bb03055700b756523794aaf824028350523e53dc17e",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20358G1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20261J3_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1212,
+     "sha256": "2102dd80c4b4dc4ccc7bbc0c03aa9f253c669d845bfc4f40ca7405138904f81a",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20261J3_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20279D5_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1196,
+     "sha256": "3ae1e324c61e09ff54a1aab0a2322831c6757ae56882a4bd1a060973b48cf923",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20279D5_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20279D6_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1196,
+     "sha256": "aeb0eafa300f063974773baebdf8a481e2c13e6731bf4513dcdf605d34a4f43f",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20279D6_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20358D5_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1112,
+     "sha256": "d069d120a1ab1c3ade0b83816f16c40909dadcf830bac631ddd22430f5881dea",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20358D5_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20279D7_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1212,
+     "sha256": "31460bec26934cde0d3ebdd068172b366dc215e1ed8b1fc7956b70d8e3c18a26",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20279D7_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20358D4_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1112,
+     "sha256": "739edc270c4a923068aa915bfb6323d9adcdc1cb9d9805023ebf56ef35eebdfd",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20358D4_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20279J1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1196,
+     "sha256": "dded697857df9cd5557ff1d2af7be8bc7b08604fa92f3386839dac94c83e3d73",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20279J1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20279J2_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1196,
+     "sha256": "418531fe0924bcb9014a134b2aa10062847e8005d5c400c3f09277601d519396",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20279J2_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20358D3_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1114,
+     "sha256": "745025296f52e08d16901206e1f2758f608512a14d6dbf95ce14de0d79a7d5ec",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20358D3_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20279J3_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1196,
+     "sha256": "90047e1d4ddbd53843893e0692bf1c58e66b23608b093b0e3022f1610bb5b068",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20279J3_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20279J4_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1196,
+     "sha256": "7515c50e72a25a90123ef7b3d85c64c53f328eaa935fd3d4e77059b515e934ed",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20279J4_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20358D2_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1212,
+     "sha256": "6ea4562b9a46a7ef0f909c60a6ca85feb309e78c28f942b673411642d57a3bb2",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20358D2_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20279J5_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1196,
+     "sha256": "f8f521b124ad2b2032aa56e305fb7ca5bc9eedfc5a1cbcd332fac1ac0626c366",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20279J5_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20358D1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1212,
+     "sha256": "e245490a049c2437027bf6735bdebf7a081387b4301a3e07c0fece4f51970d80",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20358D1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20358B4_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1114,
+     "sha256": "cdd056dda9e98880942854ba721122540eaba832ca190afa4c5e0f2b1a65a69d",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20358B4_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20352A2_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1112,
+     "sha256": "1cf45645b160063064ccadabaa0c4f4acae92931437cf31aa401d7c4f7f9e969",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20352A2_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20279J6_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1196,
+     "sha256": "8e237738e559546d15e260e55b2b845514a4dd2fb635bfda7be69f043b4fba41",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20279J6_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20352A1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1096,
+     "sha256": "3aafb25c463edcef14a830e8ae8d0190ef0879ce01aecf2a7486cd446ebef5d2",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20352A1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20358B3_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1110,
+     "sha256": "9bda484595f3889f7e171fbe07b519c13b20f30702821c594eec885017932731",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20358B3_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20352A3_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1112,
+     "sha256": "210fbfd8b011104a9d2659bcfe746fa22c577f63dfe2fbf22a273ef66e99c07b",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20352A3_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20352A5_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1112,
+     "sha256": "c3293583b1ffccb394870c2673a746e15d664a17a1acd67e781f6de8d6345e4f",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20352A5_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20352A6_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1110,
+     "sha256": "ab0d519895a4070f2a263430291fc6eb1b90c109ec1e3972cd3f864b5dcf0a7e",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20352A6_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20358B1_1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1112,
+     "sha256": "f8fe70826ed3c415c904a0850a5b4fb1c69edca7e2f30f4214df114b5cf9b497",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20358B1_1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20352A8_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1210,
+     "sha256": "80f0d65a5fe0e70882b271598bf8b29139e2b37715968f02d58940e6b264ae2c",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20352A8_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20352D2_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1096,
+     "sha256": "b222cefabe0ce8fc2ce7b612accb211be66861ff0eac6d2078c56b5bdbf7d638",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20352D2_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20352D3_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1179,
+     "sha256": "975aa41e278734970acca037ea7d49a1d5aef9a14143e12c7729c3d90ecb4c23",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20352D3_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20358B1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1210,
+     "sha256": "55c975f30432fe2756dd15d571367ec84fe43240304555067743259f7cf26ab6",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20358B1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20339A0_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1157,
+     "sha256": "04f77707bc3561d2d110fe64d09af57423edee2f8b80811099b8377e1fec8b66",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20339A0_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20352F3_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1096,
+     "sha256": "3173ae4c020c79f109b52ef82bf46dee77d987b4bbba3a8eaf2b2537f126a56f",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20352F3_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20339A2_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1210,
+     "sha256": "712debbaefd948db8363e6e5716bf4715db6a182455ecb7e4421b9269b6c3faf",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20339A2_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20346L4_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1194,
+     "sha256": "bb1f00c7428fbbb8836e817e80d4b0957fc772ae67bb6d167b4f9284de6b56db",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20346L4_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20339A4_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1194,
+     "sha256": "ad2d553c6b1bfd09b476a64cf43f1873b42cf91e5b6f0706935ad6cf00955f42",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20339A4_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20346L3_1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1112,
+     "sha256": "429170cbcdba51758fb9fb902b1803378cbf044e647a5c7e9d09dab532d26b5d",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20346L3_1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20339A6_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1210,
+     "sha256": "9cf175db7deb37e2537031bff2003e8245c785324d2b4534aa87deb5767f947a",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20339A6_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20339A7_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1212,
+     "sha256": "39408839dfb0dd0b8380f8a0d575b1e87393af9a7d255237f1b4161ede41b708",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20339A7_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20346L3_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1110,
+     "sha256": "0883f0139c83cdbae10edb7642756e19acec6de44c08afbc4e9fcefd7f3b8d71",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20346L3_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20346L2_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1112,
+     "sha256": "bbed269a34868cfc07605df35108e16a98559411994f18ffc037dbd2168eeaf9",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20346L2_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20339A8_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1194,
+     "sha256": "f92363601f76cb5c3e9dea083fc70641890bd5ff0017ca7126370f18b7efa85f",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20339A8_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20346L1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1114,
+     "sha256": "678f4869c8e80e9b5354fe1df3a6184a63487c29fbd253307c423781be53bf23",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20346L1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20339A9_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1212,
+     "sha256": "8cd07638f5c3481a7ae65ca8d2aa4d082ddcc14babc2a01433cc75df14b9745e",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20339A9_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20346H5_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1210,
+     "sha256": "51da8f8a36fc28ad69eaa5318bf708830689ddaee6bcbffc4edb1af71eaf52c2",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20346H5_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20339J2_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1210,
+     "sha256": "d7c443e851f6cc8899471715ae5da294e045a2f6212ebfeff91ce1e46257f913",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20339J2_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20346H4_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1210,
+     "sha256": "37b77cae0378cf46bee03fd960e30541c4338af0a8c67110786c0a3d80baccd5",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20346H4_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20346H3_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1110,
+     "sha256": "f1ffe7742a4a907ccdbd965085fecaa6ff621feb19b1f37b5203c87a658688b5",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20346H3_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20339J4_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1210,
+     "sha256": "9dce752a4cf0d0167b2b17a96b93d0d80a88916831ae3ac32e84ab67490aa31c",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20339J4_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20339J5_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1210,
+     "sha256": "6a177d05e26c1578082f4987a26f80553745e073779d3ac58efdf3d9da1c4969",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20339J5_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20339J6_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1210,
+     "sha256": "ceab68fcea12c36ddda8d624b3d961bcfe035c8ebb2820c32f9c197623b39d0a",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20339J6_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20346H2_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1112,
+     "sha256": "d101d360b62d51ba6e970054cecdbfa99251324fda0afcbcf4082e32a5690938",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20346H2_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20346H1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1162,
+     "sha256": "3c4a43a85a3a1ddefa3a4324896a726569e00a45964be7b318292638cf792a73",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20346H1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20339J7_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1162,
+     "sha256": "ee44f2097847f3e6dc72f8bbaa7603ce698e179f5c5ebfdeb2a039c5192ba528",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20339J7_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_19070L1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1096,
+     "sha256": "c50310a295bcf36dafb193439580e4185ce77c5533021047b9ceda82480a2fe3",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_19070L1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20339L1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1210,
+     "sha256": "b659b087c37076f3beadfa97cff7174ca8dfa9f2f7f111a3a65e9d0479080d40",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20339L1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20339L2_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1210,
+     "sha256": "507861cce2b2b6d2462fa7422f3ee5a60b6d8ca3b7ec3022453d549a3ac60487",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20339L2_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_19070K1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1098,
+     "sha256": "1c5a1a2565e2cd03c0fe35a5239f8b1340d084c5336f54864a4a06857eba0453",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_19070K1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20339L3_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1210,
+     "sha256": "e2b914ab7ea8dfba87b92cf477576efa8f061da4e969bce0c5ba602e71b04281",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20339L3_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_19070J2_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1180,
+     "sha256": "3ac33ef7b5773720a0794574a99cab688b99c93d82ed0887f7e8fe4d4475a931",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_19070J2_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_19070J1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1196,
+     "sha256": "c8a043c21814908be4f417292a58b8985d795ca2e4781405cfc8a047f4afb800",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_19070J1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_19070H1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1096,
+     "sha256": "96cf26d1c03735bace64342b15ecb2de546decc25ff75137f3d2bb5aca9dfa07",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_19070H1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_19070D1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1098,
+     "sha256": "dbad9867b9b1240b914f4253332f3187eb9a752281a2a8aaeab65b2fb2c2b06b",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_19070D1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_19070C1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1098,
+     "sha256": "3dfb833783538b45335fe1d31119c0bea635304fff3bb8b58468e6a31088edc2",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_19070C1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_19070B1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1098,
+     "sha256": "ca76fef7ccaaac75ce8f5bbc408a448401ea98b2cd4292ee3d0d4f1cb41ac63a",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_19070B1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_19070A1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1096,
+     "sha256": "1ea3c6885ba7dfc0be72fb38959feb002d0c1ef3f0cd62b18aa893fa44d25c99",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_19070A1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_19066J1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1080,
+     "sha256": "0cddecf7f4bba562043df584bbd5d6286c2ce19d81031d2e1e67106d429a7ba4",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_19066J1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_19066G1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1096,
+     "sha256": "111cbacce555a9d0d40c99ef7a8a770831045db1a6bcb03070854b4ac3b1c10d",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_19066G1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_19066G1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1096,
+     "sha256": "111cbacce555a9d0d40c99ef7a8a770831045db1a6bcb03070854b4ac3b1c10d",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_19066G1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_19087C1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1096,
+     "sha256": "c0e1f714c88d40269dc3538c14aee0f8b34f5c060cd7774ab3ee799519b5f6f2",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_19087C1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20339J3_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1208,
+     "sha256": "6dabfa58bf8200e1c7cf4b8dd39ddbef848fecda50bbc6cdcfd21ec2f13ee46a",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20339J3_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20247B1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1210,
+     "sha256": "47cc802b8e25f5221c9a0b844cb551df35b59d66bfa7cdd67ef878199b3670c8",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20247B1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20247C1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1210,
+     "sha256": "9acafeb303beb58715bd7ad1a35471ee9c39394ff1bb4f24cf08bae08012f2c5",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20247C1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_21028B1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1180,
+     "sha256": "cc57ea08c949dfbefa6357e3e89ed2ad6b29f739b9e30ea30ac813af6ac16c15",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_21028B1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_21028B2_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1112,
+     "sha256": "a33829e64f042286be0cb30b4bb4e147c362e8df65c611c3a9b285625d8da138",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_21028B2_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_21028C1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1210,
+     "sha256": "5db47a23a001429cb70c57df2ff2af9c53e17cd9c39eadc70a556664aee496e4",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_21028C1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_21028D1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1210,
+     "sha256": "d56acda5df4c014dbc12e19411ec2f2fe0901595bf90249618d382a4f95f55e8",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_21028D1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_21028D2_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1210,
+     "sha256": "8c5c2dd6d598897caa8c842a75d77b70714eb5d853eeee7cbf1192fd01a3409a",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_21028D2_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_21028D3_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1210,
+     "sha256": "6cf7ccdfdc8358a2ee2d8cd8a47188eabd59e31cac300027f294d537c762de52",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_21028D3_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_21028D4_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1210,
+     "sha256": "bb8e31091516c765be2d89f884aa847882bb62719c02278a651d6c22c37677da",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_21028D4_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_21028D5_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1210,
+     "sha256": "0f1a3c1f6c1dc4088c4c61f32efc9de6bd9af53699ec88212bd9fbacec163496",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_21028D5_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_21028G1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1210,
+     "sha256": "202414ed1daec25b0ba998e1dbe8ee9fe540e23c95c0dc0c0e32ba08468e345d",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_21028G1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_21028G3_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1210,
+     "sha256": "fc73b7b8c8a6e8f34593f57ada35897b752edecf12888fbc5529ea97d237c687",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_21028G3_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_21028G4_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1210,
+     "sha256": "2efc6f20f1ab1ddab31e684bc3536884f02db5fcdacd98c3756a9577deeb5790",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_21028G4_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_21028G5_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1210,
+     "sha256": "34ba13e46173d0a7ab808de2551e72c09424237ff7aefecfdd71c31987d9c6da",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_21028G5_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_21028H1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1194,
+     "sha256": "2045d95e327da867a3416548be74ae87203d9fb866b7c32a82582c5d9a16e7cb",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_21028H1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_21020A1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1096,
+     "sha256": "481200d192c01073f66c359d793c3e83d15aa41458313077e0ca838f33e06bf6",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_21020A1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_21020B1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1112,
+     "sha256": "dc083eb82c98c58ce1b04df06a8cce72eb39712a458e657038a4c4986272f93f",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_21020B1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_21020B2_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1210,
+     "sha256": "c3ec13c7478b3082364ed4c831d073dbc77c831749cf6712a6b97b527a1b512a",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_21020B2_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_21020B3_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1112,
+     "sha256": "35ceb11c4cb6f0c92219b3713bd3e0e8f3cd884528939e5e09f65ee1a6a3d44d",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_21020B3_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_21020C1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1110,
+     "sha256": "2164403f6d2b276d865faf339f3205b39ee133ecb8bd3bc5ff788ff0777296fe",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_21020C1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_21020D1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1210,
+     "sha256": "f7a1c9bc4cd5aa34d3f00dac80cbc2b21ae19426232c1e3024138f2d0b50b66b",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_21020D1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_21020D3_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1196,
+     "sha256": "faeb0fe07490e6bfc7cfe5f41a6818a95601ab6525eadf4f7b8fff18837a51a9",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_21020D3_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_21020F1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1196,
+     "sha256": "ef1cc8a7b3da3791ddc19251d32faa1adfd63f29688af6521a1b489e0d5862ef",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_21020F1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_21020F2_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1194,
+     "sha256": "55de48107e4c647d59ca016867cb312ddc7221454a9aaec913e6a07a29c92420",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_21020F2_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_21020G2_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1194,
+     "sha256": "0cc29bb55fe533fd0d5176e4d47b14db75ab71ac51d932b7d421c840b0b773bb",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_21020G2_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_21020G3_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1194,
+     "sha256": "f47066ca05d071a7f174516eea6664abb3e26d152f5f4bcb86702a2d5439f2a7",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_21020G3_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_21020G4_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1194,
+     "sha256": "c385ee99d9139ad94db31f2b34d66139823088f31b378dd2b4db541ec18eb662",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_21020G4_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_21020G5_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1194,
+     "sha256": "6652413417fcd76fcb6b0f1843e5eca7d7fede42adac69c3fb3ad80cb4ce3a09",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_21020G5_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_21020G6_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1194,
+     "sha256": "74a986c83ec1a91af4fd0cd21910eac11a9a8d0e101e0c4a866fe61c33939ae5",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_21020G6_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20358A1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1098,
+     "sha256": "b08471afb2fd3baedbec5098ec26fcc4cf68c4d89d7e1da7e3795aca1b15431a",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20358A1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20358B1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1210,
+     "sha256": "55c975f30432fe2756dd15d571367ec84fe43240304555067743259f7cf26ab6",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20358B1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20358B1_1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1112,
+     "sha256": "f8fe70826ed3c415c904a0850a5b4fb1c69edca7e2f30f4214df114b5cf9b497",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20358B1_1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20358B3_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1110,
+     "sha256": "9bda484595f3889f7e171fbe07b519c13b20f30702821c594eec885017932731",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20358B3_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20358B4_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1114,
+     "sha256": "cdd056dda9e98880942854ba721122540eaba832ca190afa4c5e0f2b1a65a69d",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20358B4_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20358D1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1212,
+     "sha256": "e245490a049c2437027bf6735bdebf7a081387b4301a3e07c0fece4f51970d80",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20358D1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20358D2_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1212,
+     "sha256": "6ea4562b9a46a7ef0f909c60a6ca85feb309e78c28f942b673411642d57a3bb2",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20358D2_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20358D3_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1114,
+     "sha256": "745025296f52e08d16901206e1f2758f608512a14d6dbf95ce14de0d79a7d5ec",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20358D3_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20358D4_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1112,
+     "sha256": "739edc270c4a923068aa915bfb6323d9adcdc1cb9d9805023ebf56ef35eebdfd",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20358D4_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20358D5_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1112,
+     "sha256": "d069d120a1ab1c3ade0b83816f16c40909dadcf830bac631ddd22430f5881dea",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20358D5_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20358G1_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1194,
+     "sha256": "d93946df73bed09e48b06bb03055700b756523794aaf824028350523e53dc17e",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20358G1_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20358G2_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1210,
+     "sha256": "3d4ada89fb02e26456a00f3997e5b01303133c37d35ff04cdfd3bc7548f32fe0",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20358G2_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20358G3_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1210,
+     "sha256": "6c07fc0fc4d2cec1c21b07b32996064ae56ae0570fe90009d6cf68cee74eccaa",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20358G3_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20358G4_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1212,
+     "sha256": "78444a1afcba9ec881843c594b362e1fef315b7caaf85b64462a848b5bd34093",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20358G4_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20358G5_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1180,
+     "sha256": "5b742049881bb7c36e48737e62c790317851b5d5e6f49fde9285f6da97263cdc",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20358G5_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20358G6_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1196,
+     "sha256": "4af95c3570f826bc382b5422111372a328c80bd1e22578a4a7cf5996fc2c4cf3",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20358G6_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20358G7_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1210,
+     "sha256": "6d47ca86cb940a18e1ee37859c763cf78221e0ffdfad82bf3ff5c5eeb9ef9dd1",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20358G7_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20346A3_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1112,
+     "sha256": "d6d7c036ec4da43387adbda837e4daa32705589ef70751a923d0b6976a264168",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20346A3_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20346A4_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1112,
+     "sha256": "dc485b82100b720bec0c00a8a0ecb807f5bc467f136bf78d288ac3c0925ead20",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20346A4_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Raw Data_20346A5_TP.txt",
+     "category": "Raw Data",
+     "bytes": 1114,
+     "sha256": "4e00d8df2e76179cdb60d912338b530d1619eac09f78496c8dbe7a89d270ad1c",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Raw+Data_20346A5_TP.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-20",
+     "file": "PSI-20_Experimental table_ACME BRE.csv",
+     "category": "Experimental table",
+     "bytes": 1113,
+     "sha256": "4aa5d3f98708ceacced5c620d46858b9965f8d4d941b203229f46467d53e5ab7",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-20/download?source=datamanager&file=PSI-20_Experimental+table_ACME+BRE.csv",
+     "fetched_at": "2026-11-14T17:22:56+00:00"
+    }
+   ]
+  },
+  "PSI-22": {
+   "accession": "PSI-22",
+   "accession_id": 22,
+   "group": "gas",
+   "short_name": "ACME E-FIELD",
+   "title": "Advanced Combustion via Microgravity Experiments Electric-Field Effects on Laminar Diffusion Flames",
+   "objective": "The objective of this investigation is to better understand the relationship between electric field voltage and chemi-ion current, analyze the dynamic response of flames to electric field changes, evaluate soot formation, and characterize stabilized near-limit lifted flames.",
+   "public_release_date": "15-Apr-2019",
+   "doi": "10.60555/se5a-8c73",
+   "psi_url": "https://doi.org/10.60555/se5a-8c73",
+   "psi_investigation_url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-22",
+   "file_count": 2590,
+   "files_listed": true,
+   "manifest": [
+    {
+     "accession": "PSI-22",
+     "file": "PSI-22_Experimental table_ACME E-FIELD Flames.csv",
+     "category": "Experimental table",
+     "bytes": 2475,
+     "sha256": "69090c357b83ae38d161d29001d1d32b40fd77b13324ca6585ee990cdceef524",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-22/download?source=datamanager&file=PSI-22_Experimental+table_ACME+E-FIELD+Flames.csv",
+     "fetched_at": "2026-11-14T17:22:56+00:00"
+    }
+   ]
+  },
+  "PSI-23": {
+   "accession": "PSI-23",
+   "accession_id": 23,
+   "group": "gas",
+   "short_name": "ACME s-Flame",
+   "title": "Advanced Combustion via Microgravity Experiments-Structure and Response of Spherical Diffusion Flames",
+   "objective": "A series of experiments is proposed with the following specific objectives, in both soot-free and sooty flames, to compare with detailed computational simulation to assess transport properties and detailed chemical kinetics (including chemiluminescence):\n    Objective A. Measure and characterize the transient structure (such as temperature and species distribution) of diffusion flames established at initially non-steady, spherical flame structures for mixtures of different H2/CH4/diluent ratios   (soot-free) and different C2H4/diluent ratios (sooty), for different flow rates.\n    Objective B. Determine the quasi-steady convective/chemical-kinetic extinction limits (low system Damköhler numbers) and radiative/chemical-kinetic extinction limits (high system Damköhler numbers) for mixtures of different H2/CH4/diluent ratios (soot-free) and different C2H4/diluent ratios (sooty).\n    Objective C. Determine the existence (for different Zeldovich number, Ze), onset (as a function Da), and nature (i.e. mode, frequency, amplitude) of pulsating instabilities theoretically predicted to occur in transient spherical diffusion flames using fuel/diluent mixtures that are above a critical Lewis number.",
+   "public_release_date": "05-Apr-2018",
+   "doi": "10.60555/k57n-p030",
+   "psi_url": "https://doi.org/10.60555/k57n-p030",
+   "psi_investigation_url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-23",
+   "file_count": 4165,
+   "files_listed": true,
+   "manifest": [
+    {
+     "accession": "PSI-23",
+     "file": "PSI-23_Experimental table_ACME s-Flame.csv",
+     "category": "Experimental table",
+     "bytes": 2456,
+     "sha256": "16cd10f50bd2e962887c8eb4077e5a9b3e790c78de8e0361c0b77e19300be7cf",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-23/download?source=datamanager&file=PSI-23_Experimental+table_ACME+s-Flame.csv",
+     "fetched_at": "2026-11-14T17:22:56+00:00"
+    }
+   ]
+  },
+  "PSI-21": {
+   "accession": "PSI-21",
+   "accession_id": 21,
+   "group": "gas",
+   "short_name": "ACME CLD Flame",
+   "title": "Advanced Combustion via Microgravity Experiments / Coflow Laminar Diffusion Flame",
+   "objective": "In order to provide the experimental data needed to allow rigorous testing of computational models at the extremes of the fuel dilution spectrum, we have the following objectives:\nA) Characterize the behavior of weak coflow diffusion flames of methane and ethylene, as a function of velocity and fuel dilution, through measurement of flame shape, lift-off heights, temperatures and extinction limits.\nB) Characterize the sooting tendencies of diffusion flames with long residence times, as a function of velocity and fuel dilution, through measurement of flame shape, gas temperatures in the soot-free portion of the flame, soot luminosity, soot temperatures, and soot volume fractions.",
+   "public_release_date": "15-Sep-2023",
+   "doi": "10.60555/23e1-9950",
+   "psi_url": "https://doi.org/10.60555/23e1-9950",
+   "psi_investigation_url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-21",
+   "file_count": 0,
+   "files_listed": false,
+   "manifest": []
+  },
+  "PSI-10": {
+   "accession": "PSI-10",
+   "accession_id": 10,
+   "group": "gas",
+   "short_name": "ACME Flame Design",
+   "title": "Advanced Combustion via Microgravity Experiments / Flame Design",
+   "objective": "The primary objectives of this flight experiment are:\nA. Obtain soot-inception limits of quasi-steady normal and inverse spherical diffusion flames as functions of flow rate, Zst, amount of inert (N2 or CO2), and pressure for C2H4 and CH4 flames. Identify the corresponding temperatures in hot regions. Obtain similar limits and temperatures for inverse and normal coflow flames.\nB. Obtain detailed measurements in quasi-steady normal and inverse spherical diffusion flames for C2H4 and CH4. Determine the effects of flow rate, Zst, amount of N2, and pressure on flame temperature, size, color, and soot volume fraction. Evaluate the possible existence of steady flames.\nC. Obtain extinction limits as functions of Zst, amount of N2, and pressure for normal and inverse spherical C2H4 and CH4 flames. Identify the corresponding temperatures in hot regions. Identify the presence of radiative or kinetic extinction. Evaluate whether pseudo-flammability limits can be obtained for these flames.",
+   "public_release_date": "20-Nov-2025",
+   "doi": "10.60555/w4zy-bt45",
+   "psi_url": "https://doi.org/10.60555/w4zy-bt45",
+   "psi_investigation_url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-10",
+   "file_count": 3807,
+   "files_listed": true,
+   "manifest": [
+    {
+     "accession": "PSI-10",
+     "file": "PSI-10_Experimental table_Flame Design_Normal Flame.csv",
+     "category": "Experimental table",
+     "bytes": 26933,
+     "sha256": "4a663292bd3f65201943cc71bd661a70383639276a9176f64105b285bf0b6deb",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-10/download?source=datamanager&file=PSI-10_Experimental+table_Flame+Design_Normal+Flame.csv",
+     "fetched_at": "2026-11-14T17:22:56+00:00"
+    },
+    {
+     "accession": "PSI-10",
+     "file": "PSI-10_Experimental table_Flame Design_Inverse Flame.csv",
+     "category": "Experimental table",
+     "bytes": 17314,
+     "sha256": "97933ee9ae0b9ebc6b948a67485a0fe2f8218f753253a4f2be93c40d374c44e4",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-10/download?source=datamanager&file=PSI-10_Experimental+table_Flame+Design_Inverse+Flame.csv",
+     "fetched_at": "2026-11-14T17:22:56+00:00"
+    }
+   ]
+  },
+  "PSI-159": {
+   "accession": "PSI-159",
+   "accession_id": 159,
+   "group": "gas",
+   "short_name": "CFI-G",
+   "title": "Advanced Combustion via Microgravity Experiments / Cool Flames Investigation with Gases",
+   "objective": "1. Plan and support flight testing on the International Space Station (ISS).\n2. Determine the conditions for which cool diffusion flames occur for propane, n-butane, and n-pentane; normal and inverse flames; and a broad range of Zst, Tad, and fluent flow rate.\n3. Support the flight tests with advanced CFD simulations.\n4. Identify or develop a chemical kinetics mechanism that yields good agreement between the CFD predictions and the ISS measurements.\n5. Disseminate the results as widely as possible.",
+   "public_release_date": "20-Nov-2025",
+   "doi": "10.60555/cyt1-kh64",
+   "psi_url": "https://doi.org/10.60555/cyt1-kh64",
+   "psi_investigation_url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-159",
+   "file_count": 3756,
+   "files_listed": true,
+   "manifest": [
+    {
+     "accession": "PSI-159",
+     "file": "PSI-159_Experimental table_CFI-G_Normal Flames.csv",
+     "category": "Experimental table",
+     "bytes": 22166,
+     "sha256": "d95a621c3fbd27d204dd32ed29fa17d68f2b779d6a523cde8479ed7ebaa5251a",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-159/download?source=datamanager&file=PSI-159_Experimental+table_CFI-G_Normal+Flames.csv",
+     "fetched_at": "2026-11-14T17:22:56+00:00"
+    },
+    {
+     "accession": "PSI-159",
+     "file": "PSI-159_Experimental table_CFI-G_Inverse Flames.csv",
+     "category": "Experimental table",
+     "bytes": 39422,
+     "sha256": "d4d44f8b9896936728748e34d1b6ad0812032a92fa5289599b708c138e3a9b39",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-159/download?source=datamanager&file=PSI-159_Experimental+table_CFI-G_Inverse+Flames.csv",
+     "fetched_at": "2026-11-14T17:22:56+00:00"
+    }
+   ]
+  },
+  "PSI-107": {
+   "accession": "PSI-107",
+   "accession_id": 107,
+   "group": "jet",
+   "short_name": "SPICE",
+   "title": "Smoke Point In Co-flow Experiment",
+   "objective": "The objective of SPICE is to better understand the complex process of combustion by observing flames in a microgravity environment aboard the International Space Station (ISS) and analogous ground experiments.\n\nSpecific objectives were:\n(1) Identify the laminar smoke-point properties of non-buoyant jet diffusion flames under various co-flow conditions in microgravity.\n(2) Determine the effects of burner diameter and co-flow velocity on the luminous flame lengths and smoke points.\n(3) Quantify the sooting propensity of different fuels, such as ethylene, propane, and propylene mixtures.\n(4) Validate the correlation between luminous flame shape and residence time under microgravity conditions.\n(5) Investigate the impact of air and fuel flow rate variations on smoke point phenomena in space.",
+   "public_release_date": "18-Sep-2024",
+   "doi": "10.60555/9kbh-e962",
+   "psi_url": "https://doi.org/10.60555/9kbh-e962",
+   "psi_investigation_url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-107",
+   "file_count": 188,
+   "files_listed": true,
+   "manifest": [
+    {
+     "accession": "PSI-107",
+     "file": "PSI-107_Experimental table_Spice.csv",
+     "category": "Experimental table",
+     "bytes": 31205,
+     "sha256": "fb0d7e60cf5367afb429089e9901d27288f78038efd26c8de1db4fbe04117136",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-107/download?source=datamanager&file=PSI-107_Experimental+table_Spice.csv",
+     "fetched_at": "2026-11-14T17:22:56+00:00"
+    }
+   ]
+  },
+  "PSI-106": {
+   "accession": "PSI-106",
+   "accession_id": 106,
+   "group": "jet",
+   "short_name": "SLICE",
+   "title": "Structure and Liftoff In Combustion Experiment",
+   "objective": "Objective: The objective of this investigation is to better understand the structure and stability of laminar diffusion flames in microgravity.\n\nSpecific objectives of this investigation were:\n1. To investigate the structure of laminar diffusion flames in microgravity to understand the stabilizing mechanisms at the flames base.\n2. Determine the liftoff velocity limits for different fuels and burner diameters.\n3. Evaluate the impact of fuel dilution with nitrogen on soot formation and flame stability.\n4. Quantify the effects of microgravity on flame length and radiative heat loss compared to normal gravity conditions.\n5. Validate numerical models for flame dynamics, soot production, and thermal radiation in non-premixed flames.",
+   "public_release_date": "18-Sep-2024",
+   "doi": "10.60555/pm12-rg61",
+   "psi_url": "https://doi.org/10.60555/pm12-rg61",
+   "psi_investigation_url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-106",
+   "file_count": 0,
+   "files_listed": false,
+   "manifest": []
+  },
+  "PSI-102": {
+   "accession": "PSI-102",
+   "accession_id": 102,
+   "group": "smoke",
+   "short_name": "SAME",
+   "title": "Smoke and Aerosol Measurement Experiment",
+   "objective": "One of the major goals of this investigation was to quantify the sizes that the liquid smoke particulate achieves in low gravity and to relate the droplet size distribution to the smoke generation and smoke transport conditions in the experiment. A numerical code was to be developed to predict the smoke droplet growth as a function of the fuel pyrolysis rate, the thermodynamic properties of the pyrolysis vapor, and the flow environment.",
+   "public_release_date": "18-Sep-2024",
+   "doi": "10.60555/gd4k-8h62",
+   "psi_url": "https://doi.org/10.60555/gd4k-8h62",
+   "psi_investigation_url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-102",
+   "file_count": 101,
+   "files_listed": true,
+   "manifest": [
+    {
+     "accession": "PSI-102",
+     "file": "PSI-102_Analyzed Data_Run 1 GMT252 testlog.xls",
+     "category": "Analyzed Data",
+     "bytes": 26112,
+     "sha256": "12c59e279ae624cc0b8b57599072796f6c9fa56d6b08f493ff7e65486f91bb5a",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-102/download?source=datamanager&file=PSI-102_Analyzed+Data_Run+1+GMT252+testlog.xls",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-102",
+     "file": "PSI-102_Analyzed Data_Run 2 GMT254 testlog.xlsx",
+     "category": "Analyzed Data",
+     "bytes": 20970,
+     "sha256": "f476a603bdce8e04608fb5d459fa4286e3d4cf8f2ada5b980ea5d3fc00789eee",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-102/download?source=datamanager&file=PSI-102_Analyzed+Data_Run+2+GMT254+testlog.xlsx",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-102",
+     "file": "PSI-102_Analyzed Data_Run 2 GMT254 testlog b.xlsx",
+     "category": "Analyzed Data",
+     "bytes": 20866,
+     "sha256": "74e16a53bb425e5c21bd61cb4c135580a5d4ad96446049599fffc503f6fdf8dd",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-102/download?source=datamanager&file=PSI-102_Analyzed+Data_Run+2+GMT254+testlog+b.xlsx",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-102",
+     "file": "PSI-102_Analyzed Data_GMT255 log.xlsx",
+     "category": "Analyzed Data",
+     "bytes": 18763,
+     "sha256": "0f93839a15584804d5293e957b0a12dc686d2ffc5051df32d9b140c0bfa82aee",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-102/download?source=datamanager&file=PSI-102_Analyzed+Data_GMT255+log.xlsx",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-102",
+     "file": "PSI-102_Analyzed Data_GMT267silicon test 23 and 24 log.xlsx",
+     "category": "Analyzed Data",
+     "bytes": 32397,
+     "sha256": "fad0fc69001efd1c2af31ac9fda77df6b6a69bfda3608c3489bd9e9e16aa5bda",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-102/download?source=datamanager&file=PSI-102_Analyzed+Data_GMT267silicon+test+23+and+24+log.xlsx",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-102",
+     "file": "PSI-102_Experimental table_SAME.csv",
+     "category": "Experimental table",
+     "bytes": 331,
+     "sha256": "268d1e121d2f211b124407dd32b9475617bd269ede2c2d1749441da3e949a2af",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-102/download?source=datamanager&file=PSI-102_Experimental+table_SAME.csv",
+     "fetched_at": "2026-11-14T17:22:56+00:00"
+    }
+   ]
+  },
+  "PSI-101": {
+   "accession": "PSI-101",
+   "accession_id": 101,
+   "group": "smoke",
+   "short_name": "SAME-R",
+   "title": "Smoke Aerosol Measurement Experiment-Reflight",
+   "objective": "Similar to the original SAME investigation, the primary objective of the SAME-R investigation was to quantify the sizes that the liquid smoke particulate achieves in low gravity and to relate the droplet size distribution to the smoke generation and smoke transport conditions in the experiment. One of the problems encountered during the SAME investigation was that after the thermal precipitators were returned to the ground, it was found that all the TEM grids were severely contaminated with some unidentified foreign particles, making these grids unusable although some of them showed shapes of certain types of smoke particles. Based on that experience the SAME-R investigation employed several modification covering new materials, extended operating conditions, and diagnostic equipments.",
+   "public_release_date": "18-Sep-2024",
+   "doi": "10.60555/2np7-jv14",
+   "psi_url": "https://doi.org/10.60555/2np7-jv14",
+   "psi_investigation_url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-101",
+   "file_count": 344,
+   "files_listed": true,
+   "manifest": [
+    {
+     "accession": "PSI-101",
+     "file": "PSI-101_Analyzed Data_54 lampwick binneddatacorr from GWM.xlsx",
+     "category": "Analyzed Data",
+     "bytes": 241661,
+     "sha256": "3a264eda40cb49eb37f6817425eec11594a1ae0c24bad29aac2f3c784613deca",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-101/download?source=datamanager&file=PSI-101_Analyzed+Data_54+lampwick+binneddatacorr+from+GWM.xlsx",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-101",
+     "file": "PSI-101_Analyzed Data_TEMflowvsnoflow.xls",
+     "category": "Analyzed Data",
+     "bytes": 39936,
+     "sha256": "1c7fff7b4ddb75e6b2682b53a528cc5777506bf98b96d955bcd43073d3d0a536",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-101/download?source=datamanager&file=PSI-101_Analyzed+Data_TEMflowvsnoflow.xls",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-101",
+     "file": "PSI-101_Analyzed Data_thermal precipitator map updated.xlsx",
+     "category": "Analyzed Data",
+     "bytes": 17138,
+     "sha256": "fe3765a3980ef9c6c53f48c99abdaecdc205e727386c78cae2bb79c0ea1ff849",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-101/download?source=datamanager&file=PSI-101_Analyzed+Data_thermal+precipitator+map+updated.xlsx",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-101",
+     "file": "PSI-101_Analyzed Data_55 Lampwick.xlsx",
+     "category": "Analyzed Data",
+     "bytes": 690112,
+     "sha256": "0805f421d5d29d031afeb317451486f296cd86cb4aeee53c69359f0ff1335085",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-101/download?source=datamanager&file=PSI-101_Analyzed+Data_55+Lampwick.xlsx",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-101",
+     "file": "PSI-101_Analyzed Data_60 silicone.xlsx",
+     "category": "Analyzed Data",
+     "bytes": 423378,
+     "sha256": "6987ebfe9e209cb1b35a68c3dcba6ea4e689a07a3eed755065e8e5f4c4b10b5f",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-101/download?source=datamanager&file=PSI-101_Analyzed+Data_60+silicone.xlsx",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-101",
+     "file": "PSI-101_Analyzed Data_62 Kapton unaged.xlsx",
+     "category": "Analyzed Data",
+     "bytes": 425564,
+     "sha256": "e621db68f06276e0600147181c065e5f18f750f761f5014b0d0db49f2e8e470d",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-101/download?source=datamanager&file=PSI-101_Analyzed+Data_62+Kapton+unaged.xlsx",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-101",
+     "file": "PSI-101_Analyzed Data_62 Kapton aged issue with bins.xlsx",
+     "category": "Analyzed Data",
+     "bytes": 426012,
+     "sha256": "76fb4542d784d39c4ea03849d4d3d913b940ed209611e9fc6a0d0249eeee3355",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-101/download?source=datamanager&file=PSI-101_Analyzed+Data_62+Kapton+aged+issue+with+bins.xlsx",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-101",
+     "file": "PSI-101_Analyzed Data_63 Pyrell aged.xlsx",
+     "category": "Analyzed Data",
+     "bytes": 711060,
+     "sha256": "0625706124d537a039f52456cc2dd69f4231171e541ce8accdfe8c1b347b85ff",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-101/download?source=datamanager&file=PSI-101_Analyzed+Data_63+Pyrell+aged.xlsx",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-101",
+     "file": "PSI-101_Analyzed Data_63 Pyrell unaged.xlsx",
+     "category": "Analyzed Data",
+     "bytes": 853799,
+     "sha256": "3daf14343b343ab7bc0aa6ff6e4900529ed82156862fdfd81de58afdf2cbcb14",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-101/download?source=datamanager&file=PSI-101_Analyzed+Data_63+Pyrell+unaged.xlsx",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-101",
+     "file": "PSI-101_Analyzed Data_64 Pyrell aged.xlsx",
+     "category": "Analyzed Data",
+     "bytes": 475108,
+     "sha256": "968216e6e7eced2e9cdf46510ef199d2ee6dcc203827397747d4c5a5db3c95f3",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-101/download?source=datamanager&file=PSI-101_Analyzed+Data_64+Pyrell+aged.xlsx",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-101",
+     "file": "PSI-101_Analyzed Data_64 Pyrell unaged.xlsx",
+     "category": "Analyzed Data",
+     "bytes": 516572,
+     "sha256": "91af5e0b0d2481e1b970436bb72bfa8ea048753792e01cd666eb1b5a175277ee",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-101/download?source=datamanager&file=PSI-101_Analyzed+Data_64+Pyrell+unaged.xlsx",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-101",
+     "file": "PSI-101_Analyzed Data_94 Kapton aged- results.xlsx",
+     "category": "Analyzed Data",
+     "bytes": 415552,
+     "sha256": "8950c69bd71977e37e069288a16e4c94b63bb5ea64f22d0ebed38de81d5afba4",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-101/download?source=datamanager&file=PSI-101_Analyzed+Data_94+Kapton+aged-+results.xlsx",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-101",
+     "file": "PSI-101_Analyzed Data_2010_210_10_lampwick_run57_a.xlsx",
+     "category": "Analyzed Data",
+     "bytes": 539444,
+     "sha256": "48cb0a40951855c7d369cba2874a567b0dfe3f5e835a5fdf41a11aeb51bb04d9",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-101/download?source=datamanager&file=PSI-101_Analyzed+Data_2010_210_10_lampwick_run57_a.xlsx",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-101",
+     "file": "PSI-101_Analyzed Data_SAME, SAME-R_Results.xlsx",
+     "category": "Analyzed Data",
+     "bytes": 4061669,
+     "sha256": "6d3a539ccf425b1fa8edc19cc75d828f57d650c7ce734d4e7aa686fea9593218",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-101/download?source=datamanager&file=PSI-101_Analyzed+Data_SAME%2C+SAME-R_Results.xlsx",
+     "fetched_at": "2026-11-14T17:22:56+00:00"
+    },
+    {
+     "accession": "PSI-101",
+     "file": "PSI-101_Experimental table_SAME-R.csv",
+     "category": "Experimental table",
+     "bytes": 5674,
+     "sha256": "87164b7dc9168a4273c159f7a9f23699afbd06ad97b77974377e79b9bf8a3bef",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-101/download?source=datamanager&file=PSI-101_Experimental+table_SAME-R.csv",
+     "fetched_at": "2026-11-14T17:22:56+00:00"
+    }
+   ]
+  },
+  "PSI-47": {
+   "accession": "PSI-47",
+   "accession_id": 47,
+   "group": "smoke",
+   "short_name": "DAFT/DAFT-2",
+   "title": "Dust and Aerosol Measurement Feasibility Test / Dust and Aerosol Measurement Feasibility Test-2",
+   "objective": "The focus of DAFT / DAFT-2 was to mitigate the risk for the Smoke Aerosol Measurement Experiment (SAME). SAME relied on a commercially available condensate nuclei counter, the TSI P-Trak,  to quantify smoke aerosols in a microgravity environment, however there were concerns that th P-Trak would not be reliable in microgravity as it relies on gravity to recycle isopropyl alcohol used in the measurement process.\nDAFT / DAFT-2 tests that a modified P-Trak particulate counter would be accurate in microgravity.\n\nSummarized objectives include:\n    1) Demonstrate the Functionality of the Modified TSI P-Trak in Microgravity\n    2) Compare the TSI P-Trak Performance against the DustTrak control\n    3) Create and Analyze Aerosol Standards in Microgravity\n    4) Ensure the reliability of future aerosol experiments",
+   "public_release_date": "01-Jun-2009",
+   "doi": "10.60555/ztgj-d202",
+   "psi_url": "https://doi.org/10.60555/ztgj-d202",
+   "psi_investigation_url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-47",
+   "file_count": 33,
+   "files_listed": true,
+   "manifest": [
+    {
+     "accession": "PSI-47",
+     "file": "PSI-47_Analyzed Data_flight data 063_PTrk0003.xls",
+     "category": "Analyzed Data",
+     "bytes": 283648,
+     "sha256": "2ae19151a0da7f4ec4b9b7e3958863d269308a5cfe421ccc2f565857488fa371",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-47/download?source=datamanager&file=PSI-47_Analyzed+Data_flight+data+063_PTrk0003.xls",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-47",
+     "file": "PSI-47_Analyzed Data_flight data 063_PTrk0002.xls",
+     "category": "Analyzed Data",
+     "bytes": 283648,
+     "sha256": "b622b43c51c1fa9de57b908aaddd5c1efb2d7c95d001572b1e384f1ca8aa60a8",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-47/download?source=datamanager&file=PSI-47_Analyzed+Data_flight+data+063_PTrk0002.xls",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-47",
+     "file": "PSI-47_Analyzed Data_flight data 063_PTrk0004.xls",
+     "category": "Analyzed Data",
+     "bytes": 283648,
+     "sha256": "fe519ed4d5a8f9e3267e897761b6e05115bea1f8d2bbee17f256a120f0aba644",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-47/download?source=datamanager&file=PSI-47_Analyzed+Data_flight+data+063_PTrk0004.xls",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-47",
+     "file": "PSI-47_Raw Data_PTrk0003.txt",
+     "category": "Raw Data",
+     "bytes": 3002,
+     "sha256": "935462febb4f02a7052c015fea68af651fd61fb91c5343e5e1475265c4ee5b6d",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-47/download?source=datamanager&file=PSI-47_Raw+Data_PTrk0003.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-47",
+     "file": "PSI-47_Raw Data_PTrk0002.txt",
+     "category": "Raw Data",
+     "bytes": 4030,
+     "sha256": "a108a81dd3752e666796500527e853ef670f87678fcc1115b4d424c13c4f210e",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-47/download?source=datamanager&file=PSI-47_Raw+Data_PTrk0002.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-47",
+     "file": "PSI-47_Raw Data_PTrk0004.txt",
+     "category": "Raw Data",
+     "bytes": 2005,
+     "sha256": "54d7ffc2d81620b2c2a4dd9796c43c913b94f279734d7777b369d402bd6ed6af",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-47/download?source=datamanager&file=PSI-47_Raw+Data_PTrk0004.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-47",
+     "file": "PSI-47_Analyzed Data_flight data 063_DTrk0003.xls",
+     "category": "Analyzed Data",
+     "bytes": 283648,
+     "sha256": "a3ee33e657640d3cd98eb6cd24dc9e84c651848e9c1f8ff50656156c555e149b",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-47/download?source=datamanager&file=PSI-47_Analyzed+Data_flight+data+063_DTrk0003.xls",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-47",
+     "file": "PSI-47_Analyzed Data_flight data 063_DTrk0002.xls",
+     "category": "Analyzed Data",
+     "bytes": 283648,
+     "sha256": "a3bb7d6d33f733c0fd3f823067cb1f3fc9bf3d691c9b559d081b25470fbc7ece",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-47/download?source=datamanager&file=PSI-47_Analyzed+Data_flight+data+063_DTrk0002.xls",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-47",
+     "file": "PSI-47_Analyzed Data_flight data 063_DTrk0004.xls",
+     "category": "Analyzed Data",
+     "bytes": 283648,
+     "sha256": "777e384751f4af3a2de75912ca765e0633147240c0c3fb98eed1f644cbfd013f",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-47/download?source=datamanager&file=PSI-47_Analyzed+Data_flight+data+063_DTrk0004.xls",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-47",
+     "file": "PSI-47_Raw Data_DTrk0003.txt",
+     "category": "Raw Data",
+     "bytes": 3305,
+     "sha256": "2698c8a0e98fcd6f009e94fdf392fa6e637380bf712b3ea0010cf1650ddd41f9",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-47/download?source=datamanager&file=PSI-47_Raw+Data_DTrk0003.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-47",
+     "file": "PSI-47_Raw Data_DTrk0002.txt",
+     "category": "Raw Data",
+     "bytes": 3752,
+     "sha256": "1b87985871ef1677d6f1507286b3168b62ec7e11e2eeeb3618f61b2684763f6a",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-47/download?source=datamanager&file=PSI-47_Raw+Data_DTrk0002.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-47",
+     "file": "PSI-47_Raw Data_DTrk0004.txt",
+     "category": "Raw Data",
+     "bytes": 2479,
+     "sha256": "cfbae55b4c3b1814ce8c558269bc432dfd4f318558a4076ad047bffc3fb61e71",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-47/download?source=datamanager&file=PSI-47_Raw+Data_DTrk0004.txt",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-47",
+     "file": "PSI-47_Analyzed Data_DAFT Flight Data GMT053.xls",
+     "category": "Analyzed Data",
+     "bytes": 129024,
+     "sha256": "b23a421107e33dc8c7b62cba654aec0e855c369f84aab64165a167c76f1c22fc",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-47/download?source=datamanager&file=PSI-47_Analyzed+Data_DAFT+Flight+Data+GMT053.xls",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-47",
+     "file": "PSI-47_Analyzed Data_flight data 063.xls",
+     "category": "Analyzed Data",
+     "bytes": 268288,
+     "sha256": "bad018a09e95063e1e1770168b9397a93ac2f34089bb1da0f50ef046d25a326a",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-47/download?source=datamanager&file=PSI-47_Analyzed+Data_flight+data+063.xls",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-47",
+     "file": "PSI-47_Analyzed Data_flight data 063_TIMING.xls",
+     "category": "Analyzed Data",
+     "bytes": 283648,
+     "sha256": "6161d44284bc9fb8e2d7038caa6e7e239f264195d21ebe5c0d97dcb932d4ea30",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-47/download?source=datamanager&file=PSI-47_Analyzed+Data_flight+data+063_TIMING.xls",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-47",
+     "file": "PSI-47_Analyzed Data_ISS_Daft_Aug21_06 urban.xls",
+     "category": "Analyzed Data",
+     "bytes": 29696,
+     "sha256": "91116542d271d66228c5fe802a9a160acc066a39069c7e2406fbc6524cad3c42",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-47/download?source=datamanager&file=PSI-47_Analyzed+Data_ISS_Daft_Aug21_06+urban.xls",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-47",
+     "file": "PSI-47_Analyzed Data_ISS_Daft_Aug21_0611zgy time hist.xls",
+     "category": "Analyzed Data",
+     "bytes": 38400,
+     "sha256": "2d321c32d3cd008521a1f0f488659ed4a1cd7b0353ff0647a17671416b934b40",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-47/download?source=datamanager&file=PSI-47_Analyzed+Data_ISS_Daft_Aug21_0611zgy+time+hist.xls",
+     "fetched_at": "2026-11-14T18:28:36+00:00"
+    },
+    {
+     "accession": "PSI-47",
+     "file": "PSI-47_Analyzed Data_DAFT Retrieved Data Summary.xls",
+     "category": "Analyzed Data",
+     "bytes": 1004032,
+     "sha256": "a5c23d302f076de6e2c5477b9f0a06eb90698a3650a48ec34a3b8431abec3c02",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-47/download?source=datamanager&file=PSI-47_Analyzed+Data_DAFT+Retrieved+Data+Summary.xls",
+     "fetched_at": "2026-11-14T17:22:56+00:00"
+    },
+    {
+     "accession": "PSI-47",
+     "file": "PSI-47_Experimental table_DAFT.csv",
+     "category": "Experimental table",
+     "bytes": 518,
+     "sha256": "d9d1a436c6e7bbc410b433e04575fe7dedaff763b5237d688089929b7393b5c0",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-47/download?source=datamanager&file=PSI-47_Experimental+table_DAFT.csv",
+     "fetched_at": "2026-11-14T17:22:56+00:00"
+    }
+   ]
+  },
+  "PSI-179": {
+   "accession": "PSI-179",
+   "accession_id": 179,
+   "group": "smoke",
+   "short_name": "ASE",
+   "title": "Aerosol Sampling Experiment",
+   "objective": "Aerosols are small particles suspended in the air, and in Earth’s atmosphere, aerosols include soot, dust, pollen and a wide range of other natural and human-made materials. Smoke does not rise and dust does not settle in microgravity the way they do on Earth, causing aerosols to behave differently and pose hazards for crew members breathing the air. The Aerosol Sampling Experiment (ASE) collects airborne particles in the International Space Station’s (ISS) cabin air, and returns them to Earth for scientists to study.\n\nThe objectives of ASE were:\n1- Characterize airborne particulate matter aboard the ISS to assess air quality for crew health and hardware longevity.\n2- Identify particle sources (e.g., human skin, equipment wear, biological contaminants) in the spacecraft environment.\n3- Improve understanding of particle transport and accumulation in microgravity conditions.\n4- Support design of future spacecraft air filtration systems, ensuring they are appropriately targeted for actual airborne particle profiles.",
+   "public_release_date": "05-Jun-2025",
+   "doi": "10.60555/pdgr-c961",
+   "psi_url": "https://doi.org/10.60555/pdgr-c961",
+   "psi_investigation_url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-179",
+   "file_count": 1932,
+   "files_listed": true,
+   "manifest": []
+  },
+  "PSI-142": {
+   "accession": "PSI-142",
+   "accession_id": 142,
+   "group": "ground",
+   "short_name": "FLEX cool flames (counterflow)",
+   "title": "Quantitative Studies of Cool Flame Transitions at Radiation / Stretch Extinction Using Counterflow Flames",
+   "objective": "By using the Flame Extinguishment (FLEX) experimental data from the Physical Sciences Informatics (PSI) system of combustion science, the purpose of this grant was to conduct new simulations and ground-based experiments using ozone-sensitized counterflow flames to:\n    1) Develop a new diagram of the flammability limits of diffusional cool flames affected by radiation, diffusion, and convection.\n    2) Bridge the knowledge gap between the flammability limits and extinction limits of hot flames and cool flames.\n    3) Verify the phenomena observed on the ISS flame extinguishment experiments.\n    4) Obtain new, quantitative data of extinction limit, flame temperature, and species distribution for the validation of kinetic and radiation models involving cool flames.\n    5) Extend the cool flame experiments from the original ISS droplet experiments to a more general ground-based combustion system involving radiation, diffusion, convection, and low-temperature chemistry while maintaining a one-dimensional geometry.",
+   "public_release_date": "18-Sep-2024",
+   "doi": "10.60555/80qf-vj95",
+   "psi_url": "https://doi.org/10.60555/80qf-vj95",
+   "psi_investigation_url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-142",
+   "file_count": 3,
+   "files_listed": true,
+   "manifest": [
+    {
+     "accession": "PSI-142",
+     "file": "PSI-142_Experimental table_Data Summary Table.csv",
+     "category": "Experimental table",
+     "bytes": 727,
+     "sha256": "c66d135b0053590d239f06b9e8627d826e3d726b8443fd2cbccc37484b6a8e7f",
+     "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/PSI-142/download?source=datamanager&file=PSI-142_Experimental+table_Data+Summary+Table.csv",
+     "fetched_at": "2026-11-14T17:22:56+00:00"
+    }
+   ]
+  },
+  "PSI-117": {
+   "accession": "PSI-117",
+   "accession_id": 117,
+   "group": "ground",
+   "short_name": "FLEX cool flames (CFD)",
+   "title": "Effect of External Thermo-Convective Perturbation on Cool Flame Dynamics: A Multidimensional Multi-Physics CFD Analysis",
+   "objective": "The objective of this ground investigation was to use flight data obtained from PSI through NASA’s Flame Extinguishment Experiment (FLEX) to quantify how externally imposed thermal and convective perturbations regulated the dynamics and ultimate fate of already established droplet cool flames, and to explain run-to-run variability by isolating the roles of deliberate heating and unintentional drift-induced convection. Focusing on both small and large droplets, the work mapped stability windows for ignition, sustained oscillation, transitions to hot ignition and warm-flame behavior, and extinction under microgravity. By leveraging and extending the FLEX data in the PSI, this study produced reusable models and sensitivity analyses that coupled low-temperature chemistry with transport and radiative effects.",
+   "public_release_date": "10-Jun-2026",
+   "doi": null,
+   "psi_url": "https://psi.nasa.gov",
+   "psi_investigation_url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-117",
+   "file_count": 16,
+   "files_listed": true,
+   "manifest": []
+  },
+  "PSI-115": {
+   "accession": "PSI-115",
+   "accession_id": 115,
+   "group": "ground",
+   "short_name": "SAME smoke modeling",
+   "title": "Utilization of the Smoke Aerosol Measurement Experiment Data for Advanced Modeling and Simulation of Smoke Generation in Micro-Gravity",
+   "objective": "The objective of this investigation was to use numerical simulation to explore the influence of gravity on pyrolysis smoke growth from a fundamental perspective. The intention of this effort is to quantify the differences between microgravity and Earth gravity smoke, and to identify the fluid dynamic mechanisms that cause the differences.",
+   "public_release_date": "18-Sep-2024",
+   "doi": null,
+   "psi_url": "https://psi.nasa.gov",
+   "psi_investigation_url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-115",
+   "file_count": 47,
+   "files_listed": true,
+   "manifest": []
+  },
+  "PSI-62": {
+   "accession": "PSI-62",
+   "accession_id": 62,
+   "group": "ground",
+   "short_name": "BASS flamelet modeling",
+   "title": "Concurrent Flame Spread Modeling using Flamelet Generated Manifolds in Microgravity with Comparison to BASS Experiments using Two-Color Tomography",
+   "objective": "The objective of this research was to develop and validate new flamelet generated manifold (FGM) modeling techniques for concurrent flame spread in microgravity. Concurrent flame spread presented one of the greatest modeling challenges in combustion science due to the intricate coupling between heat transfer, mass transport, and chemical kinetics near the solid-vapor interface. Traditional modeling strategies often relied on hybridized turbulence and chemistry models that were not fully consistent and failed to capture important intermediate reaction pathways.\nTo overcome these shortcomings, this PSI grant advanced the use of an unsteady flamelet generated manifold (UFGM) framework that reduced the complexity of reacting systems by mapping them into lower-dimensional manifolds. The research aimed to leverage this methodology to simulate solid fuel combustion processes with high fidelity, using the NASA Burning and Suppression of Solids (BASS and BASS-II) experiments as benchmarks. Ultimately, the long-term goal was to enable accurate prediction of flammability limits for spacecraft materials and to provide a tool that could also serve as a subgrid-scale model in large-eddy simulations of fires, supporting spacecraft safety and hazard mitigation.",
+   "public_release_date": "14-Nov-2025",
+   "doi": null,
+   "psi_url": "https://psi.nasa.gov",
+   "psi_investigation_url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-62",
+   "file_count": 1,
+   "files_listed": true,
+   "manifest": []
+  },
+  "PSI-60": {
+   "accession": "PSI-60",
+   "accession_id": 60,
+   "group": "ground",
+   "short_name": "SPICE analysis",
+   "title": "Computational and Experimental Analysis of SPICE Data Sets",
+   "objective": "This ground investigation  sought to increase understanding of the issues that control the large discrepancy between soot formation in 1g and in 0g flames.  The objective of this investigation was to integrate computational and experimental methods to derive temperature distributions and soot volume fractions from the Smoke Point in Coflow Experiment (SPICE) data available in PSI. By analyzing over 1600 raw DSLR images and incorporating advanced soot models, the study sought to improve understanding of soot formation, oxidation, radiative re-absorption, and aggregate growth in heavily sooting flames. The work further aimed to reconcile microgravity and normal gravity flame behavior, identify key physical and chemical processes influencing smoke point development, and provide a framework for evaluating model parameter sensitivity.",
+   "public_release_date": "30-Sep-2025",
+   "doi": null,
+   "psi_url": "https://psi.nasa.gov",
+   "psi_investigation_url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-60",
+   "file_count": 1,
+   "files_listed": true,
+   "manifest": []
+  }
+ }
+}

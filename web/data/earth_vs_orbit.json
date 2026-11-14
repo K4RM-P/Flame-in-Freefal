@@ -1,0 +1,170 @@
+[
+ {
+  "material_key": "silicone",
+  "thickness_mm": 0.27,
+  "sample": "SAFFIRE-II 2-1",
+  "ug": {
+   "outcome": "insignificant",
+   "burn_length_cm": 0.0,
+   "spread_rate_mm_s": null,
+   "x_o2": 0.215,
+   "flow_cm_s": 20.0,
+   "flow_dir": "concurrent"
+  },
+  "one_g": {
+   "outcome": "burn",
+   "burn_length_cm": 29.0,
+   "spread_rate_mm_s": null,
+   "spread_rate_raw": "Acceleratory"
+  },
+  "agreement": "orbit_better",
+  "n": 1,
+  "source_id": "PSI-99",
+  "locator": "PSI-99_Experimental table_SAFFIRE-2.csv#row2",
+  "caveat": "1-g test conditions (orientation, O2, flow) are not given in the PSI-99 table; single test (n = 1)."
+ },
+ {
+  "material_key": "silicone",
+  "thickness_mm": 0.61,
+  "sample": "SAFFIRE-II 2-2",
+  "ug": {
+   "outcome": "insignificant",
+   "burn_length_cm": 0.0,
+   "spread_rate_mm_s": null,
+   "x_o2": 0.221,
+   "flow_cm_s": 20.0,
+   "flow_dir": "concurrent"
+  },
+  "one_g": {
+   "outcome": "burn",
+   "burn_length_cm": 7.6,
+   "spread_rate_mm_s": 1.2,
+   "spread_rate_raw": "1.2 mm/s"
+  },
+  "agreement": "orbit_better",
+  "n": 1,
+  "source_id": "PSI-99",
+  "locator": "PSI-99_Experimental table_SAFFIRE-2.csv#row3",
+  "caveat": "1-g test conditions (orientation, O2, flow) are not given in the PSI-99 table; single test (n = 1)."
+ },
+ {
+  "material_key": "silicone",
+  "thickness_mm": 1.03,
+  "sample": "SAFFIRE-II 2-3",
+  "ug": {
+   "outcome": "insignificant",
+   "burn_length_cm": 0.0,
+   "spread_rate_mm_s": null,
+   "x_o2": 0.221,
+   "flow_cm_s": 20.0,
+   "flow_dir": "concurrent"
+  },
+  "one_g": {
+   "outcome": "insignificant",
+   "burn_length_cm": 0.0,
+   "spread_rate_mm_s": null,
+   "spread_rate_raw": "n/a"
+  },
+  "agreement": "same",
+  "n": 1,
+  "source_id": "PSI-99",
+  "locator": "PSI-99_Experimental table_SAFFIRE-2.csv#row4",
+  "caveat": "1-g test conditions (orientation, O2, flow) are not given in the PSI-99 table; single test (n = 1)."
+ },
+ {
+  "material_key": "silicone",
+  "thickness_mm": 0.37,
+  "sample": "SAFFIRE-II 2-4",
+  "ug": {
+   "outcome": "insignificant",
+   "burn_length_cm": 0.0,
+   "spread_rate_mm_s": null,
+   "x_o2": 0.221,
+   "flow_cm_s": 20.0,
+   "flow_dir": "opposed"
+  },
+  "one_g": {
+   "outcome": "burn",
+   "burn_length_cm": 29.0,
+   "spread_rate_mm_s": 0.6,
+   "spread_rate_raw": "0.6 mm/s"
+  },
+  "agreement": "orbit_better",
+  "n": 1,
+  "source_id": "PSI-99",
+  "locator": "PSI-99_Experimental table_SAFFIRE-2.csv#row5",
+  "caveat": "1-g test conditions (orientation, O2, flow) are not given in the PSI-99 table; single test (n = 1). Thickness restored from '037 mm'."
+ },
+ {
+  "material_key": "sibal",
+  "thickness_mm": 0.37,
+  "sample": "SAFFIRE-II 2-5",
+  "ug": {
+   "outcome": "burn",
+   "burn_length_cm": 29.0,
+   "spread_rate_mm_s": 2.1,
+   "x_o2": 0.221,
+   "flow_cm_s": 20.0,
+   "flow_dir": "concurrent"
+  },
+  "one_g": {
+   "outcome": "burn",
+   "burn_length_cm": 29.0,
+   "spread_rate_mm_s": null,
+   "spread_rate_raw": "Acceleratory"
+  },
+  "agreement": "same",
+  "n": 1,
+  "source_id": "PSI-99",
+  "locator": "PSI-99_Experimental table_SAFFIRE-2.csv#row6",
+  "caveat": "1-g test conditions (orientation, O2, flow) are not given in the PSI-99 table; single test (n = 1). Thickness restored from '037 mm'."
+ },
+ {
+  "material_key": "nomex",
+  "thickness_mm": 0.37,
+  "sample": "SAFFIRE-II 2-7",
+  "ug": {
+   "outcome": "no_ignition",
+   "burn_length_cm": 0.0,
+   "spread_rate_mm_s": null,
+   "x_o2": 0.221,
+   "flow_cm_s": 20.0,
+   "flow_dir": "concurrent"
+  },
+  "one_g": {
+   "outcome": "insignificant",
+   "burn_length_cm": 0.0,
+   "spread_rate_mm_s": null,
+   "spread_rate_raw": "n/a (Nomex)"
+  },
+  "agreement": "same",
+  "n": 1,
+  "source_id": "PSI-99",
+  "locator": "PSI-99_Experimental table_SAFFIRE-2.csv#row8",
+  "caveat": "1-g test conditions (orientation, O2, flow) are not given in the PSI-99 table; single test (n = 1)."
+ },
+ {
+  "material_key": "pmma",
+  "thickness_mm": null,
+  "sample": "SAFFIRE-II 2-8",
+  "ug": {
+   "outcome": "burn",
+   "burn_length_cm": 10.0,
+   "spread_rate_mm_s": null,
+   "x_o2": 0.2205,
+   "flow_cm_s": 20.0,
+   "flow_dir": "concurrent"
+  },
+  "one_g": {
+   "outcome": "burn",
+   "burn_length_cm": 29.0,
+   "spread_rate_mm_s": null,
+   "spread_rate_raw": "Acceleratory"
+  },
+  "agreement": "orbit_better",
+  "n": 1,
+  "source_id": "PSI-99",
+  "locator": "PSI-99_Experimental table_SAFFIRE-2.csv#row9",
+  "caveat": "1-g test conditions (orientation, O2, flow) are not given in the PSI-99 table; single test (n = 1). \u00b5g length is visible damage (note 3)."
+ }
+]

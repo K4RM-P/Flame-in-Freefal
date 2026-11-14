@@ -1,0 +1,98 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "title": "earth_vs_orbit.json",
+ "description": "Root array of like-for-like rows (same sample, \u00b5g vs 1 g). Counts and exclusions: physics/data/processed/contract/earth_vs_orbit_meta.json",
+ "type": "array",
+ "items": {
+  "type": "object",
+  "required": [
+   "material_key",
+   "thickness_mm",
+   "ug",
+   "one_g",
+   "agreement",
+   "n",
+   "source_id",
+   "locator",
+   "caveat"
+  ],
+  "properties": {
+   "material_key": {
+    "type": "string"
+   },
+   "thickness_mm": {
+    "type": [
+     "number",
+     "null"
+    ]
+   },
+   "ug": {
+    "type": "object",
+    "required": [
+     "outcome",
+     "burn_length_cm",
+     "spread_rate_mm_s",
+     "x_o2",
+     "flow_cm_s",
+     "flow_dir"
+    ],
+    "properties": {
+     "outcome": {
+      "enum": [
+       "burn",
+       "extinct",
+       "no_ignition",
+       "insignificant",
+       "cool_flame",
+       "unknown"
+      ]
+     }
+    }
+   },
+   "one_g": {
+    "type": "object",
+    "required": [
+     "outcome",
+     "burn_length_cm",
+     "spread_rate_mm_s"
+    ],
+    "properties": {
+     "outcome": {
+      "enum": [
+       "burn",
+       "extinct",
+       "no_ignition",
+       "insignificant",
+       "cool_flame",
+       "unknown"
+      ]
+     }
+    }
+   },
+   "agreement": {
+    "enum": [
+     "same",
+     "orbit_worse",
+     "orbit_better",
+     "not_comparable"
+    ]
+   },
+   "n": {
+    "type": "integer",
+    "minimum": 1
+   },
+   "source_id": {
+    "type": "string",
+    "pattern": "^PSI-\\d+$"
+   },
+   "locator": {
+    "type": "string",
+    "pattern": "#row\\d+$"
+   },
+   "caveat": {
+    "type": "string",
+    "minLength": 10
+   }
+  }
+ }
+}

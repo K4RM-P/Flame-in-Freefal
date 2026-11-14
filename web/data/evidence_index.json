@@ -1,0 +1,407 @@
+{
+ "pmma": {
+  "Q1": [
+   {
+    "investigation": "PSI-25",
+    "why": "121 \u00b5g ignition/burn outcomes (27 extinctions) for PMMA (acrylic)",
+    "source": "PSI-25_Experimental table_BASS-II.csv",
+    "source_id": "PSI-25",
+    "locator": "PSI-25_Experimental table_BASS-II.csv",
+    "n": 121
+   },
+   {
+    "investigation": "PSI-26",
+    "why": "72 \u00b5g ignition/burn outcomes (4 extinctions) for PMMA (acrylic)",
+    "source": "PSI-26_Experimental table_BASS.csv",
+    "source_id": "PSI-26",
+    "locator": "PSI-26_Experimental table_BASS.csv",
+    "n": 72
+   },
+   {
+    "investigation": "PSI-99",
+    "why": "2 \u00b5g ignition/burn outcomes (0 extinctions) for PMMA (acrylic)",
+    "source": "PSI-99_Experimental table_SAFFIRE-2.csv",
+    "source_id": "PSI-99",
+    "locator": "PSI-99_Experimental table_SAFFIRE-2.csv",
+    "n": 2
+   }
+  ],
+  "Q2": [
+   {
+    "investigation": "PSI-99",
+    "why": "2 tabulated \u00b5g burn lengths / spread rates",
+    "source": "PSI-99_Experimental table_SAFFIRE-2.csv",
+    "source_id": "PSI-99",
+    "locator": "PSI-99_Experimental table_SAFFIRE-2.csv",
+    "n": 2
+   }
+  ],
+  "Q3": [
+   {
+    "investigation": "PSI-26",
+    "why": "flight notes of N2 suppression attempts (qualitative)",
+    "source": "PSI-26_Experimental table_BASS.csv",
+    "source_id": "PSI-26",
+    "locator": "PSI-26_Experimental table_BASS.csv",
+    "n": 19
+   }
+  ]
+ },
+ "methanol": {
+  "Q1": [
+   {
+    "investigation": "PSI-69",
+    "why": "FLEX droplet burning/extinction vs O2, P, diluent",
+    "source": "PSI-69_Experimental table_FLEX.csv",
+    "source_id": "PSI-69",
+    "locator": "PSI-69_Experimental table_FLEX.csv",
+    "n": 156
+   }
+  ],
+  "Q2": [],
+  "Q3": [
+   {
+    "investigation": "PSI-69",
+    "why": "FLEX: CO2/He diluent suppression tests",
+    "source": "PSI-69_Experimental table_FLEX.csv",
+    "source_id": "PSI-69",
+    "locator": "PSI-69_Experimental table_FLEX.csv",
+    "n": 156
+   }
+  ]
+ },
+ "n-heptane": {
+  "Q1": [
+   {
+    "investigation": "PSI-69",
+    "why": "FLEX droplet burning/extinction vs O2, P, diluent",
+    "source": "PSI-69_Experimental table_FLEX.csv",
+    "source_id": "PSI-69",
+    "locator": "PSI-69_Experimental table_FLEX.csv",
+    "n": 119
+   }
+  ],
+  "Q2": [],
+  "Q3": [
+   {
+    "investigation": "PSI-69",
+    "why": "FLEX: CO2/He diluent suppression tests",
+    "source": "PSI-69_Experimental table_FLEX.csv",
+    "source_id": "PSI-69",
+    "locator": "PSI-69_Experimental table_FLEX.csv",
+    "n": 119
+   }
+  ]
+ },
+ "sibal": {
+  "Q1": [
+   {
+    "investigation": "PSI-25",
+    "why": "27 \u00b5g ignition/burn outcomes (0 extinctions) for SIBAL cotton-fiberglass fabric",
+    "source": "PSI-25_Experimental table_BASS-II.csv",
+    "source_id": "PSI-25",
+    "locator": "PSI-25_Experimental table_BASS-II.csv",
+    "n": 27
+   },
+   {
+    "investigation": "PSI-26",
+    "why": "12 \u00b5g ignition/burn outcomes (0 extinctions) for SIBAL cotton-fiberglass fabric",
+    "source": "PSI-26_Experimental table_BASS.csv",
+    "source_id": "PSI-26",
+    "locator": "PSI-26_Experimental table_BASS.csv",
+    "n": 12
+   },
+   {
+    "investigation": "PSI-98",
+    "why": "2 \u00b5g ignition/burn outcomes (0 extinctions) for SIBAL cotton-fiberglass fabric",
+    "source": "PSI-98_Experimental table_SAFFIRE-1.csv",
+    "source_id": "PSI-98",
+    "locator": "PSI-98_Experimental table_SAFFIRE-1.csv",
+    "n": 2
+   },
+   {
+    "investigation": "PSI-99",
+    "why": "1 \u00b5g ignition/burn outcomes (0 extinctions) for SIBAL cotton-fiberglass fabric",
+    "source": "PSI-99_Experimental table_SAFFIRE-2.csv",
+    "source_id": "PSI-99",
+    "locator": "PSI-99_Experimental table_SAFFIRE-2.csv",
+    "n": 1
+   }
+  ],
+  "Q2": [
+   {
+    "investigation": "PSI-99",
+    "why": "2 tabulated \u00b5g burn lengths / spread rates",
+    "source": "PSI-99_Experimental table_SAFFIRE-2.csv",
+    "source_id": "PSI-99",
+    "locator": "PSI-99_Experimental table_SAFFIRE-2.csv",
+    "n": 2
+   }
+  ],
+  "Q3": [
+   {
+    "investigation": "PSI-26",
+    "why": "flight notes of N2 suppression attempts (qualitative)",
+    "source": "PSI-26_Experimental table_BASS.csv",
+    "source_id": "PSI-26",
+    "locator": "PSI-26_Experimental table_BASS.csv",
+    "n": 1
+   }
+  ]
+ },
+ "kapton": {
+  "Q1": [],
+  "Q2": [],
+  "Q3": [
+   {
+    "investigation": "PSI-101",
+    "why": "29 smoke tests (particle size vs aging; detector-relevant)",
+    "source": "PSI-101_Experimental table_SAME-R.csv",
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv",
+    "n": 29
+   },
+   {
+    "investigation": "PSI-102",
+    "why": "1 smoke tests (particle size vs aging; detector-relevant)",
+    "source": "PSI-102_Experimental table_SAME.csv",
+    "source_id": "PSI-102",
+    "locator": "PSI-102_Experimental table_SAME.csv",
+    "n": 1
+   }
+  ]
+ },
+ "silicone": {
+  "Q1": [
+   {
+    "investigation": "PSI-99",
+    "why": "4 \u00b5g ignition/burn outcomes (0 extinctions) for Silicone",
+    "source": "PSI-99_Experimental table_SAFFIRE-2.csv",
+    "source_id": "PSI-99",
+    "locator": "PSI-99_Experimental table_SAFFIRE-2.csv",
+    "n": 4
+   }
+  ],
+  "Q2": [
+   {
+    "investigation": "PSI-99",
+    "why": "4 tabulated \u00b5g burn lengths / spread rates",
+    "source": "PSI-99_Experimental table_SAFFIRE-2.csv",
+    "source_id": "PSI-99",
+    "locator": "PSI-99_Experimental table_SAFFIRE-2.csv",
+    "n": 4
+   }
+  ],
+  "Q3": [
+   {
+    "investigation": "PSI-101",
+    "why": "22 smoke tests (particle size vs aging; detector-relevant)",
+    "source": "PSI-101_Experimental table_SAME-R.csv",
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv",
+    "n": 22
+   },
+   {
+    "investigation": "PSI-102",
+    "why": "1 smoke tests (particle size vs aging; detector-relevant)",
+    "source": "PSI-102_Experimental table_SAME.csv",
+    "source_id": "PSI-102",
+    "locator": "PSI-102_Experimental table_SAME.csv",
+    "n": 1
+   }
+  ]
+ },
+ "teflon": {
+  "Q1": [],
+  "Q2": [],
+  "Q3": [
+   {
+    "investigation": "PSI-101",
+    "why": "18 smoke tests (particle size vs aging; detector-relevant)",
+    "source": "PSI-101_Experimental table_SAME-R.csv",
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv",
+    "n": 18
+   },
+   {
+    "investigation": "PSI-102",
+    "why": "4 smoke tests (particle size vs aging; detector-relevant)",
+    "source": "PSI-102_Experimental table_SAME.csv",
+    "source_id": "PSI-102",
+    "locator": "PSI-102_Experimental table_SAME.csv",
+    "n": 4
+   }
+  ]
+ },
+ "cotton_lamp_wick": {
+  "Q1": [],
+  "Q2": [],
+  "Q3": [
+   {
+    "investigation": "PSI-101",
+    "why": "20 smoke tests (particle size vs aging; detector-relevant)",
+    "source": "PSI-101_Experimental table_SAME-R.csv",
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv",
+    "n": 20
+   },
+   {
+    "investigation": "PSI-102",
+    "why": "1 smoke tests (particle size vs aging; detector-relevant)",
+    "source": "PSI-102_Experimental table_SAME.csv",
+    "source_id": "PSI-102",
+    "locator": "PSI-102_Experimental table_SAME.csv",
+    "n": 1
+   }
+  ]
+ },
+ "pyrell": {
+  "Q1": [],
+  "Q2": [],
+  "Q3": [
+   {
+    "investigation": "PSI-101",
+    "why": "20 smoke tests (particle size vs aging; detector-relevant)",
+    "source": "PSI-101_Experimental table_SAME-R.csv",
+    "source_id": "PSI-101",
+    "locator": "PSI-101_Experimental table_SAME-R.csv",
+    "n": 20
+   }
+  ]
+ },
+ "japan_wax": {
+  "Q1": [
+   {
+    "investigation": "PSI-26",
+    "why": "8 \u00b5g ignition/burn outcomes (0 extinctions) for Japan wax",
+    "source": "PSI-26_Experimental table_BASS.csv",
+    "source_id": "PSI-26",
+    "locator": "PSI-26_Experimental table_BASS.csv",
+    "n": 8
+   },
+   {
+    "investigation": "PSI-25",
+    "why": "1 \u00b5g ignition/burn outcomes (0 extinctions) for Japan wax",
+    "source": "PSI-25_Experimental table_BASS-II.csv",
+    "source_id": "PSI-25",
+    "locator": "PSI-25_Experimental table_BASS-II.csv",
+    "n": 1
+   }
+  ],
+  "Q2": [],
+  "Q3": [
+   {
+    "investigation": "PSI-26",
+    "why": "flight notes of N2 suppression attempts (qualitative)",
+    "source": "PSI-26_Experimental table_BASS.csv",
+    "source_id": "PSI-26",
+    "locator": "PSI-26_Experimental table_BASS.csv",
+    "n": 1
+   }
+  ]
+ },
+ "nomex": {
+  "Q1": [
+   {
+    "investigation": "PSI-26",
+    "why": "6 \u00b5g ignition/burn outcomes (2 extinctions) for Nomex",
+    "source": "PSI-26_Experimental table_BASS.csv",
+    "source_id": "PSI-26",
+    "locator": "PSI-26_Experimental table_BASS.csv",
+    "n": 6
+   },
+   {
+    "investigation": "PSI-25",
+    "why": "3 \u00b5g ignition/burn outcomes (0 extinctions) for Nomex",
+    "source": "PSI-25_Experimental table_BASS-II.csv",
+    "source_id": "PSI-25",
+    "locator": "PSI-25_Experimental table_BASS-II.csv",
+    "n": 3
+   },
+   {
+    "investigation": "PSI-99",
+    "why": "1 \u00b5g ignition/burn outcomes (0 extinctions) for Nomex",
+    "source": "PSI-99_Experimental table_SAFFIRE-2.csv",
+    "source_id": "PSI-99",
+    "locator": "PSI-99_Experimental table_SAFFIRE-2.csv",
+    "n": 1
+   }
+  ],
+  "Q2": [
+   {
+    "investigation": "PSI-99",
+    "why": "1 tabulated \u00b5g burn lengths / spread rates",
+    "source": "PSI-99_Experimental table_SAFFIRE-2.csv",
+    "source_id": "PSI-99",
+    "locator": "PSI-99_Experimental table_SAFFIRE-2.csv",
+    "n": 1
+   }
+  ],
+  "Q3": [
+   {
+    "investigation": "PSI-26",
+    "why": "flight notes of N2 suppression attempts (qualitative)",
+    "source": "PSI-26_Experimental table_BASS.csv",
+    "source_id": "PSI-26",
+    "locator": "PSI-26_Experimental table_BASS.csv",
+    "n": 1
+   }
+  ]
+ },
+ "paraffin_wax": {
+  "Q1": [
+   {
+    "investigation": "PSI-26",
+    "why": "7 \u00b5g ignition/burn outcomes (3 extinctions) for Paraffin wax",
+    "source": "PSI-26_Experimental table_BASS.csv",
+    "source_id": "PSI-26",
+    "locator": "PSI-26_Experimental table_BASS.csv",
+    "n": 7
+   }
+  ],
+  "Q2": [],
+  "Q3": [
+   {
+    "investigation": "PSI-26",
+    "why": "flight notes of N2 suppression attempts (qualitative)",
+    "source": "PSI-26_Experimental table_BASS.csv",
+    "source_id": "PSI-26",
+    "locator": "PSI-26_Experimental table_BASS.csv",
+    "n": 1
+   }
+  ]
+ },
+ "arizona_road_dust": {
+  "Q1": [],
+  "Q2": [],
+  "Q3": []
+ },
+ "ultem": {
+  "Q1": [
+   {
+    "investigation": "PSI-26",
+    "why": "2 \u00b5g ignition/burn outcomes (1 extinctions) for Ultem (polyetherimide)",
+    "source": "PSI-26_Experimental table_BASS.csv",
+    "source_id": "PSI-26",
+    "locator": "PSI-26_Experimental table_BASS.csv",
+    "n": 2
+   }
+  ],
+  "Q2": [],
+  "Q3": []
+ },
+ "dibutyl_phthalate": {
+  "Q1": [],
+  "Q2": [],
+  "Q3": [
+   {
+    "investigation": "PSI-102",
+    "why": "1 smoke tests (particle size vs aging; detector-relevant)",
+    "source": "PSI-102_Experimental table_SAME.csv",
+    "source_id": "PSI-102",
+    "locator": "PSI-102_Experimental table_SAME.csv",
+    "n": 1
+   }
+  ]
+ }
+}

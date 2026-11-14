@@ -38,5 +38,18 @@ the suppression model's µg T_crit was fitted on V1/V2 only, so its V3/V4/He row
 - **Helium**: pure thermal theory ranks He as the weakest diluent per mole (lowest cp), but FLEX shows He
   nearly as effective as CO2. The likely cause is He's high thermal diffusivity (non-unity Lewis number),
   which thermal inerting theory does not include. This is listed as an Evidence Gap, not hidden.
-- **V6-V10** need digitized BASS-II, BRE, Saffire and SAME-R data (see docs/HUMAN_TASKS.md). Those models ship
-  as 'Uncalibrated — theory only'. No validation pass is claimed for them.
+- **V6-V10** remain pending. The PSI Experimental tables are now ingested (ingest_psi.py), but they do not
+  contain what these checks need: BASS/BASS-II tables have no limiting-O2, spread-rate or burn/extinct outcome
+  (V6, V7); the BRE table lists O2 levels of ignited flames but no extinction times or pressures (V8);
+  no Saffire vehicle T/P/CO2 time series was ingested (V9, needs raw telemetry); SAME-R aged-size data exist
+  but a like-for-like run of the coagulation model needs the aging-chamber dilution (Rt/R0) handled (V10).
+  Those models ship as 'Uncalibrated — theory only'. No validation pass is claimed for them.
+
+## PSI data QA (not model validation)
+
+- **FLEX extraction vs PSI-69 Experimental table**: 1533 values (d0, d_ext, K, burn time, pressure, O2)
+  compared by CIR identifier: **0 mismatches**. NTRS tests without a PSI-69 row: FLEX-216, FLEX-230. This independently confirms the PDF extraction used for fitting.
+- **Earth test vs orbit (SAFFIRE-II, PSI-99)**: 7 like-for-like samples; 4 burned less in orbit,
+  3 matched, 0 burned more (one test each; data comparison, no model involved).
+- **New held-out model points**: none added. No ingested PSI table supplies a quantity that an EmberAtlas model
+  predicts under matching inputs, so nothing was added to the Validation Lab and nothing was tuned on PSI tables.

@@ -1,3 +1,4 @@
+# SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 """Calibrate the droplet model per fuel on FLEX TRAIN rows (verified only).
 
 Step 1: f_k (effective conductivity factor) from K: closed-form log-least-squares.

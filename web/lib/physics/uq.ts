@@ -1,3 +1,4 @@
+// SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 // Seeded Monte Carlo (mulberry32 PRNG + Box-Muller), p05/p50/p95.
 export function mulberry32(seed: number): () => number {
   let a = seed >>> 0;

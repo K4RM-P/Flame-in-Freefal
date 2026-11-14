@@ -1,3 +1,4 @@
+# SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 """Analytic-limit and schema tests (Build prompt Phase 1)."""
 import math
 
@@ -125,3 +126,15 @@ def test_partial_gravity_is_bounded_estimate():
     assert r.extra["label"] == "bounded estimate"
     assert any("bounded estimates" in a for a in r.assumptions)
     assert math.isfinite(r.value)
+
+
+def test_settling_velocity_limits():
+    """SM4: zero in µg; Stokes limit rho g d^2/(18 mu) for large d (C_c -> 1); slip raises v_s at low pressure."""
+    from emberphys import smoke as SM, thermo
+    from emberphys.io import prop
+    T, P = 298.15, 101325.0
+    assert SM.settling_velocity(1e-7, 0.0, T, P) == 0.0
+    d = 50e-6
+    stokes = prop("smoke", "particle_density") * prop("constants", "g0") * d ** 2 / (18 * thermo.mu_air(T))
+    assert abs(SM.settling_velocity(d, 1.0, T, P) / stokes - 1) < 0.01
+    assert SM.settling_velocity(1e-7, 1.0, T, 56.5e3) > SM.settling_velocity(1e-7, 1.0, T, P)

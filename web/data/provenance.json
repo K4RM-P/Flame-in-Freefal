@@ -1,0 +1,52 @@
+{
+ "files": {
+  "coverage.json": {
+   "method": "counts of verified rows in web/data/test_points.json (each row carries source_id + locator); built by physics/validate/export.py"
+  },
+  "limits.json": {
+   "method": "export of physics/data/limits.yaml; each limit cites a key in web/data/sources.json"
+  },
+  "missions.json": {
+   "method": "export of physics/data/missions.yaml; each mission atmosphere cites a key in web/data/sources.json"
+  },
+  "params/droplet.json": {
+   "method": "fitted by physics/fit/fit_droplet.py on verified split=train FLEX rows"
+  },
+  "params/suppression.json": {
+   "method": "fitted by physics/fit/fit_suppression.py on verified split=train FLEX rows"
+  },
+  "properties.json": {
+   "method": "export of physics/data/properties.yaml; each value's `source` is a key in web/data/sources.json"
+  },
+  "psi/bre_atmospheres.json": {
+   "method": "parsed from PSI-20 Experimental table + PSI-20 API objective by physics/pipeline/ingest_psi.py"
+  },
+  "psi/flex_crosscheck.json": {
+   "method": "value-by-value comparison PSI-69 Experimental table vs NTRS Table IX (physics/pipeline/ingest_psi.py)"
+  },
+  "psi_catalog.json": {
+   "method": "PSI API responses (metadata, DOI, file search) + sha256 manifest; physics/pipeline/fetch_psi.py"
+  },
+  "sources.json": {
+   "method": "bibliographic metadata (year, DOI, URL) of every cited source"
+  },
+  "thermo.json": {
+   "method": "GRI-Mech 3.0 NASA-7 polynomials parsed from physics/data/thermo30.dat by emberphys.thermo"
+  },
+  "validation/droplet_K.json": {
+   "method": "physics/validate/run_all.py: model predictions vs held-out verified rows (never fitted on them)"
+  },
+  "validation/droplet_dext.json": {
+   "method": "physics/validate/run_all.py: model predictions vs held-out verified rows (never fitted on them)"
+  },
+  "validation/loi_curves.json": {
+   "method": "physics/validate/run_all.py: model predictions vs held-out verified rows (never fitted on them)"
+  },
+  "validation/summary.json": {
+   "method": "physics/validate/run_all.py: model predictions vs held-out verified rows (never fitted on them)"
+  },
+  "validation_targets.json": {
+   "method": "export of physics/data/validation_targets.yaml (published headline values with source keys)"
+  }
+ }
+}

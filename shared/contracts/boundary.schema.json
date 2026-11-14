@@ -1,0 +1,63 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "title": "boundary.json",
+ "type": "object",
+ "required": [
+  "available"
+ ],
+ "oneOf": [
+  {
+   "properties": {
+    "available": {
+     "const": false
+    },
+    "reason": {
+     "type": "string",
+     "minLength": 10
+    }
+   },
+   "required": [
+    "available",
+    "reason"
+   ]
+  },
+  {
+   "properties": {
+    "available": {
+     "const": true
+    },
+    "grid": {
+     "type": "object",
+     "required": [
+      "x_o2",
+      "flow_cm_s",
+      "g",
+      "p_kpa"
+     ]
+    },
+    "classes": {
+     "type": "object",
+     "additionalProperties": {
+      "type": "object",
+      "required": [
+       "p_burn",
+       "envelope"
+      ]
+     }
+    },
+    "sources": {
+     "type": "array"
+    },
+    "provenance": {
+     "type": "object"
+    }
+   },
+   "required": [
+    "available",
+    "grid",
+    "classes",
+    "provenance"
+   ]
+  }
+ ]
+}

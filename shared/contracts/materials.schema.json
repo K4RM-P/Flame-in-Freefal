@@ -1,0 +1,124 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "title": "materials.json",
+ "type": "array",
+ "items": {
+  "type": "object",
+  "required": [
+   "material_key",
+   "display_name",
+   "class",
+   "forms",
+   "investigations",
+   "n_tests",
+   "o2_range_tested",
+   "p_range_kpa",
+   "flow_range_cm_s",
+   "gravity_levels_tested",
+   "has_burn_data",
+   "has_smoke_data",
+   "has_1g_comparison",
+   "notes"
+  ],
+  "properties": {
+   "material_key": {
+    "type": "string"
+   },
+   "display_name": {
+    "type": "string"
+   },
+   "class": {
+    "enum": [
+     "fabric",
+     "plastic",
+     "elastomer",
+     "liquid_fuel",
+     "gas_fuel",
+     "wax",
+     "nuisance_dust",
+     "liquid_droplet"
+    ]
+   },
+   "forms": {
+    "type": "array",
+    "minItems": 1,
+    "items": {
+     "type": "object",
+     "required": [
+      "thickness_mm",
+      "geometry"
+     ]
+    }
+   },
+   "investigations": {
+    "type": "array",
+    "minItems": 1,
+    "items": {
+     "type": "string",
+     "pattern": "^PSI-\\d+$"
+    }
+   },
+   "n_tests": {
+    "type": "integer",
+    "minimum": 1
+   },
+   "o2_range_tested": {
+    "type": [
+     "array",
+     "null"
+    ],
+    "items": {
+     "type": "number"
+    },
+    "minItems": 2,
+    "maxItems": 2
+   },
+   "p_range_kpa": {
+    "type": [
+     "array",
+     "null"
+    ],
+    "items": {
+     "type": "number"
+    },
+    "minItems": 2,
+    "maxItems": 2
+   },
+   "flow_range_cm_s": {
+    "type": [
+     "array",
+     "null"
+    ],
+    "items": {
+     "type": "number"
+    },
+    "minItems": 2,
+    "maxItems": 2
+   },
+   "gravity_levels_tested": {
+    "type": "array",
+    "items": {
+     "enum": [
+      0,
+      1
+     ]
+    }
+   },
+   "has_burn_data": {
+    "type": "boolean"
+   },
+   "has_smoke_data": {
+    "type": "boolean"
+   },
+   "has_1g_comparison": {
+    "type": "boolean"
+   },
+   "notes": {
+    "type": [
+     "string",
+     "null"
+    ]
+   }
+  }
+ }
+}

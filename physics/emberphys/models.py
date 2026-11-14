@@ -1,3 +1,4 @@
+# SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 """run_* wrappers: every model returns a ModelResult with p05/p50/p95, validity and sources."""
 from __future__ import annotations
 
@@ -212,22 +213,25 @@ def run_habitat(material: str, x_o2: float, P_kPa: float, V_m3: float, Q_kW: flo
     )
 
 
-def run_smoke(transport_s: float, N0: float | None = None, d0_nm: float | None = None, P_kPa: float = 101.3) -> ModelResult:
+def run_smoke(transport_s: float, N0: float | None = None, d0_nm: float | None = None, P_kPa: float = 101.3, gravity_g: float = 0.0) -> ModelResult:
     N0 = N0 if N0 is not None else prop("smoke", "N0_default")
     d0 = (d0_nm if d0_nm is not None else prop("smoke", "d0_default_nm")) * 1e-9
     r = SM.age(transport_s, N0, d0, T_AMB, P_kPa * 1e3)
+    v_s = SM.settling_velocity(r["d43"], gravity_g, T_AMB, P_kPa * 1e3)  # largest band diameter settles fastest
     return ModelResult(
         model_id="smoke", value=r["d30"] * 1e9, units="nm (volume-mean diameter)",
         uncertainty={"p05": r["d10"] * 1e9, "p50": r["d30"] * 1e9, "p95": r["d43"] * 1e9},
-        inputs={"transport_s": transport_s, "N0_m3": N0, "d0_nm": d0 * 1e9, "P_kPa": P_kPa},
+        inputs={"transport_s": transport_s, "N0_m3": N0, "d0_nm": d0 * 1e9, "P_kPa": P_kPa, "gravity_g": gravity_g},
         equation_ids=SM.EQ,
         assumptions=["monodisperse-equivalent Brownian coagulation with constant K_c(d0)",
-                     "self-preserving lognormal width sigma_g for d10/d43", "N0, d0 UNCALIBRATED (SAME-R fit pending)"],
+                     "self-preserving lognormal width sigma_g for d10/d43", "N0, d0 UNCALIBRATED (SAME-R fit pending)",
+                     "settling: Stokes + slip at d43, unit particle density (TODO_VERIFY); partial gravity = bounded estimate"],
         validity={"in_envelope": False, "nearest_data_distance": None, "calibrated": False,
                   "note": "Uncalibrated — theory only; SAME-R reports averages mostly 200-400 nm"},
         sources=["seinfeld-pandis", "same-r"],
         extra={"d10_nm": r["d10"] * 1e9, "d43_nm": r["d43"] * 1e9, "N_m3": r["N"], "K_c": r["K_c"],
-               "favoured_detector": SM.favoured_detector(r["d43"])},
+               "favoured_detector": SM.favoured_detector(r["d43"]),
+               "settling_mm_s": v_s * 1e3, "settled_mm_over_transport": v_s * transport_s * 1e3},
     )
 
 

@@ -1,3 +1,4 @@
+# SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 """Opposed-flow flame spread over solids (PRD §5.3): de Ris thin/thick + Damköhler correction.
 
 SP1  V_thin  = C_thin k_g (T_f - T_v) / (rho_s c_s d (T_v - T_inf))          C_thin = pi/4, d = FULL thickness

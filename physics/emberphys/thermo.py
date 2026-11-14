@@ -1,3 +1,4 @@
+# SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 """Shared thermochemistry: NASA-7 cp/h (GRI-Mech 3.0), molar masses, transport, mixture conversions.
 
 Eq ids: TH1 cp/R = a1 + a2 T + a3 T^2 + a4 T^3 + a5 T^4 ; TH2 h/RT NASA-7 integral;

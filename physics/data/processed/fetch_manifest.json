@@ -1,0 +1,14 @@
+{
+ "ntrs/flex_tp_2015_216046.pdf": {
+  "url": "https://ntrs.nasa.gov/api/citations/20150023456/downloads/20150023456.pdf",
+  "sha256": "b4f6ca983e2792c33a0b92220a791a818f426bb635b94f7fd33dc8c9c471e79d"
+ },
+ "ntrs/jsc20584_revC.pdf": {
+  "url": "https://ntrs.nasa.gov/api/citations/20240007713/downloads/JSC%2020584_SMACs_Rev%20C_FINAL.pdf",
+  "sha256": "aa23812333c9f24717f2c194cf1dabd70211f63fa61f3bc3ab963fb683eed4d5"
+ },
+ "thermo30.dat": {
+  "url": "http://combustion.berkeley.edu/gri-mech/version30/files30/thermo30.dat",
+  "sha256": "8d918b771aa965fe05e8c8f1f7e926a5326ebc90e7fc923ce129dc118b634dcc"
+ }
+}

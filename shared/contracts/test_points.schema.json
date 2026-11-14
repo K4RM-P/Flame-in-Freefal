@@ -1,0 +1,212 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "title": "test_points.json",
+ "type": "array",
+ "items": {
+  "type": "object",
+  "required": [
+   "id",
+   "investigation_id",
+   "source_id",
+   "locator",
+   "verified",
+   "verified_by",
+   "outcome",
+   "material_key",
+   "x_o2",
+   "pressure_kpa",
+   "flags"
+  ],
+  "properties": {
+   "id": {
+    "type": "string"
+   },
+   "investigation_id": {
+    "type": "string"
+   },
+   "source_id": {
+    "type": "string"
+   },
+   "locator": {
+    "type": "string",
+    "minLength": 3
+   },
+   "verified": {
+    "const": true
+   },
+   "verified_by": {
+    "type": "string"
+   },
+   "outcome": {
+    "enum": [
+     "burn",
+     "extinct",
+     "no_ignition",
+     "insignificant",
+     "cool_flame",
+     "unknown",
+     "diffusive_ext",
+     "radiative_ext",
+     null
+    ],
+    "description": "burn|extinct|no_ignition|insignificant|cool_flame|unknown. FLEX droplet rows keep the legacy extinction sub-modes diffusive_ext / radiative_ext (= extinct, mode from Appendix B captions). null = not a burn test (smoke / aerosol rows)."
+   },
+   "material_key": {
+    "type": [
+     "string",
+     "null"
+    ]
+   },
+   "material_class": {
+    "enum": [
+     "fabric",
+     "plastic",
+     "elastomer",
+     "liquid_fuel",
+     "gas_fuel",
+     "wax",
+     "nuisance_dust",
+     "liquid_droplet",
+     null
+    ]
+   },
+   "x_o2": {
+    "type": [
+     "number",
+     "null"
+    ]
+   },
+   "x_o2_initial": {
+    "type": [
+     "number",
+     "null"
+    ]
+   },
+   "x_o2_final": {
+    "type": [
+     "number",
+     "null"
+    ]
+   },
+   "x_o2_min": {
+    "type": [
+     "number",
+     "null"
+    ]
+   },
+   "x_o2_max": {
+    "type": [
+     "number",
+     "null"
+    ]
+   },
+   "p_o2_kpa": {
+    "type": [
+     "number",
+     "null"
+    ]
+   },
+   "pressure_kpa": {
+    "type": [
+     "number",
+     "null"
+    ]
+   },
+   "thickness_mm": {
+    "type": [
+     "number",
+     "null"
+    ]
+   },
+   "width_cm": {
+    "type": [
+     "number",
+     "null"
+    ]
+   },
+   "length_cm": {
+    "type": [
+     "number",
+     "null"
+    ]
+   },
+   "flow_cm_s": {
+    "type": [
+     "number",
+     "null"
+    ]
+   },
+   "flow_dir": {
+    "enum": [
+     "opposed",
+     "concurrent",
+     "quiescent",
+     null
+    ]
+   },
+   "approx": {
+    "type": [
+     "boolean",
+     "null"
+    ]
+   },
+   "outcome_raw": {
+    "type": [
+     "string",
+     "null"
+    ]
+   },
+   "spread_rate_mm_s": {
+    "type": [
+     "number",
+     "null"
+    ]
+   },
+   "burn_length_cm": {
+    "type": [
+     "number",
+     "null"
+    ]
+   },
+   "aging_s": {
+    "type": [
+     "number",
+     "null"
+    ]
+   },
+   "flags": {
+    "type": "array",
+    "items": {
+     "type": "string"
+    }
+   },
+   "gravity_g": {
+    "type": "number"
+   },
+   "split": {
+    "enum": [
+     "train",
+     "test"
+    ]
+   }
+  },
+  "allOf": [
+   {
+    "if": {
+     "properties": {
+      "source_id": {
+       "pattern": "^PSI-"
+      }
+     }
+    },
+    "then": {
+     "properties": {
+      "locator": {
+       "pattern": "#"
+      }
+     }
+    }
+   }
+  ]
+ }
+}

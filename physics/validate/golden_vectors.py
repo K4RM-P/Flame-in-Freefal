@@ -1,3 +1,4 @@
+# SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 """Generate shared/golden_vectors.json: random in-envelope inputs -> Python outputs (TS must match, rtol 1e-6)."""
 from __future__ import annotations
 
@@ -66,7 +67,8 @@ def main() -> None:
                              "out": {"V_f": r["V_f"], "V_thin": r["V_thin"], "V_thick": r["V_thick"], "lnDa": r["lnDa"], "T_f": r["T_f"]}})
         gv["gravity"].append({"in": {"g": g, "x": x, "P": P, "T_f": r["T_f"]}, "out": {"u_b": ub}})
         t = float(rng.uniform(1, 1800)); N0 = float(10 ** rng.uniform(10, 13)); d0 = float(rng.uniform(30e-9, 300e-9))
-        gv["smoke"].append({"in": {"t": t, "N0": N0, "d0": d0, "P": P}, "out": SM.age(t, N0, d0, T, P)})
+        gv["smoke"].append({"in": {"t": t, "N0": N0, "d0": d0, "P": P, "g": g},
+                            "out": {**SM.age(t, N0, d0, T, P), "v_s": SM.settling_velocity(d0, g, T, P)}})
     for _ in range(12):
         inp = H.HabitatInputs(str(rng.choice(["n-heptane", "pmma", "cotton"])), float(rng.choice([0.21, 0.30, 0.34])),
                               float(rng.choice([101325.0, 70300.0, 56500.0])), float(rng.uniform(10, 200)),

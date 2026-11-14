@@ -1,3 +1,4 @@
+# SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 """Build verified test_point table (parquet + CSV) and coverage report."""
 from __future__ import annotations
 

@@ -1,3 +1,4 @@
+# SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 """Thermal inerting by critical adiabatic flame temperature (PRD §5.6; SFPE/Beyler).
 
 SU1  sum_i n_i [h_i(T_ad) - h_i(T_inf)] = n_O2 * dH_O2 * M_O2      (dH_O2 = 13.1 MJ/kg O2, Huggett)

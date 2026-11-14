@@ -1,3 +1,4 @@
+# SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 """Burke-Schumann diffusion-flame temperature (PRD §5.2).
 
 BS1  Z_st = Y_O / (s Y_F0 + Y_O)

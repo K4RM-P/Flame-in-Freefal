@@ -1,3 +1,4 @@
+# SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 """Extract FLEX Appendix A (Table IX) and Appendix B figure captions from NASA/TP-2015-216046.
 
 Every row carries source_id + locator (PDF page). Extinction mode (radiative / diffusive /

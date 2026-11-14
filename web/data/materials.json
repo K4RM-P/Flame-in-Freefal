@@ -1,0 +1,662 @@
+[
+ {
+  "material_key": "pmma",
+  "display_name": "PMMA (acrylic)",
+  "class": "plastic",
+  "forms": [
+   {
+    "thickness_mm": null,
+    "geometry": "rod",
+    "diameter_mm": 6.35
+   },
+   {
+    "thickness_mm": null,
+    "geometry": "rod",
+    "diameter_mm": 9.525
+   },
+   {
+    "thickness_mm": null,
+    "geometry": "rod",
+    "diameter_mm": 12.7
+   },
+   {
+    "thickness_mm": null,
+    "geometry": "sheet",
+    "diameter_mm": null
+   },
+   {
+    "thickness_mm": null,
+    "geometry": "slab",
+    "diameter_mm": null
+   },
+   {
+    "thickness_mm": null,
+    "geometry": "sphere",
+    "diameter_mm": null
+   },
+   {
+    "thickness_mm": null,
+    "geometry": "sphere",
+    "diameter_mm": 10.0
+   },
+   {
+    "thickness_mm": null,
+    "geometry": "sphere",
+    "diameter_mm": 20.0
+   },
+   {
+    "thickness_mm": null,
+    "geometry": "unspecified",
+    "diameter_mm": null
+   },
+   {
+    "thickness_mm": 0.1,
+    "geometry": "film",
+    "diameter_mm": null
+   },
+   {
+    "thickness_mm": 0.2,
+    "geometry": "film",
+    "diameter_mm": null
+   },
+   {
+    "thickness_mm": 0.3,
+    "geometry": "film",
+    "diameter_mm": null
+   },
+   {
+    "thickness_mm": 0.4,
+    "geometry": "film",
+    "diameter_mm": null
+   },
+   {
+    "thickness_mm": 0.85,
+    "geometry": "sheet",
+    "diameter_mm": null
+   },
+   {
+    "thickness_mm": 1.0,
+    "geometry": "slab",
+    "diameter_mm": null
+   },
+   {
+    "thickness_mm": 2.0,
+    "geometry": "slab",
+    "diameter_mm": null
+   },
+   {
+    "thickness_mm": 3.0,
+    "geometry": "slab",
+    "diameter_mm": null
+   },
+   {
+    "thickness_mm": 4.0,
+    "geometry": "slab",
+    "diameter_mm": null
+   },
+   {
+    "thickness_mm": 5.0,
+    "geometry": "slab",
+    "diameter_mm": null
+   }
+  ],
+  "investigations": [
+   "PSI-25",
+   "PSI-26",
+   "PSI-99"
+  ],
+  "n_tests": 176,
+  "o2_range_tested": [
+   0.136,
+   0.225835
+  ],
+  "p_range_kpa": [
+   98.2853,
+   102.2076
+  ],
+  "flow_range_cm_s": [
+   0.0,
+   31.0
+  ],
+  "gravity_levels_tested": [
+   0,
+   1
+  ],
+  "has_burn_data": true,
+  "has_smoke_data": false,
+  "has_1g_comparison": true,
+  "n_flagged_interpretation": 106,
+  "notes": "Forms differ (film, slab, rod, sphere); compare like forms only.",
+  "provenance": "aggregated over verified rows of web/data/test_points.json with this material_key (each row: source_id + locator)"
+ },
+ {
+  "material_key": "methanol",
+  "display_name": "Methanol",
+  "class": "liquid_fuel",
+  "forms": [
+   {
+    "thickness_mm": null,
+    "geometry": "free_droplet",
+    "diameter_mm": null
+   }
+  ],
+  "investigations": [
+   "PSI-69"
+  ],
+  "n_tests": 156,
+  "o2_range_tested": [
+   0.12,
+   0.34
+  ],
+  "p_range_kpa": [
+   70.16757249651451,
+   309.2679420865755
+  ],
+  "flow_range_cm_s": [
+   0.0,
+   0.0
+  ],
+  "gravity_levels_tested": [
+   0
+  ],
+  "has_burn_data": true,
+  "has_smoke_data": false,
+  "has_1g_comparison": false,
+  "n_flagged_interpretation": 0,
+  "provenance": "aggregated over verified FLEX rows of web/data/test_points.json",
+  "notes": "FLEX rows extracted from NASA/TP-2015-216046 Table IX; cross-checked value-by-value against the PSI-69 Experimental table."
+ },
+ {
+  "material_key": "n-heptane",
+  "display_name": "n-Heptane",
+  "class": "liquid_fuel",
+  "forms": [
+   {
+    "thickness_mm": null,
+    "geometry": "free_droplet",
+    "diameter_mm": null
+   }
+  ],
+  "investigations": [
+   "PSI-69"
+  ],
+  "n_tests": 119,
+  "o2_range_tested": [
+   0.13,
+   0.34
+  ],
+  "p_range_kpa": [
+   70.39422055512,
+   309.29460656405854
+  ],
+  "flow_range_cm_s": [
+   0.0,
+   0.0
+  ],
+  "gravity_levels_tested": [
+   0
+  ],
+  "has_burn_data": true,
+  "has_smoke_data": false,
+  "has_1g_comparison": false,
+  "n_flagged_interpretation": 0,
+  "provenance": "aggregated over verified FLEX rows of web/data/test_points.json",
+  "notes": "FLEX rows extracted from NASA/TP-2015-216046 Table IX; cross-checked value-by-value against the PSI-69 Experimental table."
+ },
+ {
+  "material_key": "sibal",
+  "display_name": "SIBAL cotton-fiberglass fabric",
+  "class": "fabric",
+  "forms": [
+   {
+    "thickness_mm": null,
+    "geometry": "fabric",
+    "diameter_mm": null
+   },
+   {
+    "thickness_mm": 0.37,
+    "geometry": "sheet",
+    "diameter_mm": null
+   },
+   {
+    "thickness_mm": 3.3,
+    "geometry": "sheet",
+    "diameter_mm": null
+   },
+   {
+    "thickness_mm": 3.7,
+    "geometry": "sheet",
+    "diameter_mm": null
+   }
+  ],
+  "investigations": [
+   "PSI-100",
+   "PSI-25",
+   "PSI-26",
+   "PSI-98",
+   "PSI-99"
+  ],
+  "n_tests": 44,
+  "o2_range_tested": [
+   0.164,
+   0.22722
+  ],
+  "p_range_kpa": [
+   98.2853,
+   101.725
+  ],
+  "flow_range_cm_s": [
+   5.0,
+   30.0
+  ],
+  "gravity_levels_tested": [
+   0,
+   1
+  ],
+  "has_burn_data": true,
+  "has_smoke_data": false,
+  "has_1g_comparison": true,
+  "n_flagged_interpretation": 0,
+  "notes": null,
+  "provenance": "aggregated over verified rows of web/data/test_points.json with this material_key (each row: source_id + locator)"
+ },
+ {
+  "material_key": "kapton",
+  "display_name": "Kapton (polyimide)",
+  "class": "plastic",
+  "forms": [
+   {
+    "thickness_mm": null,
+    "geometry": "unspecified",
+    "diameter_mm": null
+   }
+  ],
+  "investigations": [
+   "PSI-101",
+   "PSI-102"
+  ],
+  "n_tests": 30,
+  "o2_range_tested": null,
+  "p_range_kpa": null,
+  "flow_range_cm_s": [
+   0.0,
+   8.1
+  ],
+  "gravity_levels_tested": [
+   0
+  ],
+  "has_burn_data": false,
+  "has_smoke_data": true,
+  "has_1g_comparison": false,
+  "n_flagged_interpretation": 0,
+  "notes": null,
+  "provenance": "aggregated over verified rows of web/data/test_points.json with this material_key (each row: source_id + locator)"
+ },
+ {
+  "material_key": "silicone",
+  "display_name": "Silicone",
+  "class": "elastomer",
+  "forms": [
+   {
+    "thickness_mm": null,
+    "geometry": "unspecified",
+    "diameter_mm": null
+   },
+   {
+    "thickness_mm": 0.27,
+    "geometry": "sheet",
+    "diameter_mm": null
+   },
+   {
+    "thickness_mm": 0.37,
+    "geometry": "sheet",
+    "diameter_mm": null
+   },
+   {
+    "thickness_mm": 0.61,
+    "geometry": "sheet",
+    "diameter_mm": null
+   },
+   {
+    "thickness_mm": 1.03,
+    "geometry": "sheet",
+    "diameter_mm": null
+   }
+  ],
+  "investigations": [
+   "PSI-101",
+   "PSI-102",
+   "PSI-99"
+  ],
+  "n_tests": 27,
+  "o2_range_tested": [
+   0.215,
+   0.221
+  ],
+  "p_range_kpa": null,
+  "flow_range_cm_s": [
+   0.0,
+   20.0
+  ],
+  "gravity_levels_tested": [
+   0,
+   1
+  ],
+  "has_burn_data": true,
+  "has_smoke_data": true,
+  "has_1g_comparison": true,
+  "n_flagged_interpretation": 0,
+  "notes": "SAFFIRE-II \u00b5g burns were insignificant; SAME/SAME-R smoke data.",
+  "provenance": "aggregated over verified rows of web/data/test_points.json with this material_key (each row: source_id + locator)"
+ },
+ {
+  "material_key": "teflon",
+  "display_name": "Teflon (PTFE)",
+  "class": "plastic",
+  "forms": [
+   {
+    "thickness_mm": null,
+    "geometry": "unspecified",
+    "diameter_mm": null
+   }
+  ],
+  "investigations": [
+   "PSI-101",
+   "PSI-102"
+  ],
+  "n_tests": 22,
+  "o2_range_tested": null,
+  "p_range_kpa": null,
+  "flow_range_cm_s": [
+   0.0,
+   10.0
+  ],
+  "gravity_levels_tested": [
+   0
+  ],
+  "has_burn_data": false,
+  "has_smoke_data": true,
+  "has_1g_comparison": false,
+  "n_flagged_interpretation": 0,
+  "notes": null,
+  "provenance": "aggregated over verified rows of web/data/test_points.json with this material_key (each row: source_id + locator)"
+ },
+ {
+  "material_key": "cotton_lamp_wick",
+  "display_name": "Cotton lamp wick",
+  "class": "fabric",
+  "forms": [
+   {
+    "thickness_mm": null,
+    "geometry": "unspecified",
+    "diameter_mm": null
+   }
+  ],
+  "investigations": [
+   "PSI-101",
+   "PSI-102"
+  ],
+  "n_tests": 21,
+  "o2_range_tested": null,
+  "p_range_kpa": null,
+  "flow_range_cm_s": [
+   0.0,
+   8.1
+  ],
+  "gravity_levels_tested": [
+   0
+  ],
+  "has_burn_data": false,
+  "has_smoke_data": true,
+  "has_1g_comparison": false,
+  "n_flagged_interpretation": 0,
+  "notes": null,
+  "provenance": "aggregated over verified rows of web/data/test_points.json with this material_key (each row: source_id + locator)"
+ },
+ {
+  "material_key": "pyrell",
+  "display_name": "Pyrell (polyurethane foam)",
+  "class": "plastic",
+  "forms": [
+   {
+    "thickness_mm": null,
+    "geometry": "unspecified",
+    "diameter_mm": null
+   }
+  ],
+  "investigations": [
+   "PSI-101"
+  ],
+  "n_tests": 20,
+  "o2_range_tested": null,
+  "p_range_kpa": null,
+  "flow_range_cm_s": [
+   0.0,
+   8.1
+  ],
+  "gravity_levels_tested": [
+   0
+  ],
+  "has_burn_data": false,
+  "has_smoke_data": true,
+  "has_1g_comparison": false,
+  "n_flagged_interpretation": 0,
+  "notes": null,
+  "provenance": "aggregated over verified rows of web/data/test_points.json with this material_key (each row: source_id + locator)"
+ },
+ {
+  "material_key": "japan_wax",
+  "display_name": "Japan wax",
+  "class": "wax",
+  "forms": [
+   {
+    "thickness_mm": null,
+    "geometry": "candle",
+    "diameter_mm": null
+   }
+  ],
+  "investigations": [
+   "PSI-25",
+   "PSI-26"
+  ],
+  "n_tests": 11,
+  "o2_range_tested": [
+   0.159,
+   0.212449
+  ],
+  "p_range_kpa": [
+   98.2853,
+   99.5011
+  ],
+  "flow_range_cm_s": [
+   2.0,
+   3.0198
+  ],
+  "gravity_levels_tested": [
+   0
+  ],
+  "has_burn_data": true,
+  "has_smoke_data": false,
+  "has_1g_comparison": false,
+  "n_flagged_interpretation": 0,
+  "notes": null,
+  "provenance": "aggregated over verified rows of web/data/test_points.json with this material_key (each row: source_id + locator)"
+ },
+ {
+  "material_key": "nomex",
+  "display_name": "Nomex",
+  "class": "fabric",
+  "forms": [
+   {
+    "thickness_mm": null,
+    "geometry": "fabric",
+    "diameter_mm": null
+   },
+   {
+    "thickness_mm": 0.37,
+    "geometry": "sheet",
+    "diameter_mm": null
+   }
+  ],
+  "investigations": [
+   "PSI-25",
+   "PSI-26",
+   "PSI-99"
+  ],
+  "n_tests": 10,
+  "o2_range_tested": [
+   0.21,
+   0.225255
+  ],
+  "p_range_kpa": [
+   98.4986,
+   102.0983
+  ],
+  "flow_range_cm_s": [
+   8.0528,
+   20.0
+  ],
+  "gravity_levels_tested": [
+   0,
+   1
+  ],
+  "has_burn_data": true,
+  "has_smoke_data": false,
+  "has_1g_comparison": true,
+  "n_flagged_interpretation": 0,
+  "notes": null,
+  "provenance": "aggregated over verified rows of web/data/test_points.json with this material_key (each row: source_id + locator)"
+ },
+ {
+  "material_key": "paraffin_wax",
+  "display_name": "Paraffin wax",
+  "class": "wax",
+  "forms": [
+   {
+    "thickness_mm": null,
+    "geometry": "candle",
+    "diameter_mm": null
+   },
+   {
+    "thickness_mm": null,
+    "geometry": "slab",
+    "diameter_mm": null
+   }
+  ],
+  "investigations": [
+   "PSI-26"
+  ],
+  "n_tests": 7,
+  "o2_range_tested": [
+   0.1605,
+   0.219339
+  ],
+  "p_range_kpa": [
+   98.5546,
+   99.5011
+  ],
+  "flow_range_cm_s": [
+   3.0,
+   6.0
+  ],
+  "gravity_levels_tested": [
+   0
+  ],
+  "has_burn_data": true,
+  "has_smoke_data": false,
+  "has_1g_comparison": false,
+  "n_flagged_interpretation": 0,
+  "notes": null,
+  "provenance": "aggregated over verified rows of web/data/test_points.json with this material_key (each row: source_id + locator)"
+ },
+ {
+  "material_key": "arizona_road_dust",
+  "display_name": "Arizona Road Dust (ISO fine)",
+  "class": "nuisance_dust",
+  "forms": [
+   {
+    "thickness_mm": null,
+    "geometry": "unspecified",
+    "diameter_mm": null
+   }
+  ],
+  "investigations": [
+   "PSI-47"
+  ],
+  "n_tests": 2,
+  "o2_range_tested": null,
+  "p_range_kpa": null,
+  "flow_range_cm_s": null,
+  "gravity_levels_tested": [
+   0
+  ],
+  "has_burn_data": false,
+  "has_smoke_data": false,
+  "has_1g_comparison": false,
+  "n_flagged_interpretation": 0,
+  "notes": "Nuisance aerosol (DAFT) used to test false-alarm discrimination; not smoke.",
+  "provenance": "aggregated over verified rows of web/data/test_points.json with this material_key (each row: source_id + locator)"
+ },
+ {
+  "material_key": "ultem",
+  "display_name": "Ultem (polyetherimide)",
+  "class": "plastic",
+  "forms": [
+   {
+    "thickness_mm": null,
+    "geometry": "sheet",
+    "diameter_mm": null
+   }
+  ],
+  "investigations": [
+   "PSI-26"
+  ],
+  "n_tests": 2,
+  "o2_range_tested": [
+   0.218944,
+   0.225255
+  ],
+  "p_range_kpa": [
+   100.0051,
+   102.0983
+  ],
+  "flow_range_cm_s": null,
+  "gravity_levels_tested": [
+   0
+  ],
+  "has_burn_data": true,
+  "has_smoke_data": false,
+  "has_1g_comparison": false,
+  "n_flagged_interpretation": 0,
+  "notes": null,
+  "provenance": "aggregated over verified rows of web/data/test_points.json with this material_key (each row: source_id + locator)"
+ },
+ {
+  "material_key": "dibutyl_phthalate",
+  "display_name": "Dibutyl phthalate",
+  "class": "liquid_fuel",
+  "forms": [
+   {
+    "thickness_mm": null,
+    "geometry": "unspecified",
+    "diameter_mm": null
+   }
+  ],
+  "investigations": [
+   "PSI-102"
+  ],
+  "n_tests": 1,
+  "o2_range_tested": null,
+  "p_range_kpa": null,
+  "flow_range_cm_s": null,
+  "gravity_levels_tested": [
+   0
+  ],
+  "has_burn_data": false,
+  "has_smoke_data": true,
+  "has_1g_comparison": false,
+  "n_flagged_interpretation": 0,
+  "notes": "SAME smoke-generation reference liquid; no burn data.",
+  "provenance": "aggregated over verified rows of web/data/test_points.json with this material_key (each row: source_id + locator)"
+ }
+]

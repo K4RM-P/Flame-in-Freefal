@@ -1,3 +1,4 @@
+# SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 """Apply sign-off records (data/verification.yaml): rows are verified only if their batch is signed off."""
 from __future__ import annotations
 
