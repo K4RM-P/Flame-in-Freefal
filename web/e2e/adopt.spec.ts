@@ -79,3 +79,12 @@ test("B7: Implications shows cited concept design suggestions from model outputs
   await expect(page.getByTestId("suggest-suppression")).toContainText("smallest required concentration");
   await expect(page.getByTestId("suggest-ventilation")).toContainText("Not computed");
 });
+
+test("A3: ticking two test points shows only the conditions that changed", async ({ page }) => {
+  await page.goto("/evidence");
+  await page.getByTestId("pair-FLEX-001").check();
+  await page.getByTestId("pair-FLEX-002").check();
+  const d = page.getByTestId("pair-diff");
+  await expect(d).toContainText("What changed · FLEX-001 → FLEX-002");
+  await expect(d).toContainText("initial droplet diameter");
+});

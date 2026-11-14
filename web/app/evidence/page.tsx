@@ -9,12 +9,17 @@ import { download } from "@/lib/report";
 import { PSI_FETCHED_AT, PSI_LIST, psiEntries } from "@/lib/psi";
 import { PsiTables } from "@/components/PsiTables";
 import { EarthVsOrbit } from "@/components/EarthVsOrbit";
+import { conditionDiff } from "@/lib/diff";
 
 export default function Evidence() {
   const m = useMission();
   const [w, setW] = useState<Weights>(DEFAULT_WEIGHTS);
   const [sel, setSel] = useState<string[]>(["FLEX", "BASS-II"]);
   const [filter, setFilter] = useState({ fuel: "all", diluent: "all", split: "all" });
+  const [pair, setPair] = useState<string[]>([]);
+  const togglePair = (id: string) => setPair((p) => (p.includes(id) ? p.filter((x) => x !== id) : [...p, id].slice(-2)));
+  const pairPts = pair.map((id) => TEST_POINTS.find((t) => t.id === id)!).filter(Boolean);
+  const diff = pairPts.length === 2 ? conditionDiff(pairPts[0], pairPts[1]) : null;
   const ranked = useMemo(() => rank(m, w), [m, w]);
   const rows = TEST_POINTS.filter((t) => (filter.fuel === "all" || t.fuel === filter.fuel) && (filter.diluent === "all" || t.diluent === filter.diluent) && (filter.split === "all" || t.split === filter.split));
   const exportRows = (fmtType: "csv" | "json") => {
@@ -90,10 +95,18 @@ export default function Evidence() {
           <select value={filter.split} onChange={(e) => setFilter({ ...filter, split: e.target.value })}><option value="all">train+test</option><option>train</option><option>test</option></select>
           <button className="btn" onClick={() => exportRows("csv")} data-testid="export-csv">Export CSV</button><button className="btn" onClick={() => exportRows("json")}>Export JSON</button>
         </div>
+        <div className="mb-2 rounded border border-line p-2 text-sm" data-testid="pair-diff">
+          {!diff ? <span className="text-mute">Tick two rows to see what changed between them.</span> : (
+            <><span className="label">What changed · {pairPts[0].test_label} → {pairPts[1].test_label}</span>
+              {diff.minimalPair && <span className="chip ml-2 bg-ok/20 text-ok">minimal pair: one condition differs</span>}
+              {diff.changes.length === 0 ? <p>The two tests share all listed conditions.</p> : (
+                <ul className="ml-5 list-disc">{diff.changes.map((c) => <li key={c.k}>{c.label}: <span className="num">{typeof c.a === "number" ? fmt(c.a, 4) : String(c.a)}</span> → <span className="num">{typeof c.b === "number" ? fmt(c.b, 4) : String(c.b)}</span> {c.unit}</li>)}</ul>)}
+              <p className="text-xs text-mute">Outcome: {pairPts[0].outcome} → {pairPts[1].outcome} · K {fmt(pairPts[0].K_mm2_s)} → {fmt(pairPts[1].K_mm2_s)} mm²/s. Numbers within 0.5 % count as equal.</p></>)}
+        </div>
         <div className="max-h-[28rem] overflow-auto">
-          <table className="data"><thead><tr><th>test</th><th>fuel</th><th>O₂</th><th>diluent</th><th>kPa</th><th>d₀ mm</th><th>K mm²/s</th><th>d_ext mm</th><th>outcome</th><th>split</th><th>provenance</th></tr></thead>
+          <table className="data"><thead><tr><th>compare</th><th>test</th><th>fuel</th><th>O₂</th><th>diluent</th><th>kPa</th><th>d₀ mm</th><th>K mm²/s</th><th>d_ext mm</th><th>outcome</th><th>split</th><th>provenance</th></tr></thead>
             <tbody>{rows.map((t) => (
-              <tr key={t.id}><td className="num">{t.test_label}</td><td>{t.fuel}</td><td className="num">{t.x_o2}</td><td>{t.diluent}{t.x_diluent ? ` ${t.x_diluent}` : ""}</td><td className="num">{fmt(t.pressure_kpa, 4)}</td>
+              <tr key={t.id}><td><input type="checkbox" aria-label={`compare ${t.test_label}`} checked={pair.includes(t.id)} onChange={() => togglePair(t.id)} data-testid={`pair-${t.id}`} /></td><td className="num">{t.test_label}</td><td>{t.fuel}</td><td className="num">{t.x_o2}</td><td>{t.diluent}{t.x_diluent ? ` ${t.x_diluent}` : ""}</td><td className="num">{fmt(t.pressure_kpa, 4)}</td>
                 <td className="num">{fmt(t.d0_mm)}</td><td className="num">{fmt(t.K_mm2_s)}</td><td className="num">{fmt(t.d_ext_mm)}</td><td>{t.outcome}{t.cool_flame ? " · cool flame" : ""}</td><td>{t.split}</td>
                 <td className="text-xs text-mute">{t.locator}</td></tr>))}</tbody></table>
         </div>
