@@ -4,7 +4,7 @@
 import { useEffect } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { spring } from "@/lib/ui/motion";
-import { fmtBand, sig } from "@/lib/ui/format";
+import { bandSig, fmtBand, sig } from "@/lib/ui/format";
 import { ScenarioPanel, fmtProv } from "./ScenarioPanel";
 import { RunPanel } from "./RunPanel";
 import { ResultPanel } from "./ResultPanel";
@@ -66,8 +66,8 @@ function ReceiptDrawer() {
             className="absolute right-0 top-0 h-full w-full max-w-[440px] space-y-3 overflow-y-auto border-l border-line bg-panel p-4 shadow-2xl">
             <div className="flex justify-between"><p className="label">Receipt</p><button type="button" className="btn" onClick={() => set({ receipt: null })}>Close</button></div>
             <h3 className="text-[20px] font-semibold">{receipt.title}</h3>
-            <p className="num text-[24px]">{receipt.value == null ? "∅ No data" : sig(receipt.value)} <span className="text-[14px] text-mute">{receipt.units}</span>
-              {receipt.band && <span className="ml-1 text-[13px] text-mute">p05–p95 {fmtBand(receipt.band.p05, receipt.band.p95)}</span>}</p>
+            <p className="num text-[24px]">{receipt.value == null ? "∅ No data" : sig(receipt.value, receipt.band ? bandSig(receipt.value, receipt.band.p05, receipt.band.p95) : 3)} <span className="text-[14px] text-mute">{receipt.units}</span>
+              {receipt.band && <span className="ml-1 text-[13px] text-mute">p05–p95 {fmtBand(receipt.band.p05, receipt.band.p95, receipt.value == null ? 2 : bandSig(receipt.value, receipt.band.p05, receipt.band.p95))}</span>}</p>
             {receipt.note && <p className="text-[13px] text-mute">{receipt.note}</p>}
             <p className="label">Traces to</p>
             <ul className="space-y-1 text-[13px]">{receipt.sources.map((s, i) => <li key={i} className="border-l-2 border-line pl-2">{fmtProv(s)}</li>)}</ul>

@@ -51,7 +51,7 @@ function Outcome({ sc, r, label }: { sc: Scenario; r: SimResult | null; label: s
               {r.outcome.metrics.map((m) => (
                 <tr key={m.key}>
                   <td className="text-mute">{m.label}</td>
-                  <td><Num value={m.value} units={m.units} band={m.band} title={`${label ? `${label}: ` : ""}${m.label}`} sources={metricSources(m, r)} /></td>
+                  <td className="[overflow-wrap:anywhere]"><Num value={m.value} units={m.units} band={m.band} title={`${label ? `${label}: ` : ""}${m.label}`} sources={metricSources(m, r)} /></td>
                   <td className="text-right">{m.pass == null ? <span className="text-[12px] text-faint" title="No sourced limit for this quantity">no sourced limit</span>
                     : m.pass ? <span className="chip border border-ok/40 text-ok" title={m.limit_source}>PASS</span>
                       : <span className="chip border border-bad/50 text-bad" title={m.limit_source}>FAIL</span>}</td>

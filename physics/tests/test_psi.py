@@ -28,7 +28,9 @@ def test_psi_tables_provenance_and_parsing():
     assert r.material == "PMMA" and abs(r.thickness_mm - 0.1) < 1e-12 and r.width_cm == 2 and abs(r.flow_cm_s - 5.033) < 1e-9
     saf = pd.read_csv(d / "saffire.csv")
     s24 = saf[saf["sample"] == "2-4"].iloc[0]
-    assert pd.isna(s24.thickness_mm) and "thickness_ambiguous_in_source" in s24.qc_flag  # "037 mm" is not guessed
+    # "037 mm" lacks a decimal point; read as 0.37 mm per NTRS-20180005168 Table 1, and the qc flag records that reading
+    assert abs(s24.thickness_mm - 0.37) < 1e-12 and "thickness_decimal_missing_in_source" in s24.qc_flag
+    assert s24.thickness_raw == "037 mm"  # raw source cell kept verbatim
 
 
 def test_flex_crosscheck_and_earth_vs_orbit():

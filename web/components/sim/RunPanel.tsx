@@ -29,13 +29,18 @@ function compact(r: SimResult) {
   return { outcome: r.outcome, events: r.events, warnings: r.warnings, provenance: r.provenance, t: idx.map((i) => r.t[i]), state: idx.map((i) => r.state[i]) };
 }
 
+/** Match InterpretRequestSchema: role as one string, no null DOI, summary ≤ 600 chars. */
+const evidenceForAI = (s: Scenario) => rankEvidence(s).map((e) => ({
+  accession: e.accession, title: e.title, summary: e.summary?.slice(0, 600), role: e.role.join(", ").slice(0, 40), ...(e.doi ? { doi: e.doi } : {}),
+}));
+
 export async function interpret(a: Scenario, ra: SimResult, b: Scenario | null, rb: SimResult | null) {
   const set = useSim.getState().set;
   set({ interp: { state: "loading" } });
   try {
     const res = await fetch("/api/interpret", {
       method: "POST", headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ scenario: a, result: compact(ra), evidence: rankEvidence(a), ...(b && rb && { compare: { scenario: b, result: compact(rb) } }) }),
+      body: JSON.stringify({ scenario: a, result: compact(ra), evidence: evidenceForAI(a), ...(b && rb && { compare: { scenario: b, result: compact(rb) } }) }),
     });
     const j = await res.json().catch(() => ({}));
     if (!res.ok) set({ interp: { state: "error", error: j.error ?? `Interpretation unavailable (${res.status})` } });

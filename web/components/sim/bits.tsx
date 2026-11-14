@@ -16,7 +16,7 @@ export function Num({ value, units, band, title, sources, note, className = "" }
       onClick={() => set({ receipt: { title, value: value ?? null, units, band, sources, note } })}
       aria-label={`${title}: ${value == null ? "no data" : sig(value, s)} ${units}. Open receipt`}>
       {value == null ? "∅" : sig(value, s)}{units && <span className="ml-1 text-[12px] text-mute">{units}</span>}
-      {band && value != null && <span className="ml-1 text-[12px] text-mute">{fmtBand(band.p05, band.p95)}</span>}
+      {band && value != null && <span className="ml-1 text-[12px] text-mute">{fmtBand(band.p05, band.p95, s)}</span>}
     </button>
   );
 }

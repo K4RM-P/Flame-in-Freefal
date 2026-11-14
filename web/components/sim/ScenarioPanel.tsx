@@ -158,7 +158,7 @@ function ItemRow({ it, idx, src }: { it: Item; idx: number; src: (p: string) => 
 function AddMaterial() {
   const patch = useSim((s) => s.patch);
   return (
-    <select aria-label="Add material" className="text-[12px]" value="" onChange={(e) => {
+    <select aria-label="Add material" className="min-w-0 max-w-full text-[12px]" value="" onChange={(e) => {
       const m = materialByKey(e.target.value);
       if (!m) return;
       patch((s) => {
