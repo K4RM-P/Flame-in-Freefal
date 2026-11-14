@@ -99,6 +99,29 @@
   "PSI-47": [
    "PSI-47_Experimental table_DAFT.csv#row2",
    "PSI-47_Experimental table_DAFT.csv#row3"
+  ],
+  "PSI-20": [
+   "PSI-20_Raw Data_19039B3_TP.txt#row19",
+   "PSI-20_Raw Data_19039C1_TP.txt#row24",
+   "PSI-20_Raw Data_19056A1_TP.txt#row18",
+   "PSI-20_Raw Data_19063G1_TP.txt#row23",
+   "PSI-20_Raw Data_19066A2_TP.txt#row22",
+   "PSI-20_Raw Data_19066D3_TP.txt#row20",
+   "PSI-20_Raw Data_19070L1_TP.txt#row19",
+   "PSI-20_Raw Data_20247C1_TP.txt#row23",
+   "PSI-20_Raw Data_20247P1_TP.txt#row18",
+   "PSI-20_Raw Data_20279D3_TP.txt#row24",
+   "PSI-20_Raw Data_20339J3_TP.txt#row22",
+   "PSI-20_Raw Data_20346H5_TP.txt#row23",
+   "PSI-20_Raw Data_20346L2_TP.txt#row19",
+   "PSI-20_Raw Data_20346L3_1_TP.txt#row18",
+   "PSI-20_Raw Data_20352A8_TP.txt#row23",
+   "PSI-20_Raw Data_20358G6_TP.txt#row24",
+   "PSI-20_Raw Data_21020B1_TP.txt#row19",
+   "PSI-20_Raw Data_21020C1_TP.txt#row18",
+   "PSI-20_Raw Data_21020D3_TP.txt#row24",
+   "PSI-20_Raw Data_21020F2_TP.txt#row23",
+   "PSI-20_Raw Data_21028D5_TP.txt#row23"
   ]
  },
  "results": {
@@ -173,6 +196,16 @@
    "first_pass_discrepancies": [],
    "mismatches": 0,
    "method": "each listed row: normalized fields (material_key, thickness/diameter/width, x_o2, pressure, flow, outcome, flags) compared by eye with the raw line (and the As-Run row for PSI-26) after the fixes",
+   "by": "claude-code",
+   "date": "2026-11-14"
+  },
+  "PSI-20": {
+   "rows_reviewed": 20,
+   "first_pass_discrepancies": [
+    "burn rows pointed at the 'Extinction detected: ***' line instead of 'MFCs off' -> locator fixed (caught by the automated re-read)"
+   ],
+   "mismatches": 0,
+   "method": "outcome, duration (s) and O2 attribution compared with the Ignition / Extinction detected / MFCs off lines of each TP timeline and the Experimental-table day row",
    "by": "claude-code",
    "date": "2026-11-14"
   }

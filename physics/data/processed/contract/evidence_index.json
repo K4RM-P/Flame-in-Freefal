@@ -70,6 +70,20 @@
    }
   ]
  },
+ "ethylene": {
+  "Q1": [
+   {
+    "investigation": "PSI-20",
+    "why": "135 µg ignition/burn outcomes (74 extinctions) for Ethylene (BRE gas burner; 100 % or 50 % in N2)",
+    "source": "PSI-20_Raw Data_19039A1_TP.txt",
+    "source_id": "PSI-20",
+    "locator": "PSI-20_Raw Data_19039A1_TP.txt",
+    "n": 135
+   }
+  ],
+  "Q2": [],
+  "Q3": []
+ },
  "n-heptane": {
   "Q1": [
    {
@@ -268,6 +282,20 @@
     "n": 20
    }
   ]
+ },
+ "methane": {
+  "Q1": [
+   {
+    "investigation": "PSI-20",
+    "why": "15 µg ignition/burn outcomes (15 extinctions) for Methane (BRE gas burner)",
+    "source": "PSI-20_Raw Data_20339A2_TP.txt",
+    "source_id": "PSI-20",
+    "locator": "PSI-20_Raw Data_20339A2_TP.txt",
+    "n": 15
+   }
+  ],
+  "Q2": [],
+  "Q3": []
  },
  "japan_wax": {
   "Q1": [

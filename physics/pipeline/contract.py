@@ -51,8 +51,8 @@ MATERIALS = [
 DISPLAY = {"sibal": "SIBAL cotton-fiberglass fabric", "pmma": "PMMA (acrylic)", "nomex": "Nomex", "silicone": "Silicone",
            "ultem": "Ultem (polyetherimide)", "kapton": "Kapton (polyimide)", "teflon": "Teflon (PTFE)", "pyrell": "Pyrell (polyurethane foam)",
            "cotton_lamp_wick": "Cotton lamp wick", "dibutyl_phthalate": "Dibutyl phthalate", "japan_wax": "Japan wax",
-           "paraffin_wax": "Paraffin wax", "arizona_road_dust": "Arizona Road Dust (ISO fine)", "n-heptane": "n-Heptane", "methanol": "Methanol"}
-CLASS = {k: c for _, k, c in MATERIALS} | {"n-heptane": "liquid_fuel", "methanol": "liquid_fuel"}
+           "paraffin_wax": "Paraffin wax", "ethylene": "Ethylene (BRE gas burner; 100 % or 50 % in N2)", "methane": "Methane (BRE gas burner)", "arizona_road_dust": "Arizona Road Dust (ISO fine)", "n-heptane": "n-Heptane", "methanol": "Methanol"}
+CLASS = {k: c for _, k, c in MATERIALS} | {"n-heptane": "liquid_fuel", "methanol": "liquid_fuel", "ethylene": "gas_fuel", "methane": "gas_fuel"}
 
 
 def material(text: str) -> tuple[str | None, str | None]:
@@ -474,6 +474,72 @@ def smoke() -> list[dict]:
     return out
 
 
+# ------------------------------------------------------------------ ACME BRE (PSI-20): per-test-point timelines
+MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+
+
+def bre() -> list[dict]:
+    """One row per BRE test point from its '<TP>_TP.txt' timeline: extinct if 'Extinction detected' has a time, burn if the
+    flame lasted until 'MFCs off'. O2 per test point is not in any PSI-20 file read here; it is set only when the
+    Experimental table lists a single O2 level for that day (otherwise null, flag o2_level_not_attributable)."""
+    import datetime as dt
+    tname = "PSI-20_Experimental table_ACME BRE.csv"
+    days = {}
+    for ln, c in enumerate(read_rows(RAW / "PSI-20" / tname)[1:], start=2):
+        d = dt.date(int(c[0]), MONTHS.index(c[1][:3]) + 1, int(c[2]))
+        raw_o2 = c[5].strip()
+        levels = [float(x) / 100 for x in re.findall(r"\d+(?:\.\d+)?", raw_o2)]
+        if re.fullmatch(r"\d{4}%", raw_o2):  # '3400%' = 34 % (cell format error in the source)
+            levels = [float(raw_o2.rstrip("%")) / 10000]
+        days[f"{str(c[0])[2:]}{d.timetuple().tm_yday:03d}"] = dict(levels=levels, fuel=clean(c[4]), burner=num(c[3]), loc=f"{tname}#row{ln}", raw=raw_o2)
+    out = []
+    for f in sorted((RAW / "PSI-20").glob("*_TP.txt")):
+        lines = f.read_text(encoding="latin1").splitlines()
+        text = "\n".join(lines)
+        m = re.search(r"Test Point:\s*(\S+)", text)
+        if not m:
+            continue
+        tpid = m.group(1)
+
+        def when(key):
+            for i, line in enumerate(lines, start=1):
+                if line.startswith(key + ":"):
+                    v = line.split(":", 1)[1].strip()
+                    return (dt.datetime.strptime(v, "%Y-%m-%d %H:%M:%S"), i) if re.match(r"\d{4}-", v) else (None, i)
+            return None, None
+        ign, _ = when("Ignition and retraction")
+        ext, ext_ln = when("Extinction detected")
+        off, off_ln = when("MFCs off")
+        day = days.get(tpid[:5])
+        flags = []
+        if ign is None:
+            outcome, dur = "unknown", None
+            flags.append("no_ignition_time_in_timeline")
+        elif ext is not None:
+            outcome, dur = "extinct", (ext - ign).total_seconds()
+        elif off is not None:
+            outcome, dur = "burn", (off - ign).total_seconds()
+            flags.append("burned_until_fuel_off")
+        else:
+            outcome, dur = "unknown", None
+        x = None
+        if day and len(day["levels"]) == 1:
+            x = day["levels"][0]
+            flags.append("o2_from_single_level_day")
+        else:
+            flags.append("o2_level_not_attributable" if day else "day_not_in_experimental_table")
+        fuel = day["fuel"] if day else None
+        key = ("ethylene" if "C2H4" in (fuel or "") else "methane" if "CH4" in (fuel or "") else None)
+        out.append(blank(id=f"PSI-20:{tpid}", investigation_id="ACME-BRE", test_label=f"BRE {tpid}", campaign="ACME-BRE", fuel=fuel,
+                         material_key=key, material_class="gas_fuel", geometry=f"porous burner {int(day['burner'])} mm" if day else None,
+                         flow_dir="quiescent", flow_cm_s=0.0, x_o2_initial=x, approx=False, outcome=outcome, burn_time_s=dur,
+                         outcome_raw=f"Ignition: {ign} | Extinction detected: {ext or '***'} | MFCs off: {off}",
+                         day_o2_levels=json.dumps(day["levels"]) if day else None, day_locator=day["loc"] if day else None,
+                         source_id="PSI-20", locator=f"{f.name}#row{(ext_ln if outcome == 'extinct' else off_ln) or 1}", phase="test", flags=flags))
+        o2(out[-1])
+    return out
+
+
 # ------------------------------------------------------------------ automated re-read check
 def reread_check(points: list[dict]) -> dict:
     """Parse -> re-serialize -> diff against raw cells. For every row: the locator line is re-read from the raw file and
@@ -494,6 +560,14 @@ def reread_check(points: list[dict]) -> dict:
 
     for r in points:
         acc = r["source_id"]
+        if acc == "PSI-20":  # TP timeline txt: the locator line must hold the time used for the outcome
+            f, n = r["locator"].split("#row")
+            line = (RAW / acc / f).read_text(encoding="latin1").splitlines()[int(n) - 1]
+            checks += 1
+            want = "Extinction detected" if r["outcome"] == "extinct" else "MFCs off"
+            if r["outcome"] in ("extinct", "burn") and not line.startswith(want):
+                mism.append({"id": r["id"], "field": "outcome", "raw_line": line, "parsed": r["outcome"]})
+            continue
         pairs = []
         if acc == "PSI-25":
             pairs = [("x_o2_initial", "Calibrated initial O2", 0.01), ("x_o2_final", "Calibrated final O2", 0.01)]
@@ -658,7 +732,7 @@ def manual_sample(points: list[dict], seed: int = 20261114) -> dict:
 def main() -> int:
     OUT.mkdir(parents=True, exist_ok=True)
     k, k_loc = fan_k()
-    pts = bass2(k, k_loc) + bass() + saffire() + smoke()
+    pts = bass2(k, k_loc) + bass() + saffire() + smoke() + bre()
     chk = reread_check(pts)
     manual = json.loads((OUT / "manual_check.json").read_text()) if (OUT / "manual_check.json").exists() else {}
     signed = {acc for acc, v in manual.get("results", {}).items() if v.get("mismatches") == 0}

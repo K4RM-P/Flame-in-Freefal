@@ -167,6 +167,45 @@
   "notes": "FLEX rows extracted from NASA/TP-2015-216046 Table IX; cross-checked value-by-value against the PSI-69 Experimental table."
  },
  {
+  "material_key": "ethylene",
+  "display_name": "Ethylene (BRE gas burner; 100 % or 50 % in N2)",
+  "class": "gas_fuel",
+  "forms": [
+   {
+    "thickness_mm": null,
+    "geometry": "porous burner 25 mm",
+    "diameter_mm": null
+   },
+   {
+    "thickness_mm": null,
+    "geometry": "porous burner 50 mm",
+    "diameter_mm": null
+   }
+  ],
+  "investigations": [
+   "PSI-20"
+  ],
+  "n_tests": 135,
+  "o2_range_tested": [
+   0.34,
+   0.34
+  ],
+  "p_range_kpa": null,
+  "flow_range_cm_s": [
+   0.0,
+   0.0
+  ],
+  "gravity_levels_tested": [
+   0
+  ],
+  "has_burn_data": true,
+  "has_smoke_data": false,
+  "has_1g_comparison": false,
+  "n_flagged_interpretation": 0,
+  "notes": null,
+  "provenance": "aggregated over verified rows of web/data/test_points.json with this material_key (each row: source_id + locator)"
+ },
+ {
   "material_key": "n-heptane",
   "display_name": "n-Heptane",
   "class": "liquid_fuel",
@@ -439,6 +478,37 @@
   ],
   "has_burn_data": false,
   "has_smoke_data": true,
+  "has_1g_comparison": false,
+  "n_flagged_interpretation": 0,
+  "notes": null,
+  "provenance": "aggregated over verified rows of web/data/test_points.json with this material_key (each row: source_id + locator)"
+ },
+ {
+  "material_key": "methane",
+  "display_name": "Methane (BRE gas burner)",
+  "class": "gas_fuel",
+  "forms": [
+   {
+    "thickness_mm": null,
+    "geometry": "porous burner 25 mm",
+    "diameter_mm": null
+   }
+  ],
+  "investigations": [
+   "PSI-20"
+  ],
+  "n_tests": 15,
+  "o2_range_tested": null,
+  "p_range_kpa": null,
+  "flow_range_cm_s": [
+   0.0,
+   0.0
+  ],
+  "gravity_levels_tested": [
+   0
+  ],
+  "has_burn_data": true,
+  "has_smoke_data": false,
   "has_1g_comparison": false,
   "n_flagged_interpretation": 0,
   "notes": null,

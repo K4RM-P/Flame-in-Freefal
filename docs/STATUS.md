@@ -91,3 +91,7 @@ UI requests (cannot be derived honestly from existing outputs):
   6. `evidence_index.json` is a record: material_key → {Q1,Q2,Q3: [{investigation, why, source, n}]}.
   7. `web/lib/contracts` Zod still differs from §2 in three places: files_used objects, forms objects, and nullable x_o2/pressure_kpa/outcome. The product lane has been notified.
   The SAME-R/SAME smoke model port (SM4 settling) and the golden vectors come with this data push (web/lib/physics, data lane).
+- **CP2 (partial, 2026-11-14).** ACME BRE PSI-20: 185 test points from the TP timelines (extinct 118, burn 67), verified by auto re-read plus a manual 20-row check.
+  O₂ is attributable only on 2019-03-07 (34 %): 5 of 8 points burned until fuel-off and 3 went out within 15 s. On every other day O₂ is null (`o2_level_not_attributable`).
+  test_points.json now has 870 rows. V6–V10 are not yet rerun; the habitat V9 telemetry is fetched but not modelled.
+  The push to emberatlas-build is held because web/lib/contracts Zod rejects §2 objects and nulls (see CP1 note 7).

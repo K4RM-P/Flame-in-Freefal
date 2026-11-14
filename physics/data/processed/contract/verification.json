@@ -1,6 +1,6 @@
 {
  "method": "csv-module re-read of the locator line; numeric fields re-derived from their own cell and diffed (abs 1e-9); material text must occur verbatim in the raw line",
- "rows": 410,
- "checks": 1087,
+ "rows": 595,
+ "checks": 1272,
  "mismatches": []
 }
