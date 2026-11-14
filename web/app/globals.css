@@ -32,6 +32,12 @@ table.data td { @apply border-b border-line/60 px-2 py-1.5 align-top; }
 }
 .katex { font-size: 1.02em; }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
+@media (max-width: 600px) {
+  .shell-header { gap: 8px; padding-inline: 12px; }
+  .shell-header nav { min-width: 0; overflow: hidden; }
+  .shell-header nav a:not(:first-child) { display: none; }
+  .shell-header .btn { flex: 0 0 auto; }
+}
 
 /* Editorial landing page. All colors resolve through the existing EmberAtlas tokens. */
 .landing { color: rgb(var(--ink)); }
