@@ -61,8 +61,14 @@ function usePlayback() {
 /* ---------- toolbar ---------- */
 function Toolbar() {
   const { a, b, ra, rb, editing, running, playing, frame, view, set } = useSim();
+  // Shared with /dashboard: ea.project = { name, description } (a legacy plain string is still read).
   const [project, setProject] = useState("Untitled project");
-  useEffect(() => { setProject(lsGet("ea.project", "Untitled project")); }, []);
+  const [desc, setDesc] = useState("");
+  useEffect(() => {
+    const p = lsGet<unknown>("ea.project", null);
+    if (typeof p === "string") setProject(p);
+    else if (p && typeof p === "object") { const o = p as { name?: unknown; description?: unknown }; if (typeof o.name === "string" && o.name) setProject(o.name); if (typeof o.description === "string") setDesc(o.description); }
+  }, []);
   if (!a) return null;
   const missing = [...missingFields(a), ...(b ? missingFields(b).map((m) => `B: ${m}`) : [])];
   const last = ra ? ra.t.length - 1 : 0;
@@ -70,7 +76,7 @@ function Toolbar() {
   return (
     <div className="flex flex-wrap items-center gap-2 border-b border-line bg-panel px-3 py-1.5 lg:h-11 lg:flex-nowrap lg:py-0" role="toolbar" aria-label="Simulation" data-noprint>
       <input type="text" aria-label="Project name" className="w-36 border-transparent bg-transparent font-medium hover:border-line" value={project}
-        onChange={(e) => { setProject(e.target.value); lsSet("ea.project", e.target.value); }} />
+        onChange={(e) => { setProject(e.target.value); lsSet("ea.project", { name: e.target.value, description: desc }); }} />
       <select aria-label="Scenario" className="max-w-[220px]" value={b ? editing : "a"} onChange={(e) => {
         const v = e.target.value;
         if (v === "a" || v === "b") set({ editing: v });
