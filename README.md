@@ -1,16 +1,11 @@
 # EmberAtlas — will it burn on the Moon?
 
-*NASA Space Apps Challenge 2026 · Flame in Freefall.* EmberAtlas turns NASA's ISS fire experiments into a defensible
-fire-safety verdict for the materials going into lunar habitats, with every claim traced to the PSI data behind it.
+*NASA Space Apps Challenge 2026 · Flame in Freefall.* EmberAtlas is an interactive spacecraft and lunar-habitat cabin fire simulator. Configure a cabin and materials, run a deterministic fire scenario, and inspect the physics, uncertainty, events and NASA PSI evidence behind the result.
 
 ![demo GIF placeholder](docs/demo.gif)
 
-## The Review flow (for judges)
-Landing → **Start a review** → choose a cabin (default Lunar Habitat, 34% O₂ · 8.2 psia · 1/6 g) → choose a material (default SIBAL fabric)
-→ **Review**: one verdict, three answers (Q1 Will it burn here? · Q2 If it burns, how bad? · Q3 Can we catch it and stop it?),
-the flammability map, Earth test vs orbit, what to do + the next test to fly, evidence used, and **Export Evidence Brief** (PDF + Markdown).
-Navigation: Review · Evidence Library · Methods & Validation. Verdict rules: `/methods#verdict-rules`, code in `web/lib/review/`.
-Until verified PSI solid-material data lands, the Review shows "Data pending" rather than any made-up number.
+## The simulator
+The published app opens directly to the simulator. Configure the cabin atmosphere, gravity, airflow, materials and detection/suppression settings, then run the simulation to inspect fire growth, cabin conditions, smoke, events and uncertainty. The **Methods & validation** page explains the models, calibration status, evidence and limitations. The app is hosted as a static GitHub Pages site.
 
 Run: `pnpm -C web install && pnpm -C web build && pnpm -C web start` (or `pnpm -C web dev`). Tests: `make test`, `pnpm -C web test`, `pnpm -C web e2e`.
 Submission text: `docs/SUBMISSION.md`; pitch + video script: `docs/PITCH.md`.
@@ -79,7 +74,7 @@ cd web && pnpm install && pnpm dev     # http://localhost:3000
 pnpm test && pnpm build && pnpm e2e    # vitest (golden vectors, guard, secret scan), build, Playwright
 pip install "git+https://github.com/K4RM-P/Flame-in-Freefal.git#subdirectory=physics"
 ```
-Environment (server-side only, never `NEXT_PUBLIC_`): `OPENAI_API_KEY` in `web/.env.local` (template: `web/.env.example`) or in Vercel env vars; `OPENAI_MODEL` optional, default `gpt-5.4-mini`. Without a key the scenario builder and interpretation return "Add OPENAI_API_KEY to enable interpretation"; there is no canned answer.
+Environment (server-side only, never `NEXT_PUBLIC_`): `OPENAI_API_KEY` in `web/.env.local` (template: `web/.env.example`) or in your server-hosting environment; `OPENAI_MODEL` optional, default `gpt-5.4-mini`. Without a key the scenario builder and interpretation return "Add OPENAI_API_KEY to enable interpretation"; there is no canned answer.
 
 ## Limitations
 - **Small n.** Many flight results are single tests (e.g. SAFFIRE-II: one test per material and thickness; 7 like-for-like samples in the Earth-vs-orbit matrix).
@@ -136,3 +131,7 @@ APIs: NASA PSI API (psi.nasa.gov/geode-py), NASA NTRS, OpenAI API (scenario buil
 ## License
 MIT (OSI-approved) — see LICENSE. All third-party libraries are under OSI-approved licenses (MIT, BSD-3-Clause, Apache-2.0, MPL-2.0) and fonts under SIL OFL 1.1; see `docs/REFERENCES.json`. Credits in CREDITS.md.
 
+
+
+## GitHub Pages deployment
+The `main` branch deploys `web/out` with the workflow in `.github/workflows/pages.yml`. The workflow sets `STATIC_EXPORT=1` and the repository base path. Server API routes are excluded from the static build: the simulator's core calculations run in the browser, while server-backed AI scenario interpretation requires a server deployment and is not available on GitHub Pages.
