@@ -4,9 +4,10 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
+import { Aster } from "@/components/Aster";
 import { useMission, lsGet, lsSet } from "@/lib/store";
 
-const NAV = [["/", "Overview"], ["/simulator", "Simulator"], ["/match", "Experiment match"], ["/dashboard", "Dashboard"], ["/methods", "Methods"]] as const;
+const NAV = [["/", "Overview"], ["/simulator", "Simulator"], ["/match", "Experiment match"], ["/dashboard", "Dashboard"], ["/methods", "Methods"], ["/about", "About"]] as const;
 
 export function Shell({ children }: { children: React.ReactNode }) {
   const theme = useMission((s) => s.theme);
@@ -31,7 +32,9 @@ export function Shell({ children }: { children: React.ReactNode }) {
       <main className={`mx-auto min-w-0 ${path === "/" ? "max-w-none p-0" : "max-w-[1600px] px-4 py-4 md:px-6"}`}>{children}</main>
       <footer className="mx-auto max-w-[1600px] border-t border-line px-4 py-3 text-[12px] text-faint md:px-6" data-noprint>
         Built on NASA PSI Data Repository: Combustion Science. Partial gravity is a bounded estimate (µg ↔ 1 g). Not for flight certification.
+        {" · "}<Link className="underline underline-offset-2" href="/about">About EmberAtlas</Link>
       </footer>
+      <Aster />
     </>
   );
 }

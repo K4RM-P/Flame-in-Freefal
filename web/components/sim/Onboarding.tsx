@@ -62,8 +62,8 @@ export function Onboarding() {
           <label className="block text-[13px]"><span className="mb-1 block text-mute">Material (optional)</span><select className="w-full" value={material} onChange={(e) => setMaterial(e.target.value)}><option value="">Let AI identify it from my description</option>{MATERIALS.map((m) => <option key={m.material_key} value={m.material_key}>{m.display_name}</option>)}</select></label>
         </section>
         <section className="panel space-y-4 p-4">
-          <div><p className="label">Intent</p><h2 className="mt-1 text-[20px] font-semibold">What are you trying to do?</h2></div>
-          <textarea className="min-h-40 w-full" value={goal} onChange={(e) => setGoal(e.target.value)} placeholder="Example: I need to know whether a SIBAL curtain could sustain a fire in a 34% oxygen lunar habitat, and what detector or suppression inputs I still need." />
+          <div><p className="label">Scenario Brief</p><h2 className="mt-1 text-[20px] font-semibold">What fire-safety question are you testing?</h2></div>
+          <textarea className="min-h-40 w-full" value={goal} onChange={(e) => setGoal(e.target.value)} aria-label="Fire-safety question" placeholder="Example: Could a SIBAL curtain sustain burning in a lunar habitat with 34% oxygen?" />
           <button type="button" className="btn-accent w-full px-5 py-3 text-[16px]" disabled={busy || goal.trim().length < 3} onClick={build}>{busy ? "Building a sourced draft…" : "Build my scenario →"}</button>
           {error && <p className="text-[13px] text-warn" role="alert">{error}</p>}
         </section>

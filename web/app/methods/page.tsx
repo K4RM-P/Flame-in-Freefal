@@ -4,6 +4,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { EQUATIONS } from "@/lib/equations";
 import { SOURCES } from "@/lib/sources";
+import { notes } from "./equation-notes";
 import { Tex } from "@/components/Tex";
 import catalogJson from "@/data/psi_catalog.json";
 import summary from "@/data/validation/summary.json";
@@ -20,6 +21,13 @@ const MODELS = [
   { id: "smoke", name: "Smoke ageing and transport to the detector", plain: "Smoke particles stick together as they age (coagulation) while the air carries them to the detector; the detector alarms when its threshold is crossed.", eqs: ["SM1", "SM2", "SM3", "SM4"], params: "smoke" },
   { id: "suppression", name: "Suppression by CO₂ or N₂", plain: "The released agent dilutes the cabin oxygen. A flame goes out when the calculated flame temperature falls below a critical value, or the oxygen falls below the inerting limit.", eqs: ["SU1", "SU2"], params: "suppression" },
 ] as const;
+
+const MODEL_EVIDENCE: Record<string, string> = {
+  spread: "The fitted spread temperature factor uses Saffire flight data. This is a model-level fit, with its tested cases listed below.",
+  habitat: "The cabin balance uses literature properties. Saffire-III provides temperature and pressure for the replay comparison.",
+  smoke: "SAME and SAME-R provide smoke and aerosol evidence. The current smoke model is theory-only.",
+  suppression: "FLEX oxygen limits are used to fit critical temperatures for the listed liquid fuels. Solids use the 1 g cup-burner reference.",
+};
 
 const LOOP = [
   "Each burning item spreads its flame front with the spread model at the current cabin O₂, pressure and flow; gravity enters through the equivalent-flow mapping. Its burning area grows.",
@@ -44,17 +52,24 @@ export default function Methods() {
   const invs = Object.values(cat) as any[];
   const targets = (summary as any).targets as any[];
   return (
-    <div className="mx-auto max-w-5xl space-y-6 text-[14px]">
-      <h1 className="display text-[32px]">Methods &amp; validation</h1>
-      <nav aria-label="On this page" className="flex flex-wrap gap-x-4 gap-y-1 text-[13px] text-mute">
+    <div className="methods mx-auto max-w-7xl pb-16 text-[15px]">
+      <header className="methods-hero">
+        <p className="label">EmberAtlas science</p>
+        <h1 className="display mt-3 text-4xl md:text-7xl">Methods &amp; validation</h1>
+        <p className="measure mt-4 text-lg leading-relaxed text-mute">Follow a simulation from its equations to the NASA experiments and validation checks behind it.</p>
+      </header>
+      <div className="methods-layout">
+      <nav aria-label="On this page" className="methods-nav">
+        <p className="label">On this page</p>
         {[["loop", "How a run works"], ["models", "Sub-models"], ["validation", "Validation"], ["limitations", "Limitations"], ["data", "NASA data"], ["use-of-ai", "Use of AI"], ["references", "References"]].map(([id, l]) =>
-          <a key={id} href={`#${id}`} className="underline underline-offset-2">{l}</a>)}
+          <a key={id} href={`#${id}`} className="methods-jump">{l}</a>)}
       </nav>
 
+      <div className="methods-content">
       <section id="loop" className="card space-y-2">
         <h2 className="text-[20px] font-semibold">How a run works</h2>
         <p className="measure text-mute">You describe a cabin (or load a preset). The engine then repeats these steps every half second. The same inputs and seed always give the same result.</p>
-        <ol className="measure ml-5 list-decimal space-y-1">{LOOP.map((s, i) => <li key={i}>{s}</li>)}</ol>
+        <ol className="methods-steps">{LOOP.map((s, i) => <li key={i}>{s}</li>)}</ol>
       </section>
 
       <section id="models" className="space-y-3">
@@ -70,9 +85,20 @@ export default function Methods() {
                   : <span className="chip border border-dashed border-theory/60 text-theory">◌ Theory-only</span>}
               </div>
               <p className="measure text-mute">{m.plain}</p>
+              <p className="measure text-sm text-mute"><strong>Data and calibration</strong> · {MODEL_EVIDENCE[m.id]}</p>
+              <div className="methods-equations">
               {m.eqs.filter((e) => EQUATIONS[e]).map((e) => (
-                <div key={e} className="border-t border-line pt-1"><p className="text-[12px] text-mute">{e} · {EQUATIONS[e].text}</p><Tex tex={EQUATIONS[e].tex} block /></div>
+                <section key={e} className="methods-equation">
+                  <p className="num text-xs text-mute">{e}</p>
+                  <h4 className="mt-1 font-semibold">{EQUATIONS[e].text}</h4>
+                  <div className="methods-math"><Tex tex={EQUATIONS[e].tex} block /></div>
+                  <p>{notes[e][0]}</p>
+                  <p className="text-sm text-mute">{notes[e][1]}</p>
+                  <p className="text-sm"><strong>In the simulator</strong> · {notes[e][2]}</p>
+                  {SOURCES[EQUATIONS[e].ref] && <a className="methods-source" href={`#source-${EQUATIONS[e].ref}`}>{SOURCES[EQUATIONS[e].ref].title}</a>}
+                </section>
               ))}
+              </div>
               <Calibration id={m.id} p={p} calibrated={calibrated} />
             </article>
           );
@@ -114,34 +140,42 @@ export default function Methods() {
       <section id="data" className="card space-y-2">
         <h2 className="text-[20px] font-semibold">NASA data</h2>
         <p className="measure text-mute">Every PSI row is cited by its accession (PSI-xx) plus file name and line. Data come from the public PSI API (GET only; no zips or video): <a className="underline underline-offset-2" href="https://psi.nasa.gov/physci/repo/search?q=combustion">PSI Data Repository: Combustion Science</a>.</p>
-        <table className="data">
+        <div className="overflow-x-auto"><table className="data">
           <thead><tr><th>accession</th><th>investigation</th><th>used for</th><th>DOI</th></tr></thead>
           <tbody>{KEY_PSI.map((acc) => {
             const e = invs.find((x) => x.accession === acc);
             return (
               <tr key={acc}><td className="num">{acc}</td><td>{e?.short_name ?? "—"}{e?.title && <span className="text-mute"> · {e.title}</span>}</td><td>{ROLE[acc]}</td>
-                <td>{e?.doi ? <a className="num underline underline-offset-2" href={`https://doi.org/${e.doi}`}>{e.doi}</a> : "—"}</td></tr>);
+                <td>{e?.doi ? <a className="num underline underline-offset-2" href={`https://doi.org/${e.doi}`}>Open DOI <span className="block text-xs">{e.doi}</span></a> : "—"}</td></tr>);
           })}</tbody>
-        </table>
+        </table></div>
       </section>
 
       <section id="use-of-ai" className="card space-y-1">
         <h2 className="text-[20px] font-semibold">Use of AI</h2>
         <ul className="measure ml-5 list-disc space-y-1">
           <li>Claude Code (Anthropic) wrote the code, under human direction and review.</li>
-          <li>The OpenAI API powers two features: turning a plain-English description into scenario fields (which you review before running), and the interpretation of each run.</li>
+          <li>The OpenAI API is used by the simulator to draft scenario fields for your review and interpret individual runs.</li>
           <li>The interpretation is grounded only on the engine output and the ranked PSI evidence; a numeric guard (lib/ai/guard.ts) rejects any number not present in them. Without an API key, the app says so instead of showing any text.</li>
+          <li>Aster matches questions against the bundled NASA PSI catalog in local mode.</li>
           <li>No AI-generated images are used.</li>
         </ul>
       </section>
 
       <section id="references" className="card">
         <h2 className="text-[20px] font-semibold">References</h2>
-        <ul className="ml-5 list-disc space-y-1 text-[13px]">
-          {Object.values(SOURCES).map((s) => <li key={s.id}><span className="num text-mute">[{s.id}]</span> {s.title}{s.year ? ` (${s.year})` : ""}{s.url && <> — <a className="underline" href={s.url}>{s.url}</a></>}</li>)}
+        <ul className="methods-references">
+          {Object.values(SOURCES).map((s) => (
+            <li key={s.id} id={`source-${s.id}`}>
+              {s.url ? <a className="methods-source" href={s.url}>{s.title} ↗</a> : <strong>{s.title}</strong>}
+              <p className="num mt-1 text-xs text-mute">{s.id}{s.year ? ` · ${s.year}` : ""}</p>
+            </li>
+          ))}
           <li>NIST CFAST (Consolidated Fire and Smoke Transport) zone model, for the single-zone comparison.</li>
         </ul>
       </section>
+      </div>
+      </div>
     </div>
   );
 }
@@ -152,13 +186,30 @@ function Calibration({ id, p, calibrated }: { id: string; p: any; calibrated: bo
     <p className="text-[13px] text-mute">Critical flame temperature fitted per fuel on FLEX ({p.source_id}; fitted on {(p.fitted_on ?? []).join(", ")}):{" "}
       {Object.entries(p.fuels ?? {}).map(([f, v]: [string, any]) => `${f} ${Math.round(v.T_crit_ug)} ± ${Math.round(v.T_crit_ug_sd)} K`).join("; ")}. Solids use the 1 g cup-burner reference.</p>
   );
-  const params = Object.entries(p.params ?? {});
+  const parameters = Object.entries(p.params ?? {});
   return (
-    <div className="space-y-1 text-[13px]">
-      {calibrated ? <p className="text-mute">Calibrated on {(p.sources ?? []).map((s: any) => typeof s === "string" ? s : s?.source_id ?? "unsourced").join(", ") || "—"}{p.n_train != null && ` · ${p.n_train} train / ${p.n_test ?? "?"} held-out rows`}.</p>
-        : <p className="text-mute">Not calibrated{p.note ? `: ${p.note}` : ""}. Values come from cited literature properties only.</p>}
-      {params.length > 0 && <p className="num text-[12px]">{params.map(([k, v]) => `${k} = ${typeof v === "number" ? Number(v.toPrecision(4)) : JSON.stringify(v)}`).join(" · ")}</p>}
-      {p.metrics && <p className="num text-[12px] text-mute">held-out: {Object.entries(p.metrics).map(([k, v]) => `${k} ${typeof v === "number" ? Number((v as number).toPrecision(3)) : JSON.stringify(v)}`).join(" · ")}</p>}
-    </div>
+    <details className="methods-calibration">
+      <summary className="cursor-pointer font-semibold">Calibration and held-out results</summary>
+      <p className="my-3 text-mute">{calibrated ? "Fitted to the source records below." : p.note ?? "Theory only. Values come from published properties."}</p>
+      {p.sources?.length > 0 && <ul className="mb-3 flex flex-wrap gap-2">{p.sources.map((item: string | { source_id?: string }) => {
+        const ref = typeof item === "string" ? item : item.source_id ?? "unsourced";
+        return <li key={ref}>{SOURCES[ref] ? <a className="methods-source" href={`#source-${ref}`}>{ref}</a> : ref}</li>;
+      })}</ul>}
+      {p.n_train != null && <p className="mb-3">{p.n_train} training rows · {p.n_test ?? "Unknown"} held-out rows</p>}
+      <dl className="grid gap-2 sm:grid-cols-2">{parameters.map(([key, value]) => (
+        <div key={key} className="flex justify-between gap-2 border-b border-line py-1"><dt className="num">{key}</dt><dd>{value == null ? "Not fitted" : String(value)}</dd></div>
+      ))}</dl>
+      {Object.entries(p.metrics ?? {}).map(([key, value]) => (
+        Array.isArray(value) && value.length && value.every((row) => row && typeof row === "object")
+          ? <div key={key} className="mt-4 overflow-x-auto">
+              <p className="mb-1 font-medium capitalize">{key.replaceAll("_", " ")}</p>
+              <table className="data">
+                <thead><tr>{Object.keys(value[0]).map((column) => <th key={column} scope="col">{({ obs_mm_s: "Measured (mm/s)", pred_mm_s: "Predicted (mm/s)", rel_err: "Relative error" } as Record<string, string>)[column] ?? column.replaceAll("_", " ")}</th>)}</tr></thead>
+                <tbody>{value.map((row, index) => <tr key={index}>{Object.keys(value[0]).map((column) => <td key={column}>{typeof row[column] === "number" ? Number(row[column].toPrecision(4)) : String(row[column] ?? "—")}</td>)}</tr>)}</tbody>
+              </table>
+            </div>
+          : <p key={key} className="mt-2 capitalize">{key.replaceAll("_", " ")} · {typeof value === "number" ? Number(value.toPrecision(4)) : String(value ?? "—")}</p>
+      ))}
+    </details>
   );
 }
