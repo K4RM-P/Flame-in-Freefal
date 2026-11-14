@@ -11,5 +11,5 @@ export const CLASS_NOTE: Record<string, string> = {
   Gases: "Gaseous-fuel investigations (ACME) are in Evidence; no gas-flame model yet.",
   Smoke: "Smoke aging is in the smoke model.",
 };
-export const CLASS_LINK: Record<string, string> = { Liquids: "/models/droplet", Gases: "/evidence", Smoke: "/models/smoke" };
+export const CLASS_LINK: Record<string, string> = { Liquids: "/methods#model-droplet", Gases: "/evidence", Smoke: "/methods#model-smoke" };
 export const materialById = (id: string) => MATERIALS.find((m) => m.id === id) ?? MATERIALS[0];

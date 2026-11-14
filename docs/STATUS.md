@@ -79,3 +79,10 @@ Plan and per-item commits: docs/ADOPTION_PLAN.md. Every feature passed pytest, v
 - Not done / deferred: NASA imagery, Saffire Table 2 flame sizes, 1-D transport-time model, answer-style toggle, PSI-21/PSI-106 files (API HTTP 500).
 - Lighthouse 12.2.1 (local `next start`, default mobile throttling, first measurement, so no earlier baseline): `/` perf 42 · a11y 100 · best-practices 96 · SEO 90; `/console` 53 · 98 · 96 · 90; `/evidence` 71 · 96 · 96 · 100. Performance is the weak spot (Plotly + KaTeX bundles); not addressed in this phase.
 - Final gate: `make all` (data → fit → validate → vectors → export → test) reproduces every committed artifact; pytest 21, vitest 29, `next build` OK, Playwright 41 passed / 3 skipped (axe serious = 0 on audited pages).
+
+## Product cohesion pass (2026-11-14) — product lane
+- IA collapsed to Review / Evidence Library / Methods & Validation; old routes redirect (next.config.mjs).
+- `web/lib/contracts` (Zod mirrors of the data contract) + `web/lib/review` (pure `buildReview`, verdict rules in `rules.ts`).
+- Review screen `/review`: verdict, Q1–Q3 with receipts, hero map, Earth vs orbit, actions + next test, evidence used, Export Evidence Brief (print→PDF + Markdown).
+- Without materials.json the Review shows an honest "Data pending" state (no mock numbers).
+- Next steps (skipped, time-box): cabin comparison mode (ISS vs Lunar side by side), Lighthouse tuning, new animations, after-cohesion screenshot set, full README rewrite.

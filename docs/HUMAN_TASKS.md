@@ -32,3 +32,6 @@ Open each file from psi.nasa.gov (or `physics/data/raw/psi/`) and compare the li
 - **saffire**: `PSI-100_Experimental table_SAFFIRE-3.csv` lines 2, 3; `PSI-98_Experimental table_SAFFIRE-1.csv` lines 2, 3; `PSI-99_Experimental table_SAFFIRE-2.csv` lines 2, 3, 4, 5, 6, 7, 8, 9, 10
 - **same_r**: `PSI-101_Experimental table_SAME-R.csv` lines 3, 9, 15, 18, 24, 27, 30, 32, 58, 60, 67, 69, 71, 73, 77, 79, 84, 90, 92, 98
 - **spice**: `PSI-107_Experimental table_Spice.csv` lines 5, 41, 50, 51, 59, 133, 137, 142, 167, 174, 179, 192, 204, 252, 291, 299, 375, 382, 385, 444
+
+- [ ] TODO_VERIFY: realistic cabin ventilation flow range used by the "Acceptable margin" verdict rule (currently 0–30 cm/s from the review spec, `web/lib/review/rules.ts`). Data instance: move to physics/data with a source.
+- [ ] Record the 30 s video per docs/PITCH.md + docs/VIDEO_SHOTLIST.md; deploy; set ANTHROPIC_API_KEY for Ask EmberAtlas.

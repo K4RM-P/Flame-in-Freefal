@@ -49,5 +49,5 @@ export function Band({ r, d = 3 }: { r: ModelResult; d?: number }) {
 }
 
 export function ModelLink({ id }: { id: string }) {
-  return <Link href={`/models/${id}`} className="chip border border-line text-ink">[M:{id}]</Link>;
+  return <Link href={`/methods#model-${id}`} className="chip border border-line text-ink">[M:{id}]</Link>;
 }

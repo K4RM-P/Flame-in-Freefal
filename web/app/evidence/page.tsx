@@ -10,6 +10,11 @@ import { PSI_FETCHED_AT, PSI_LIST, psiEntries } from "@/lib/psi";
 import { PsiTables } from "@/components/PsiTables";
 import { EarthVsOrbit } from "@/components/EarthVsOrbit";
 import { conditionDiff } from "@/lib/diff";
+import { GapsSection } from "@/components/library/GapsSection";
+import { EarthSection } from "@/components/library/EarthSection";
+import { AtmosphereEvidence } from "@/components/AtmosphereEvidence";
+import { SmokeMeasures } from "@/components/SmokeMeasures";
+import { DesignSuggestions } from "@/components/DesignSuggestions";
 
 export default function Evidence() {
   const m = useMission();
@@ -31,9 +36,10 @@ export default function Evidence() {
   const cards = INVESTIGATIONS.filter((i) => sel.includes(i.id));
   return (
     <div className="space-y-6">
-      <div><h1 className="text-2xl font-semibold">Evidence Explorer</h1>
+      <div><h1 className="display text-[32px]">Evidence Library</h1>
         <p className="text-sm text-mute">Which PSI investigations matter for this mission atmosphere ({fmt(m.x_o2 * 100)}% O₂, {m.P_kPa} kPa, {m.flow_cm_s} cm/s)? Edit weights; hover a bar for the breakdown.</p></div>
       <EarthVsOrbit />
+      <AtmosphereEvidence />
       <section className="grid gap-4 lg:grid-cols-3">
         <div className="card space-y-2">
           <span className="label">Weights</span>
@@ -111,6 +117,9 @@ export default function Evidence() {
                 <td className="text-xs text-mute">{t.locator}</td></tr>))}</tbody></table>
         </div>
       </section>
+      <section id="gaps" className="scroll-mt-20 border-t border-line pt-6"><GapsSection /></section>
+      <section id="detection" className="scroll-mt-20 space-y-4 border-t border-line pt-6"><SmokeMeasures /><DesignSuggestions /></section>
+      <section id="earth-applications" className="scroll-mt-20 border-t border-line pt-6"><EarthSection /></section>
     </div>
   );
 }

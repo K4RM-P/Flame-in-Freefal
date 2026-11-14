@@ -4,7 +4,7 @@ import { useMemo } from "react";
 import { runHabitat, runSpread, runSuppression } from "@/lib/physics/models";
 import { ModelLink, SourcePill, ValidityBadges, fmt } from "@/components/bits";
 
-export default function Earth() {
+export function EarthSection() {
   const cases = useMemo(() => [
     { title: "O₂-enriched hospital room / home oxygen", r: runSpread("cotton", 0.30, 101.3, 10, 0.1, 1, "opposed", 100),
       text: (v: number) => `Cotton bedding (0.1 mm) at 30% O₂, 1 atm, opposed buoyant flow: ${fmt(v)} mm/s vs ${fmt(runSpread("cotton", 0.21, 101.3, 10, 0.1, 1, "opposed", 1).value)} mm/s in air.`, unit: "mm/s" },
@@ -17,7 +17,7 @@ export default function Earth() {
   ], []);
   return (
     <div className="space-y-4">
-      <h1 className="text-2xl font-semibold">Earth applications</h1>
+      <h2 className="display text-[24px]">Earth applications</h2>
       <p className="text-sm text-mute">The same physics, run for O₂-enriched or sealed environments on Earth. All theory-level unless marked calibrated. NASA spin-offs from fire research include water-mist suppression, smoke vs dust discrimination in detectors, and lighter firefighter air tanks.</p>
       <div className="grid gap-4 md:grid-cols-2">
         {cases.map((c) => (

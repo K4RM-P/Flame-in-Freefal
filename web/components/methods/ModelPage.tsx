@@ -15,7 +15,7 @@ import * as M from "@/lib/physics/models";
 import * as D from "@/lib/physics/droplet";
 import { atmosphere } from "@/lib/physics/thermo";
 
-const TABS = ["spread", "droplet", "suppression", "gravity", "habitat", "smoke", "boundary"];
+export { MODEL_IDS } from "./modelIds";
 type Num = Record<string, number>;
 interface Slider { k: string; label: string; min: number; max: number; step: number }
 
@@ -51,7 +51,7 @@ export function ModelPage({ id }: { id: string }) {
 
   return (
     <div className="space-y-4">
-      <div className="flex flex-wrap gap-2 text-sm">{TABS.map((t) => <Link key={t} href={`/models/${t}`} className={`btn ${t === id ? "border-ink text-ink" : ""}`}>{t}</Link>)}</div>
+
       <Caveat />
       {!result ? (
         <div className="card space-y-2">

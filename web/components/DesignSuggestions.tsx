@@ -42,7 +42,7 @@ export function DesignSuggestions() {
           {" "}<span className="text-xs text-mute">Smoke model is uncalibrated (N₀, d₀ defaults).</span> <SourcePill id="seinfeld-pandis" /><SourcePill id={PHOTO.source} /><SourcePill id="PSI-101" /></li>
         <li data-testid="suggest-suppression"><b>Suppressant.</b> For n-heptane (the fuel with a µg-calibrated T<sub>crit</sub>), thermal theory needs {r.supp.map((s) => `${s.a === "HE" ? "He" : s.a.replace("2", "₂")} ${fmt(s.r.value * 100, 3)}%`).join(", ")} (mole fraction added to the cabin).
           The smallest required concentration is <b>{best.a.replace("2", "₂")} at {fmt(best.r.value * 100, 3)}%</b> ({fmt(best.r.uncertainty.p05 * 100, 3)}–{fmt(best.r.uncertainty.p95 * 100, 3)}%). Helium is excluded from this choice because FLEX shows it performs differently than thermal theory predicts.
-          {" "}<Link className="underline" href="/models/suppression">Model page</Link> <SourcePill id="sfpe-beyler" /><SourcePill id="dietrich-2014" /></li>
+          {" "}<Link className="underline" href="/methods#model-suppression">Model page</Link> <SourcePill id="sfpe-beyler" /><SourcePill id="dietrich-2014" /></li>
         <li data-testid="suggest-ventilation"><b>Ventilation shutdown.</b> Not computed: the flammability-boundary model (burn vs extinguish at low flow) is not built yet, because PSI has no solid burn/extinct outcome table.
           {LOW_FLOW && <> Flight observation to weigh before relying on fan shutdown: &ldquo;{LOW_FLOW.text}&rdquo; <span className="chip bg-warn/15 text-warn">to verify</span> <SourcePill id={LOW_FLOW.source_id} /></>}
           {" "}Mission flow here: {fmt(m.flow_cm_s)} cm/s.</li>

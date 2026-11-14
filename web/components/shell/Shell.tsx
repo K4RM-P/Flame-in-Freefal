@@ -14,12 +14,11 @@ import { AskPanel } from "@/components/AskPanel";
 import { MissionPill } from "./MissionPill";
 import { Receipt } from "./Receipt";
 
-const NAV = [["/console", "Console", "c"], ["/models/spread", "Models", "m"], ["/validation", "Validation", "v"], ["/evidence", "Evidence", "e"],
-  ["/gaps", "Gaps & Next Test", "g"], ["/implications", "Implications", "i"], ["/earth", "Earth", ""], ["/methods", "Methods", ""]] as const;
+const NAV = [["/review", "Review", "r"], ["/evidence", "Evidence Library", "e"], ["/methods", "Methods & Validation", "m"]] as const;
 
 export function Shell({ children }: { children: React.ReactNode }) {
   const s = useMission();
-  const path = usePathname();
+  const path = usePathname().replace(/(.)\/$/, "$1"); // static export uses trailing slashes
   const router = useRouter();
   const hydrated = useRef(false);
   const bare = path === "/" || path === "/start";

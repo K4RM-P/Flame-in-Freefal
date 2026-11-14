@@ -27,7 +27,7 @@ function Rendered({ text }: { text: string }) {
         if (p === "(removed unsupported claim)") return <span key={i} className="chip border border-bad/50 text-bad">removed unsupported claim</span>;
         const m = p.match(/^\[(S|M):([^\]]+)\]$/);
         if (!m) return <span key={i}>{p}</span>;
-        if (m[1] === "M") return <Link key={i} href={`/models/${m[2]}`} className="chip mx-0.5 border border-line text-ink underline-offset-2 hover:underline">M:{m[2]}</Link>;
+        if (m[1] === "M") return <Link key={i} href={`/methods#model-${m[2]}`} className="chip mx-0.5 border border-line text-ink underline-offset-2 hover:underline">M:{m[2]}</Link>;
         const s = source(m[2]);
         return <a key={i} href={s.url ?? "/methods#references"} target="_blank" rel="noreferrer" title={s.title} className="chip mx-0.5 border border-line text-mute hover:text-ink">S:{m[2]}</a>;
       })}
@@ -109,7 +109,7 @@ export function AskPanel({ initial }: { initial?: string }) {
           <Rendered text={ans.answer} />
           {ans.note && <p className="text-[12px] text-mute">{ans.note}</p>}
           <div className="flex gap-2">
-            <Link href={href ?? "/console"} className="btn" onClick={() => useMission.setState({ drawer: null })}>Open in Console</Link>
+            <Link href={href ?? "/review"} className="btn" onClick={() => useMission.setState({ drawer: null })}>Open in Review</Link>
             <CopyButton label="Copy with sources" text={`${ans.answer}\n\nSources:\n${[...new Set([...ans.answer.matchAll(/\[S:([^\]]+)\]/g)].map((m) => m[1]))].map((id) => `- ${source(id).title}${source(id).url ? ` ${source(id).url}` : ""}`).join("\n")}`} />
           </div>
         </div>

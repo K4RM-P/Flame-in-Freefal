@@ -1,11 +1,22 @@
-# EmberAtlas — validated microgravity fire-safety models on NASA PSI data
+# EmberAtlas — will it burn on the Moon?
 
-*NASA Space Apps Challenge 2026 · Flame in Freefall.* NASA's ISS fire experiments, turned into combustion models an Artemis
-designer can run — with an equation, uncertainty band, validation score and source for every number.
+*NASA Space Apps Challenge 2026 · Flame in Freefall.* EmberAtlas turns NASA's ISS fire experiments into a defensible
+fire-safety verdict for the materials going into lunar habitats, with every claim traced to the PSI data behind it.
 
 ![demo GIF placeholder](docs/demo.gif)
 
-## What it does
+## The Review flow (for judges)
+Landing → **Start a review** → choose a cabin (default Lunar Habitat, 34% O₂ · 8.2 psia · 1/6 g) → choose a material (default SIBAL fabric)
+→ **Review**: one verdict, three answers (Q1 Will it burn here? · Q2 If it burns, how bad? · Q3 Can we catch it and stop it?),
+the flammability map, Earth test vs orbit, what to do + the next test to fly, evidence used, and **Export Evidence Brief** (PDF + Markdown).
+Navigation: Review · Evidence Library · Methods & Validation. Verdict rules: `/methods#verdict-rules`, code in `web/lib/review/`.
+Until verified PSI solid-material data lands, the Review shows "Data pending" rather than any made-up number.
+
+Run: `pnpm -C web install && pnpm -C web build && pnpm -C web start` (or `pnpm -C web dev`). Tests: `make test`, `pnpm -C web test`, `pnpm -C web e2e`.
+Submission text: `docs/SUBMISSION.md`; pitch + video script: `docs/PITCH.md`.
+
+## Details (pre-cohesion feature list; Console/Models/Gaps now live under Review / Evidence Library / Methods)
+
 - **Fire Risk Console**: pick a crew atmosphere (ISS, Orion, 30%/70.3 kPa Moon base, 34%/56.5 kPa lunar habitat, rover, Mars), toggle µg / Moon / Mars / 1 g, and see flame spread, CO₂ needed to inert, cabin consequences and smoke size — each with ⓘ (equation, inputs, assumptions, validation, sources).
 - **Model calculators** (`/models/*`) with Monte Carlo p05–p95 bands, extrapolation badges and Markdown engineering-report export.
 - **Validation Lab**: published targets and held-out FLEX campaigns, parity plots, metrics, and the data rows used. Failures are shown.

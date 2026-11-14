@@ -3,14 +3,37 @@ import { EQUATIONS } from "@/lib/equations";
 import { SOURCES } from "@/lib/sources";
 import { Tex } from "@/components/Tex";
 import { SourcePill } from "@/components/bits";
+import { ValidationLab } from "@/components/methods/ValidationLab";
+import { MODEL_IDS } from "@/components/methods/modelIds";
+import { ModelDetails } from "@/components/methods/ModelDetails";
+import { RULES } from "@/lib/review/rules";
+
+const VERDICT_LABEL: Record<string, string> = { pending: "Pending", likely: "Likely to sustain fire", acceptable: "Acceptable margin", marginal: "Marginal", no_burn_data: "No orbit burn data" };
+const DATA_AUDIT = "https://github.com/K4RM-P/Flame-in-Freefal/blob/emberatlas-build/docs/DATA_AUDIT.md";
 
 const LIBS = ["openpyxl", "xlrd", "Next.js 15", "React 19", "Tailwind CSS 3", "Plotly.js 3 / react-plotly.js", "KaTeX", "Zustand", "Zod", "Anthropic TypeScript SDK (Claude API)", "Vitest",
   "NumPy", "SciPy", "pandas", "PyArrow", "scikit-learn", "PyYAML", "pdfplumber", "pytest"];
 
 export default function Methods() {
   return (
-    <div className="prose-invert max-w-4xl space-y-6 text-sm">
-      <h1 className="text-2xl font-semibold">Methods</h1>
+    <div className="prose-invert max-w-6xl space-y-6 text-sm">
+      <h1 className="display text-[32px]">Methods &amp; Validation</h1>
+      <nav aria-label="On this page" className="flex flex-wrap gap-x-4 gap-y-1 text-[13px] text-mute">
+        {[["verdict-rules", "Verdict rules"], ["validation", "Validation"], ["models", "Models"], ["limitations", "Limitations"], ["use-of-ai", "Use of AI"], ["references", "References"]].map(([id, l]) => <a key={id} href={`#${id}`} className="underline underline-offset-2">{l}</a>)}
+        <a href={DATA_AUDIT} className="underline underline-offset-2">Data audit</a>
+      </nav>
+      <section className="card space-y-2" id="verdict-rules">
+        <h2 className="label">Verdict rules</h2>
+        <p className="text-mute">How the Review turns orbit test outcomes into a verdict. Rules are applied as written; partial gravity never upgrades a verdict.</p>
+        <dl className="space-y-2">
+          {Object.entries(RULES.verdictText).map(([k, t]) => <div key={k}><dt className="font-medium">{VERDICT_LABEL[k] ?? k}</dt><dd className="text-mute">{t}</dd></div>)}
+        </dl>
+        <p className="text-mute">Earth-gravity comparisons: {RULES.earthCaveat}</p>
+      </section>
+      <section className="card space-y-1" id="data-audit">
+        <h2 className="label">Data audit</h2>
+        <p>Every row, its source locator and its verification status are listed in the <a href={DATA_AUDIT} className="underline underline-offset-2">data audit (docs/DATA_AUDIT.md)</a>. Models train only on verified rows; held-out test rows are never fitted.</p>
+      </section>
       <section className="card space-y-2">
         <h2 className="label">Pipeline</h2>
         <ol className="ml-5 list-decimal space-y-1">
@@ -34,7 +57,13 @@ export default function Methods() {
           EmberAtlas reads PSI investigation metadata, DOIs and Experimental tables through the public PSI API (GET only; no zips or video) and cites every
           record by its PSI accession (PSI-xx) plus file name and line.</p>
       </section>
-      <section className="card space-y-1" data-testid="limitations">
+      <section id="validation" className="scroll-mt-20"><ValidationLab /></section>
+      <section id="models" className="card space-y-2 scroll-mt-20">
+        <h2 className="label">Models</h2>
+        <p className="text-mute">Each model with its equations, inputs and p05–p95 band. Open one to run it against the current mission.</p>
+        {MODEL_IDS.map((id) => <ModelDetails key={id} id={id} />)}
+      </section>
+      <section className="card space-y-1" id="limitations" data-testid="limitations">
         <h2 className="label">Limitations</h2>
         <ul className="ml-5 list-disc space-y-1">
           <li><b>Small n.</b> Many flight results are single tests; SAFFIRE-II has one test per material and thickness (7 like-for-like samples in Earth test vs orbit).</li>
@@ -52,7 +81,14 @@ export default function Methods() {
         <pre className="overflow-x-auto rounded bg-bg p-2 font-mono text-xs">{`pip install "git+https://github.com/K4RM-P/Flame-in-Freefal.git#subdirectory=physics"
 python -c "from emberphys.models import run_droplet; print(run_droplet('n-heptane', 0.21, 101.3, 3.0).value)"`}</pre>
         <p>License: MIT. Cite as: EmberAtlas team (2026), <i>EmberAtlas: validated microgravity fire-safety models on NASA PSI data</i>, NASA Space Apps Challenge.</p>
-        <p>Use of AI (SI): Claude Code (Anthropic) wrote the codebase, pipelines, tests and docs under human direction (source files carry an &quot;SI-assisted&quot; header); the Claude API powers the Ask agent at runtime. No SI-generated images or video are used. Full list: docs/REFERENCES.json.</p>
+      </section>
+      <section className="card space-y-1" id="use-of-ai">
+        <h2 className="label">Use of AI</h2>
+        <ul className="ml-5 list-disc space-y-1">
+          <li>Claude Code (Anthropic) wrote the code, under human direction and review.</li>
+          <li>The Claude API powers Ask EmberAtlas. Answers are grounded only on tool outputs (model runs, PSI rows, cited sources); a numeric guard (lib/ai/guard.ts) rejects any number not present in those outputs.</li>
+          <li>No AI-generated images are used anywhere in EmberAtlas.</li>
+        </ul>
       </section>
       <section className="card" id="references">
         <h2 className="label">References</h2>

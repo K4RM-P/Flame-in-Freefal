@@ -17,12 +17,11 @@ test("B2: Evidence data view loads PSI Experimental tables with provenance", asy
   await expect(t).toContainText("PSI-25_Experimental table_BASS-II.csv, line 2");
   await page.getByTestId("psi-table-select").selectOption("saffire");
   await expect(t).toContainText("PSI-99_Experimental table_SAFFIRE-2.csv");
-  await page.goto("/gaps");
   await expect(page.getByTestId("psi-coverage")).toContainText("bass2");
 });
 
-test("B3: Console links to the Earth-test-vs-orbit matrix with framing and small-n warning", async ({ page }) => {
-  await page.goto("/console");
+test("B3: Review links to the Earth-test-vs-orbit matrix with framing and small-n warning", async ({ page }) => {
+  await page.goto("/review");
   await page.getByTestId("link-earth-vs-orbit").click();
   await expect(page).toHaveURL(/evidence#earth-vs-orbit/);
   const m = page.getByTestId("earth-vs-orbit");
@@ -34,7 +33,6 @@ test("B3: Console links to the Earth-test-vs-orbit matrix with framing and small
 
 test("B4: lunar habitat shows ACME BRE exploration-atmosphere evidence without claiming a pressure match", async ({ page }) => {
   await page.goto("/start");
-  await page.getByTestId("role-safety").click();
   await page.getByTestId("start-env-LunarHabitat").click();
   await page.getByTestId("start-mat-sibal").click();
   const a = page.getByTestId("atmosphere-evidence");
@@ -44,13 +42,11 @@ test("B4: lunar habitat shows ACME BRE exploration-atmosphere evidence without c
 });
 
 test("B6: suppression is framed as an ideal calculated flame temperature, helium as a finding", async ({ page }) => {
-  await page.goto("/models/suppression");
+  await page.goto("/methods#model-suppression");
   const f = page.getByTestId("supp-framing");
   await expect(f).toContainText("ideal, calculated flame temperature where the flame can no longer survive");
   await expect(f).toContainText("radiation and conduction");
   await expect(f).toContainText("not noise");
-  await page.goto("/console");
-  await expect(page.getByTestId("card-supp")).toContainText("not a measured value");
 });
 
 test("B8: PSI Combustion Science resource link on landing and Methods; Limitations listed", async ({ page }) => {
@@ -62,8 +58,8 @@ test("B8: PSI Combustion Science resource link on landing and Methods; Limitatio
   for (const t of ["Small n", "Like-for-like", "Calculated vs measured", "No partial-gravity data in PSI", "digitized"]) await expect(l).toContainText(t);
 });
 
-test("B5: Implications shows number, first-moment and mass smoke measures with dust overlap and no alarm claim", async ({ page }) => {
-  await page.goto("/implications");
+test("B5: Evidence Library shows number, first-moment and mass smoke measures with dust overlap and no alarm claim", async ({ page }) => {
+  await page.goto("/evidence");
   const s = page.getByTestId("smoke-measures");
   await expect(s).toContainText("one smoke, three signals");
   await expect(s).toContainText("ionization-type");
@@ -71,8 +67,8 @@ test("B5: Implications shows number, first-moment and mass smoke measures with d
   await expect(s).toContainText("no alarm result is stated");
 });
 
-test("B7: Implications shows cited concept design suggestions from model outputs", async ({ page }) => {
-  await page.goto("/implications");
+test("B7: Evidence Library shows cited concept design suggestions from model outputs", async ({ page }) => {
+  await page.goto("/evidence");
   const d = page.getByTestId("design-suggestions");
   await expect(d).toContainText("concept recommendations");
   await expect(page.getByTestId("suggest-detection")).toContainText("ionization");
@@ -88,12 +84,4 @@ test("A3: ticking two test points shows only the conditions that changed", async
   await expect(d).toContainText("What changed · FLEX-001 → FLEX-002");
   await expect(d).toContainText("initial droplet diameter");
 });
-
-test("A2: lunar Console smoke card reports gravitational settling (bounded estimate)", async ({ page }) => {
-  await page.goto("/start");
-  await page.getByTestId("role-safety").click();
-  await page.getByTestId("start-env-LunarHabitat").click();
-  await page.getByTestId("start-mat-sibal").click();
-  await expect(page.getByTestId("smoke-settling")).toContainText("settle");
-  await expect(page.getByTestId("smoke-settling")).toContainText("bounded estimate");
-});
+// A2 (smoke settling) lived on the removed Console card; settling is reported by the smoke model under /methods#model-smoke.
