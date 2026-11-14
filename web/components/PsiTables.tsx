@@ -4,6 +4,7 @@
 import { useEffect, useState } from "react";
 import index from "@/data/psi/tables_index.json";
 import { download } from "@/lib/report";
+import { withBase } from "@/lib/basePath";
 
 interface TableInfo { key: string; rows: number; accessions: string[]; columns: string[]; qc_rows: number; files: string[] }
 type Row = Record<string, unknown>;
@@ -18,7 +19,7 @@ export function PsiTables() {
   useEffect(() => {
     let live = true;
     setRows(null);
-    fetch(`/psi/${key}.json`).then((r) => r.json()).then((d) => live && setRows(d)).catch(() => live && setRows([]));
+    fetch(withBase(`/psi/${key}.json`)).then((r) => r.json()).then((d) => live && setRows(d)).catch(() => live && setRows([]));
     return () => { live = false; };
   }, [key]);
   const cols = info.columns.filter((c) => !HIDE.has(c));

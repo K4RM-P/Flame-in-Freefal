@@ -21,6 +21,8 @@
 10. **New TODO_VERIFY values:** `smoke.particle_density` (unit-density convention from the PSI-47 workbook, used for SM4 settling) and the ACME BRE result "extinct at 21 % within ~40 s; steady at 26.5/34/40 %" (`dehghani-bre`, shown with a "to verify" chip on the Console).
 11. **Earth test vs orbit wording review:** a science checker should read `/evidence#earth-vs-orbit` and confirm the classification rule (Complete / ~0 / partial) and that the 1 g column in PSI-99 is the normal-gravity screening result the SAFFIRE objective refers to.
 
+12. **GitHub Pages (repo admin):** Settings → Pages → Build and deployment → Source = **GitHub Actions**, then re-run the "Deploy web app to GitHub Pages" workflow (Actions tab). Until then https://k4rm-p.github.io/Flame-in-Freefal/ shows the README rendered by Jekyll, not the app.
+
 ## PSI table spot-check (verified=false until done)
 Open each file from psi.nasa.gov (or `physics/data/raw/psi/`) and compare the listed rows with `physics/data/processed/psi/<table>.csv` (normalized columns + `raw`). Record name/date per table in `physics/data/verification.yaml → psi_spotcheck`.
 

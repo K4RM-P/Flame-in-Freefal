@@ -6,6 +6,8 @@ import { GOLDEN_QUESTIONS, ROLE_QUESTIONS } from "@/lib/ai/questions";
 import { source } from "@/lib/sources";
 import { useMission } from "@/lib/store";
 import { CopyButton } from "@/components/ui-kit";
+import { STATIC_EXPORT } from "@/lib/basePath";
+import { askStatic } from "@/lib/ai/staticAsk";
 
 interface Trace { name: string; input: Record<string, unknown>; output: Record<string, unknown>; ms?: number }
 const short = (o: unknown) => (typeof o === "number" ? Number(o.toPrecision(3)) : o);
@@ -43,6 +45,11 @@ export function AskPanel({ initial }: { initial?: string }) {
   async function ask(question: string) {
     setQ(question); setBusy(true); setTrace([]); setAns(null);
     const t0 = performance.now();
+    if (STATIC_EXPORT) {
+      const r = askStatic(question);
+      setTrace(r.trace.map((t) => ({ ...t, ms: 0 }))); setAns(r.answer); setBusy(false);
+      return;
+    }
     try {
       const res = await fetch("/api/ask", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ question }) });
       const reader = res.body!.getReader(); const dec = new TextDecoder(); let buf = ""; let last = t0;

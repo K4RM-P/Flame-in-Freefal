@@ -1,6 +1,7 @@
 // SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 import Link from "next/link";
 import { source } from "@/lib/sources";
+import { withBase } from "@/lib/basePath";
 import type { ModelResult } from "@/lib/physics/models";
 
 export const fmt = (x: number | null | undefined, d = 3) =>
@@ -10,7 +11,7 @@ export function SourcePill({ id }: { id: string }) {
   const s = source(id);
   const outside = /OUTSIDE PSI/.test(s.title);
   return (
-    <a href={s.url ?? "/methods#references"} target={s.url ? "_blank" : undefined} rel="noreferrer" title={s.title}
+    <a href={s.url ?? withBase("/methods#references")} target={s.url ? "_blank" : undefined} rel="noreferrer" title={s.title}
       className={`chip mr-1 mb-1 border ${outside ? "border-warn text-warn" : "border-line text-mute"} hover:text-ink`}>
       [S:{id}]{outside ? " · outside PSI" : ""}
     </a>

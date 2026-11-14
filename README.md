@@ -71,6 +71,12 @@ pip install "git+https://github.com/K4RM-P/Flame-in-Freefal.git#subdirectory=phy
 ```
 Environment: set `OPENAI_API_KEY` as a server-side deployment secret for Aster, then redeploy. `OPENAI_MODEL` optionally overrides `gpt-4.1-mini`. If the OpenAI key is absent, the app uses a configured `ANTHROPIC_API_KEY` or the cached demo. `DEMO_MODE=1` forces cached answers. Use **Ask Aster** in the lower corner or the existing Ask page.
 
+### Deploy to GitHub Pages (static)
+`.github/workflows/pages.yml` builds a static export (`STATIC_EXPORT=1`, base path `/<repo>`) on every push to `main` and deploys it to
+https://k4rm-p.github.io/Flame-in-Freefal/. One-time admin setting: **Settings → Pages → Source = "GitHub Actions"** (until then Pages keeps
+rendering this README with Jekyll). The static site has no server, so Ask serves the 12 cached golden answers; live Claude answers need the
+server deployment (Vercel). Local preview: `STATIC_EXPORT=1 PAGES_BASE_PATH=/Flame-in-Freefal pnpm -C web build` (move `web/app/api` aside first).
+
 ## Limitations
 - **Small n.** Many flight results are single tests (e.g. SAFFIRE-II: one test per material and thickness; 7 like-for-like samples in the Earth-vs-orbit matrix).
 - **Like-for-like only.** Comparisons hold only for the same material, thickness, O₂, flow speed and direction; they never generalize to a ground test standard.
