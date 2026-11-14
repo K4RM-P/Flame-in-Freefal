@@ -4,29 +4,30 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="description" content="Explore NASA combustion research and compare evidence for spacecraft fire safety.">
-<title>Project Max Q | Flame in Freefall</title>
-<link rel="preload" href="fonts/barlow.woff2" as="font" type="font/woff2" crossorigin>
+<title>Flame Firewall | Project Max Q</title>
+<link rel="preload" href="fonts/space-grotesk.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="dashboard.css">
+<link rel="stylesheet" href="firewall.css">
 
 </head>
 <body>
 <header><nav class="wrap" aria-label="Main navigation">
-<a class="brand" href="#top"><span class="mark" aria-hidden="true">Q</span>Project Max Q</a>
-<div><a href="#detector-challenge">Lunar challenge</a><a href="#optimizer">Optimizer</a><a href="#sim">Simulator</a><a href="#physics">Physics</a><a href="#coverage">Evidence map</a><a href="#explore">Research</a></div>
+<a class="brand" href="#top"><span class="mark" aria-hidden="true">F</span>Flame Firewall</a>
+<button id="nav-toggle" aria-expanded="false" aria-controls="mission-nav" type="button">Menu</button><div id="mission-nav"><a href="#top">Mission Brief</a><a href="#sim">Simulation Bay</a><a href="#research">Research</a><button type="button" data-open-aster>Ask Aster</button></div>
 </nav></header>
 <main class="wrap">
 <div class="hero" id="top">
-  <div class="hero-copy"><p class="kicker">NASA Space Apps Challenge 2026</p><h1>Flame in<br><span>Freefall</span></h1><p class="intro">Find the NASA research that informs what to test for fire safety in spacecraft and surface habitats.</p>
+  <div class="hero-copy"><p class="kicker">NASA Space Apps Challenge 2026</p><h1>Flame in<br><span>Freefall</span></h1><p class="intro">Explore NASA fire experiments, model smoke transport, and compare detector placements for future habitats.</p>
   <div class="hero-action"><a class="primary guide-launch" href="#judge-demo">Start guided demo <span aria-hidden="true">↓</span></a><button class="secondary" id="demo" type="button">Open lunar research brief</button></div></div>
   <figure class="hero-photo">
     <img src="images/sofie.jpg" alt="Rows of blue and orange flames around spherical fuel samples in the SoFIE experiment" width="1280" height="784" fetchpriority="high">
     <figcaption><span>SoFIE · International Space Station</span><a href="https://www.nasa.gov/gallery/solid-fuel-ignition-and-extinction-sofie/">NASA imagery →</a></figcaption>
   </figure>
 </div>
-<div class="jump-grid" aria-label="Explore Project Max Q">
-  <a href="#detector-challenge"><div><strong>Lunar challenge</strong><span>Move the rack and compare two detectors.</span></div><span aria-hidden="true">→</span></a>
-  <a href="#physics"><div><strong>Physics lab</strong><span>Explore formulas and flight measurements.</span></div><span aria-hidden="true">→</span></a>
-  <a href="#coverage"><div><strong>Evidence map</strong><span>Compare a mission with NASA test conditions.</span></div><span aria-hidden="true">→</span></a>
+<div class="jump-grid mission-destinations" aria-label="Explore Flame Firewall">
+  <a href="#sim"><div><strong>Simulation Bay</strong><span>Run a smoke release and compare detector placements.</span></div><span aria-hidden="true">→</span></a>
+  <a href="#research"><div><strong>Research</strong><span>Explore equations, NASA studies, and flight data.</span></div><span aria-hidden="true">→</span></a>
+  <button class="destination-aster" type="button" data-open-aster><div><strong>Ask Aster</strong><span>Get a source-linked brief for your mission.</span></div><span aria-hidden="true">→</span></button>
 </div>
 <section id="science" class="dashboard-section">
   <div class="sectionhead"><div><p class="kicker">Microgravity combustion</p><h2>What changes in orbit?</h2></div></div>
@@ -55,17 +56,17 @@
 <section id="explore" class="dashboard-section"><div class="sectionhead"><div><h2>Mission control</h2><p>Set a mission profile and ask a fire safety question.</p></div></div>
 <div class="mission-grid">
 <div class="panel mission-profile"><h3>Mission profile</h3><div class="controls"><label>Setting<select id="setting"><option value="orbit">Orbital spacecraft</option><option value="moon">Lunar habitat</option><option value="mars">Mars habitat</option><option value="rover">Pressurized rover</option></select></label><label>Priority<select id="priority"><option value="all">All priorities</option><option>Prevention</option><option>Detection</option><option>Suppression</option></select></label></div><p id="scope"></p><details><summary>How relevance is scored</summary><p class="small">Add 35 for a matching priority, 20 per matched research topic (up to 40), up to 20 for fit to the mission setting, and up to 5 for numerical evidence in the record. The score orders this collection by relevance.</p></details></div>
-<div class="analysis"><div class="panel"><h3>Research question</h3><form class="query" id="query"><label class="visually-hidden" for="question">Research question</label><input id="question" maxlength="240" placeholder="How does ventilation affect flame spread?"><button class="primary" type="submit">Ask →</button></form><div class="chips"><button type="button" data-question="How does ventilation affect flame spread?">Airflow</button><button type="button" data-question="How do smoke detectors pick up particles?">Smoke detection</button><button type="button" data-question="Can heptane droplets keep burning after the visible flame disappears?">Cool flames</button></div></div>
-<div class="panel answer" id="answer" aria-live="polite" hidden></div><button id="model" type="button" hidden style="margin-top:.6rem">Draft synthesis with on-device AI</button>
-<div class="panel idle-brief" id="idle"><h3>Mission brief</h3><p>Ask a question or select a suggested topic to see the strongest finding, what it could inform, and what still needs testing.</p></div></div></div>
+<div class="panel mission-brief-entry"><h3>Research assistant</h3><p>Aster uses your mission profile to frame findings and suggest what to test next.</p><button type="button" class="primary" data-open-aster>Ask Aster</button></div></div>
 </section>
 <section id="sim" class="dashboard-section">
-  <div class="sectionhead"><div><p class="kicker">Interactive spacecraft cutaway</p><h2>3D smoke transport simulator</h2><p>Ignite a simulated smoke source and see whether ventilation carries particles past the detector.</p></div></div>
+  <div class="sectionhead"><div><p class="kicker">Interactive spacecraft cutaway</p><h2>Simulation Bay</h2><p>Ignite a simulated smoke source and see whether ventilation carries particles past the detector.</p></div></div>
   <div class="sim-grid">
-    <div class="panel sim-stage">
+    <div class="panel sim-stage" id="sim-screen"><div class="screen-tools"><span>Cabin cutaway</span><button type="button" data-fullscreen="sim-screen" hidden>Fullscreen</button></div>
       <canvas id="cabin-view" width="900" height="510" role="img" aria-label="Rotatable 3D cutaway of a spacecraft cabin with a smoke source, particle paths and a detector"></canvas>
       <div class="sim-legend"><span><i class="heat"></i>Smoke source and particles</span><span><i class="sense"></i>Detector</span><span>Drag to rotate</span></div>
-      <div class="sim-metrics"><div>Elapsed model time <strong id="sim-time">0.0 s</strong></div><div>First particle arrival <strong id="sim-arrival">—</strong></div><div>Particles sampled <strong id="sim-count">0</strong></div></div>
+      <div class="viewport-controls">      <label for="sim-view">Camera angle</label><input type="range" id="sim-view" min="-180" max="180" value="-22">
+      <div class="sim-actions"><button id="sim-home" type="button">Reset camera</button><button id="sim-run" class="primary" type="button">Start smoke release</button><button id="sim-reset" type="button">Reset</button></div>
+</div><div class="sim-metrics"><div>Elapsed model time <strong id="sim-time">0.0 s</strong></div><div>First particle arrival <strong id="sim-arrival">—</strong></div><div>Particles sampled <strong id="sim-count">0</strong></div></div>
       <p id="sim-status" role="status">Ready to run.</p>
     </div>
     <div class="panel sim-control">
@@ -79,8 +80,6 @@
       <input type="range" id="sim-flow" min="0" max="40" value="20" step="1">
       <label>Smoke source<select id="sim-source"><option value="0">In the airflow path</option><option value="1">Off to the side</option></select></label>
       <label>Detector position<select id="sim-sensor"><option value="0">In the airflow path</option><option value="1">Near the cabin wall</option></select></label>
-      <label for="sim-view">Camera angle</label><input type="range" id="sim-view" min="-180" max="180" value="-22">
-      <div class="sim-actions"><button id="sim-home" type="button">Reset camera</button><button id="sim-run" class="primary" type="button">Start smoke release</button><button id="sim-reset" type="button">Reset</button></div>
       <div class="formula"><span class="equation-caption">Particle motion per time step</span>
         <math display="block"><mrow><mi>Δ</mi><mi mathvariant="bold">r</mi><mo>=</mo><mo>(</mo><mi mathvariant="bold">u</mi><mo>−</mo><msub><mi>v</mi><mi>s</mi></msub><mover><mi>y</mi><mo>^</mo></mover><mo>)</mo><mi>Δt</mi><mo>+</mo><msqrt><mrow><mn>2</mn><msub><mi>D</mi><mtext>eff</mtext></msub><mi>Δt</mi></mrow></msqrt><mi mathvariant="bold">ξ</mi></mrow></math>
       </div><details><summary>Model assumptions</summary><p>Particles drift with uniform cabin airflow u and mix through a random walk. Each component of ξ is independently standard normal. The illustrative mixing coefficient is 0.012 m²/s. The detector samples particles within a 0.25 m radius. The 6 m cabin geometry and detector sampling radius are illustrative. This model uses passive particles in microgravity and estimates transport only. It omits flame chemistry, cabin obstructions and detector response thresholds.</p><a href="https://www.nist.gov/publications/smoke-aerosol-measuremen-experiment-same">NASA/NIST smoke transport study →</a></details>
@@ -100,10 +99,6 @@
       </ol>
       <div class="guide-action"><button class="primary" id="guide-next" type="button">Begin with airflow</button><span id="guide-status" role="status"></span></div>
     </section>
-    <div class="mission-toolbar">
-      <div class="sim-actions"><button id="compare-play" class="primary" type="button">Play comparison</button><button id="compare-trials" type="button">Run 30 paired trials</button><a href="#optimizer">Placement optimizer ↓</a></div>
-      <div class="replay-meter"><span id="compare-clock">0.0 / 60.0 s</span><progress id="compare-timeline" max="60" value="0" aria-label="Model time elapsed"></progress></div>
-    </div>
     <div class="challenge-physics"><div><strong>Particle motion</strong><span class="inline-equation">Δr = (u − v<sub>s</sub>ŷ)Δt + √(2D<sub>eff</sub>Δt) ξ</span><p>The airflow map supplies u. Settling and random mixing also move each tracer.</p></div><div><strong>Detector sampling</strong><span class="inline-equation">‖r − r<sub>detector</sub>‖ ≤ 0.25 m</span><p>The counter increases when a tracer first enters that detector’s sampling zone.</p></div></div>
     <div class="rack-console" id="guide-airflow" tabindex="-1">
       <div>
@@ -120,11 +115,15 @@
       </figure>
     </div>
     <div class="replay-legend"><span><i></i> Smoke tracer</span><span><i></i> Detector and sampled tracers</span><span><i></i> Equipment rack</span></div>
-    <div class="comparison-views" id="guide-replay" tabindex="-1">
+    <div id="replay-screen" class="replay-screen"><div class="screen-tools"><span>Synced detector views</span><button type="button" data-fullscreen="replay-screen" hidden>Fullscreen</button></div>    <div class="mission-toolbar">
+      <div class="sim-actions"><button id="compare-play" class="primary" type="button">Play comparison</button><button id="compare-trials" type="button">Run 30 paired trials</button><a href="#optimizer">Placement optimizer ↓</a></div>
+      <div class="replay-meter"><span id="compare-clock">0.0 / 60.0 s</span><progress id="compare-timeline" max="60" value="0" aria-label="Model time elapsed"></progress></div>
+    </div>
+<div class="comparison-views" id="guide-replay" tabindex="-1">
       <figure class="lab-figure"><canvas id="detector-a" width="900" height="510" role="img" aria-label="Cabin with detector on the centerline"></canvas><figcaption><span id="compare-name-a">Centerline detector</span><strong id="compare-a">Ready</strong></figcaption></figure>
       <figure class="lab-figure"><canvas id="detector-b" width="900" height="510" role="img" aria-label="Cabin with detector near the wall"></canvas><figcaption><span id="compare-name-b">Near-wall detector</span><strong id="compare-b">Ready</strong></figcaption></figure>
     </div>
-    <button class="guide-continue" data-guide-continue="2" type="button" hidden>Continue to placement scan ↓</button>
+    </div><button class="guide-continue" data-guide-continue="2" type="button" hidden>Continue to placement scan ↓</button>
     <p id="compare-progress" role="status">Lunar gravity · 20 cm/s ventilation · 0.3 µm particles · 60 s model window</p>
     <div class="tablebox" id="compare-results" hidden>
       <table><thead><tr><th scope="col">Placement</th><th scope="col">No sample by 60 s</th><th scope="col">Median first arrival</th><th scope="col">First-arrival range</th></tr></thead><tbody id="compare-summary"></tbody></table>
@@ -178,6 +177,9 @@
     <p>The demo illustrates smoke transport in a simplified microgravity cabin. Detector sampling is a model event. A real alarm also depends on its sensor, threshold, and cabin conditions.</p>
   </div>
 </section>
+<nav id="research" class="research-nav" aria-label="Research sections">
+  <strong>Research</strong><a href="#physics">Equations</a><a href="#evidence">Study rankings</a><a href="#compare">Compare studies</a><a href="#coverage">Evidence map</a><a href="#data">Flight data</a><a href="#method">Methods</a>
+</nav>
 <section id="physics" class="dashboard-section">
   <div class="sectionhead"><div><p class="kicker">Combustion and transport</p><h2>Physics lab</h2><p>Explore a flame-sheet model, then see how a real flight experiment departs from its assumptions.</p></div></div>
   <div class="physics-grid">
@@ -269,8 +271,22 @@
   </ul>
 </section>
 </main><footer><div class="wrap">Project Max Q · NASA Space Apps Challenge prototype <a href="#top">Back to top ↑</a></div></footer>
+<button id="aster-launch" class="aster-launch" type="button" data-open-aster aria-haspopup="dialog" aria-controls="aster-chat" aria-expanded="false"><span class="aster-icon" aria-hidden="true"><span>✦</span></span> Ask Aster</button>
+<aside id="aster-chat" role="dialog" aria-labelledby="aster-name" hidden>
+  <div class="aster-head"><span class="aster-icon" aria-hidden="true"><span>✦</span></span><div><h2 id="aster-name">Aster</h2><p>Flame Firewall research assistant</p></div><button type="button" id="aster-close" aria-label="Close Aster">×</button></div>
+  <div class="aster-tools"><div><strong id="aster-context"></strong><a href="#explore" id="aster-mission">Edit mission</a></div><label>Answer style<select id="aster-style"><option value="plain">Plain language</option><option value="technical">Engineering detail</option><option value="judge">Judge briefing</option></select></label><button type="button" id="aster-clear">New chat</button></div>
+  <div class="aster-thread">
+    <div id="aster-history" aria-label="Earlier messages"></div>
+    <div id="idle" class="aster-idle"><p>Ask about a NASA study, spacecraft fire safety, or the simulation.</p></div>
+    <p id="aster-question" class="aster-user" hidden></p>
+    <div class="answer" id="answer" aria-live="polite" hidden></div>
+    <button id="model" type="button" hidden>Draft synthesis with on-device AI</button>
+  </div>
+  <div class="aster-composer"><div class="chips"><button type="button" data-question="How does ventilation affect flame spread?">Airflow</button><button type="button" data-question="How do smoke detectors pick up particles?">Smoke detection</button><button type="button" data-question="Can heptane droplets keep burning after the visible flame disappears?">Cool flames</button><button type="button" data-question="What does first arrival mean in the simulator?">First arrival</button></div><form class="query" id="query"><label class="visually-hidden" for="question">Ask Aster a research question</label><input id="question" maxlength="240" placeholder="Ask a research question…" required><button class="primary" type="submit">Send</button></form></div>
+</aside>
 <script src="app.js" defer></script>
 <script src="physics.js" defer></script>
 <script src="sim.js" defer></script>
 <script src="coverage.js" defer></script>
+<script src="interface.js" defer></script>
 </body></html>

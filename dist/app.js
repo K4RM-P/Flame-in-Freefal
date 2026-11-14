@@ -42,7 +42,9 @@ const byId = id => document.getElementById(id);
 const source = ([label,url]) => '<a href="'+url+'" target="_blank" rel="noopener">'+label+' →</a>';
 const queryField = byId('question');
 const modelButton = byId('model');
+const answerStyle = byId('aster-style');
 let activeQuestion = '';
+let previousQuestion = '';
 let revision = 0;
 let retrieved = [];
 function render() {
@@ -50,7 +52,9 @@ function render() {
   const setting = byId('setting').value;
   const priority = byId('priority').value;
   const settingIndex = Object.keys(profiles).indexOf(setting);
-  const topics = Object.keys(patterns).filter(topic=>patterns[topic].test(activeQuestion));
+  const questionTopics = Object.keys(patterns).filter(topic=>patterns[topic].test(activeQuestion));
+  const topics = questionTopics.length || !/\b(it|that|they|those|same|them)\b/i.test(activeQuestion)
+    ? questionTopics : Object.keys(patterns).filter(topic=>patterns[topic].test(previousQuestion));
   const ranked = records.map(record=>{
     const matched = record.topics.filter(topic=>topics.includes(topic));
     const priorityScore = priority === record.priority ? 35 : 0;
@@ -67,13 +71,34 @@ function render() {
   const answer = byId('answer');
   answer.hidden = !activeQuestion;
   byId('idle').hidden = Boolean(activeQuestion);
+  const missionLabel = byId('setting').selectedOptions[0].text + ' · ' + byId('priority').selectedOptions[0].text;
+  byId('aster-context').textContent = missionLabel;
+  byId('aster-question').hidden = !activeQuestion;
+  byId('aster-question').textContent = activeQuestion;
   const lead = retrieved[0]?.record;
+  const style = answerStyle.value;
   const lunarSmoke = setting === 'moon' && activeQuestion === lunarSmokeQuestion;
   answer.innerHTML = !lead ? '<p>No matching evidence in this collection. Try a suggested question.</p>' :
     '<h3>Mission brief</h3><div class="brief"><div><h4>What the evidence shows</h4><p>'+lead.result+' '+source(lead.sources[0])+'</p></div>'+
     '<div><h4>'+ (lunarSmoke?'Proposed test':'Research implication') +'</h4><p>'+(lunarSmoke?lunarSmokeTest:lead.implication)+'</p></div>'+
     '<div><h4>What still needs validation</h4><p>'+lead.limit+(setting==='orbit'?'':' '+profiles[setting])+'</p></div></div>'+
     (retrieved.length>1?'<details><summary>Related findings</summary><ol>'+retrieved.slice(1).map(({record})=>'<li><p><strong>'+record.id+'</strong> · '+record.result+' '+source(record.sources[0])+'</p></li>').join('')+'</ol></details>':'');
+  if (/first arrival.*simulat/i.test(activeQuestion)) {
+    answer.innerHTML = '<h3>First arrival</h3><p>Model time when the first simulated particle enters the detector’s sampling zone. Each detector counts a particle once. This measures particle sampling in the model. Real alarm timing also depends on the sensor and its threshold.</p><p><a href="#sim" data-aster-close>Open Simulation Bay →</a></p>';
+  }
+  if (activeQuestion) {
+    const context = document.createElement('p');
+    context.className = 'assistant-context';
+    context.textContent = answerStyle.selectedOptions[0].text;
+    answer.prepend(context);
+    if (lead && style !== 'plain') {
+      const note = document.createElement('p');
+      note.textContent = style === 'technical'
+        ? 'Test conditions: ' + lead.conditions + ' Measurements: ' + lead.measure
+        : 'Judge takeaway: ' + lead.implication + ' Evidence: ' + lead.id + '.';
+      answer.append(note);
+    }
+  }
   if(retrieved.length && globalThis.LanguageModel){
     const current = revision;
     LanguageModel.availability().then(availability=>{
@@ -95,13 +120,14 @@ byId('cards').addEventListener('click',event=>{
 let aiRequest;
 async function synthesizeQuestion() {
   aiRequest?.abort();
-  if (!activeQuestion) return;
+  if (!activeQuestion || /first arrival.*simulat/i.test(activeQuestion)) return;
   const controller = new AbortController();
   aiRequest = controller;
   const current = revision;
   const answer = byId('answer');
   const section = document.createElement('section');
   section.className = 'hosted-ai';
+  section.dataset.pending = '';
   const status = document.createElement('p');
   status.textContent = 'Generating a sourced answer with OpenAI…';
   section.append(status);
@@ -109,12 +135,12 @@ async function synthesizeQuestion() {
   try {
     const response = await fetch(new URL('api/ask', document.baseURI), {
       method:'POST', headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({question:activeQuestion}), signal:controller.signal
+      body:JSON.stringify({question:activeQuestion, previousQuestion, setting:byId('setting').value, priority:byId('priority').value, style:answerStyle.value}), signal:controller.signal
     });
     if (!response.ok) throw new Error(String(response.status));
     const result = await response.json();
     if (current !== revision) return;
-    status.textContent = result.claims.length ? 'OpenAI synthesis' : 'OpenAI found insufficient evidence in the catalog.';
+    status.textContent = result.claims.length ? 'Aster · sourced synthesis' : 'Aster found insufficient evidence in the catalog.';
     for (const claim of result.claims) {
       const paragraph = document.createElement('p');
       paragraph.textContent = claim.text + ' ';
@@ -134,21 +160,41 @@ async function synthesizeQuestion() {
   } catch (error) {
     if (current !== revision || controller.signal.aborted) return;
     status.textContent = error.message === '503'
-      ? 'OpenAI synthesis is awaiting configuration. The local evidence is shown above.'
+      ? 'Aster is using the local research catalog. Hosted AI is awaiting configuration.'
       : 'OpenAI synthesis is unavailable. The local evidence is shown above.';
+  } finally {
+    delete section.dataset.pending;
   }
 }
 
 byId('query').addEventListener('submit',event=>{
   event.preventDefault();
-  activeQuestion=queryField.value.trim();
+  const question = queryField.value.trim();
+  if (!question) return;
+  if (activeQuestion && question !== activeQuestion) {
+    const history = byId('aster-history');
+    const turn = document.createElement('div');
+    const questionNode = byId('aster-question').cloneNode(true);
+    questionNode.removeAttribute('id');
+    const reply = byId('answer').cloneNode(true);
+    reply.removeAttribute('id');
+    reply.removeAttribute('aria-live');
+    for (const item of reply.querySelectorAll('.hosted-ai[data-pending]')) item.remove();
+    turn.append(questionNode, reply);
+    history.append(turn);
+    if (history.children.length > 8) history.firstElementChild.remove();
+    previousQuestion = activeQuestion;
+  }
+  activeQuestion = question;
   render();
   void synthesizeQuestion();
+  byId('aster-question').scrollIntoView({block:'nearest'});
 });
 byId('demo').addEventListener('click',()=>{
   byId('setting').value='moon';
   byId('priority').value='Detection';
   queryField.value=lunarSmokeQuestion;
+  byId('aster-launch').click();
   byId('query').requestSubmit();
   const answer=byId('answer');
   answer.tabIndex=-1;
@@ -159,13 +205,20 @@ document.querySelectorAll('[data-question]').forEach(button=>button.addEventList
   queryField.value=button.dataset.question;
   byId('query').requestSubmit();
 }));
-byId('reset').addEventListener('click',()=>{
+function clearAster() {
   aiRequest?.abort();
-  activeQuestion=queryField.value='';
+  previousQuestion = activeQuestion = queryField.value = '';
+  byId('aster-history').replaceChildren();
   render();
   queryField.focus();
-});
-['setting','priority'].forEach(id=>byId(id).addEventListener('change',render));
+}
+byId('reset').addEventListener('click',clearAster);
+byId('aster-clear').addEventListener('click',clearAster);
+['setting','priority','aster-style'].forEach(id=>byId(id).addEventListener('change',()=>{
+  aiRequest?.abort();
+  render();
+  if (activeQuestion) void synthesizeQuestion();
+}));
 modelButton.addEventListener('click',async()=>{
   const current=revision;
   modelButton.disabled=true;
