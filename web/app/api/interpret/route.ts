@@ -20,7 +20,8 @@ export async function POST(req: Request) {
   try {
     return json(await interpret(client, p.data));
   } catch (e) {
-    console.error("interpretation failed:", e instanceof Error ? e.message : e);
-    return json({ error: "AI interpretation unavailable (OpenAI request failed)." }, 502);
+    const err = e as { status?: number; code?: string; message?: string };
+    console.error("interpretation failed:", err?.status, err?.code, err?.message ?? e);
+    return json({ error: `OpenAI interpretation failed${err?.status ? ` (${err.status})` : ""}${err?.code ? `: ${err.code}` : ""}. Check the Vercel key and OPENAI_MODEL setting.` }, 502);
   }
 }

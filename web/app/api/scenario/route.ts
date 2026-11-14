@@ -22,7 +22,8 @@ export async function POST(req: Request) {
   try {
     return json(await buildScenario(client, p.data.text));
   } catch (e) {
-    console.error("scenario builder failed:", e instanceof Error ? e.message : e);
-    return json({ error: "AI scenario builder unavailable (OpenAI request failed); fill the fields by hand." }, 502);
+    const err = e as { status?: number; code?: string; message?: string };
+    console.error("scenario builder failed:", err?.status, err?.code, err?.message ?? e);
+    return json({ error: `OpenAI scenario builder failed${err?.status ? ` (${err.status})` : ""}${err?.code ? `: ${err.code}` : ""}. Check the Vercel key and OPENAI_MODEL setting.` }, 502);
   }
 }

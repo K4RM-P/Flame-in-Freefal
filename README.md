@@ -79,7 +79,7 @@ cd web && pnpm install && pnpm dev     # http://localhost:3000
 pnpm test && pnpm build && pnpm e2e    # vitest (golden vectors, guard, secret scan), build, Playwright
 pip install "git+https://github.com/K4RM-P/Flame-in-Freefal.git#subdirectory=physics"
 ```
-Environment (server-side only, never `NEXT_PUBLIC_`): `OPENAI_API_KEY` in `web/.env.local` (template: `web/.env.example`) or in Vercel env vars; `OPENAI_MODEL` optional, default `gpt-5.4-mini`. Without a key the scenario builder and interpretation return "Add OPENAI_API_KEY to enable interpretation"; there is no canned answer.
+Environment (server-side only, never `NEXT_PUBLIC_`): `OPENAI_API_KEY` in `web/.env.local` (template: `web/.env.example`) or in Vercel env vars; `OPENAI_MODEL` optional, default `gpt-4o-mini`. Without a key the scenario builder and interpretation return "Add OPENAI_API_KEY to enable interpretation"; there is no canned answer.
 
 ## Limitations
 - **Small n.** Many flight results are single tests (e.g. SAFFIRE-II: one test per material and thickness; 7 like-for-like samples in the Earth-vs-orbit matrix).

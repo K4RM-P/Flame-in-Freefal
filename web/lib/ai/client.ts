@@ -2,7 +2,8 @@
 // Server-only OpenAI client. The key is read from process.env.OPENAI_API_KEY at request time and never leaves the server.
 import OpenAI from "openai";
 
-export const DEFAULT_MODEL = "gpt-5.4-mini";
+// Stable Responses API model. OPENAI_MODEL may override this in Vercel when intentionally configured.
+export const DEFAULT_MODEL = "gpt-4o-mini";
 export const NO_KEY_MESSAGE = "Add OPENAI_API_KEY to enable interpretation";
 
 export const model = () => process.env.OPENAI_MODEL?.trim() || DEFAULT_MODEL;
