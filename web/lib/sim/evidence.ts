@@ -12,6 +12,7 @@ export type Role = "spread" | "cabin" | "smoke" | "suppression";
 export interface EvidenceRow {
   accession: string; title: string; short_name: string; summary: string; role: Role[]; doi: string | null; url: string;
   n_rows: number; distance: number; why: string;
+  dimensions?: { oxygen: number; pressure: number; flow: number; gravity: number; material: number };
 }
 const ROLE_BY_FAMILY: Record<string, Role[]> = {
   solid_spread: ["spread"], large_scale: ["spread", "cabin"], smoke: ["smoke"], droplet: ["suppression"],
@@ -58,7 +59,7 @@ export function rankEvidence(s: Scenario): EvidenceRow[] {
       rows.push({
         accession: acc, title: c.title, short_name: c.short_name, summary: firstSentence(inv.objective ?? c.objective ?? ""),
         role: roles, doi: c.doi ?? null, url: c.psi_url ?? (c.doi ? `https://doi.org/${c.doi}` : "https://psi.nasa.gov"),
-        n_rows: N_ROWS[acc] ?? 0, distance, why,
+        n_rows: N_ROWS[acc] ?? 0, distance, why, dimensions: { oxygen: gO2, pressure: gP, flow: gF, gravity: gG, material: gM },
       });
     }
   }
