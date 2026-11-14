@@ -37,12 +37,12 @@ test("story path: landing → setup → verdict → moon → receipt → validat
   await page.getByRole("button", { name: /Is there lunar-gravity data in PSI/ }).click().catch(async () => {
     await page.getByText("More questions").click(); await page.getByRole("button", { name: /Is there lunar-gravity data in PSI/ }).click();
   });
-  await expect(page.getByTestId("ask-panel")).toContainText("bounded estimate");
-  await expect(page.getByTestId("ask-panel")).toContainText("numeric guard passed");
+  await expect(page.getByTestId("ask-panel").filter({ visible: true })).toContainText("bounded estimate");
+  await expect(page.getByTestId("ask-panel").filter({ visible: true })).toContainText("numeric guard passed");
   await page.keyboard.press("Escape");
   await page.goto("/gaps");
   await page.getByTestId("draft-proposal").click();
-  await expect(page.getByTestId("ask-panel")).toContainText("Proposed tests", { timeout: 15000 });
+  await expect(page.getByTestId("ask-panel").filter({ visible: true })).toContainText("Proposed tests", { timeout: 15000 });
 });
 
 test("mission pill changes environment and URL", async ({ page }) => {
