@@ -108,7 +108,7 @@ export function ScenarioPanel() {
           </select></label>
         <NumField label="Distance from fire" units="m" value={sc.detection.distance_m} min={0.01} source={src("detection.distance_m")}
           onChange={(v) => v != null && v > 0 && patch((s) => ({ ...s, detection: { ...s.detection, distance_m: v } }))} />
-        <NumField label="Alarm threshold (smoke)" units="mg/m³" value={sc.detection.threshold == null ? null : round(sc.detection.threshold * 1e6)} min={0} required
+        <NumField label="Alarm threshold (smoke)" units="mg/m³" value={sc.detection.threshold == null ? null : round(sc.detection.threshold * 1e6)} min={0}
           source={src("detection.threshold")}
           onChange={(v) => patch((s) => ({ ...s, detection: { ...s.detection, threshold: v != null && v > 0 ? v / 1e6 : null } }))} />
       </Section>

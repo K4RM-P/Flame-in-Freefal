@@ -1,5 +1,13 @@
 # Status
 
+## Final simulator handoff (2026-11-14)
+
+Done: SI-powered simulator, PSI-100 Saffire replay with T/P RMSE and MAPE, optional unsourced detector threshold handling, ISS/Lunar comparison, evidence receipts, OpenAI scenario/interpretation routes, export, and verification gates.
+
+Theory-only: cabin heat loss and smoke ageing/transport; SIBAL spread is calibrated only for its sourced opposed-flow scope. Partial gravity is a bounded estimate. Unsourced: Cygnus free volume, detector thresholds, and unavailable CO₂ limits; these remain required inputs or show No data.
+
+Skipped: sourcing the ISS volume, adding NASA-STD-3001 Vol. 2 CO₂ limits, and updating VALIDATION.md with replay numbers. Heat-loss and smoke fits remain intentionally skipped.
+
 ## Phase 1 — physics core: DONE
 emberphys: thermo (GRI-Mech 3.0 NASA-7), flame_temp (Burke–Schumann), droplet (d²-law + dual extinction + LOI),
 suppression (critical adiabatic flame temperature), spread (de Ris thin/thick + F(Da)), gravity (u_b mapping),

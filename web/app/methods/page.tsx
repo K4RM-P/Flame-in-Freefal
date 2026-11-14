@@ -88,14 +88,14 @@ export default function Methods() {
             <tbody>{targets.map((t) => (
               <tr key={t.id}>
                 <td className="num">{t.id}</td><td>{t.model}</td><td>{t.quantity}{t.note && <p className="text-[12px] text-faint">{t.note}</p>}</td>
-                <td className="num">{Array.isArray(t.published) ? `(${t.published.join("–")})` : t.published ?? "—"}</td>
+                <td className="num">{Array.isArray(t.published) ? `(${t.published.join("–")})` : t.published == null ? "—" : typeof t.published === "object" ? JSON.stringify(t.published) : String(t.published)}</td>
                 <td className="num">{t.predicted == null ? "∅" : typeof t.predicted === "number" ? Number(t.predicted.toPrecision(3)) : String(t.predicted)}</td>
                 <td>{t.criterion}</td>
                 <td><span className={`chip border ${t.status === "pass" ? "border-ok/40 text-ok" : t.status === "fail" ? "border-bad/50 text-bad" : "border-line text-mute"}`}>{t.status}</span></td>
               </tr>))}</tbody>
           </table>
         </div>
-        <p className="text-[13px] text-mute">The Saffire replay error (simulation vs PSI-100 telemetry) is shown in the table when it has been computed, and live on the simulator when the &quot;Saffire replay&quot; preset is run.</p>
+        <p className="text-[13px] text-mute">The Saffire replay reports RMSE and MAPE for simulated vs PSI-100 T and P telemetry when the replay is run. PSI-100 contains no O₂ telemetry, so O₂ replay error is No data. An unsourced detector threshold does not block a run; alarm and time-to-alarm show No data.</p>
       </section>
 
       <section id="limitations" className="card space-y-1" data-testid="limitations">
@@ -155,7 +155,7 @@ function Calibration({ id, p, calibrated }: { id: string; p: any; calibrated: bo
   const params = Object.entries(p.params ?? {});
   return (
     <div className="space-y-1 text-[13px]">
-      {calibrated ? <p className="text-mute">Calibrated on {(p.sources ?? []).join(", ") || "—"}{p.n_train != null && ` · ${p.n_train} train / ${p.n_test ?? "?"} held-out rows`}.</p>
+      {calibrated ? <p className="text-mute">Calibrated on {(p.sources ?? []).map((s: any) => typeof s === "string" ? s : s?.source_id ?? "unsourced").join(", ") || "—"}{p.n_train != null && ` · ${p.n_train} train / ${p.n_test ?? "?"} held-out rows`}.</p>
         : <p className="text-mute">Not calibrated{p.note ? `: ${p.note}` : ""}. Values come from cited literature properties only.</p>}
       {params.length > 0 && <p className="num text-[12px]">{params.map(([k, v]) => `${k} = ${typeof v === "number" ? Number(v.toPrecision(4)) : JSON.stringify(v)}`).join(" · ")}</p>}
       {p.metrics && <p className="num text-[12px] text-mute">held-out: {Object.entries(p.metrics).map(([k, v]) => `${k} ${typeof v === "number" ? Number((v as number).toPrecision(3)) : JSON.stringify(v)}`).join(" · ")}</p>}

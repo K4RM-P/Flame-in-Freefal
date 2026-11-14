@@ -19,7 +19,6 @@ export function missingFields(s: Scenario | null): string[] {
   if (!s) return ["scenario"];
   const m: string[] = [];
   if (s.cabin.V_m3 == null) m.push("cabin free volume");
-  if (s.detection.threshold == null) m.push("detector alarm threshold");
   return m;
 }
 

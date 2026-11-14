@@ -303,7 +303,8 @@ function runOnce(s: Scenario, d: Draws, seed: number): SimResult {
   for (const [k, b] of Object.entries(tc)) if (!b.basis.startsWith("µg")) warnings.push(`${k}: inerting check uses the ${b.basis}.`);
   for (const r of runs) if (r.key) sources.push(...material(r.it.material_key).sources);
   for (const l of LIMITS_SI) sources.push({ source_id: l.source, locator: l.locator, note: l.label });
-  sources.push(...SPREAD.sources.map((x) => ({ source_id: x, note: "spread calibration" })), ...HABITAT.sources.map((x) => ({ source_id: x, note: "cabin heat loss calibration" })), ...SMOKE.sources.map((x) => ({ source_id: x, note: "smoke calibration" })));
+  const sourceEntries = (xs: unknown[], note: string) => xs.map((x: any) => ({ source_id: typeof x === "string" ? x : x?.source_id ?? "unsourced parameter", locator: x?.locator, note }));
+  sources.push(...sourceEntries(SPREAD.sources, "spread calibration"), ...sourceEntries(HABITAT.sources, "cabin heat loss calibration"), ...sourceEntries(SMOKE.sources, "smoke calibration"));
 
   const res: SimResult = {
     t, state, events, items: runs.map((r) => r.trace), warnings: [...new Set(warnings)], outcome: { metrics: [] },

@@ -3,7 +3,7 @@
 import type { Telemetry } from "./params";
 import type { CabinState, SimResult } from "./types";
 
-export interface ChannelError { n: number; rmse: number; mae: number; bias: number; units: string; t_from_s: number; t_to_s: number }
+export interface ChannelError { n: number; rmse: number; mape: number | null; mae: number; bias: number; units: string; t_from_s: number; t_to_s: number }
 export type ReplayError = Partial<Record<"T_K" | "x_o2" | "x_co2" | "P_Pa", ChannelError>>;
 
 function interp(t: number[], y: number[], x: number): number {
@@ -29,6 +29,11 @@ export function replayError(sim: SimResult, tel: Telemetry): ReplayError | null 
     out[ch] = {
       n: res.length, units: units[ch], t_from_s: ts[0], t_to_s: ts[ts.length - 1],
       rmse: Math.sqrt(res.reduce((a, r) => a + r * r, 0) / res.length),
+      mape: meas.reduce((sum, value, i) => {
+        const tt = tel.t[i];
+        if (tt < 0 || tt > tEnd || !Number.isFinite(value) || value === 0) return sum;
+        return sum + Math.abs(interp(sim.t, simY, tt) - value) / Math.abs(value);
+      }, 0) / (meas.reduce((n, value, i) => tel.t[i] >= 0 && tel.t[i] <= tEnd && Number.isFinite(value) && value !== 0 ? n + 1 : n, 0) || 1) * 100,
       mae: res.reduce((a, r) => a + Math.abs(r), 0) / res.length,
       bias: res.reduce((a, r) => a + r, 0) / res.length,
     };
