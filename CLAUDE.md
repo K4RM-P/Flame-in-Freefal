@@ -12,3 +12,13 @@ Spec: docs/PRD.md (authoritative). Status: docs/STATUS.md. Human tasks: docs/HUM
 - Before saying done: `make test` and `pnpm -C web test && pnpm -C web build` pass.
 - Time-box discipline: over budget by 50% → simpler fallback, note in STATUS.md, move on.
 Commands: make data | make fit | make validate | make vectors | make test | make all | pnpm -C web dev
+
+## Design rules (UI phase)
+- Tokens only (web/styles/tokens.css): dark default, warm-ivory light/print theme. No raw hex in components except chart data colours from web/lib/ui/palette.ts (Okabe–Ito per investigation/fuel).
+- Accent #FF6B35 ONLY on: the mission marker, the primary action (btn-accent), live flame imagery. Never on chrome, numbers or links.
+- 1 px borders; shadows only on floating overlays (popovers, drawers, palette). Square data panels; radius 6 px controls, 8 px cards.
+- One dominant element per screen (Console: verdict sentence). Hierarchy by size/weight; type scale 12/13/14/16/20/24/32/48/64.
+- Numbers: JetBrains Mono tabular; display rounding via web/lib/ui/format.ts (2 s.f. if band > ±20 %, else 3; max 4); ranges as "(a–b)".
+- Every result number is a button that opens the receipt drawer (data-receipt). Status via statusOf(): Validated / Extrapolation / Theory-only (dashed) / No data (∅).
+- Motion: springs from web/lib/ui/motion.ts; animate transform/opacity only; respect prefers-reduced-motion.
+- Never soften caveats, failures, "uncalibrated" states or citations. No guided tours, no fake data.

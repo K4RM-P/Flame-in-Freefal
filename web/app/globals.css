@@ -11,6 +11,7 @@ html[data-present="1"] * { cursor: auto; }
 ::selection { background: rgb(var(--blue) / 0.35); }
 :focus-visible { outline: 2px solid rgb(var(--blue)); outline-offset: 2px; }
 a { color: inherit; }
+@layer components {
 .card { @apply border border-line bg-panel p-4; border-radius: var(--radius-card); }
 .panel { @apply border border-line bg-panel; }
 .btn { @apply inline-flex items-center gap-1 border border-line px-3 py-1.5 text-[13px] text-ink hover:bg-surface2 transition-colors; border-radius: var(--radius-control); }
@@ -27,5 +28,6 @@ input[type="range"] { accent-color: rgb(var(--ink)); }
 table.data { @apply w-full text-[13px]; }
 table.data th { @apply border-b border-line px-2 py-1.5 text-left text-[12px] font-medium text-mute; }
 table.data td { @apply border-b border-line/60 px-2 py-1.5 align-top; }
+}
 .katex { font-size: 1.02em; }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }

@@ -38,3 +38,31 @@ Vercel deploy needs the team's Vercel account and ANTHROPIC_API_KEY (HUMAN_TASKS
 
 ## Known limitations
 See README "Limitations" and docs/VALIDATION.md. Biggest gaps: only FLEX data verified; heptane droplet LOI under-predicted; He effect not captured.
+
+## UI phase (2026-11-14/15) — design lead pass
+Done: LCH-derived tokens (dark + warm-ivory/print), ui-kit (`web/components/ui-kit`, `/kit`), motion tokens, Okabe–Ito palette, plot theme,
+Linear-style shell (top bar + Mission Search Pill with popovers/histograms, collapsible rail, caveat line, ⌘K palette, `?`/`/`/single-key
+shortcuts, right drawers), Console (verdict sentence, map with gravity ghost + dimension line, lasso export, role-ordered result stack,
+receipts, scenario A/B, implications strip), `/start` 3-step setup, landing (mesh hero, live mini-console, problem, Maya, bento,
+equation-as-proof, stats, ladder), Validation Lab (accuracy/precision/reliability dials, scoreboard, parity + residuals, LOI curves),
+Gaps "Draft proposal" → Ask, Ask drawer (role-aware suggestions, thinking state, trace with ms, Open in Console, Copy with sources),
+Presentation Mode (`?present=1`), docs/VIDEO_SHOTLIST.md, docs/ui-audit/{AUDIT,CHANGELOG,JUDGE_CHECK}.md, before/after screenshots.
+Tests: pytest 16, vitest 26, Playwright 31 (story path, 10 receipt spot-checks, axe serious = 0 on /, /console, /validation, /start, 390 px no overflow).
+
+Honesty decisions:
+- Verdict states spread (theory-only) and "Burn probability: ∅ not available" — there is no boundary model, so no p value is shown.
+- Equation-as-proof uses V5 (d²-law K, passes) instead of V6 (pending data); V6 is not shown as ✓.
+- Suppression card shows the 1 g reference for solids; µg-calibrated T_crit exists only for n-heptane/methanol and is shown as such.
+- Reliability dial is 20 %: K bands carry only property + f_k uncertainty and are overconfident for single tests; stated on the page.
+
+Not done / simplified (time-box):
+- Model pages keep the earlier template (restyled, receipts added); no grouped inputs with histograms, no sensitivity tornado/Web Worker.
+- Evidence keeps one scrolling view (no Table/Gallery/Board switch, no TanStack virtualization, no filter sheet live count).
+- Units toggle (SI ↔ engineering) not built; psia shown alongside kPa where it matters.
+- Lighthouse not measured; Vercel deploy pending account access (HUMAN_TASKS #6). Story path not yet run on production.
+
+UI requests (cannot be derived honestly from existing outputs):
+- Artemis II smoke-alarm line (PRD §13): needs a citable source before it appears on the landing or video.
+- Burn probability at the mission point: needs U7 boundary model (digitized solid-fuel outcomes).
+- NASA flame imagery: none bundled yet; add with credits in CREDITS.md.
+- CSA: no CSA-sourced data in web/data, so no CSA data credit is shown.
