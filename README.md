@@ -11,6 +11,11 @@ designer can run — with an equation, uncertainty band, validation score and so
 - **Validation Lab**: published targets and held-out FLEX campaigns, parity plots, metrics, and the data rows used. Failures are shown.
 - **Evidence Explorer**: relevance ranking of 16 PSI investigations (editable weights), cards, compare view, CSV/JSON export with provenance.
 - **Gaps**: data-coverage map, conflicting evidence (He vs CO₂), coverage-based next-experiment proposals.
+- **Live NASA PSI data**: investigation metadata, DOIs and Experimental tables pulled from the public PSI API (25 combustion accessions, 2,818 table rows with PSI accession + file + line provenance).
+- **Earth test vs orbit**: SAFFIRE-II like-for-like matrix comparing the 1 g result with the orbit result for the same material and thickness (small n, scoped wording).
+- **Exploration-atmosphere evidence**: ACME BRE (PSI-20) flights at 34 % O₂ shown on the lunar habitat, rover and Mars presets.
+- **Detection: one smoke, three signals**: SAME/SAME-R number, first-moment and mass measures side by side, with DAFT nuisance dust.
+- **Design suggestions**: cited concept recommendations (detector principle, suppressant and concentration) from model outputs.
 - **Ask EmberAtlas**: a Claude agent (`claude-sonnet-5-5`) whose tools are the physics models and the data; a numeric guard rejects any number not found in tool output. Works offline in demo mode.
 
 ## The physics (`physics/emberphys`, Python = source of truth; TypeScript port matches golden vectors to 1e-6)
@@ -52,6 +57,7 @@ an honest, documented evidence gap. Spread, habitat and smoke ship as "Uncalibra
 ## Data provenance
 - 276 FLEX tests extracted from NASA/TP-2015-216046 Table IX (NTRS 20150023456) with pdfplumber; 275 verified (visual PDF spot-check, 0 mismatches; human countersign pending). Extinction modes come only from the authors' Appendix B captions. Every row has `source_id` + `locator` (PDF page).
 - Every property/limit lives in `physics/data/*.yaml` with a `source`; uncertain values are flagged `TODO_VERIFY` (see `docs/HUMAN_TASKS.md`).
+- PSI Experimental tables (`physics/pipeline/fetch_psi.py` → `ingest_psi.py`): 2,818 rows from 18 PSI accessions, each with `source_id` = PSI accession and `locator` = file + line, raw cell strings kept, `verified=false` until the human spot-check. The PSI-69 FLEX table matches our NTRS extraction (1,533 values, 0 mismatches).
 - Coverage today: **1 investigation with verified rows** (FLEX). The PRD target of ≥400 rows from ≥4 investigations is not yet met — see `docs/STATUS.md`.
 
 ## How to run

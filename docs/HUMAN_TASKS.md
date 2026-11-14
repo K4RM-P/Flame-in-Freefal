@@ -16,6 +16,11 @@
 7. **Video:** record the 30-second video on the production URL (script in PRD §13), English subtitles.
 - Drop-tower suppressant study (PRD §2): supply the full citation for `drop-tower-suppressant` in sources.yaml.
 
+8. **PSI files the API would not list (HTTP 500 on 2026-11-14):** PSI-21 (ACME CLD Flame) and PSI-106 (SLICE). Open each on psi.nasa.gov in a browser; if an "Experimental table" CSV exists, save it to `physics/data/raw/psi/<accession>/` with its exact file name and rerun `make data`. DOI lookups also returned 500 for PSI-60, PSI-62, PSI-115 and PSI-117; add their DOIs to `investigations.yaml` if the PSI pages show one.
+9. **SAFFIRE-II ambiguous cells (PSI-99):** thickness "037 mm" (samples 2-4, 2-5, 2-6) and the blank material cells of 2-6 and 2-9 were left null, not guessed. Confirm against the SAFFIRE-II paper and record the answer in `physics/data/verification.yaml → psi_spotcheck` (do not edit the processed CSV by hand).
+10. **New TODO_VERIFY values:** `smoke.particle_density` (unit-density convention from the PSI-47 workbook, used for SM4 settling) and the ACME BRE result "extinct at 21 % within ~40 s; steady at 26.5/34/40 %" (`dehghani-bre`, shown with a "to verify" chip on the Console).
+11. **Earth test vs orbit wording review:** a science checker should read `/evidence#earth-vs-orbit` and confirm the classification rule (Complete / ~0 / partial) and that the 1 g column in PSI-99 is the normal-gravity screening result the SAFFIRE objective refers to.
+
 ## PSI table spot-check (verified=false until done)
 Open each file from psi.nasa.gov (or `physics/data/raw/psi/`) and compare the listed rows with `physics/data/processed/psi/<table>.csv` (normalized columns + `raw`). Record name/date per table in `physics/data/verification.yaml → psi_spotcheck`.
 

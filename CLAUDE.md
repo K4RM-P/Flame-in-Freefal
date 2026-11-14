@@ -11,6 +11,10 @@ Spec: docs/PRD.md (authoritative). Status: docs/STATUS.md. Human tasks: docs/HUM
 - UI: dark theme, accent #FF6B35, colorblind-safe (burn ● / extinct ✕), KaTeX equations, Plotly science plots.
 - Before saying done: `make test` and `pnpm -C web test && pnpm -C web build` pass.
 - Time-box discipline: over budget by 50% → simpler fallback, note in STATUS.md, move on.
+- PSI API (psi.nasa.gov/geode-py/ws, GET only): fetch via physics/pipeline/fetch_psi.py (cache-first; `--refresh` re-pulls). File-search page starts at 1; size limits investigations, not files. Check file_size first; never download zips/video/raw data in the pipeline (limit 25 MB).
+- PSI rows: source_id = PSI accession (e.g. "PSI-25"), locator = file name + line (or sheet + row). Keep raw cell strings in `raw`; never fill blank/ambiguous cells (qc_flag instead). verified=false until the human spot-check (docs/HUMAN_TASKS.md). Unit conversions only via the source's own calibration (e.g. PSI-25 'U = 1.0066(AIR)').
+- Comparisons (e.g. Earth test vs orbit) are like-for-like only, always show O2, flow speed and direction, carry a small-n warning, and never generalize to a standard.
+- SI disclosure: every source file starts with the 'SI-assisted' header (pytest enforces); list new tools/libraries in physics/data/software.yaml (export fails on a missing license). docs/REFERENCES.json is generated; don't edit it by hand.
 Commands: make data | make fit | make validate | make vectors | make test | make all | pnpm -C web dev
 
 ## Design rules (UI phase)

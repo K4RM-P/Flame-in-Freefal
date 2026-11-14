@@ -25,5 +25,8 @@
    "FLEX-114: pressure printed as 0.0 mmHg in Table IX (other C11 tests ~535 mmHg). Row excluded (qc_flag), not corrected.",
    "FLEX-156, 205, 213, 228, 281-284 absent from Table IX."
   ]
+ },
+ "psi_spotcheck": {
+  "records": []
  }
 }

@@ -90,6 +90,9 @@ def main() -> int:
     RAW.mkdir(parents=True, exist_ok=True)
     offline: list[str] = []
     now = dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds")
+    # Keep the original fetched_at for files whose sha256 is unchanged, so reruns leave the catalog byte-identical.
+    prev = json.loads(CATALOG.read_text()) if CATALOG.exists() else {"investigations": {}}
+    prev_at = {(f["accession"], f["file"], f["sha256"]): f["fetched_at"] for c in prev["investigations"].values() for f in c["manifest"]}
     meta = cached_json("metadata.json", API + "/api/investigations/metadata", offline) or []
     by_acc = {m["accession"]: m for m in meta}
     catalog: dict[str, dict] = {}
@@ -117,8 +120,9 @@ def main() -> int:
                     offline.append(f"{url} ({type(e).__name__})")
                     pending.append((acc, name, size))
                     continue
+            digest = sha256(dest)
             manifest.append({"accession": acc, "file": name, "category": f["category"], "bytes": dest.stat().st_size,
-                             "sha256": sha256(dest), "url": url, "fetched_at": now})
+                             "sha256": digest, "url": url, "fetched_at": prev_at.get((acc, name, digest), now)})
         catalog[acc] = {
             "accession": acc, "accession_id": aid, "group": group, "short_name": short,
             "title": m.get("investigation_title"), "objective": m.get("investigation_objective"),
@@ -126,7 +130,9 @@ def main() -> int:
             "psi_url": f"https://doi.org/{doi['doi']}" if doi.get("doi") else BASE,
             "file_count": study.get("file_count", len(listing)), "files_listed": bool(listing), "manifest": manifest,
         }
-    CATALOG.write_text(json.dumps({"fetched_at": now, "api": API, "investigations": catalog}, indent=1, ensure_ascii=False))
+    stamps = [f["fetched_at"] for c in catalog.values() for f in c["manifest"]]
+    fetched_at = prev.get("fetched_at") if stamps and all(t in prev_at.values() for t in stamps) and not REFRESH else now
+    CATALOG.write_text(json.dumps({"fetched_at": fetched_at, "api": API, "investigations": catalog}, indent=1, ensure_ascii=False))
     n_files = sum(len(c["manifest"]) for c in catalog.values())
     print(f"PSI catalog: {len(catalog)} accessions, {n_files} files; offline errors: {len(offline)}")
     if pending:

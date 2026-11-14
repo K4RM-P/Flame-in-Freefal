@@ -66,3 +66,16 @@ UI requests (cannot be derived honestly from existing outputs):
 - Burn probability at the mission point: needs U7 boundary model (digitized solid-fuel outcomes).
 - NASA flame imagery: none bundled yet; add with credits in CREDITS.md.
 - CSA: no CSA-sourced data in web/data, so no CSA data credit is shown.
+
+## Adopt-ideas phase (2026-11-14, feature/adopt-ideas) — DONE
+Plan and per-item commits: docs/ADOPTION_PLAN.md. Every feature passed pytest, vitest, `next build` and Playwright (with axe) before the next began.
+- **PSI live data (B1, B2):** `fetch_psi.py` (25 combustion accessions: metadata, DOI, listings, 25 small files, sha256 manifest; cache-first) and
+  `ingest_psi.py` (2,818 rows from 18 accessions; BASS-II, BASS + As-Run, SAFFIRE-I/II/III, SAME-R, BRE and SPICE normalized; others raw).
+  All PSI rows verified=false pending the spot-check in HUMAN_TASKS. PSI-69 cross-check of the FLEX extraction: 1,533 values, 0 mismatches.
+- **Earth test vs orbit (B3):** 7 like-for-like SAFFIRE-II samples (4 less flammable in orbit, 3 same, 0 worse), linked from the Console verdict.
+- **Exploration atmosphere (B4):** ACME BRE PSI-20 on 34 % O₂ presets; pressure match not claimed (not in the PSI table).
+- **Detection (B5), design suggestions (B7), suppression framing (B6), compliance (B8), compare diff (A3), settling SM4 (A2).**
+- Validation: no new held-out model points (no ingested table matches a model output under matching inputs); V6–V10 still pending, reasons in VALIDATION.md.
+- Not done / deferred: NASA imagery, Saffire Table 2 flame sizes, 1-D transport-time model, answer-style toggle, PSI-21/PSI-106 files (API HTTP 500).
+- Lighthouse 12.2.1 (local `next start`, default mobile throttling, first measurement, so no earlier baseline): `/` perf 42 · a11y 100 · best-practices 96 · SEO 90; `/console` 53 · 98 · 96 · 90; `/evidence` 71 · 96 · 96 · 100. Performance is the weak spot (Plotly + KaTeX bundles); not addressed in this phase.
+- Final gate: `make all` (data → fit → validate → vectors → export → test) reproduces every committed artifact; pytest 21, vitest 29, `next build` OK, Playwright 41 passed / 3 skipped (axe serious = 0 on audited pages).

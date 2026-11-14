@@ -140,9 +140,33 @@ def write_md(rows, mK, mK_f, md) -> None:
               "- **Helium**: pure thermal theory ranks He as the weakest diluent per mole (lowest cp), but FLEX shows He",
               "  nearly as effective as CO2. The likely cause is He's high thermal diffusivity (non-unity Lewis number),",
               "  which thermal inerting theory does not include. This is listed as an Evidence Gap, not hidden.",
-              "- **V6-V10** need digitized BASS-II, BRE, Saffire and SAME-R data (see docs/HUMAN_TASKS.md). Those models ship",
-              "  as 'Uncalibrated — theory only'. No validation pass is claimed for them.", ""]
+              "- **V6-V10** remain pending. The PSI Experimental tables are now ingested (ingest_psi.py), but they do not",
+              "  contain what these checks need: BASS/BASS-II tables have no limiting-O2, spread-rate or burn/extinct outcome",
+              "  (V6, V7); the BRE table lists O2 levels of ignited flames but no extinction times or pressures (V8);",
+              "  no Saffire vehicle T/P/CO2 time series was ingested (V9, needs raw telemetry); SAME-R aged-size data exist",
+              "  but a like-for-like run of the coagulation model needs the aging-chamber dilution (Rt/R0) handled (V10).",
+              "  Those models ship as 'Uncalibrated — theory only'. No validation pass is claimed for them.", ""]
+    lines += psi_data_qa()
     (ROOT / "docs" / "VALIDATION.md").write_text("\n".join(lines))
+
+
+def psi_data_qa() -> list[str]:
+    """Data QA from the PSI tables (not model validation): independent cross-check and held-out status."""
+    import json
+
+    d = ROOT / "physics" / "data" / "processed" / "psi"
+    if not (d / "flex_crosscheck.json").exists():
+        return []
+    fx = json.loads((d / "flex_crosscheck.json").read_text())
+    ev = json.loads((d / "earth_vs_orbit.json").read_text())
+    return ["## PSI data QA (not model validation)", "",
+            f"- **FLEX extraction vs PSI-69 Experimental table**: {fx['values_compared']} values (d0, d_ext, K, burn time, pressure, O2)",
+            f"  compared by CIR identifier: **{len(fx['mismatches'])} mismatches**. NTRS tests without a PSI-69 row: "
+            f"{', '.join(fx['ntrs_tests_without_psi_match']) or 'none'}. This independently confirms the PDF extraction used for fitting.",
+            f"- **Earth test vs orbit (SAFFIRE-II, PSI-99)**: {ev['n']} like-for-like samples; {ev['counts']['orbit better']} burned less in orbit,",
+            f"  {ev['counts']['same verdict']} matched, {ev['counts']['orbit worse']} burned more (one test each; data comparison, no model involved).",
+            "- **New held-out model points**: none added. No ingested PSI table supplies a quantity that an EmberAtlas model",
+            "  predicts under matching inputs, so nothing was added to the Validation Lab and nothing was tuned on PSI tables.", ""]
 
 
 if __name__ == "__main__":

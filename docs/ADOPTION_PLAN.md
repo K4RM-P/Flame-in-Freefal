@@ -36,3 +36,20 @@ Total planned ≈ 4.95 h of nominal effort with overlap savings from shared inge
 - **A5 1-D smoke transport time** — M effort; needs a bounded eddy-diffusivity source.
 - **Answer-style toggle** — touches the agent + guard; low rubric lift.
 - **PSI-21, PSI-106 files** — API returns HTTP 500; listed in HUMAN_TASKS.
+
+## Outcome (shipped on feature/adopt-ideas, each gated by pytest + vitest + next build + Playwright incl. axe)
+
+| # | Item | Commit | Notes |
+|---|---|---|---|
+| B1 | Live PSI API ingestion | 8a2e990 | 25 accessions, 25 files, sha256 manifest; cache-first; HTTP 500s (PSI-21/106 listings, 4 DOIs) cached and reported |
+| B2 | Experimental-table ingestion | 58bc137 | 2,818 rows from 18 accessions; 6 tables normalized; FLEX PSI-69 vs NTRS: 1,533 values, 0 mismatches |
+| B3 | Earth test vs orbit matrix | bae94ca | 7 like-for-like SAFFIRE-II samples: 4 burned less in orbit, 3 matched, 0 more; BASS/BASS-II add no rows (no 1 g data) |
+| B4 | Exploration-atmosphere evidence | 1dfaf31 | BRE 34 % O₂ flames on 13 of 18 days; objective atmospheres parsed from live metadata; no pressure match claimed |
+| B6 | Suppression framing | c80a95c | |
+| B8 | Compliance + submission hygiene | f473f2b | REFERENCES.json, SI headers (106 files), Limitations, PSI link; no Apollo/incident copy existed |
+| B5 | Detection multi-measure view | 0217fee | number spread 1.6× vs mass 31× across materials; no alarm claim (no thresholds in data) |
+| B7 | Design-suggestion panel | df61ca3 | ventilation item shows "not computed" (no boundary model) |
+| A3 | "What changed" diff | c37cb74 | |
+| A2 | Gravitational settling (SM4) | ef68b08 | particle density = unit-density convention (TODO_VERIFY) |
+
+Time: all items finished inside the 3.5 h budget; no item exceeded its time-box by 50 %, so nothing was downgraded.
