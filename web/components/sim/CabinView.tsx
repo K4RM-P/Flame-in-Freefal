@@ -169,7 +169,7 @@ export function CabinView({ sc, r, frame, label, compact = false }: { sc: Scenar
     <div className="flex h-full min-h-0 w-full flex-col overflow-hidden" data-testid="cabin-view">
       <Hud sc={sc} r={r} f={f} F={F} compact={compact} fanOff={fanOff} u={u} />
       <div className="h-[42%] min-h-[220px] shrink-0 border-b border-line">
-        <FireScene3D sc={sc} r={r} frame={f} />
+        <FireScene3D key={`${sc.name}-${sc.cabin.V_m3}-${sc.cabin.flow_m_s}-${sc.items.map((i) => `${i.material_key}:${i.length_m}:${i.width_m}`).join(",")}`} sc={sc} r={r} frame={f} />
       </div>
       <svg viewBox={`0 0 ${VW} ${VH}`} preserveAspectRatio="xMidYMid meet" className="min-h-0 w-full flex-1" role="img" aria-label={summary}>
         <defs>

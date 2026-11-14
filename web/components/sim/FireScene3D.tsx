@@ -24,8 +24,14 @@ export function FireScene3D({ sc, r, frame }: { sc: Scenario; r: SimResult | nul
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0x080b10);
     const camera = new THREE.PerspectiveCamera(42, 1, 0.01, 100);
-    camera.position.set(2.8, 1.7, 3.9);
-    camera.lookAt(0, 0.65, 0);
+    const target = new THREE.Vector3(0, .78, -.1);
+    let yaw = .42, pitch = .18, radius = 4.25;
+    const aimCamera = () => {
+      const cp = Math.cos(pitch);
+      camera.position.set(target.x + Math.sin(yaw) * cp * radius, target.y + Math.sin(pitch) * radius, target.z + Math.cos(yaw) * cp * radius);
+      camera.lookAt(target);
+    };
+    aimCamera();
     const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: "high-performance" });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.outputColorSpace = THREE.SRGBColorSpace;
@@ -42,6 +48,15 @@ export function FireScene3D({ sc, r, frame }: { sc: Scenario; r: SimResult | nul
     floor.position.y = -.05; cabin.add(floor);
     const back = new THREE.Mesh(new THREE.BoxGeometry(4.8, 2.4, .06), new THREE.MeshStandardMaterial({ color: 0x252c37, metalness: .25, roughness: .8 }));
     back.position.set(0, 1.15, -1.38); cabin.add(back);
+    // Enclosed module shell: translucent panels preserve visibility while
+    // giving the scene a stable spatial boundary and believable reflections.
+    const shell = new THREE.MeshStandardMaterial({ color: 0x384353, metalness: .15, roughness: .86, transparent: true, opacity: .18, side: THREE.DoubleSide });
+    const ceiling = new THREE.Mesh(new THREE.BoxGeometry(4.8, .06, 2.8), shell); ceiling.position.y = 2.35; cabin.add(ceiling);
+    const leftWall = new THREE.Mesh(new THREE.BoxGeometry(.06, 2.4, 2.8), shell); leftWall.position.x = -2.4; leftWall.position.y = 1.15; cabin.add(leftWall);
+    const rightWall = leftWall.clone(); rightWall.position.x = 2.4; cabin.add(rightWall);
+    const frameMat = new THREE.MeshStandardMaterial({ color: 0x677589, metalness: .6, roughness: .42 });
+    for (const x of [-2.38, 2.38]) { const post = new THREE.Mesh(new THREE.BoxGeometry(.075, 2.4, .075), frameMat); post.position.set(x, 1.15, 1.35); cabin.add(post); }
+    for (const y of [.08, 2.28]) { const beam = new THREE.Mesh(new THREE.BoxGeometry(4.8, .075, .075), frameMat); beam.position.set(0, y, 1.35); cabin.add(beam); }
     for (let i = -2; i <= 2; i++) {
       const rack = new THREE.Mesh(new THREE.BoxGeometry(.62, 1.75, .34), new THREE.MeshStandardMaterial({ color: 0x3a424e, metalness: .25, roughness: .65 }));
       rack.position.set(i * .78, .86, -1.12); cabin.add(rack);
@@ -51,7 +66,9 @@ export function FireScene3D({ sc, r, frame }: { sc: Scenario; r: SimResult | nul
       }
     }
 
-    const sample = new THREE.Mesh(new THREE.BoxGeometry(1.45, .12, .58), new THREE.MeshStandardMaterial({ color: 0x5c6570, roughness: .82 }));
+    const sampleLength = THREE.MathUtils.clamp(sc.items[0]?.length_m ?? 1.45, .5, 2.2);
+    const sampleWidth = THREE.MathUtils.clamp(sc.items[0]?.width_m ?? .58, .25, 1.15);
+    const sample = new THREE.Mesh(new THREE.BoxGeometry(sampleLength, .12, sampleWidth), new THREE.MeshStandardMaterial({ color: 0x5c6570, roughness: .82 }));
     sample.position.set(.65, .42, -.15); cabin.add(sample);
 
     const flame = new THREE.Group(); cabin.add(flame);
@@ -71,11 +88,12 @@ export function FireScene3D({ sc, r, frame }: { sc: Scenario; r: SimResult | nul
 
     const resize = () => { const w = el.clientWidth, h = Math.max(240, el.clientHeight); renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix(); };
     const observer = new ResizeObserver(resize); observer.observe(el); resize();
-    let down = false, px = 0;
-    const move = (e: PointerEvent) => { if (!down) return; camera.position.applyAxisAngle(new THREE.Vector3(0, 1, 0), (e.clientX - px) * .006); px = e.clientX; camera.lookAt(0, .65, 0); };
-    const pointerDown = (e: PointerEvent) => { down = true; px = e.clientX; el.setPointerCapture(e.pointerId); };
+    let down = false, px = 0, py = 0;
+    const move = (e: PointerEvent) => { if (!down) return; yaw -= (e.clientX - px) * .006; pitch = THREE.MathUtils.clamp(pitch - (e.clientY - py) * .004, -.28, .52); px = e.clientX; py = e.clientY; aimCamera(); };
+    const pointerDown = (e: PointerEvent) => { down = true; px = e.clientX; py = e.clientY; el.setPointerCapture(e.pointerId); };
     const pointerUp = () => { down = false; };
-    el.addEventListener("pointerdown", pointerDown); el.addEventListener("pointermove", move); el.addEventListener("pointerup", pointerUp);
+    const wheel = (e: WheelEvent) => { e.preventDefault(); radius = THREE.MathUtils.clamp(radius + e.deltaY * .003, 3.1, 6.2); aimCamera(); };
+    el.addEventListener("pointerdown", pointerDown); el.addEventListener("pointermove", move); el.addEventListener("pointerup", pointerUp); el.addEventListener("wheel", wheel, { passive: false });
     const clock = new THREE.Clock(); let raf = 0;
     const tick = () => {
       const t = clock.getElapsedTime();
@@ -83,10 +101,11 @@ export function FireScene3D({ sc, r, frame }: { sc: Scenario; r: SimResult | nul
       flame.visible = intensity > .005; outer.scale.y = .72 + intensity * .45 + Math.sin(t * 13) * .035; outer.rotation.z = Math.sin(t * 8) * .035; inner.scale.y = .72 + intensity * .4 + Math.sin(t * 17) * .05;
       fireLight.intensity = intensity * 5.5; particles.material.opacity = Math.min(.62, live.current.smoke * 180000 + intensity * .12);
       const p = particleGeo.attributes.position.array as Float32Array;
-      for (let i = 0; i < count; i++) { const y = p[i * 3 + 1] + velocities[i] * .008 * (0.3 + intensity); p[i * 3 + 1] = y > 2.45 ? .58 : y; p[i * 3] += Math.sin(t * .7 + i) * .0007; }
+      const flow = sc.cabin.flow_m_s;
+      for (let i = 0; i < count; i++) { const y = p[i * 3 + 1] + velocities[i] * .008 * (0.3 + intensity); p[i * 3 + 1] = y > 2.25 ? .58 : y; p[i * 3] += Math.sin(t * .7 + i) * .0007 + flow * .0007; p[i * 3 + 2] += Math.cos(t * .45 + i) * .00025; }
       particleGeo.attributes.position.needsUpdate = true; renderer.render(scene, camera); raf = requestAnimationFrame(tick);
     }; tick();
-    return () => { cancelAnimationFrame(raf); observer.disconnect(); el.removeEventListener("pointerdown", pointerDown); el.removeEventListener("pointermove", move); el.removeEventListener("pointerup", pointerUp); renderer.dispose(); particleGeo.dispose(); if (el.contains(renderer.domElement)) el.removeChild(renderer.domElement); };
+    return () => { cancelAnimationFrame(raf); observer.disconnect(); el.removeEventListener("pointerdown", pointerDown); el.removeEventListener("pointermove", move); el.removeEventListener("pointerup", pointerUp); el.removeEventListener("wheel", wheel); renderer.dispose(); particleGeo.dispose(); if (el.contains(renderer.domElement)) el.removeChild(renderer.domElement); };
   }, []);
 
   return <div ref={host} className="relative h-full min-h-[320px] w-full overflow-hidden" data-testid="fire-scene-3d" aria-label="Interactive 3D cabin fire visualization">
