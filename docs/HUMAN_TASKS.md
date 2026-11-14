@@ -15,3 +15,5 @@
 6. **Keys/accounts:** provide `ANTHROPIC_API_KEY` (Vercel env) and the Vercel account/team.
 7. **Video:** record the 30-second video on the production URL (script in PRD §13), English subtitles.
 - Drop-tower suppressant study (PRD §2): supply the full citation for `drop-tower-suppressant` in sources.yaml.
+- [ ] TODO_VERIFY: realistic cabin ventilation flow range used by the "Acceptable margin" verdict rule (currently 0–30 cm/s from the review spec, `web/lib/review/rules.ts`). Data instance: move to physics/data with a source.
+- [ ] Record the 30 s video per docs/PITCH.md + docs/VIDEO_SHOTLIST.md; deploy; set ANTHROPIC_API_KEY for Ask EmberAtlas.

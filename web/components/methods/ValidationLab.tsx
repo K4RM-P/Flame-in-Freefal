@@ -29,7 +29,7 @@ function Dial({ name, value, unit, def, note }: { name: string; value: string; u
   );
 }
 
-export default function Validation() {
+export function ValidationLab() {
   const [tab, setTab] = useState<"K" | "dext" | "loi">("K");
   const tr = useMemo(() => trust(), []);
   const parity = (pts: any[], unit: string) => {
@@ -58,7 +58,7 @@ export default function Validation() {
   return (
     <div className="space-y-8" data-testid="validation">
       <header className="space-y-2">
-        <h1 className="display text-[32px]">How much should you trust these models?</h1>
+        <h2 className="display text-[24px]">How much should you trust these models?</h2>
         <Callout>Held-out ISS data only: FLEX campaigns were split by test series before fitting, and published LOIs were never used by the droplet fit. Failures stay on this page with the reason.</Callout>
       </header>
       <section className="grid gap-6 md:grid-cols-3" data-testid="trust-dials">

@@ -66,3 +66,10 @@ UI requests (cannot be derived honestly from existing outputs):
 - Burn probability at the mission point: needs U7 boundary model (digitized solid-fuel outcomes).
 - NASA flame imagery: none bundled yet; add with credits in CREDITS.md.
 - CSA: no CSA-sourced data in web/data, so no CSA data credit is shown.
+
+## Product cohesion pass (2026-11-14) — product lane
+- IA collapsed to Review / Evidence Library / Methods & Validation; old routes redirect (next.config.mjs).
+- `web/lib/contracts` (Zod mirrors of the data contract) + `web/lib/review` (pure `buildReview`, verdict rules in `rules.ts`).
+- Review screen `/review`: verdict, Q1–Q3 with receipts, hero map, Earth vs orbit, actions + next test, evidence used, Export Evidence Brief (print→PDF + Markdown).
+- Without materials.json the Review shows an honest "Data pending" state (no mock numbers).
+- Next steps (skipped, time-box): cabin comparison mode (ISS vs Lunar side by side), Lighthouse tuning, new animations, after-cohesion screenshot set, full README rewrite.

@@ -5,6 +5,8 @@ import { DEFAULT_WEIGHTS, INVESTIGATIONS, rank, type Weights } from "@/lib/ranki
 import { TEST_POINTS } from "@/lib/testPoints";
 import { SourcePill, fmt } from "@/components/bits";
 import { download } from "@/lib/report";
+import { GapsSection } from "@/components/library/GapsSection";
+import { EarthSection } from "@/components/library/EarthSection";
 
 export default function Evidence() {
   const m = useMission();
@@ -22,7 +24,7 @@ export default function Evidence() {
   const cards = INVESTIGATIONS.filter((i) => sel.includes(i.id));
   return (
     <div className="space-y-6">
-      <div><h1 className="text-2xl font-semibold">Evidence Explorer</h1>
+      <div><h1 className="display text-[32px]">Evidence Library</h1>
         <p className="text-sm text-mute">Which PSI investigations matter for this mission atmosphere ({fmt(m.x_o2 * 100)}% O₂, {m.P_kPa} kPa, {m.flow_cm_s} cm/s)? Edit weights; hover a bar for the breakdown.</p></div>
       <section className="grid gap-4 lg:grid-cols-3">
         <div className="card space-y-2">
@@ -75,6 +77,8 @@ export default function Evidence() {
                 <td className="text-xs text-mute">{t.locator}</td></tr>))}</tbody></table>
         </div>
       </section>
+      <section id="gaps" className="scroll-mt-20 border-t border-line pt-6"><GapsSection /></section>
+      <section id="earth-vs-orbit" className="scroll-mt-20 border-t border-line pt-6"><EarthSection /></section>
     </div>
   );
 }

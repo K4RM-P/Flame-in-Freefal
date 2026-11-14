@@ -64,11 +64,11 @@ export function Receipt({ r, title }: { r: ModelResult; title: string }) {
         {tab === "Data" && (rows.length ? (
           <table className="data"><thead><tr><th>test</th><th>O₂</th><th>kPa</th><th>K</th><th>d_ext</th><th>source</th></tr></thead>
             <tbody>{rows.map((t) => <tr key={t.id}><td className="num">{t.test_label}</td><td className="num">{t.x_o2}</td><td className="num">{sig(t.pressure_kpa)}</td><td className="num">{sig(t.K_mm2_s)}</td><td className="num">{sig(t.d_ext_mm)}</td><td className="text-[12px] text-mute">{t.locator}</td></tr>)}</tbody></table>
-        ) : <p className="text-mute">∅ No verified PSI rows calibrate this model yet. <Link href="/gaps" className="underline">See Gaps →</Link></p>)}
+        ) : <p className="text-mute">∅ No verified PSI rows calibrate this model yet. <Link href="/evidence#gaps" className="underline">See Gaps →</Link></p>)}
         {tab === "Sources" && <ul className="space-y-1">{r.sources.map((s) => <li key={s}><SourcePill id={s} /> {source(s).title}</li>)}</ul>}
       </div>
       <div className="mt-3 flex flex-wrap gap-2 border-t border-line pt-3">
-        <Link href={`/models/${r.model_id}`} className="btn">Open full model</Link>
+        <Link href={`/methods#model-${r.model_id}`} className="btn">Open full model</Link>
         <CopyButton text={cite} label="Copy as citation" />
         <button className="btn" onClick={() => download(`emberatlas-${r.model_id}-receipt.md`, reportMarkdown(r, title))}>Export receipt (Markdown)</button>
       </div>

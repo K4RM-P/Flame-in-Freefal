@@ -1,6 +1,6 @@
 import { test } from "@playwright/test";
 
-const ROUTES = ["/", "/start", "/console", "/models/spread", "/validation", "/evidence", "/gaps", "/ask", "/methods"];
+const ROUTES = ["/", "/start", "/review", "/evidence", "/methods"];
 const DIR = process.env.SHOT_DIR;
 test.skip(!DIR, "set SHOT_DIR to capture audit screenshots");
 for (const [w, h] of [[1440, 900], [390, 844]]) {

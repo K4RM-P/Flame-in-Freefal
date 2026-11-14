@@ -9,3 +9,9 @@
 - What is the verdict? The headline sentence: "SIBAL fabric at 34% O₂ · 8.2 psia · lunar gravity: theory predicts sustained opposed-flow spread of 4.6 mm/s (3.5–5.9)", with a Theory-only chip and "Burn probability: ∅ not available yet".
 - Where is the mission on the map? The only accent element on the map: the orange cross, with a grey ghost at the µg position and the "+24.2 cm/s buoyant-equivalent flow" dimension line.
 - How do I verify a number? Click it (underlined verdict number, every card number) → Receipt drawer with Equation / Inputs / Assumptions / Validation / Data / Sources.
+
+## 5-second check — after cohesion pass (2026-11-14)
+Screenshots: `docs/ui-audit/after-cohesion/1440_.png`, `1440_review.png` (and 390 px variants).
+- **What is it?** Landing H1 "Will it burn on the Moon?" + one-liner naming ISS fire experiments → fire-safety verdict for lunar-habitat materials. ✓ Readable in <5 s.
+- **What is the verdict?** Review's dominant element is the verdict sentence. *Before the PSI solid-material data lands it honestly reads "Data pending … No verdict is shown until it does."* ✗ until the data push lands; re-check after rebase.
+- **Why trust it?** Every answer card carries PSI chips + "Show your work" receipts; verdict rules on /methods#verdict-rules; landing Proof shows live counts (incl. failed validation targets). ✓ structurally; receipts only populate once data lands.

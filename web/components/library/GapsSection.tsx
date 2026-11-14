@@ -6,14 +6,14 @@ import { useMission } from "@/lib/store";
 import { CONFLICTS, COVERAGE, proposeExperiments } from "@/lib/gaps";
 import { GOLDEN_QUESTIONS } from "@/lib/ai/questions";
 
-export default function Gaps() {
+export function GapsSection() {
   const m = useMission();
   const props = useMemo(() => proposeExperiments(m, 10), [m]);
   const o2 = [...new Set(COVERAGE.map((c) => c.o2_lo))], p = [...new Set(COVERAGE.map((c) => c.p_lo))];
   const grids = [0, 0.165, 0.378, 1].map((g) => ({ g, z: p.map((pl) => o2.map((ol) => COVERAGE.find((c) => c.g === g && c.o2_lo === ol && c.p_lo === pl)?.n ?? 0)) }));
   return (
     <div className="space-y-6">
-      <div><h1 className="display text-[32px]">Where the evidence runs out — and what to fly next</h1>
+      <div><h2 className="display text-[24px]">Where the evidence runs out — and what to fly next</h2>
         <p className="text-sm text-mute">Coverage of verified PSI test points in EmberAtlas (currently FLEX droplets only; solids await digitization). Moon and Mars columns are empty by construction: PSI has no partial-gravity data.</p></div>
       <section className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         {grids.map((G) => (
