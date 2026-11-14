@@ -10,8 +10,8 @@ const mono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mono", displ
 const serif = Newsreader({ subsets: ["latin"], variable: "--font-serif", display: "swap", style: ["normal", "italic"] });
 
 export const metadata: Metadata = {
-  title: "EmberAtlas — cabin fire simulator",
-  description: "An SI-powered cabin fire simulator for spacecraft and lunar habitats, built from, ranked by and checked against NASA's ISS fire experiments in PSI.",
+  title: { default: "EmberAtlas", template: "%s · EmberAtlas" },
+  description: "NASA PSI evidence and transparent spacecraft fire-safety simulation.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

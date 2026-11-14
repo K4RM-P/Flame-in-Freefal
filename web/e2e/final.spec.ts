@@ -3,7 +3,7 @@
 import { expect, test } from "@playwright/test";
 
 test("Saffire replay → Run → outcome, evidence, telemetry overlay → Compare", async ({ page }) => {
-  await page.goto("/");
+  await page.goto("/simulator");
   // First run has no scenario (no demo): enter one manually (test inputs only), which opens the simulator and its presets.
   await page.getByRole("button", { name: "Enter manually" }).click();
   const manual = page.getByTestId("manual-setup");

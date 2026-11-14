@@ -1,12 +1,12 @@
 "use client";
 // SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
-// Two-route shell: Simulator (/) and Methods (/methods), plus the theme toggle.
+// Landing page, simulator, methods, plus the theme toggle.
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 import { useMission, lsGet, lsSet } from "@/lib/store";
 
-const NAV = [["/", "Simulator"], ["/methods", "Methods & validation"]] as const;
+const NAV = [["/", "Overview"], ["/simulator", "Simulator"], ["/methods", "Methods"]] as const;
 
 export function Shell({ children }: { children: React.ReactNode }) {
   const theme = useMission((s) => s.theme);
@@ -16,7 +16,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
   useEffect(() => { document.documentElement.dataset.theme = theme; }, [theme]);
   return (
     <>
-      <header className="sticky top-0 z-40 flex h-14 items-center gap-4 border-b border-line bg-bg px-4">
+      <header className="shell-header sticky top-0 z-40 flex h-14 items-center gap-4 border-b border-line bg-bg px-4">
         <Link href="/" className="display shrink-0 text-[16px]">EmberAtlas</Link>
         <nav aria-label="Main" className="flex items-center gap-1">
           {NAV.map(([href, label]) => (
@@ -28,7 +28,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
           {theme === "dark" ? "Ivory" : "Dark"}
         </button>
       </header>
-      <main className="mx-auto min-w-0 max-w-[1600px] px-4 py-4 md:px-6">{children}</main>
+      <main className={`mx-auto min-w-0 ${path === "/" ? "max-w-none p-0" : "max-w-[1600px] px-4 py-4 md:px-6"}`}>{children}</main>
       <footer className="mx-auto max-w-[1600px] border-t border-line px-4 py-3 text-[12px] text-faint md:px-6" data-noprint>
         Built on NASA PSI Data Repository: Combustion Science. Partial gravity is a bounded estimate (µg ↔ 1 g). Not for flight certification.
       </footer>
