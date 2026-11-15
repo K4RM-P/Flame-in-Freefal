@@ -159,6 +159,21 @@ function usePlayback() {
 }
 
 /* ---------- toolbar ---------- */
+function startNewScenario() {
+  // A shared preset URL would otherwise reopen the previous run on return.
+  const url = new URL(window.location.href);
+  for (const key of ["preset", "run", "present"]) url.searchParams.delete(key);
+  if (url.href !== window.location.href) window.history.replaceState(window.history.state, "", url);
+  PLAYBACK.fi = 0;
+  useSim.getState().set({
+    a: null, b: null, editing: "a", presetId: null, replay: false,
+    ra: null, rb: null, frame: 0, playing: false, ranKey: null, runError: null,
+    receipt: null, interp: { state: "idle" }, sens: null, chat: [], asking: false,
+    rightTab: "outputs", assumptionsOpen: false, camPreset: null, present: false,
+  });
+  requestAnimationFrame(() => document.getElementById("scenario-start")?.focus());
+}
+
 function Toolbar({ inspectorOpen, onToggleInspector }: { inspectorOpen: boolean; onToggleInspector: () => void }) {
   const { a, b, ra, rb, editing, running, playing, frame, view, set } = useSim();
   // ea.project = { name, description } (a legacy plain string is still read).
@@ -187,6 +202,7 @@ function Toolbar({ inspectorOpen, onToggleInspector }: { inspectorOpen: boolean;
         <optgroup label="Load PSI preset">{PRESETS.map((p) => <option key={p.id} value={p.id}>{p.label}</option>)}</optgroup>
       </select>
       <span className="h-5 w-px bg-line" aria-hidden />
+      <button type="button" className="btn shrink-0 px-2 py-1" disabled={running} onClick={startNewScenario}>New scenario</button>
       <PlayButton className="btn-accent px-4 py-1" testid="run" />
       {missing.length > 0 && <button type="button" id="run-missing" className="shrink-0 whitespace-nowrap text-[12px] text-warn underline decoration-dotted underline-offset-4"
         title="No sourced value exists for these inputs; enter them to enable Run" onClick={() => revealMissing(missing[0])}>Needs: {missing.join(", ")} →</button>}

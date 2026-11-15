@@ -109,9 +109,12 @@ export async function interpret(a: Scenario, ra: SimResult, b: Scenario | null, 
       body: JSON.stringify({ scenario: a, result: compact(ra), evidence: evidenceForAI(a), ...(b && rb && { compare: { scenario: b, result: compact(rb) } }) }),
     });
     const j = await res.json().catch(() => ({}));
+    if (useSim.getState().ra !== ra) return;
     if (!res.ok) set({ interp: { state: "error", error: `${j.error ?? `Interpretation unavailable (${res.status})`} · ${localInterpret(a, ra)}` } });
     else set({ interp: { state: "ok", text: j.text, citations: j.citations ?? [] } });
-  } catch (e) { set({ interp: { state: "error", error: `${String(e)} · ${localInterpret(a, ra)}` } }); }
+  } catch (e) {
+    if (useSim.getState().ra === ra) set({ interp: { state: "error", error: `${String(e)} · ${localInterpret(a, ra)}` } });
+  }
 }
 
 /** The one Play action (toolbar and viewport): run first if there is no result or the inputs changed, then play
