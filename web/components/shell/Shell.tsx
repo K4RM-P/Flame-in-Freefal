@@ -1,6 +1,6 @@
 "use client";
 // SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
-// Vercel-style top bar: ember-dot logo · Simulator · Evidence · Methods · About · theme toggle · GitHub.
+// Vercel-style top bar: flame logo · Simulator · Evidence · Methods · About · theme toggle · GitHub.
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
