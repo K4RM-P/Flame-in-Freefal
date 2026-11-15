@@ -34,8 +34,8 @@ const team: { name: string; initials: string; focus: string; bio: string }[] = [
 
 export default function About() {
   return (
-    <article className="mx-auto max-w-5xl space-y-10 py-10 md:py-16">
-      <header className="ea-research-hero">
+    <article className="ea-about mx-auto max-w-6xl space-y-10 py-8 md:py-12">
+      <header className="ea-research-hero ea-about__hero">
         <p className="label">NASA Space Apps · Flame in Freefall</p>
         <h1 className="display my-3 text-5xl md:text-7xl">About EmberAtlas</h1>
         <p className="measure text-lg leading-relaxed text-mute">We built EmberAtlas to make spacecraft fire research easier to explore, compare, and trace back to the experiments behind it.</p>
@@ -47,8 +47,8 @@ export default function About() {
             const portrait = `/team/${name.toLowerCase().replaceAll(" ", "-")}.jpg`;
             const hasPortrait = existsSync(path.join(process.cwd(), "public", portrait));
             return (
-            <li key={name} className="ea-profile card space-y-3 md:p-7">
-              <div className="grid aspect-square w-28 place-items-center overflow-hidden rounded-lg border border-line bg-surface2 md:w-32" aria-hidden="true">
+            <li key={name} className="ea-profile ea-about__profile card space-y-3 md:p-7">
+              <div className="ea-about__portrait grid aspect-square w-24 place-items-center overflow-hidden rounded-lg border border-line md:w-28" aria-hidden="true">
                 {hasPortrait
                   ? <img className="h-full w-full object-cover" src={portrait} alt="" loading="lazy" />
                   : <span className="num text-2xl text-mute">{initials}</span>}

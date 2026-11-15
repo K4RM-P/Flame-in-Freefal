@@ -63,12 +63,12 @@ export function Aster() {
 
   return (
     <div data-noprint>
-      <button ref={launcher} type="button" className="btn fixed bottom-[max(1rem,env(safe-area-inset-bottom))] right-4 z-40 inline-flex items-center gap-2 bg-surface2 shadow-lg"
+      <button ref={launcher} type="button" className="ea-aster-launcher"
         aria-haspopup="dialog" aria-controls="aster-dialog" onClick={() => dialog.current?.showModal()}>
-        <OrbitStar /> Ask Aster
+        <span className="ea-aster-launcher__icon"><OrbitStar /></span><span>Ask Aster</span>
       </button>
       <dialog id="aster-dialog" ref={dialog} aria-labelledby="aster-title" onClose={() => launcher.current?.focus()}
-        className="fixed inset-auto bottom-0 right-0 m-0 w-full max-w-none overflow-hidden rounded-t-xl border border-line bg-surface2 p-0 text-ink shadow-xl backdrop:bg-black/30 sm:bottom-4 sm:right-4 sm:w-[30rem] sm:rounded-xl">
+        className="ea-aster-dialog fixed inset-auto bottom-0 right-0 m-0 w-full max-w-none overflow-hidden rounded-t-xl border border-line bg-surface2 p-0 text-ink shadow-xl backdrop:bg-black/30 sm:bottom-4 sm:right-4 sm:w-[30rem] sm:rounded-xl">
         <div className="flex h-[min(35rem,85dvh)] flex-col">
           <header className="flex items-center justify-between gap-3 border-b border-line p-4">
             <h2 id="aster-title" className="flex items-center gap-2 text-lg font-semibold"><OrbitStar /> Aster <span className="chip border border-line text-mute">Local research</span></h2>

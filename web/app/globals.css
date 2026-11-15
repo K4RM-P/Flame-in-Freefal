@@ -189,3 +189,59 @@ table.data td { @apply border-b border-line/60 px-2 py-1.5 align-top; }
 .ea-table-scroll td, .ea-table-scroll th { padding: .7rem .6rem !important; }
 .ea-profile { border-top: 2px solid rgb(var(--accent)); }
 @media (max-width: 720px) { .ea-photo-story { grid-template-columns: minmax(0, 1fr); } .ea-photo-story figure { min-height: 14rem; } }
+
+/* Overview, team and contextual help */
+.ea-cover {
+  align-items: end;
+  justify-items: center;
+  text-align: center;
+  min-height: min(860px, max(38rem, calc(100svh - 56px)));
+  padding: clamp(1.25rem, 4vw, 4rem) 1.25rem 3rem;
+}
+.ea-cover__image { object-position: center 37%; }
+.ea-cover::before {
+  background: linear-gradient(0deg, #110d15 0%, #130e18e8 24%, #130e1870 56%, #150c191a 78%),
+    linear-gradient(180deg, #120c19a6, transparent 24%);
+}
+.ea-cover__content { max-width: 68rem; padding: 4rem 0 1rem; }
+.ea-cover h1 { font-size: clamp(3rem, 7.8vw, 7rem); }
+.ea-cover__intro { margin-inline: auto; }
+.ea-cover__language { position: absolute; z-index: 1; top: 1rem; right: 1rem; margin: 0; }
+.ea-cover__actions { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: .75rem 1.25rem; }
+.ea-cover__scroll { margin: 0; }
+.ea-cover__action { transition: background-color .2s ease, transform .2s ease; }
+.ea-cover__action:hover { background: #ff9b79; }
+.ea-start__grid { grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); grid-template-rows: repeat(2, auto); }
+.ea-start__card { position: relative; padding: 1.25rem; background: linear-gradient(145deg, rgb(var(--accent) / .09), transparent 65%), rgb(var(--panel)); }
+.ea-start__card:first-child { grid-row: span 2; min-height: 15rem; padding: clamp(1.25rem, 4vw, 2.5rem); }
+.ea-start__card:first-child strong { font-size: clamp(1.7rem, 4vw, 3rem); letter-spacing: -.045em; }
+.ea-card-arrow { position: absolute; top: 1rem; right: 1.25rem; color: rgb(var(--accent)); font-size: 1.3rem; transition: transform .2s ease; }
+.ea-about__hero { background: radial-gradient(ellipse at 100% 0%, rgb(var(--accent) / .21), transparent 62%), linear-gradient(135deg, rgb(var(--blue) / .1), transparent 70%), rgb(var(--panel)); }
+.ea-about__profile { background: linear-gradient(155deg, rgb(var(--accent) / .08), transparent 52%), rgb(var(--panel)); }
+.ea-about__portrait { background: radial-gradient(circle at 75% 20%, rgb(var(--accent) / .24), transparent 78%), rgb(var(--surface2)); }
+.ea-jumps a { transition: border-color .2s ease, background-color .2s ease; }
+.ea-jumps a:hover { background: rgb(var(--surface2)); }
+.ea-evidence .ea-table-scroll tbody tr:hover { background: rgb(var(--accent) / .08); }
+.ea-aster-launcher {
+  position: fixed; z-index: 40; right: max(1rem, env(safe-area-inset-right)); bottom: max(1rem, env(safe-area-inset-bottom));
+  display: inline-flex; gap: .55rem; align-items: center; min-height: 48px;
+  padding: .5rem .95rem .5rem .55rem; border-radius: 999px;
+  border: 1px solid #ffb59a; color: #261128; font-size: .95rem; font-weight: 700;
+  background: linear-gradient(125deg, #ffd0aa, #f895b0 55%, #c4adff);
+  box-shadow: 0 8px 24px #17092275, 0 2px 8px #45164650;
+  transition: transform .22s ease, box-shadow .22s ease;
+}
+.ea-aster-launcher__icon { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: #321739; color: #ffe3d6; }
+.ea-aster-dialog[open] { animation: ea-cover-in .25s ease-out; }
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .ea-aster-launcher:hover { transform: translateY(-5px); box-shadow: 0 14px 30px #17092285; }
+  .ea-start__card:hover .ea-card-arrow { transform: translate(3px, -3px); }
+}
+@media (max-width: 650px) {
+  .ea-cover__language { top: .7rem; right: .75rem; }
+  .ea-cover h1 { letter-spacing: -.045em; }
+  .ea-cover__credit { right: auto; left: 1rem; }
+  .ea-start__grid { grid-template-columns: 1fr; grid-template-rows: none; }
+  .ea-start__card:first-child { grid-row: auto; min-height: 10rem; }
+  .ea-aster-launcher { right: max(.65rem, env(safe-area-inset-right)); bottom: max(.65rem, env(safe-area-inset-bottom)); }
+}

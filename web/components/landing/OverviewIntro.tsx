@@ -31,8 +31,7 @@ export function OverviewIntro({ image, source, run }: { image: string; source: s
       <section className="ea-cover" aria-labelledby="landing-title">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img className="ea-cover__image" src={image} alt="NASA: an acrylic sphere burning in microgravity aboard the ISS" fetchPriority="high" />
-        <div className="ea-cover__content">
-          <label className="ea-cover__language">
+        <label className="ea-cover__language">
             {labels[6]}
             <select value={language} onChange={(event) => {
               const next = event.target.value as Language;
@@ -41,12 +40,15 @@ export function OverviewIntro({ image, source, run }: { image: string; source: s
             }}>
               {Object.entries(languages).map(([code, [name]]) => <option key={code} value={code} lang={code}>{name}</option>)}
             </select>
-          </label>
+        </label>
+        <div className="ea-cover__content">
           <p className="ea-cover__label" lang="en">NASA Space Apps · Flame in Freefall</p>
           <h1 id="landing-title">{title}</h1>
           <p className="ea-cover__intro">{intro}</p>
-          <Link href="/evidence#earth-vs-orbit" className="ea-cover__action" data-testid="cta-evidence">{evidence} <span aria-hidden="true">↗</span></Link>
-          <a href="#findings" className="ea-cover__scroll">{scroll} <span aria-hidden="true">↓</span></a>
+          <div className="ea-cover__actions">
+            <Link href="/evidence#earth-vs-orbit" className="ea-cover__action" data-testid="cta-evidence">{evidence} <span aria-hidden="true">↗</span></Link>
+            <a href="#findings" className="ea-cover__scroll">{scroll} <span aria-hidden="true">↓</span></a>
+          </div>
         </div>
         <a className="ea-cover__credit" href={source} target="_blank" rel="noreferrer" lang="en">SoFIE-GEL · NASA / JSC ↗</a>
       </section>
@@ -55,7 +57,7 @@ export function OverviewIntro({ image, source, run }: { image: string; source: s
         <div className="ea-start__grid">
           {tools.map(([href, label, description, number]) => (
             <Link key={number} className="ea-start__card" href={href}>
-              <span className="num" aria-hidden="true">{number} ↗</span>
+              <span className="ea-card-arrow" aria-hidden="true">↗</span>
               <strong>{label}</strong>
               <span>{description}</span>
             </Link>
