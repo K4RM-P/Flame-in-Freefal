@@ -3,6 +3,7 @@
 // Every fire/smoke/alarm/fan/agent visual reads this; no component computes physics. A fractional frameIndex
 // linearly interpolates between two engine frames (smooth 60 fps playback); discrete fields use the lower frame.
 import type { Scenario, SimResult } from "@/lib/sim/types";
+import FV from "@/data/params/flame_visual.json";
 
 export type GravityMode = "ug" | "partial" | "1g";
 
@@ -23,6 +24,40 @@ export interface ItemVisual {
   /** 0..1 smoulder glow, only after a burnout, fading over 3 s of sim time. */
   smoulder: number;
   extinguishReason?: "burnout" | "inerting" | "quench";
+  /** Flame-shape physics (visual only; see data/params/flame_visual.json). */
+  phys: FlamePhys;
+}
+
+/** Flame geometry from published correlations, fed only by engine values. Never reported as a result. */
+export interface FlamePhys {
+  /** Engine spread rate d(front)/dt, m/s. */
+  spread_m_s: number;
+  /** This item's share of the engine heat release, W (Q_W split by burning area). */
+  Q_W: number;
+  /** Equivalent diameter of the burning area, m. */
+  D_m: number;
+  /** Buoyant flame length: Heskestad L = a·Q^(2/5) − b·D at 1 g, × (g/g0)^(−1/5); 0 in µg. */
+  length_m: number;
+  /** µg sheath thickness ≈ k·α/u_rel (diffusion length of an opposed-flow flame), clamped for display. */
+  sheath_m: number;
+  /** Flame tilt 0..1 (= θ / 90°), tan θ = u / √(g·L): fully along the flow in µg, upright in still 1 g air. */
+  tilt: number;
+  /** Puffing frequency c/√D · √(g/g0), Hz; 0 in µg (no buoyant instability). */
+  flicker_Hz: number;
+}
+
+const G0 = 9.80665; // standard gravity, m/s² (definition)
+export function flamePhys(Q_W: number, area_m2: number, flow_m_s: number, spread_m_s: number, g: number): FlamePhys {
+  const D = area_m2 > 0 ? Math.sqrt((4 * area_m2) / Math.PI) : 0;
+  const QkW = Math.max(0, Q_W) / 1e3;
+  const L1 = Math.max(0, FV.heskestad.a * Math.pow(QkW, 0.4) - FV.heskestad.b * D);
+  const length = g > 0 && QkW > 0 ? Math.min(FV.flame_length_max_m.value, Math.max(0.02, L1 * Math.pow(g, FV.gravity_length_exponent.value))) : 0;
+  const uRel = Math.max(1e-4, flow_m_s + Math.abs(spread_m_s));
+  const sheath = Math.max(FV.sheath_clamp_m.min, Math.min(FV.sheath_clamp_m.max, (FV.sheath_visible_multiple.value * FV.alpha_film_m2_s.value) / uRel));
+  const ub = Math.sqrt(g * G0 * Math.max(length, D, 0.01));
+  const tilt = flow_m_s <= 0 ? 0 : g <= 0 ? 1 : (2 / Math.PI) * Math.atan(flow_m_s / ub);
+  const flicker = g > 0 && D > 0 ? Math.min(20, (FV.puffing.c / Math.sqrt(D)) * Math.sqrt(g)) : 0;
+  return { spread_m_s, Q_W, D_m: D, length_m: length, sheath_m: sheath, tilt, flicker_Hz: flicker };
 }
 
 export interface VisualState {
@@ -78,7 +113,7 @@ export function visualState(sc: Scenario, r: SimResult | null, frameIndex: numbe
   if (!r || !r.t.length) {
     return {
       ...base, hasRun: false, frame: 0, N: 0, t: 0, tEnd: 0,
-      items: sc.items.map((it) => ({ id: it.id, length_m: it.length_m, width_m: it.width_m, thickness_m: it.thickness_m, front_m: 0, burnLen_m: 0, charLen_m: 0, status: "idle", flamePresent: false, collapse: 0, smoulder: 0 })),
+      items: sc.items.map((it) => ({ id: it.id, length_m: it.length_m, width_m: it.width_m, thickness_m: it.thickness_m, front_m: 0, burnLen_m: 0, charLen_m: 0, status: "idle", flamePresent: false, collapse: 0, smoulder: 0, phys: flamePhys(0, 0, sc.cabin.flow_m_s, 0, g) })),
       qRatio: 0, o2Ratio: 1, x_o2: sc.cabin.x_o2, flow_m_s: sc.cabin.flow_m_s, lean: leanOf(sc.cabin.flow_m_s), fanOff: false, fanSpeed: sc.cabin.flow_m_s > 0 ? 1 : 0,
       smoke: 0, smokeNoData: false, alarm: false, tAlarm: null, agent: null, extinguished: false, limits: [],
       hud: { T_K: null, Q_W: null, x_o2: null, x_co_ppm: null },
@@ -100,7 +135,10 @@ export function visualState(sc: Scenario, r: SimResult | null, frameIndex: numbe
   const flow = fanOff ? 0 : sc.cabin.flow_m_s;
   const fanSpeed = sc.cabin.flow_m_s <= 0 ? 0 : !fanOff ? 1 : clamp01(1 - (t - (S.tFanOff ?? t)) / 2);
 
-  const items: ItemVisual[] = sc.items.map((it) => {
+  const areas = sc.items.map((it) => { const tr = r.items.find((x) => x.id === it.id); return tr ? Math.max(0, lerp(tr.burning_area_m2[f0], tr.burning_area_m2[f1], u)) : 0; });
+  const areaSum = areas.reduce((a, b) => a + b, 0);
+  const dt = r.t[f1] - r.t[f0];
+  const items: ItemVisual[] = sc.items.map((it, k) => {
     const tr = r.items.find((x) => x.id === it.id);
     const status = tr?.status[f0] ?? "idle";
     const front = tr ? lerp(tr.front_m[f0], tr.front_m[f1], u) : 0;
@@ -118,6 +156,7 @@ export function visualState(sc: Scenario, r: SimResult | null, frameIndex: numbe
       id: it.id, length_m: it.length_m, width_m: it.width_m, thickness_m: it.thickness_m,
       front_m: Math.max(0, Math.min(it.length_m, front)), burnLen_m: Math.max(0, burnLen), charLen_m: Math.max(0, Math.min(it.length_m, front) - burnLen),
       status, flamePresent: status === "burning", collapse, smoulder, extinguishReason: tr?.extinguish_reason,
+      phys: flamePhys(areaSum > 0 ? (Q * areas[k]) / areaSum : 0, areas[k], flow, tr && dt > 0 ? (tr.front_m[f1] - tr.front_m[f0]) / dt : 0, g),
     };
   });
 

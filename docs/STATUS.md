@@ -13,6 +13,8 @@
 **Budget (measured in headless SwiftShader):** 95 scene draw calls, ≈218k triangles (budget ≤150 / ≤600k). 60 fps on an M1 Air could not be measured here (no GPU in the sandbox).
 **Verification:** `pnpm test` (incl. `tests/scene3d.test.ts`), `tsc --noEmit`, `pnpm build`, and `e2e/scene3d.spec.ts` (DPR 1 and 2) pass. 2 pre-existing e2e failures on upstream `main` (strict-mode locator on `#earth-vs-orbit` in the evidence page) are unrelated.
 
+**Update:** one Play action (toolbar ▶ and viewport ▶ behave the same: run if needed, then play like a video with speed 0.5–4× and a scrubber with event markers); flame shape now follows Heskestad length, α/u sheath, wind tilt and puffing frequency from engine values (visual only, `web/data/params/flame_visual.json`); toolbar trimmed to project · scenario · Play · view · Compare · Results · Export.
+
 ### 3D: not done
 - `docs/REFERENCES.json` was not regenerated: `physics/validate/export.py` fails in this sandbox (no project venv; pandas `DataFrame.accession` error). Run `make export` locally to pick up the 4 new libraries already listed in `software.yaml`.
 - Post-processing is off in the Compare split view (EffectComposer is not per-View).

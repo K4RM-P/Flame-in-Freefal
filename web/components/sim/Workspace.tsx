@@ -14,7 +14,7 @@ import { CHARTS, Charts } from "./Charts";
 import { CabinView, Legend, runFacts, useReducedMotion } from "./CabinView";
 import { ScenarioPanel, applyPreset, fmtProv } from "./ScenarioPanel";
 import { TELEMETRY, materialByKey } from "./data";
-import { BoundedBadge, Evidence, Interpretation, MC_N, NextTest, Outcome, ReplayMetrics, TheoryBadge, Tornado, download, missingFields, runAll } from "./bits";
+import { BoundedBadge, Evidence, Interpretation, MC_N, NextTest, Outcome, ReplayMetrics, TheoryBadge, Tornado, download, missingFields, playPause, runAll } from "./bits";
 import { nextTest, outOfEnvelope } from "@/lib/sim/nextTest";
 import spreadCal from "@/data/params/spread.json";
 import { LAYERS, PLAYBACK, loadUi, saveUi, useSim } from "./store";
@@ -115,9 +115,10 @@ function NextStep({ inspectorOpen, openInspector }: { inspectorOpen: boolean; op
   const missing = [...missingFields(a), ...(b ? missingFields(b).map((m) => `B: ${m}`) : [])];
   let text: React.ReactNode, action: React.ReactNode = null;
   if (missing.length) {
-    text = <>Enter the <b>{missing.join(", ")}</b>: there is no sourced value. Then press ▶ Run.</>;
+    text = <>Enter the <b>{missing.join(", ")}</b>: there is no sourced value. Then press ▶ Play.</>;
     action = <button type="button" className="btn px-2 py-0.5 text-[12px]" onClick={() => revealMissing(missing[0])}>Enter it</button>;
-  } else if (running) text = <>Simulating {MC_N} Monte Carlo runs…</>;
+  } else return null;
+  if (running) text = <>Simulating {MC_N} Monte Carlo runs…</>;
   else if (!ra) text = <>Press <b>▶ Run</b> to simulate this cabin. Inputs and presets are in Scenario setup on the left.</>;
   else if (!inspectorOpen) {
     text = <>{playing ? "Playing back" : <>Press <b>▷</b> to play back</>} the cabin view, then open the results to see the sources behind them.</>;
@@ -131,23 +132,29 @@ function NextStep({ inspectorOpen, openInspector }: { inspectorOpen: boolean; op
 }
 
 /* ---------- playback: advances the playhead through engine frames (data-driven, not decorative) ---------- */
+/** Video-like playback: sim time advances with wall time (whole run ≈ BASE_S at 1×, scaled by speed). The 3D view
+ *  reads the fractional playhead every frame; the store frame updates at ≤ 20 Hz to keep the page light. */
+const BASE_S = 24;
 function usePlayback() {
-  const { playing, ra, set, present } = useSim();
-  const reduced = useReducedMotion();
-  const raf = useRef<number | null>(null);
+  const { playing, ra, set, present, speed } = useSim();
   useEffect(() => {
     if (!playing || !ra) return;
-    let last = performance.now();
-    const step = reduced ? 120 : present ? Math.max(16, 22000 / Math.max(1, ra.t.length)) : 33;
-    PLAYBACK.stepMs = step;
+    const N = ra.t.length, tEnd = ra.t[N - 1], t0 = ra.t[0];
+    const rate = ((tEnd - t0) / (present ? 22 : BASE_S)) * (present ? 1 : speed);
+    let tSim = ra.t[Math.min(useSim.getState().frame, N - 1)], last = performance.now(), lastSet = 0, raf = 0, lo = 0;
     const tick = (now: number) => {
-      const f = useSim.getState().frame;
-      if (now - last > step) { last = now; if (f >= ra.t.length - 1) { set({ playing: false }); return; } set({ frame: f + 1 }); }
-      raf.current = requestAnimationFrame(tick);
+      tSim += ((now - last) / 1000) * rate; last = now;
+      if (tSim >= tEnd) { PLAYBACK.fi = N - 1; set({ frame: N - 1, playing: false }); return; }
+      if (ra.t[lo] > tSim) lo = 0;
+      while (lo < N - 2 && ra.t[lo + 1] <= tSim) lo++;
+      const fi = lo + Math.min(1, (tSim - ra.t[lo]) / Math.max(1e-9, ra.t[lo + 1] - ra.t[lo]));
+      PLAYBACK.fi = fi;
+      if (now - lastSet > 50 && Math.floor(fi) !== useSim.getState().frame) { lastSet = now; set({ frame: Math.floor(fi) }); }
+      raf = requestAnimationFrame(tick);
     };
-    raf.current = requestAnimationFrame(tick);
-    return () => { if (raf.current) cancelAnimationFrame(raf.current); };
-  }, [playing, ra, reduced, set, present]);
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [playing, ra, set, present, speed]);
 }
 
 /* ---------- toolbar ---------- */
@@ -179,15 +186,10 @@ function Toolbar({ inspectorOpen, onToggleInspector }: { inspectorOpen: boolean;
         <optgroup label="Load PSI preset">{PRESETS.map((p) => <option key={p.id} value={p.id}>{p.label}</option>)}</optgroup>
       </select>
       <span className="h-5 w-px bg-line" aria-hidden />
-      <button type="button" className="btn-accent px-4 py-1" data-testid="run" disabled={running || missing.length > 0} onClick={runAll}
-        aria-describedby={missing.length ? "run-missing" : undefined}>{running ? `Running ${MC_N} runs…` : "▶ Run"}</button>
+      <PlayButton className="btn-accent px-4 py-1" testid="run" />
       {missing.length > 0 && <button type="button" id="run-missing" className="shrink-0 whitespace-nowrap text-[12px] text-warn underline decoration-dotted underline-offset-4"
         title="No sourced value exists for these inputs; enter them to enable Run" onClick={() => revealMissing(missing[0])}>Needs: {missing.join(", ")} →</button>}
-      <button type="button" className="btn px-2" disabled={!ra} aria-label={playing ? "Pause" : "Play"} onClick={() => { if (!playing && frame >= last) set({ frame: 0 }); set({ playing: !playing }); }}>{playing ? "❚❚" : "▷"}</button>
-      <button type="button" className="btn px-2" disabled={!ra} aria-label="Reset playhead" onClick={() => set({ playing: false, frame: 0 })}>⟲</button>
-      <input type="range" className="min-w-[120px] flex-1" min={0} max={last} value={Math.min(frame, last)} disabled={!ra} aria-label="Simulation time"
-        onChange={(e) => set({ playing: false, frame: Number(e.target.value) })} />
-      <span className="num w-28 shrink-0 whitespace-nowrap text-right text-[12px]">{ra ? `${sig(ra.t[Math.min(frame, last)], 3)} / ${sig(ra.t[last], 3)} s` : "— s"}</span>
+      <span className="flex-1" />
       <span className="h-5 w-px bg-line" aria-hidden />
       <div className="flex overflow-hidden border border-line" style={{ borderRadius: 6 }} role="group" aria-label="View" data-testid="view-switch">
         {(["3d", "elevation", "section"] as const).map((v, i) => <button key={v} type="button" aria-pressed={view === v} className={`px-2.5 py-1 text-[12px] ${i ? "border-l border-line" : ""} ${view === v ? "bg-surface2 font-medium text-ink" : "text-mute hover:text-ink"}`} onClick={() => set({ view: v })}>{v === "3d" ? "3D" : v === "elevation" ? "Elevation" : "Section"}</button>)}
@@ -300,7 +302,8 @@ function Center({ openInspector }: { openInspector: () => void }) {
       const k = e.key.toLowerCase();
       if (k === "f") { e.preventDefault(); fullscreen(); }
       else if (k === "c") { const open = !useSim.getState().dockOpen; set({ dockOpen: open }); saveUi({ dockOpen: open }); }
-      else if (k === "r") { void runAll(); }
+      else if (k === "r") { void playPause(); }
+      else if (k === " " && !(e.target instanceof HTMLButtonElement)) { e.preventDefault(); void playPause(); }
       else if (["1", "2", "3", "4"].includes(k)) set({ camPreset: { id: Number(k), nonce: Date.now() }, view: "3d" });
     };
     window.addEventListener("keydown", onKey);
@@ -319,7 +322,7 @@ function Center({ openInspector }: { openInspector: () => void }) {
             </div>}
         {missing.length > 0 && view !== "3d" && <p id="run-missing-note" className="absolute inset-x-2 top-2 z-10 border border-warn/50 bg-panel px-2 py-1 text-[13px] text-warn" style={{ borderRadius: 6 }}>Enter {missing.join(", ")} to run: there is no sourced value.</p>}
         {runError && <p className="absolute inset-x-2 top-10 z-10 bg-panel px-2 text-[13px] text-bad" role="alert">Run failed: {runError}</p>}
-        <ViewportControls fullscreen={fullscreen} />
+        <Transport fullscreen={fullscreen} />
         {assumptionsOpen && <Assumptions sc={a} r={ra} />}
       </div>
       {b && ra && rb && <DeltaCard a={a} b={b} ra={ra} rb={rb} openInspector={openInspector} />}
@@ -328,25 +331,55 @@ function Center({ openInspector }: { openInspector: () => void }) {
   );
 }
 
-/** Bottom-right glass toolbar: camera presets (1–4), layers, legend (?), assumptions, fullscreen (F). */
-function ViewportControls({ fullscreen }: { fullscreen: () => void }) {
-  const { view, layers, assumptionsOpen, set } = useSim();
+/** The single Play action, shared by the toolbar and the viewport transport (same behaviour everywhere). */
+function PlayButton({ className, testid, compact = false }: { className: string; testid?: string; compact?: boolean }) {
+  const { a, b, running, playing } = useSim();
+  const missing = a ? [...missingFields(a), ...(b ? missingFields(b) : [])] : [];
+  return <button type="button" className={className} data-testid={testid} disabled={running || missing.length > 0} aria-label={playing ? "Pause" : "Play"}
+    title={missing.length ? `Enter ${missing.join(", ")} first` : "Play (Space): runs the simulation if needed, then plays it"} onClick={() => void playPause()}>
+    {running ? (compact ? "…" : "Simulating…") : playing ? (compact ? "❚❚" : "❚❚ Pause") : (compact ? "▶" : "▶ Play")}</button>;
+}
+
+const EV: Record<string, [string, string]> = { ignition: ["●", "text-accent"], alarm: ["▲", "text-bad"], fan_off: ["■", "text-mute"], agent_released: ["▨", "text-blue"], extinguished: ["✕", "text-ink"] };
+const SPEEDS = [0.5, 1, 2, 4];
+
+/** Video-player strip at the bottom of the viewport: play/pause, time, scrubber with engine-event markers, speed,
+ *  then camera, layers, legend, assumptions and fullscreen. */
+function Transport({ fullscreen }: { fullscreen: () => void }) {
+  const { ra, frame, view, layers, assumptionsOpen, speed, set } = useSim();
+  const last = ra ? ra.t.length - 1 : 0, f = Math.min(frame, last);
+  const t0 = ra?.t[0] ?? 0, tEnd = ra?.t[last] ?? 1;
+  const evs = ra ? ra.events.filter((e) => EV[e.kind]).filter((e, i, arr) => arr.findIndex((x) => x.kind === e.kind) === i) : [];
   const btn = "px-2 py-1 text-[12px] text-mute hover:text-ink";
   return (
-    <div className="glass absolute bottom-2 right-2 z-20 flex items-center divide-x divide-line" data-noprint data-testid="viewport-controls">
-      {view === "3d" && <div className="flex" role="group" aria-label="Camera presets">
-        {PRESET_LABELS.map((l, i) => <button key={l} type="button" className={btn} title={`${l} (${i + 1})`} onClick={() => set({ camPreset: { id: i + 1, nonce: Date.now() } })}>{i + 1}<span className="ml-1 hidden xl:inline">{l}</span></button>)}
-      </div>}
-      <details className="relative">
+    <div className="glass absolute inset-x-2 bottom-2 z-20 flex items-center gap-2 px-1.5 py-1" data-noprint data-testid="transport">
+      <PlayButton className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-accent text-[13px] font-semibold text-black disabled:opacity-50" compact testid="play" />
+      <span className="num w-[104px] shrink-0 text-[12px]">{ra ? `${sig(ra.t[f], 3)} / ${sig(tEnd, 3)} s` : "— / — s"}</span>
+      <div className="relative min-w-[120px] flex-1">
+        {evs.map((e) => <span key={e.kind} className={`pointer-events-none absolute -top-2.5 -translate-x-1/2 text-[10px] leading-none ${EV[e.kind][1]}`} style={{ left: `${((e.t_s - t0) / Math.max(1e-9, tEnd - t0)) * 100}%` }} title={`${e.kind.replace("_", " ")} · ${sig(e.t_s, 3)} s`}>{EV[e.kind][0]}</span>)}
+        <input type="range" className="w-full accent-[rgb(var(--accent))]" min={0} max={last} value={f} disabled={!ra} aria-label="Simulation time"
+          onChange={(e) => set({ playing: false, frame: Number(e.target.value) })} />
+      </div>
+      <select aria-label="Playback speed" className="w-14 shrink-0 border-0 bg-transparent px-1 py-0 text-[12px]" value={speed} onChange={(e) => set({ speed: Number(e.target.value) })}>
+        {SPEEDS.map((s) => <option key={s} value={s}>{s}×</option>)}
+      </select>
+      <span className="h-5 w-px shrink-0 bg-line" aria-hidden />
+      {view === "3d" && <details className="relative shrink-0">
+        <summary className={`${btn} cursor-pointer list-none`} title="Camera (1–4)">Camera ▾</summary>
+        <div className="glass absolute bottom-10 right-0 grid min-w-44 gap-0.5 p-1 text-[12px]">
+          {PRESET_LABELS.map((l, i) => <button key={l} type="button" className="px-2 py-1 text-left hover:bg-surface2" onClick={() => set({ camPreset: { id: i + 1, nonce: Date.now() } })}><span className="num text-faint">{i + 1}</span> {l}</button>)}
+        </div>
+      </details>}
+      <details className="relative shrink-0">
         <summary className={`${btn} cursor-pointer list-none`}>Layers ▾</summary>
-        <div className="glass absolute bottom-9 right-0 grid min-w-48 gap-1 p-2 text-[12px]" data-testid="layers-menu">
+        <div className="glass absolute bottom-10 right-0 grid min-w-48 gap-1 p-2 text-[12px]" data-testid="layers-menu">
           {LAYERS.map((l) => <label key={l.k} className="flex items-center gap-1.5 px-1"><input type="checkbox" checked={layers[l.k]} onChange={(e) => set({ layers: { ...layers, [l.k]: e.target.checked } })} />{l.label}</label>)}
         </div>
       </details>
-      <button type="button" className={btn} aria-expanded={assumptionsOpen} onClick={() => set({ assumptionsOpen: !assumptionsOpen })}>Assumptions</button>
-      <details className="relative">
-        <summary className={`${btn} cursor-pointer list-none`} aria-label="Legend" title="Legend">?</summary>
-        <div className="glass absolute bottom-9 right-0 w-72 p-2"><Legend /></div>
+      <details className="relative shrink-0">
+        <summary className={`${btn} cursor-pointer list-none`} aria-label="Legend and assumptions" title="Legend and assumptions">?</summary>
+        <div className="glass absolute bottom-10 right-0 w-72 space-y-2 p-2"><Legend />
+          <button type="button" className="text-[12px] underline underline-offset-2" aria-expanded={assumptionsOpen} onClick={() => set({ assumptionsOpen: !assumptionsOpen })}>Assumptions &amp; evidence →</button></div>
       </details>
       <button type="button" className={btn} onClick={fullscreen} title="Fullscreen (F)" aria-label="Fullscreen" data-testid="fullscreen">⛶</button>
     </div>
@@ -427,7 +460,7 @@ function Dock() {
             </div>
           </section>
         ) : ra ? <Charts ra={ra} rb={rb} sa={a} frame={frame} replay={replay} only={dockTab as never} height={chartH} />
-          : <p className="py-6 text-center text-[13px] text-mute">Press ▶ Run to simulate {sig(a.t_end_s, 3)} s of this cabin ({MC_N} Monte Carlo runs for the uncertainty bands).</p>}
+          : <p className="py-6 text-center text-[13px] text-mute">Press ▶ Play to simulate {sig(a.t_end_s, 3)} s of this cabin ({MC_N} Monte Carlo runs for the uncertainty bands).</p>}
       </div>
     </div>
   );

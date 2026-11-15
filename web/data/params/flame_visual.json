@@ -1,0 +1,10 @@
+{
+  "_note": "Visualization-only correlations that shape the 3D flame from engine outputs (Q_W, burning area, front, flow, gravity). They never feed the engine or any reported number. verified=false until the human spot-check (docs/HUMAN_TASKS.md).",
+  "heskestad": { "a": 0.235, "b": 1.02, "units": "L_f [m] = a * Q[kW]^(2/5) - b * D[m]", "source": "Heskestad, G. (1983). Luminous heights of turbulent diffusion flames. Fire Safety Journal 5, 103-108.", "verified": false },
+  "gravity_length_exponent": { "value": -0.2, "units": "L_f proportional to (g/g0)^value at fixed Q", "source": "Froude scaling of buoyant diffusion flames: Q* = Q / (rho cp T sqrt(g D) D^2), L_f/D = f(Q*) with L_f ~ Q^(2/5) (Heskestad 1983). Partial gravity = bounded estimate.", "verified": false },
+  "puffing": { "c": 1.5, "units": "f [Hz] = c / sqrt(D[m]) at 1 g, scaled by sqrt(g/g0)", "source": "Cetegen, B.M. & Ahmed, T.A. (1993). Experiments on the periodic instability of buoyant plumes and pool fires. Combustion and Flame 93, 157-184.", "verified": false },
+  "alpha_film_m2_s": { "value": 1.09e-4, "units": "m^2/s, thermal diffusivity of air at 800 K (flame film temperature)", "source": "Incropera, DeWitt, Bergman & Lavine, Fundamentals of Heat and Mass Transfer, Table A.4 (air, 800 K).", "verified": false },
+  "sheath_visible_multiple": { "value": 8, "units": "visible flame thickness = value * alpha / u_rel (illustrative)", "source": "design input (illustrative): visible sheath spans several diffusion lengths alpha/u of an opposed-flow flame", "verified": false },
+  "sheath_clamp_m": { "min": 0.004, "max": 0.06, "source": "design input (illustrative display bounds)", "verified": false },
+  "flame_length_max_m": { "value": 1.5, "source": "design input (display bound inside the 2.1 m aisle)", "verified": false }
+}

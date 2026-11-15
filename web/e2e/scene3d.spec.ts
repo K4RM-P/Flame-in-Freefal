@@ -27,6 +27,7 @@ for (const dpr of [1, 2]) {
       const canvas = page.locator('[data-testid="viewport"] canvas').first();
       await expect(canvas).toBeVisible({ timeout: 30_000 });
       await expect(page.getByTestId("scene-empty")).toContainText("Ready");
+      await expect(page.getByTestId("play-center")).toBeVisible();
       await page.waitForTimeout(2500);
       const [cb, vb, wb, dock] = await Promise.all([canvas.boundingBox(), page.getByTestId("viewport").boundingBox(), page.getByTestId("workspace").boundingBox(), page.getByTestId("dock").getAttribute("data-open")]);
       expect(dock).toBe("false");
@@ -45,7 +46,13 @@ test("iss-vs-lunar: run, scrub to the end, HUD shows the alarm state, no console
   page.on("pageerror", (e) => errors.push(e.message));
   await page.goto("/simulator?preset=iss-vs-lunar");
   await page.getByTestId("run").click();
-  await expect(page.getByTestId("run")).toHaveText(/Run$/, { timeout: 90_000 });
+  await expect(page.getByTestId("run")).toBeEnabled({ timeout: 90_000 });
+  // Play runs then plays like a video: the playhead advances on its own
+  const time = page.getByTestId("transport").locator(".num").first();
+  const t1 = await time.textContent(); await page.waitForTimeout(1500);
+  expect(await time.textContent()).not.toBe(t1);
+  await page.getByTestId("play").click(); // the viewport button does the same thing: pause
+  await expect(page.getByTestId("run")).toHaveText(/Play/);
   const slider = page.getByLabel("Simulation time");
   await slider.focus(); await page.keyboard.press("End");
   await expect(page.getByTestId("hud-alarm").first()).toBeVisible();

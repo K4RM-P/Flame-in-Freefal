@@ -13,7 +13,7 @@ import type { PlotParams } from "react-plotly.js";
 import { Plot } from "@/components/Plot";
 import { OKABE_ITO } from "@/lib/ui/palette";
 import { catalogEntry, doiUrl, psiUrl } from "./data";
-import { useSim } from "./store";
+import { keyOf, useSim } from "./store";
 
 /** A result number: always a button that opens its receipt (provenance). */
 export function Num({ value, units, band, title, sources, note, className = "" }: {
@@ -113,13 +113,27 @@ export async function interpret(a: Scenario, ra: SimResult, b: Scenario | null, 
   } catch (e) { set({ interp: { state: "error", error: String(e) } }); }
 }
 
+/** The one Play action (toolbar and viewport): run first if there is no result or the inputs changed, then play
+ *  from the start like a video; pause if playing; restart if at the end. */
+export async function playPause() {
+  const s = useSim.getState();
+  if (s.running || !s.a) return;
+  if (s.playing) { s.set({ playing: false }); return; }
+  if (!s.ra || (s.b && !s.rb) || s.ranKey !== keyOf(s.a, s.b)) {
+    await runAll();
+    if (useSim.getState().ra) useSim.getState().set({ frame: 0, playing: true });
+    return;
+  }
+  s.set({ frame: s.frame >= s.ra.t.length - 1 ? 0 : s.frame, playing: true });
+}
+
 export async function runAll() {
   const { a, b, set } = useSim.getState();
   if (!a || missingFields(a).length || (b && missingFields(b).length)) return;
   set({ running: true, runError: null, frame: 0, playing: false, interp: { state: "idle" } });
   try {
     const [ra, rb] = await Promise.all([runInWorker(a, { mc: MC_N }), b ? runInWorker(b, { mc: MC_N }) : Promise.resolve(null)]);
-    set({ ra, rb, running: false, frame: ra.t.length - 1 });
+    set({ ra, rb, running: false, frame: ra.t.length - 1, ranKey: keyOf(a, b) });
     void interpret(a, ra, b, rb);
   } catch (e) { set({ running: false, runError: String(e) }); }
 }

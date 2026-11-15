@@ -1,7 +1,8 @@
 "use client";
 // SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 // Raymarched flame volume: 3D simplex-noise FBM inside a blended µg-hemisphere / 1 g-teardrop field.
-// Size from the engine's burning length and Q ratio, colour/brightness from O₂, shape from g^(1/3), lean from flow.
+// Size from the engine's burning length, Q and flow (Heskestad height, α/u sheath, wind tilt, puffing frequency;
+// data/params/flame_visual.json), colour/brightness from O₂, µg ↔ 1 g blend from g^(1/3).
 // Noise and flicker are seeded by wall-clock time only and are cosmetic; they never change scale, shape or colour.
 import { useFrame } from "@react-three/fiber";
 import { useMemo, useRef } from "react";
@@ -42,7 +43,7 @@ void main(){ vPos = position; gl_Position = projectionMatrix * modelViewMatrix *
 const FRAG = /* glsl */ `
 ${NOISE}
 uniform vec3 uCam; uniform vec3 uSize; uniform vec3 uCenter;
-uniform float uTime, uLen, uWidth, uT, uH, uShape, uLean, uQ, uO2r, uO2hi, uFlick;
+uniform float uTime, uLen, uWidth, uT, uH, uShape, uLean, uQ, uO2r, uO2hi, uFlick, uHz;
 varying vec3 vPos;
 // metric local coords: x along the sample (front at +uLen/2), y across its width (up), z out of the sheet
 float field(vec3 q){
@@ -65,7 +66,7 @@ float field(vec3 q){
   float speed = mix(0.6, 3.2, uShape);
   vec3 np = q * mix(26.0, 10.0, uShape) * vec3(1.0, mix(1.0, 0.55, uShape), 1.0) + vec3(0.0, -uTime * speed * uFlick, uTime*0.3);
   d += fbm(np) * mix(0.38, 0.6, uShape) + 0.12;
-  d += uShape * uFlick * 0.07 * sin(uTime * 69.1 + q.y * 25.0); // ~11 Hz buoyant flicker (1 g only)
+  d += uShape * uFlick * 0.08 * sin(uTime * 6.2832 * uHz - q.y * 18.0); // buoyant puffing at the correlation frequency (0 in µg)
   return smoothstep(0.0, 0.55, 1.0 - d);
 }
 void main(){
@@ -104,12 +105,14 @@ void main(){
 }
 `;
 
-export interface FlameParams { len: number; width: number; q: number; o2r: number; o2hi: number; shape: number; lean: number; scale: number; visible: boolean }
+export interface FlameParams { len: number; width: number; q: number; o2r: number; o2hi: number; shape: number; lean: number; scale: number; visible: boolean; sheath: number; length: number; D: number; hz: number }
 
-/** Flame dimensions (metres): sheath thickness T and 1 g plume height H. Illustrative shape, engine-driven size. */
-export function flameDims(len: number, width: number, q: number, shape: number) {
-  const T = (0.012 + 0.045 * Math.sqrt(q)) * (0.6 + 0.4 * Math.min(1, len / 0.1 + 0.3));
-  const H = shape * (0.06 + 0.55 * Math.sqrt(q)) * (0.45 + Math.min(0.6, width + len * 0.5));
+/** Flame dimensions (metres) from the VisualState physics: µg sheath thickness (α/u diffusion length) blended
+ *  with the buoyant plume half-width (≈0.15 D), and plume height H = shape × Heskestad length (g-scaled). */
+export function flameDims(p: { sheath: number; length: number; D: number; shape: number; scale?: number }) {
+  const s = p.scale ?? 1;
+  const T = (p.sheath + (Math.min(0.12, Math.max(0.02, 0.15 * p.D)) - p.sheath) * p.shape) * (0.4 + 0.6 * s);
+  const H = p.shape * p.length * s;
   return { T, H };
 }
 
@@ -118,7 +121,7 @@ export function Flame({ get, reduced }: { get: () => FlameParams; reduced: boole
   const mesh = useRef<THREE.Mesh>(null);
   const mat = useMemo(() => new THREE.ShaderMaterial({
     vertexShader: VERT, fragmentShader: FRAG, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, toneMapped: false,
-    uniforms: Object.fromEntries(["uTime", "uLen", "uWidth", "uT", "uH", "uShape", "uLean", "uQ", "uO2r", "uO2hi", "uFlick"].map((k) => [k, { value: 0 }] as [string, { value: unknown }]).concat([
+    uniforms: Object.fromEntries(["uTime", "uLen", "uWidth", "uT", "uH", "uShape", "uLean", "uQ", "uO2r", "uO2hi", "uFlick", "uHz"].map((k) => [k, { value: 0 }] as [string, { value: unknown }]).concat([
       ["uCam", { value: new THREE.Vector3() }], ["uSize", { value: new THREE.Vector3(1, 1, 1) }], ["uCenter", { value: new THREE.Vector3() }]])),
   }), []);
   const tmp = useMemo(() => new THREE.Vector3(), []);
@@ -128,14 +131,14 @@ export function Flame({ get, reduced }: { get: () => FlameParams; reduced: boole
     m.visible = p.visible && p.scale > 0.01;
     if (!m.visible) return;
     const L = Math.max(0.004, p.len) * p.scale, W = Math.max(0.01, p.width), qq = Math.min(1, p.q * p.scale);
-    const { T, H } = flameDims(L, W, qq, p.shape);
-    const pad = T * 2.2 + p.lean * 0.05;
-    m.scale.set(L + pad * 2 + p.lean * T * 2, W + H + pad * 2, T * (p.shape > 0 ? 3.2 : 2.4) * 2 + 0.01);
-    m.position.set(-p.lean * T, H / 2, 0);
+    const { T, H } = flameDims({ sheath: p.sheath, length: p.length, D: p.D, shape: p.shape, scale: p.scale });
+    const pad = T * 2.2 + p.lean * 0.05, shift = p.lean * (T * 2 + H * 0.8);
+    m.scale.set(L + pad * 2 + shift, W + H + pad * 2, T * (p.shape > 0 ? 3.2 : 2.4) * 2 + 0.01);
+    m.position.set(-shift / 2, H / 2, 0);
     const u = mat.uniforms;
     u.uTime.value = reduced ? 0 : clock.elapsedTime;
     u.uLen.value = L; u.uWidth.value = W; u.uT.value = T; u.uH.value = H; u.uShape.value = p.shape; u.uLean.value = p.lean;
-    u.uQ.value = qq; u.uO2r.value = p.o2r; u.uO2hi.value = p.o2hi; u.uFlick.value = reduced ? 0 : 1;
+    u.uQ.value = qq; u.uO2r.value = p.o2r; u.uO2hi.value = p.o2hi; u.uFlick.value = reduced ? 0 : 1; u.uHz.value = p.hz;
     (u.uSize.value as THREE.Vector3).copy(m.scale); (u.uCenter.value as THREE.Vector3).copy(m.position);
     m.updateWorldMatrix(true, false);
     const local = m.worldToLocal(tmp.copy(camera.position));

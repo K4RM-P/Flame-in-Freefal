@@ -28,6 +28,7 @@ function FireItem({ i }: { i: number }) {
   const L = it.length_m, W = it.width_m, th = Math.max(0.002, it.thickness_m);
   const charRef = useRef<THREE.Mesh>(null), zoneRef = useRef<THREE.Group>(null), flameG = useRef<THREE.Group>(null), light = useRef<THREE.PointLight>(null), ring = useRef<THREE.Group>(null);
   const lastBurn = useRef(0);
+  const lastPhys = useRef<import("./frame").FlamePhys | null>(null);
   const [hover, setHover] = useState(false);
   const local = useMemo(() => ({
     sample: new THREE.MeshStandardMaterial({ color: "#d8cdb2", roughness: 0.85 }),
@@ -53,7 +54,7 @@ function FireItem({ i }: { i: number }) {
     if (zoneRef.current) { zoneRef.current.visible = show && layers.heat; zoneRef.current.scale.set(Math.max(0.002, bl), W * 0.98, th + 0.003); zoneRef.current.position.set(cx, y, z); local.zone.opacity = (0.4 + 0.6 * S.qRatio) * scale; }
     if (flameG.current) { flameG.current.position.set(cx, y, z); flameG.current.visible = show && layers.heat; }
     if (light.current) {
-      const { T, H } = flameDims(bl, W, S.qRatio, S.shape);
+      const { T, H } = flameDims({ sheath: v.phys.sheath_m, length: v.phys.length_m, D: v.phys.D_m, shape: S.shape });
       light.current.position.set(cx, y + H * 0.5, z + T * 3 + 0.08);
       light.current.intensity = show ? (0.5 + 3.2 * S.qRatio) * scale * (0.5 + 0.5 * Math.min(1.2, S.o2Ratio)) * (reduced ? 1 : 0.92 + 0.08 * Math.sin(clock.elapsedTime * 71)) : 0;
     }
@@ -62,7 +63,10 @@ function FireItem({ i }: { i: number }) {
 
   const get = () => {
     const S = vs.current, v = S.items[i];
-    return { len: v?.flamePresent ? v.burnLen_m : lastBurn.current, width: W, q: S.qRatio, o2r: S.o2Ratio, o2hi: o2hi(S.x_o2), shape: S.shape, lean: S.lean, scale: v?.flamePresent ? 1 : v?.collapse ?? 0, visible: !!v && (v.flamePresent || v.collapse > 0) };
+    if (v?.flamePresent) lastPhys.current = v.phys;
+    const ph = lastPhys.current ?? v?.phys;
+    return { len: v?.flamePresent ? v.burnLen_m : lastBurn.current, width: W, q: S.qRatio, o2r: S.o2Ratio, o2hi: o2hi(S.x_o2), shape: S.shape, lean: ph?.tilt ?? 0, scale: v?.flamePresent ? 1 : v?.collapse ?? 0, visible: !!v && (v.flamePresent || v.collapse > 0),
+      sheath: ph?.sheath_m ?? 0.01, length: ph?.length_m ?? 0, D: ph?.D_m ?? 0, hz: ph?.flicker_Hz ?? 0 };
   };
   const v = vs.current.items[i];
   const name = materialByKey(it.material_key)?.display_name ?? it.material_key;

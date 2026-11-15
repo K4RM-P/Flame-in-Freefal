@@ -7,7 +7,7 @@ import dynamic from "next/dynamic";
 import { Component, useEffect, useMemo, useState, type ReactNode } from "react";
 import type { Scenario, SimResult } from "@/lib/sim/types";
 import { sig } from "@/lib/ui/format";
-import { Num, missingFields } from "../bits";
+import { Num, missingFields, playPause } from "../bits";
 import { CabinView } from "../CabinView";
 import { useSim } from "../store";
 import { runSummary, visualState } from "./frame";
@@ -100,15 +100,18 @@ function Hud3D({ v, frame, compact }: { v: SceneView; frame: number; compact: bo
         {S.agent && <span className="glass px-2 py-0.5 text-[11px] text-blue">▨ {S.agent.kind} released</span>}
       </div>
       {/* bottom-left: honesty caption (always visible) */}
-      <div className={`absolute bottom-2 left-2 ${compact ? "max-w-[46%]" : "max-w-[min(70%,calc(100%-620px))]"} min-w-[220px] space-y-0.5 text-[10.5px] leading-tight text-white/80 [text-shadow:0_1px_2px_rgb(0_0_0/0.8)]`} data-testid="scene-caption">
+      <div className={`absolute bottom-[54px] left-3 ${compact ? "max-w-[46%]" : "max-w-[75%]"} min-w-[220px] space-y-0.5 text-[10.5px] leading-tight text-white/80 [text-shadow:0_1px_2px_rgb(0_0_0/0.8)]`} data-testid="scene-caption">
         <p className="hud3d">{compact ? <>Engine frame {r ? f + 1 : 0}/{r?.t.length ?? 0} · t={r ? sig(S.t, 3) : "—"}s · to scale: items, front, detector · module illustrative</> : <>Fire state: engine frame {r ? f + 1 : 0}/{r?.t.length ?? 0} · t={r ? sig(S.t, 3) : "—"}s · items, front and detector distance to scale · module illustrative</>}</p>
         {!compact && <p className="text-white/60">Module geometry illustrative · volume V = {sc.cabin.V_m3 != null ? sig(sc.cabin.V_m3, 3) : "∅"} m³ from scenario</p>}
       </div>
       {/* empty state */}
       {!r && <div className="absolute inset-x-0 top-[16%] flex justify-center" data-testid="scene-empty">
-        <div className="glass pointer-events-auto px-5 py-3 text-center">
-          <p className="text-[16px] font-medium">{running ? "Simulating…" : missing.length ? "Inputs needed" : "Ready · press Run (R)"}</p>
+        <div className="glass pointer-events-auto flex items-center gap-3 px-4 py-3">
+          {!missing.length && <button type="button" className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-accent text-[16px] text-black disabled:opacity-60" disabled={running} aria-label="Play simulation" data-testid="play-center" onClick={() => void playPause()}>{running ? "…" : "▶"}</button>}
+          <div>
+          <p className="text-[16px] font-medium">{running ? "Simulating…" : missing.length ? "Inputs needed" : "Ready · press Play (Space)"}</p>
           <p className="mt-0.5 text-[12px] text-mute">{missing.length ? `Enter ${missing.join(", ")}: there is no sourced value.` : `${sc.items.length} unburnt item${sc.items.length > 1 ? "s" : ""} in the holder · ${sig(sc.cabin.x_o2 * 100, 3)}% O₂ · ${sig(sc.cabin.gravity_g, 3)} g`}</p>
+          </div>
         </div>
       </div>}
     </div>

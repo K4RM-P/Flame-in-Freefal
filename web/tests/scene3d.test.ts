@@ -73,3 +73,19 @@ describe("scene3d frame → VisualState", () => {
     expect(visualState(sc(), r, -4).frame).toBe(0);
   });
 });
+
+import { flamePhys } from "@/components/sim/scene3d/frame";
+describe("flame-shape physics (visual only)", () => {
+  it("Heskestad length grows with Q, is 0 in µg, and is longer at partial g", () => {
+    expect(flamePhys(5000, 0.01, 0.1, 0, 1).length_m).toBeGreaterThan(flamePhys(500, 0.01, 0.1, 0, 1).length_m);
+    expect(flamePhys(5000, 0.01, 0.1, 0, 0).length_m).toBe(0);
+    expect(flamePhys(5000, 0.01, 0.1, 0, 0.165).length_m).toBeGreaterThan(flamePhys(5000, 0.01, 0.1, 0, 1).length_m);
+  });
+  it("tilt is full in µg with flow, 0 in still air; sheath thickens as flow drops; puffing slows with size", () => {
+    expect(flamePhys(1000, 0.01, 0.2, 0, 0).tilt).toBe(1);
+    expect(flamePhys(1000, 0.01, 0, 0, 1).tilt).toBe(0);
+    expect(flamePhys(1000, 0.01, 0.02, 0, 0).sheath_m).toBeGreaterThan(flamePhys(1000, 0.01, 0.3, 0, 0).sheath_m);
+    expect(flamePhys(1000, 0.04, 0.1, 0, 1).flicker_Hz).toBeLessThan(flamePhys(1000, 0.01, 0.1, 0, 1).flicker_Hz);
+    expect(flamePhys(1000, 0.01, 0.1, 0, 0).flicker_Hz).toBe(0);
+  });
+});

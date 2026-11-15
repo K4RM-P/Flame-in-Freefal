@@ -18,3 +18,9 @@
 - **Persistence:** dock open/height and tree state are kept in `localStorage` key `ea.ui3d` (every access in try/catch).
 - **Keyboard:** R run, C dock, F fullscreen, 1–4 presets; shortcuts are ignored while typing in text fields (not on range sliders).
 - **Headless e2e:** Playwright launches Chromium with SwiftShader flags so WebGL renders without a GPU.
+
+## Playback, flame physics, simpler UI (2026-11-15)
+- **One Play action:** the toolbar button and the viewport's round ▶ (and Space/R) call the same `playPause()`: it runs the simulation if there is no result or the inputs changed since the last run, then plays from the start; pauses while playing; restarts at the end. The separate Run, ▷ and ⟲ buttons are gone.
+- **Video-like playback:** sim time advances with wall time (whole run ≈ 24 s at 1×; 0.5×/1×/2×/4×). The 3D view reads the fractional playhead each frame; the store frame updates at ≤ 20 Hz so the page stays smooth. The scrubber, time, speed and event markers (● ignition, ▲ alarm, ■ fan off, ▨ agent, ✕ extinguished) live in a video-style strip at the bottom of the viewport, with Camera, Layers, ?(legend + assumptions) and fullscreen.
+- **Next-step bar:** only shown when an input is missing (or a run fails); otherwise the viewport says what to do.
+- **Flame shape physics (visual only):** `flamePhys()` in `scene3d/frame.ts` uses engine Q (split by burning area), burning area, flow, spread rate (d front/dt) and g: Heskestad flame length scaled (g/g0)^(−1/5) for partial g; µg sheath ≈ k·α/u_rel (thickens and dims when the fan stops); wind tilt tan θ = u/√(gL) (fully along the flow in µg); puffing frequency 1.5/√D·√(g/g0). Constants and citations are in `web/data/params/flame_visual.json` (verified=false; spot-check in HUMAN_TASKS). None of this changes any engine number.

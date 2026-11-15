@@ -30,14 +30,12 @@ function World({ sc, r, present, shadows, domElement }: ViewSpec & { present: bo
   const vs = useRef(visualState(sc, r, frame));
   const layout = useMemo(() => layoutOf(sc), [sc]);
   const vis: Vis = useMemo(() => ({ vs, reduced, layers, sc, r, layout }), [reduced, layers, sc, r, layout]);
-  const last = useRef({ f: frame, t: 0 });
   const api = useRef<RigApi>(null);
   const invalidate = useThree((s) => s.invalidate);
   useEffect(() => { vs.current = visualState(sc, r, frame); invalidate(); }, [sc, r, frame, layers, invalidate]);
   useFrame(() => {
-    const st = useSim.getState(), now = performance.now();
-    if (last.current.f !== st.frame) last.current = { f: st.frame, t: now };
-    const fi = st.playing && !reduced ? st.frame + Math.min(1, (now - last.current.t) / PLAYBACK.stepMs) : st.frame;
+    const st = useSim.getState();
+    const fi = st.playing ? PLAYBACK.fi : st.frame;
     vs.current = visualState(sc, r, fi);
   }, -1);
   return (
