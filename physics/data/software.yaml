@@ -28,6 +28,10 @@ licenses:
   zustand: MIT
   three: MIT
   "@types/three": MIT
+  "@react-three/fiber": MIT
+  "@react-three/drei": MIT
+  "@react-three/postprocessing": MIT
+  postprocessing: Zlib
   "@axe-core/playwright": MPL-2.0
   "@playwright/test": Apache-2.0
   autoprefixer: MIT

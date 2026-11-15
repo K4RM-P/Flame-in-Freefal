@@ -357,3 +357,8 @@ table.data th.ea-numeric, table.data td.ea-numeric { text-align: right; }
   .ea-crew__slide { grid-template-columns: minmax(0, 1fr); align-content: start; }
   .ea-crew__portrait { width: 6rem; }
 }
+
+/* 3D viewport glass chips (HUD, popovers, tooltips) */
+.glass { background: rgb(var(--panel) / 0.66); border: 1px solid rgb(var(--line) / 0.9); border-radius: 6px; -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); box-shadow: 0 6px 24px rgb(0 0 0 / 0.25); color: rgb(var(--ink)); }
+.glass .num, .hud3d { font-variant-numeric: tabular-nums; }
+.viewport3d:fullscreen { background: rgb(var(--bg)); }

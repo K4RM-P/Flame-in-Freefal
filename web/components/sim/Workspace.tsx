@@ -3,7 +3,7 @@
 // Simulation Hub: full-height engineering workspace (desktop-first, no page scroll while simulating).
 // Toolbar · left project tree + scenario setup + saved states · center cabin viewport + (Compare) delta card + chart dock · right outputs/evidence/interpretation.
 // Reuses the existing engine (runAll), receipts (Num), outcome/evidence/sensitivity/next-test panels and manual setup.
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { PRESETS } from "@/lib/sim/presets";
 import { replayError } from "@/lib/sim/replay";
 import { exportPsiRowsCsv, exportScenarioJson, exportSeriesCsv } from "@/lib/sim/export";
@@ -17,17 +17,33 @@ import { TELEMETRY, materialByKey } from "./data";
 import { BoundedBadge, Evidence, Interpretation, MC_N, NextTest, Outcome, ReplayMetrics, TheoryBadge, Tornado, download, missingFields, runAll } from "./bits";
 import { nextTest, outOfEnvelope } from "@/lib/sim/nextTest";
 import spreadCal from "@/data/params/spread.json";
-import { LAYERS, useSim } from "./store";
+import { LAYERS, PLAYBACK, loadUi, saveUi, useSim } from "./store";
+import { Scene3D } from "./scene3d/Scene3D";
+import { PRESET_LABELS } from "./scene3d/CameraRig";
 
 export function Workspace() {
   usePlayback();
   const [inspectorOpen, setInspectorOpen] = useState(false);
+  const { treeOpen, present, set } = useSim();
+  useEffect(() => {
+    const ui = loadUi();
+    const q = new URLSearchParams(window.location.search);
+    set({ dockOpen: ui.dockOpen, dockVh: ui.dockVh, treeOpen: ui.treeOpen ?? window.innerWidth >= 1440, present: q.get("present") === "1" });
+  }, [set]);
+  usePresentAutoRun();
+  if (present) return <PresentMode />;
+  const toggleTree = () => { set({ treeOpen: !treeOpen }); saveUi({ treeOpen: !treeOpen }); };
   return (
     <div className="flex flex-col gap-2 lg:fixed lg:inset-x-0 lg:bottom-0 lg:top-14 lg:z-30 lg:gap-0 lg:bg-bg print:static" data-testid="workspace">
       <Toolbar inspectorOpen={inspectorOpen} onToggleInspector={() => setInspectorOpen((v) => !v)} />
       <NextStep inspectorOpen={inspectorOpen} openInspector={() => setInspectorOpen(true)} />
-      <div className={`grid min-h-0 flex-1 gap-2 lg:gap-0 ${inspectorOpen ? "lg:grid-cols-[288px_minmax(0,1fr)_384px]" : "lg:grid-cols-[288px_minmax(0,1fr)]"}`}>
-        <aside className="min-h-0 overflow-y-auto border-line bg-panel/40 px-3 pb-3 lg:border-r" data-noprint aria-label="Project and scenario setup">
+      <div className="relative flex min-h-0 flex-1 flex-col gap-2 lg:flex-row lg:gap-0">
+        <nav className="hidden w-11 shrink-0 flex-col items-center gap-1 border-r border-line bg-panel py-2 lg:flex" aria-label="Panels" data-noprint data-testid="rail">
+          <button type="button" className="btn h-8 w-8 justify-center px-0" aria-expanded={treeOpen} aria-label={treeOpen ? "Collapse project tree" : "Expand project tree"} title="Project tree" onClick={toggleTree}>{treeOpen ? "⟨" : "☰"}</button>
+          <button type="button" className="btn h-8 w-8 justify-center px-0" title="Scenario setup" aria-label="Scenario setup" onClick={() => { set({ treeOpen: true }); saveUi({ treeOpen: true }); requestAnimationFrame(() => { const d = document.getElementById("setup-details") as HTMLDetailsElement | null; if (d) d.open = true; }); }}>⚙</button>
+          <button type="button" className="btn h-8 w-8 justify-center px-0" title="Saved states" aria-label="Saved states" onClick={() => { set({ treeOpen: true }); saveUi({ treeOpen: true }); requestAnimationFrame(() => go("sec-saved")); }}>⧉</button>
+        </nav>
+        <aside className={`min-h-0 overflow-y-auto border-line bg-bg px-3 pb-3 lg:w-72 lg:shrink-0 lg:border-r ${treeOpen ? "" : "lg:hidden"} lg:max-[1439px]:absolute lg:max-[1439px]:inset-y-0 lg:max-[1439px]:left-11 lg:max-[1439px]:z-40 lg:max-[1439px]:shadow-2xl`} data-noprint aria-label="Project and scenario setup">
           <ProjectTree />
           <details id="setup-details" className="border-b border-line" open={false}>
             <summary className="cursor-pointer list-none py-2 text-[12px] font-medium text-mute hover:text-ink">
@@ -41,11 +57,40 @@ export function Workspace() {
           </details>
         </aside>
         <Center openInspector={() => setInspectorOpen(true)} />
-        <aside className={`flex min-h-0 min-w-0 flex-col border-line bg-panel/40 lg:border-l ${inspectorOpen ? "" : "hidden"}`} aria-label="Outputs, evidence and interpretation"><RightPanel /></aside>
+        <aside className={`flex min-h-0 min-w-0 flex-col border-line bg-bg lg:w-96 lg:shrink-0 lg:border-l lg:max-[1439px]:absolute lg:max-[1439px]:inset-y-0 lg:max-[1439px]:right-0 lg:max-[1439px]:z-40 lg:max-[1439px]:shadow-2xl ${inspectorOpen ? "" : "hidden"}`} aria-label="Outputs, evidence and interpretation"><RightPanel /></aside>
       </div>
       <StatusBar />
     </div>
   );
+}
+
+/** ?present=1: chrome hidden, the run auto-plays (≈22 s), the camera dollies Overview → close-up. */
+function PresentMode() {
+  const { a, b, ra, rb, frame } = useSim();
+  const [letterbox, setLetterbox] = useState(false);
+  if (!a) return null;
+  const views = [{ sc: a, r: ra, label: b ? `A · ${a.name}` : a.name }, ...(b ? [{ sc: b, r: rb, label: `B · ${b.name}` }] : [])];
+  return (
+    <div className="fixed inset-0 z-[60] grid place-items-center bg-black" data-testid="present">
+      <div className={letterbox ? "relative aspect-video w-full max-h-full max-w-[calc(100vh*16/9)]" : "relative h-full w-full"}>
+        <Scene3D views={views} frame={frame} />
+      </div>
+      <button type="button" className="glass absolute bottom-2 right-2 px-2 py-0.5 text-[11px] opacity-40 hover:opacity-100" aria-pressed={letterbox} onClick={() => setLetterbox((v) => !v)} data-testid="letterbox">Recording-safe 16:9</button>
+    </div>
+  );
+}
+
+function usePresentAutoRun() {
+  const { present, a, ra, running } = useSim();
+  const done = useRef(false);
+  useEffect(() => {
+    if (!present || done.current || running) return;
+    if (!a) { const p = PRESETS.find((x) => x.id === "lunar-tune") ?? PRESETS[0]; applyPreset(p); return; }
+    if (ra) { done.current = true; useSim.getState().set({ frame: 0, playing: true }); return; }
+    if (missingFields(a).length) return;
+    done.current = true;
+    void runAll().then(() => useSim.getState().set({ frame: 0, playing: true }));
+  }, [present, a, ra, running]);
 }
 
 /* ---------- missing inputs and the one next step ---------- */
@@ -87,13 +132,14 @@ function NextStep({ inspectorOpen, openInspector }: { inspectorOpen: boolean; op
 
 /* ---------- playback: advances the playhead through engine frames (data-driven, not decorative) ---------- */
 function usePlayback() {
-  const { playing, ra, set } = useSim();
+  const { playing, ra, set, present } = useSim();
   const reduced = useReducedMotion();
   const raf = useRef<number | null>(null);
   useEffect(() => {
     if (!playing || !ra) return;
     let last = performance.now();
-    const step = reduced ? 120 : 33;
+    const step = reduced ? 120 : present ? Math.max(16, 22000 / Math.max(1, ra.t.length)) : 33;
+    PLAYBACK.stepMs = step;
     const tick = (now: number) => {
       const f = useSim.getState().frame;
       if (now - last > step) { last = now; if (f >= ra.t.length - 1) { set({ playing: false }); return; } set({ frame: f + 1 }); }
@@ -101,7 +147,7 @@ function usePlayback() {
     };
     raf.current = requestAnimationFrame(tick);
     return () => { if (raf.current) cancelAnimationFrame(raf.current); };
-  }, [playing, ra, reduced, set]);
+  }, [playing, ra, reduced, set, present]);
 }
 
 /* ---------- toolbar ---------- */
@@ -143,8 +189,8 @@ function Toolbar({ inspectorOpen, onToggleInspector }: { inspectorOpen: boolean;
         onChange={(e) => set({ playing: false, frame: Number(e.target.value) })} />
       <span className="num w-28 shrink-0 whitespace-nowrap text-right text-[12px]">{ra ? `${sig(ra.t[Math.min(frame, last)], 3)} / ${sig(ra.t[last], 3)} s` : "— s"}</span>
       <span className="h-5 w-px bg-line" aria-hidden />
-      <div className="flex" role="group" aria-label="View">
-        {(["elevation", "section"] as const).map((v) => <button key={v} type="button" aria-pressed={view === v} className={`btn px-2 py-1 text-[12px] ${view === v ? "bg-surface2" : ""}`} onClick={() => set({ view: v })}>{v === "elevation" ? "Elevation" : "Section"}</button>)}
+      <div className="flex overflow-hidden border border-line" style={{ borderRadius: 6 }} role="group" aria-label="View" data-testid="view-switch">
+        {(["3d", "elevation", "section"] as const).map((v, i) => <button key={v} type="button" aria-pressed={view === v} className={`px-2.5 py-1 text-[12px] ${i ? "border-l border-line" : ""} ${view === v ? "bg-surface2 font-medium text-ink" : "text-mute hover:text-ink"}`} onClick={() => set({ view: v })}>{v === "3d" ? "3D" : v === "elevation" ? "Elevation" : "Section"}</button>)}
       </div>
       <button type="button" className={`btn px-2 py-1 text-[12px] ${b ? "bg-surface2" : ""}`} data-testid="compare" aria-pressed={!!b} onClick={() => {
         if (b) set({ b: null, rb: null, editing: "a" });
@@ -238,36 +284,72 @@ function SavedStates() {
   );
 }
 
-/* ---------- center: viewport(s), layers, legend, assumptions drawer, chart dock ---------- */
+/* ---------- center: viewport (3D or SVG), viewport chrome, assumptions drawer, delta card, chart dock ---------- */
+const typing = (e: KeyboardEvent) => { const t = e.target as HTMLElement | null; if (!t) return false; if (t.tagName === "INPUT") return !/^(range|checkbox|radio|button|submit)$/.test((t as HTMLInputElement).type); return t.isContentEditable || /^(TEXTAREA|SELECT)$/.test(t.tagName); };
+
 function Center({ openInspector }: { openInspector: () => void }) {
-  const { a, b, ra, rb, frame, runError, layers, assumptionsOpen, set } = useSim();
+  const { a, b, ra, rb, frame, runError, assumptionsOpen, view, set } = useSim();
+  const vp = useRef<HTMLDivElement>(null);
+  const fullscreen = useCallback(() => {
+    const el = vp.current; if (!el) return;
+    if (document.fullscreenElement) void document.exitFullscreen?.(); else void el.requestFullscreen?.().catch(() => undefined);
+  }, []);
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (typing(e) || e.metaKey || e.ctrlKey || e.altKey) return;
+      const k = e.key.toLowerCase();
+      if (k === "f") { e.preventDefault(); fullscreen(); }
+      else if (k === "c") { const open = !useSim.getState().dockOpen; set({ dockOpen: open }); saveUi({ dockOpen: open }); }
+      else if (k === "r") { void runAll(); }
+      else if (["1", "2", "3", "4"].includes(k)) set({ camPreset: { id: Number(k), nonce: Date.now() }, view: "3d" });
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [fullscreen, set]);
   if (!a) return null;
   const missing = [...missingFields(a), ...(b ? missingFields(b).map((m) => `B: ${m}`) : [])];
+  const views = [{ sc: a, r: ra, label: b ? `A · ${a.name}` : a.name }, ...(b ? [{ sc: b, r: rb, label: `B · ${b.name}` }] : [])];
   return (
-    <section className="flex min-h-0 flex-col" aria-label="Simulation viewport">
-      <div className="flex flex-wrap items-center gap-1 border-b border-line px-2 py-1 text-[12px]" data-noprint>
-        <span className="label mr-1">Layers</span>
-        <details className="relative">
-          <summary className="btn cursor-pointer list-none px-2 py-0.5 text-[12px]">Layers ▾</summary>
-          <div className="absolute left-0 top-7 z-30 grid min-w-44 gap-1 border border-line bg-panel p-2 shadow-xl">
-            {LAYERS.map((l) => <label key={l.k} className="flex items-center gap-1 px-1"><input type="checkbox" checked={layers[l.k]} onChange={(e) => set({ layers: { ...layers, [l.k]: e.target.checked } })} />{l.label}</label>)}
-          </div>
-        </details>
-        <button type="button" className="btn ml-auto px-2 py-0.5 text-[12px]" aria-expanded={assumptionsOpen} onClick={() => set({ assumptionsOpen: !assumptionsOpen })}>Assumptions / evidence</button>
-      </div>
-      <div className="relative min-h-[320px] flex-1 lg:min-h-0">
-        {missing.length > 0 && <p id="run-missing-note" className="absolute inset-x-2 top-2 z-10 border border-warn/50 bg-panel px-2 py-1 text-[13px] text-warn" style={{ borderRadius: 6 }}>Enter {missing.join(", ")} to run: there is no sourced value.</p>}
+    <section className="flex min-h-0 min-w-0 flex-1 flex-col" aria-label="Simulation viewport">
+      <div ref={vp} className="viewport3d relative min-h-[60vh] flex-1 bg-bg lg:min-h-0" data-testid="viewport">
+        {view === "3d" ? <Scene3D views={views} frame={frame} />
+          : <div className={`grid h-full ${b ? "grid-cols-2 divide-x divide-line" : ""}`}>
+              <CabinView sc={a} r={ra} frame={frame} label={b ? `A · ${a.name}` : a.name} compact={!!b} />
+              {b && <CabinView sc={b} r={rb} frame={frame} label={`B · ${b.name}`} compact />}
+            </div>}
+        {missing.length > 0 && view !== "3d" && <p id="run-missing-note" className="absolute inset-x-2 top-2 z-10 border border-warn/50 bg-panel px-2 py-1 text-[13px] text-warn" style={{ borderRadius: 6 }}>Enter {missing.join(", ")} to run: there is no sourced value.</p>}
         {runError && <p className="absolute inset-x-2 top-10 z-10 bg-panel px-2 text-[13px] text-bad" role="alert">Run failed: {runError}</p>}
-        <div className={`grid h-full ${b ? "grid-cols-2 divide-x divide-line" : ""}`}>
-          <CabinView sc={a} r={ra} frame={frame} label={b ? `A · ${a.name}` : a.name} compact={!!b} />
-          {b && <CabinView sc={b} r={rb} frame={frame} label={`B · ${b.name}`} compact />}
-        </div>
+        <ViewportControls fullscreen={fullscreen} />
         {assumptionsOpen && <Assumptions sc={a} r={ra} />}
       </div>
-      <div className="border-t border-line px-3 py-1"><Legend /></div>
       {b && ra && rb && <DeltaCard a={a} b={b} ra={ra} rb={rb} openInspector={openInspector} />}
       <Dock />
     </section>
+  );
+}
+
+/** Bottom-right glass toolbar: camera presets (1–4), layers, legend (?), assumptions, fullscreen (F). */
+function ViewportControls({ fullscreen }: { fullscreen: () => void }) {
+  const { view, layers, assumptionsOpen, set } = useSim();
+  const btn = "px-2 py-1 text-[12px] text-mute hover:text-ink";
+  return (
+    <div className="glass absolute bottom-2 right-2 z-20 flex items-center divide-x divide-line" data-noprint data-testid="viewport-controls">
+      {view === "3d" && <div className="flex" role="group" aria-label="Camera presets">
+        {PRESET_LABELS.map((l, i) => <button key={l} type="button" className={btn} title={`${l} (${i + 1})`} onClick={() => set({ camPreset: { id: i + 1, nonce: Date.now() } })}>{i + 1}<span className="ml-1 hidden xl:inline">{l}</span></button>)}
+      </div>}
+      <details className="relative">
+        <summary className={`${btn} cursor-pointer list-none`}>Layers ▾</summary>
+        <div className="glass absolute bottom-9 right-0 grid min-w-48 gap-1 p-2 text-[12px]" data-testid="layers-menu">
+          {LAYERS.map((l) => <label key={l.k} className="flex items-center gap-1.5 px-1"><input type="checkbox" checked={layers[l.k]} onChange={(e) => set({ layers: { ...layers, [l.k]: e.target.checked } })} />{l.label}</label>)}
+        </div>
+      </details>
+      <button type="button" className={btn} aria-expanded={assumptionsOpen} onClick={() => set({ assumptionsOpen: !assumptionsOpen })}>Assumptions</button>
+      <details className="relative">
+        <summary className={`${btn} cursor-pointer list-none`} aria-label="Legend" title="Legend">?</summary>
+        <div className="glass absolute bottom-9 right-0 w-72 p-2"><Legend /></div>
+      </details>
+      <button type="button" className={btn} onClick={fullscreen} title="Fullscreen (F)" aria-label="Fullscreen" data-testid="fullscreen">⛶</button>
+    </div>
   );
 }
 
@@ -300,14 +382,36 @@ function Assumptions({ sc, r }: { sc: Scenario; r: SimResult | null }) {
 }
 
 function Dock() {
-  const { a, ra, rb, frame, replay, dockTab, set } = useSim();
+  const { a, ra, rb, frame, replay, dockTab, dockOpen, dockVh, set } = useSim();
+  const [vh, setVh] = useState(900);
+  useEffect(() => { const f = () => setVh(window.innerHeight); f(); window.addEventListener("resize", f); return () => window.removeEventListener("resize", f); }, []);
   if (!a) return null;
   const tabs: [string, string][] = [...CHARTS.map((c) => [c.lines[0].f, c.title] as [string, string]), ...(replay ? [["replay", "Replay: cabin-scale sanity check"] as [string, string]] : [])];
   const err = replay && ra && TELEMETRY ? replayError(ra, TELEMETRY) : null;
+  const toggle = (open = !dockOpen) => { set({ dockOpen: open }); saveUi({ dockOpen: open }); };
+  const hPx = Math.round((dockVh / 100) * vh), chartH = Math.max(120, hPx - 48);
+  const drag = (e: React.PointerEvent) => {
+    e.preventDefault(); const y0 = e.clientY, h0 = dockVh;
+    const move = (ev: PointerEvent) => { const v = Math.max(15, Math.min(70, h0 + ((y0 - ev.clientY) / window.innerHeight) * 100)); set({ dockVh: v }); };
+    const up = () => { window.removeEventListener("pointermove", move); window.removeEventListener("pointerup", up); saveUi({ dockVh: useSim.getState().dockVh }); };
+    window.addEventListener("pointermove", move); window.addEventListener("pointerup", up);
+  };
+  const tabBar = <div className="flex min-w-0 items-center gap-1 overflow-x-auto px-2" role="tablist" aria-label="Charts">
+    {tabs.map(([k, l]) => <button key={k} type="button" role="tab" aria-selected={dockTab === k} className={`whitespace-nowrap px-2 py-0.5 text-[12px] ${dockTab === k ? "border-b-2 border-ink text-ink" : "text-mute hover:text-ink"}`} onClick={() => { set({ dockTab: k }); if (!dockOpen) toggle(true); }}>{l}</button>)}
+  </div>;
+  if (!dockOpen) return (
+    <div className="flex h-9 shrink-0 items-center gap-2 border-t border-line bg-panel" data-testid="dock" data-open="false">
+      <button type="button" className="px-2 text-[12px] text-mute hover:text-ink" aria-expanded={false} aria-label="Expand chart dock (C)" title="Expand charts (C)" onClick={() => toggle(true)}>▴ Charts</button>
+      {tabBar}
+      <Sparkline r={ra} field={dockTab} frame={frame} />
+    </div>
+  );
   return (
-    <div className="flex h-[230px] shrink-0 flex-col border-t border-line" data-testid="dock">
-      <div className="flex gap-1 overflow-x-auto px-2 pt-1" role="tablist" aria-label="Charts">
-        {tabs.map(([k, l]) => <button key={k} type="button" role="tab" aria-selected={dockTab === k} className={`whitespace-nowrap px-2 py-0.5 text-[12px] ${dockTab === k ? "border-b-2 border-ink text-ink" : "text-mute hover:text-ink"}`} onClick={() => set({ dockTab: k })}>{l}</button>)}
+    <div className="relative flex shrink-0 flex-col border-t border-line" style={{ height: hPx }} data-testid="dock" data-open="true">
+      <div className="absolute inset-x-0 -top-1 z-10 h-2 cursor-row-resize" onPointerDown={drag} role="separator" aria-orientation="horizontal" aria-label="Resize chart dock" />
+      <div className="flex items-center pt-1">
+        <button type="button" className="px-2 text-[12px] text-mute hover:text-ink" aria-expanded={true} aria-label="Collapse chart dock (C)" title="Collapse charts (C)" onClick={() => toggle(false)}>▾</button>
+        {tabBar}
       </div>
       <div className="min-h-0 flex-1 px-2" role="tabpanel">
         {dockTab === "replay" ? (
@@ -322,10 +426,26 @@ function Dock() {
               <SpreadCalibration />
             </div>
           </section>
-        ) : ra ? <Charts ra={ra} rb={rb} sa={a} frame={frame} replay={replay} only={dockTab as never} height={190} />
+        ) : ra ? <Charts ra={ra} rb={rb} sa={a} frame={frame} replay={replay} only={dockTab as never} height={chartH} />
           : <p className="py-6 text-center text-[13px] text-mute">Press ▶ Run to simulate {sig(a.t_end_s, 3)} s of this cabin ({MC_N} Monte Carlo runs for the uncertainty bands).</p>}
       </div>
     </div>
+  );
+}
+
+/** Live sparkline of the active chart's engine series with the playhead (collapsed dock). */
+function Sparkline({ r, field, frame }: { r: SimResult | null; field: string; frame: number }) {
+  if (!r || !(field in (r.state[0] ?? {}))) return <span className="ml-auto pr-3 text-[11px] text-faint">{r ? "" : "run to see the live trace"}</span>;
+  const ys = r.state.map((s) => (s as unknown as Record<string, number>)[field]);
+  const lo = Math.min(...ys), hi = Math.max(...ys), W = 220, H = 22;
+  const step = Math.max(1, Math.floor(ys.length / 120));
+  const pts = ys.filter((_, i) => i % step === 0).map((y, i, arr) => `${((i / Math.max(1, arr.length - 1)) * W).toFixed(1)},${(H - 2 - ((y - lo) / (hi - lo || 1)) * (H - 4)).toFixed(1)}`).join(" ");
+  const f = Math.min(frame, ys.length - 1), px = (f / Math.max(1, ys.length - 1)) * W;
+  return (
+    <svg width={W} height={H} className="ml-auto mr-3 shrink-0" aria-label={`${field} trace`} data-testid="sparkline">
+      <polyline points={pts} fill="none" stroke="rgb(var(--mute))" strokeWidth={1.2} />
+      <line x1={px} x2={px} y1={0} y2={H} stroke="rgb(var(--ink))" strokeWidth={1} />
+    </svg>
   );
 }
 
