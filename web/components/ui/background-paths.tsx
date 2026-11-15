@@ -47,19 +47,26 @@ export function useOnScreen<T extends Element>() {
 }
 
 /** Letter-by-letter spring reveal; renders the final state under reduced motion. */
-export function LetterReveal({ text, className }: { text: string; className?: string }) {
+export function LetterReveal({ text, className, accentWord }: { text: string; className?: string; accentWord?: string }) {
   const reduce = useReducedMotion();
   const words = text.split(" ");
   return (
     <span className={className} aria-label={text}>
       {words.map((word, wi) => (
-        <span key={wi} className="mr-[0.22em] inline-block whitespace-nowrap last:mr-0" aria-hidden>
-          {word.split("").map((ch, li) => (
-            <motion.span key={`${wi}-${li}`} className="inline-block bg-gradient-to-b from-ink to-mute bg-clip-text text-transparent"
-              initial={reduce ? false : { y: 80, opacity: 0 }} animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: wi * 0.1 + li * 0.03, type: "spring", stiffness: 150, damping: 25 }}>{ch}</motion.span>
-          ))}
-        </span>
+        word === accentWord ? (
+          <motion.span key={wi} aria-hidden
+            className="mr-[0.22em] inline-block whitespace-nowrap font-[Georgia,serif] font-normal italic tracking-normal text-ember-text last:mr-0"
+            initial={reduce ? false : { y: 80, opacity: 0 }} animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: wi * 0.1, type: "spring", stiffness: 150, damping: 25 }}>{word}</motion.span>
+        ) : (
+          <span key={wi} className="mr-[0.22em] inline-block whitespace-nowrap last:mr-0" aria-hidden>
+            {word.split("").map((ch, li) => (
+              <motion.span key={`${wi}-${li}`} className="inline-block bg-gradient-to-b from-ink to-mute bg-clip-text text-transparent"
+                initial={reduce ? false : { y: 80, opacity: 0 }} animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: wi * 0.1 + li * 0.03, type: "spring", stiffness: 150, damping: 25 }}>{ch}</motion.span>
+            ))}
+          </span>
+        )
       ))}
     </span>
   );

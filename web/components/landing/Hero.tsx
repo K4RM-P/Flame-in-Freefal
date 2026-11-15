@@ -18,7 +18,7 @@ export function Hero({ status }: { status: { experiments: number; rows: number; 
       <div className="relative z-10 mx-auto flex max-w-5xl flex-col items-center px-4 pt-24 text-center md:px-6">
         <motion.p {...fade(0)} className="font-mono text-[11px] uppercase tracking-[0.08em] text-mute">NASA Space Apps 2026 · Flame in Freefall</motion.p>
         <h1 id="landing-title" className="mt-6 text-[44px] font-semibold leading-[0.95] tracking-display sm:text-7xl lg:text-[112px]">
-          <LetterReveal text="The firefighter for space." />
+          <LetterReveal text="The firefighter for space." accentWord="firefighter" />
         </h1>
         <motion.p {...fade(0.9)} className="mt-6 max-w-[58ch] text-[16px] leading-relaxed text-mute md:text-[18px]">{ONE_LINER}</motion.p>
         <motion.div {...fade(1.05)} className="mt-8 w-full sm:w-auto"><HeroCtas /></motion.div>
