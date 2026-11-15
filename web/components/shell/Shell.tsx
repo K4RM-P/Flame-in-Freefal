@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 import { useMission, lsGet, lsSet } from "@/lib/store";
 
-const NAV = [["/simulator", "Simulator"], ["/evidence", "Evidence"], ["/methods", "Methods"]] as const;
+const NAV = [["/simulator", "Simulator"], ["/evidence", "Evidence"], ["/methods", "Methods"], ["/about", "About"]] as const;
 
 export function Shell({ children }: { children: React.ReactNode }) {
   const theme = useMission((s) => s.theme);

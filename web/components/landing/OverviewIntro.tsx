@@ -1,0 +1,67 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import Link from "next/link";
+
+const languages = {
+  en: ["English", "Will it burn on the Moon?", "Follow real NASA fire experiments from Earth to orbit, then explore what a lunar cabin model can tell us.", "Explore the evidence", "Scroll to the findings", "Where to start", "Evidence", "Compare NASA’s Earth and orbit tests.", "Simulator", "Explore an ISS and lunar cabin scenario.", "Methods", "See the equations, sources, and validation.", "Overview language"],
+  es: ["Español", "¿Arderá en la Luna?", "Sigue los experimentos reales de la NASA desde la Tierra hasta la órbita y explora qué puede decirnos un modelo de una cabina lunar.", "Explorar los datos", "Ir a los resultados", "Por dónde empezar", "Evidencia", "Compara las pruebas de la NASA en la Tierra y en órbita.", "Simulador", "Explora un escenario de la EEI y otro de una cabina lunar.", "Métodos", "Consulta las ecuaciones, las fuentes y la validación.", "Idioma de la introducción"],
+  fr: ["Français", "Brûlera-t-il sur la Lune ?", "Suivez les expériences de la NASA sur les incendies, de la Terre à l’orbite, puis explorez ce qu’un modèle d’habitat lunaire peut nous apprendre.", "Explorer les données", "Voir les résultats", "Par où commencer", "Données", "Comparez les essais de la NASA sur Terre et en orbite.", "Simulateur", "Explorez un scénario pour l’ISS et un autre pour un habitat lunaire.", "Méthodes", "Consultez les équations, les sources et la validation.", "Langue de l’introduction"],
+  pt: ["Português", "Vai queimar na Lua?", "Acompanhe os experimentos reais da NASA da Terra à órbita e explore o que um modelo de cabine lunar pode revelar.", "Explorar as evidências", "Ir para os resultados", "Por onde começar", "Evidências", "Compare os testes da NASA na Terra e em órbita.", "Simulador", "Explore um cenário da ISS e outro de uma cabine lunar.", "Métodos", "Veja as equações, as fontes e a validação.", "Idioma da introdução"],
+  zh: ["简体中文", "它会在月球上燃烧吗？", "了解 NASA 从地球到轨道的真实燃烧实验，再探索月球舱室模型能告诉我们什么。", "探索实验数据", "查看研究发现", "从这里开始", "实验数据", "比较 NASA 在地面和轨道上的实验。", "模拟器", "探索国际空间站和月球舱室的情景。", "研究方法", "查看公式、来源和验证结果。", "导览语言"],
+  hi: ["हिन्दी", "क्या यह चाँद पर जलेगा?", "पृथ्वी से कक्षा तक नासा के वास्तविक अग्नि प्रयोग देखें और जानें कि चंद्र केबिन का मॉडल क्या बता सकता है।", "प्रयोगों के डेटा देखें", "नतीजे देखें", "कहाँ से शुरू करें", "प्रयोगों के डेटा", "पृथ्वी और कक्षा में नासा के परीक्षणों की तुलना करें।", "सिम्युलेटर", "अंतरराष्ट्रीय अंतरिक्ष स्टेशन और चंद्र केबिन के परिदृश्य देखें।", "विधियाँ", "समीकरण, स्रोत और सत्यापन देखें।", "परिचय की भाषा"],
+} as const;
+
+type Language = keyof typeof languages;
+
+export function OverviewIntro({ image, source, run }: { image: string; source: string; run: string }) {
+  const [language, setLanguage] = useState<Language>("en");
+  useEffect(() => {
+    const saved = localStorage.getItem("ea.overview-language");
+    if (saved && Object.hasOwn(languages, saved)) setLanguage(saved as Language);
+  }, []);
+  const [, title, intro, evidence, scroll, start, ...labels] = languages[language];
+  const tools = [
+    ["/evidence", labels[0], labels[1], "01"],
+    [run, labels[2], labels[3], "02"],
+    ["/methods", labels[4], labels[5], "03"],
+  ];
+  return (
+    <div lang={language}>
+      <section className="ea-cover" aria-labelledby="landing-title">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img className="ea-cover__image" src={image} alt="NASA: an acrylic sphere burning in microgravity aboard the ISS" fetchPriority="high" />
+        <div className="ea-cover__content">
+          <label className="ea-cover__language">
+            {labels[6]}
+            <select value={language} onChange={(event) => {
+              const next = event.target.value as Language;
+              setLanguage(next);
+              localStorage.setItem("ea.overview-language", next);
+            }}>
+              {Object.entries(languages).map(([code, [name]]) => <option key={code} value={code} lang={code}>{name}</option>)}
+            </select>
+          </label>
+          <p className="ea-cover__label" lang="en">NASA Space Apps · Flame in Freefall</p>
+          <h1 id="landing-title">{title}</h1>
+          <p className="ea-cover__intro">{intro}</p>
+          <Link href="/evidence" className="ea-cover__action" data-testid="cta-evidence">{evidence} <span aria-hidden="true">↗</span></Link>
+          <a href="#findings" className="ea-cover__scroll">{scroll} <span aria-hidden="true">↓</span></a>
+        </div>
+        <a className="ea-cover__credit" href={source} target="_blank" rel="noreferrer" lang="en">SoFIE-GEL · NASA / JSC ↗</a>
+      </section>
+      <nav className="ea-start" aria-label={start}>
+        <h2>{start}</h2>
+        <div className="ea-start__grid">
+          {tools.map(([href, label, description, number]) => (
+            <Link key={number} className="ea-start__card" href={href}>
+              <span className="num" aria-hidden="true">{number} ↗</span>
+              <strong>{label}</strong>
+              <span>{description}</span>
+            </Link>
+          ))}
+        </div>
+      </nav>
+    </div>
+  );
+}

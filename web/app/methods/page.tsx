@@ -94,17 +94,18 @@ export default function Methods() {
       <section id="overview" className="card space-y-3">
         <h2 className="text-[20px] font-semibold"><span className="methods-num">02</span>Models at a glance</h2>
         <p className="measure text-mute">Four sub-models make up a run. Their validation status differs; Theory-only means uncalibrated physics, and the simulator labels those values the same way.</p>
-        <div className="overflow-x-auto"><table className="data">
-          <thead><tr><th>model</th><th>status</th><th>formulas</th><th>data and calibration</th><th></th></tr></thead>
-          <tbody>{models.map((m) => (
-            <tr key={m.id}>
-              <td className="font-medium">{m.name}</td>
-              <td><Status calibrated={m.calibrated} /></td>
-              <td className="num text-[12px]">{m.eqs.filter((e) => EQUATIONS[e]).join(" · ")}</td>
-              <td className="text-[13px] text-mute">{MODEL_EVIDENCE[m.id]}</td>
-              <td><a className="whitespace-nowrap underline underline-offset-2" href={`#model-${m.id}`}>Open →</a></td>
-            </tr>))}</tbody>
-        </table></div>
+        <ul className="grid gap-3 sm:grid-cols-2">
+          {models.map((m) => (
+            <li key={m.id} className="methods-equation">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <h3 className="font-semibold">{m.name}</h3>
+                <Status calibrated={m.calibrated} />
+              </div>
+              <p className="text-sm text-mute">{MODEL_EVIDENCE[m.id]}</p>
+              <a className="methods-source w-fit" href={`#model-${m.id}`}>View formulas <span className="sr-only">for {m.name}</span> →</a>
+            </li>
+          ))}
+        </ul>
       </section>
 
       <section id="models" className="space-y-3">
@@ -143,7 +144,7 @@ export default function Methods() {
 
       <section id="validation" className="card space-y-2">
         <h2 className="text-[20px] font-semibold"><span className="methods-num">04</span>Validation</h2>
-        <p className="measure text-mute">Each target compares a prediction with a held-out measurement or a published value. Failures are shown as failures.</p>
+        <p className="measure text-mute">Each target compares a prediction with a held-out measurement or a published value. Use the criterion column to see what counted as a pass for each test.</p>
         <p className="num text-[13px]" data-testid="validation-tally">{Object.entries(tally).map(([k, v]) => `${v} ${k}`).join(" · ")}</p>
         <div className="overflow-x-auto">
           <table className="data">
