@@ -37,6 +37,7 @@ import { DesignReview } from "./DesignReview";
 import { BoundedBadge, Evidence, Interpretation, MC_N, NextTest, Outcome, ReplayMetrics, TheoryBadge, Tornado, compact, download, evidenceForAI, missingFields, playPause, runAll, runInputs } from "./bits";
 import { LAYERS, PLAYBACK, loadUi, saveUi, useSim, type ChatMsg } from "./store";
 import { HudExtras, Scene3D } from "./scene3d/Scene3D";
+import { AiInterview, BuildWithAiButton, NoFireCard } from "./AiInterview";
 import { PRESET_LABELS } from "./scene3d/CameraRig";
 
 const ICON = { size: 16, strokeWidth: 1.5 } as const;
@@ -187,6 +188,7 @@ function Toolbar() {
         {!presetId && <option value="custom">{a.name}</option>}
         {PRESETS.map((p) => <option key={p.id} value={p.id}>{p.id === "iss-vs-lunar" ? "ISS vs Moon base" : p.label}</option>)}
       </select>
+      <BuildWithAiButton />
       <Tip label={missing.length ? `Enter ${missing.join(", ")} first` : "Run the simulation"} kbd="R">
         <span><Button size="sm" className="h-8 min-w-[84px]" data-testid="run" aria-label="Run simulation" disabled={running || missing.length > 0} onClick={() => void run()}>
           {running ? "Running…" : "Run"}</Button></span>
@@ -403,6 +405,8 @@ function Center() {
         {runError && <p className="absolute inset-x-2 top-10 z-10 rounded-md bg-panel px-2 text-[13px] text-bad" role="alert">Run failed: {runError}</p>}
         {running && <div className="pointer-events-none absolute inset-x-0 top-0 z-10 h-0.5 overflow-hidden bg-line" aria-hidden><div className="ea-indeterminate h-full w-1/3 bg-ember" /></div>}
         <ViewportCorner />
+        <NoFireCard />
+        <AiInterview />
         {assumptionsOpen && <Assumptions sc={a} r={ra} />}
       </div>
       <ResultStrip />

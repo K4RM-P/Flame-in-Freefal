@@ -70,3 +70,10 @@
 - 2026-11-15 · Story panels crossfade with CSS on stacked layers (not AnimatePresence), and the active beat is computed from the section rect, so jumping several beats at once never leaves a stale panel.
 - 2026-11-15 · Live demo uses a static screenshot of our own simulator (`public/media/sim-3d.webp`) rather than a lazy live `<Scene3D>`; it costs about 190 KB versus a WebGL context on the landing. `demo.mp4` is used automatically once it is added.
 - 2026-11-15 · Evidence: the Earth-vs-orbit `<section>` uses `aria-label` so only the table scroll region is named after the heading (Playwright strict mode).
+- AI fire bug root causes: /api/scenario had no offline path (503), the model left item geometry/ignite null so drafts failed ScenarioSchema, and unknown words ("cotton", "paper") were rejected outright; fixed with lib/ai/localScenario.ts (synonym table filtered to materials.json keys + PSI-98 S1 sample geometry, all flagged).
+- Nomex has PSI burn tests but no spread properties in properties.json, so it cannot ignite; reported as "Nothing to catch fire" with the reason, not remapped to PMMA.
+- Paper/cellulose has no PSI data: rejected as "Material not in NASA's data", SIBAL suggested; no material invented.
+- Cable/wire maps to Kapton (smoke data only), so "ignition near a cable bundle" honestly yields no flame plus an "Add SIBAL" fix.
+- Cygnus/lunar volumes without a source are held equal to the ISS habitable volume, tagged "AI assumption" (amber).
+- /api/scenario modes parse|followups|finalize; follow-ups use the fixed missing-field set (≤ 4) even with a key (AI-chosen questions cut for time).
+- Cut for the 15-min box: streaming + thinking trail, analyst drawer Apply & re-run, Aster unification, Playwright specs, screenshots.

@@ -97,7 +97,7 @@ describe("routes", () => {
     const r = await interpretPOST(post(REQ, "10.0.0.1"));
     expect(r.status).toBe(503);
     expect(await r.json()).toEqual({ error: "Add OPENAI_API_KEY to enable interpretation" });
-    expect((await scenarioPOST(post({ text: "ISS cabin with SIBAL" }, "10.0.0.1"))).status).toBe(503);
+    const sr = await scenarioPOST(post({ text: "ISS cabin with SIBAL" }, "10.0.0.1")); expect(sr.status).toBe(200); expect((await sr.json()).offline).toBe(true); // offline: rule-based parser, flagged
   });
   it("validates bodies before touching the provider", async () => {
     expect((await interpretPOST(post({ evidence: [{ accession: "X", title: "y" }] }, "10.0.0.2"))).status).toBe(400);

@@ -42,3 +42,7 @@
 - Demo Numbers restored at the team's request (overrides UPGRADE.md P0 #5): manual setup has a "Demo Numbers" button that fills a labelled test case (lunar atmosphere, SAFFIRE SIBAL sample size, illustrative volume, flow, detector distance and threshold). The UI states the values are not NASA measurements; no preset or landing CTA uses them.
 - Final audit (2026-11-14): removed the unreachable Review-flow modules (`lib/review`, `lib/ranking`, `lib/diff`, `lib/ui/console` and others) and the unused Aster, landing and schematic CSS. Fixed the Methods page overflow and the hidden Evidence/Methods links at phone width, and moved the chart legend off the axis title. The next test now names one ISS-flyable condition (e.g. "Fly SIBAL Fabric at 34% O₂ and 56.5 kPa; 1/6 g needs a partial-gravity platform") plus the spec's "x_O₂ 34% is 12 points above…" reason. The one-click run opens at peak heat release and scrolls to the result on mobile. Evidence sections have anchors; the raw PSI-99 "037 mm" thickness cells are flagged, not corrected. Accent was removed from the About cards and Methods step numbers.
 - Not run: `make test` (no Python venv with pytest in this sandbox).
+
+## AI interview (time-boxed)
+Done: no-fire fix + `lib/sim/noFire.ts` card, rule-based/AI interview modal (`components/sim/AiInterview.tsx`), `/api/scenario` mode contract, `web/scripts/ai-fire-check.ts`, `tests/aiFire.test.ts`.
+Not done (over budget): streaming/thinking trail, drawer Apply & re-run, Aster unification, Playwright offline specs, docs/screenshots/ai-*.png.
