@@ -455,7 +455,7 @@ select { height: 2rem; background: rgb(var(--panel)); }
 /* Aster uses the same mascot across the chat and simulator. */
 .ai-mark { display: inline-block; flex: none; transition: filter .25s, opacity .25s; }
 .ai-mark[data-state="offline"] { opacity: .75; filter: saturate(.4); }
-.ai-mark[data-state="thinking"] { animation: ai-breathe 1.6s ease-in-out infinite; filter: drop-shadow(0 0 5px rgb(var(--blue) / .55)); }
+.ai-mark[data-state="thinking"] { animation: ai-breathe 1.6s ease-in-out infinite; filter: drop-shadow(0 0 5px rgb(var(--ember) / .55)); }
 .ai-mark[data-interactive] .ai-mascot-eye { transform-box: fill-box; transform-origin: center; animation: ea-mascot-blink 4.2s ease-in-out infinite; }
 @keyframes ea-mascot-blink { 0%, 94%, 100% { transform: scaleY(1); } 97% { transform: scaleY(.12); } }
 @media (prefers-reduced-motion: reduce) { .ai-mark[data-interactive] .ai-mascot-eye { animation: none; } }
@@ -518,18 +518,18 @@ select { height: 2rem; background: rgb(var(--panel)); }
   width: 58px;
   aspect-ratio: 1;
   place-items: center;
-  border: 1px solid rgb(var(--blue) / .38);
-  background: radial-gradient(circle at 24% 22%, rgb(255 179 217 / .24), transparent 56%),
-    radial-gradient(circle at 78% 66%, rgb(135 206 235 / .3), transparent 64%), rgb(var(--surface2));
-  box-shadow: 0 0 28px rgb(var(--blue) / .2), inset 0 0 16px rgb(var(--blue) / .12);
+  border: 1px solid rgb(var(--ember) / .38);
+  background: radial-gradient(circle at 24% 22%, rgb(255 209 155 / .24), transparent 56%),
+    radial-gradient(circle at 78% 66%, rgb(255 112 53 / .3), transparent 64%), rgb(var(--surface2));
+  box-shadow: 0 0 28px rgb(var(--ember) / .2), inset 0 0 16px rgb(var(--ember) / .12);
 }
 .ea-thinking-stage__orb::after {
   content: "";
   position: absolute;
   inset: -5px;
   border: 1px solid transparent;
-  border-top-color: rgb(var(--blue) / .64);
-  border-right-color: rgb(var(--ember) / .42);
+  border-top-color: rgb(var(--ember) / .64);
+  border-right-color: rgb(255 209 155 / .55);
   border-radius: 50%;
 }
 @media (prefers-reduced-motion: no-preference) {
