@@ -8,6 +8,12 @@ import Link from "next/link";
 export const metadata: Metadata = { title: "About" };
 const team: { name: string; initials: string; focus: string; bio: string }[] = [
   {
+    name: "Aaron Sui",
+    initials: "AS",
+    focus: "Competitive runner · Student inventor · Robotics",
+    bio: "Aaron is a Grade 10 Pre-IB student at Milliken Mills High School who competed at OFSAA Cross Country in 2026. He co-created FridgeOMeter, which earned multiple awards at the 2026 York Region Science and Technology Fair. He brings hands-on mechanical experience from VEX Robotics and the FIRST Robotics Competition, where he actively contributes to building and refining robot mechanisms. He is interested in mechanical engineering and in how testing and iteration turn early prototypes into hardware that works reliably. Spacecraft systems are one area where he’d like to apply that hands-on approach.",
+  },
+  {
     name: "Anujan Akaljan",
     initials: "AA",
     focus: "Applied science · Student developer · Team Ontario athlete",
@@ -18,12 +24,6 @@ const team: { name: string; initials: string; focus: string; bio: string }[] = [
     initials: "KP",
     focus: "Aerospace research · Atmospheric combustion · Fire prevention",
     bio: "Karm is a Grade 10 Pre-IB student at Milliken Mills High School. His aerospace research and engineering work explores how atmospheric conditions affect combustion and flame behavior. His work on fire and flame prevention connects the physics of how flames ignite and spread with practical engineering approaches to controlling them. He is interested in how fire experiments can inform material choices and prevention strategies for future crewed spacecraft and habitats. He approaches spacecraft safety through the conditions that change a flame’s behavior, including oxygen and airflow.",
-  },
-  {
-    name: "Aaron Sui",
-    initials: "AS",
-    focus: "Competitive runner · Student inventor · Robotics",
-    bio: "Aaron is a Grade 10 Pre-IB student at Milliken Mills High School who competed at OFSAA Cross Country in 2026. He co-created FridgeOMeter, which earned multiple awards at the 2026 York Region Science and Technology Fair. He brings hands-on mechanical experience from VEX Robotics and the FIRST Robotics Competition, where he actively contributes to building and refining robot mechanisms. He is interested in mechanical engineering and in how testing and iteration turn early prototypes into hardware that works reliably. Spacecraft systems are one area where he’d like to apply that hands-on approach.",
   },
   {
     name: "Xuliang Sun",
