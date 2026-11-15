@@ -6,16 +6,14 @@ import { useCallback, useRef, useState, type ReactNode } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { ShieldCheck, ShieldAlert } from "lucide-react";
 import { emptyRun, readEvents, reduceRun, type AiEvent, type AiRun, type Trail } from "@/lib/ai/stream";
+import { MeshGradientSVG } from "@/components/ui/shader-svg";
 import { cn } from "@/lib/utils";
 
 export type OrbState = "idle" | "thinking" | "speaking" | "offline";
-/** The AI mark: a four-point star (no orb). It turns and breathes in warm light while the AI thinks. */
-export function Orb({ state, size = 14, className }: { state: OrbState; size?: number; className?: string }) {
-  return (
-    <svg aria-hidden data-orb={state} data-state={state} className={cn("ai-mark", className)} width={size} height={size} viewBox="0 0 24 24">
-      <path fill="currentColor" d="M12 1.5c.5 4.6 2 7.9 4.3 9.6 1.5 1.1 3.6 1.7 6.2 1.9-2.6.2-4.7.8-6.2 1.9-2.3 1.7-3.8 5-4.3 9.6-.5-4.6-2-7.9-4.3-9.6-1.5-1.1-3.6-1.7-6.2-1.9 2.6-.2 4.7-.8 6.2-1.9C10 9.4 11.5 6.1 12 1.5Z" />
-    </svg>
-  );
+export function Orb({ state, size = 14, className, interactive = false }: {
+  state: OrbState; size?: number; className?: string; interactive?: boolean;
+}) {
+  return <MeshGradientSVG state={state} size={size} className={className} interactive={interactive} />;
 }
 export const orbOf = (run: AiRun | null): OrbState => (!run ? "idle" : run.error || run.done?.offline ? "offline" : run.streaming ? "thinking" : "speaking");
 

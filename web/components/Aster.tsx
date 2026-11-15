@@ -40,17 +40,24 @@ export function Aster() {
   const dialog = useRef<HTMLDialogElement>(null);
   const launcher = useRef<HTMLButtonElement>(null);
   const transcript = useRef<HTMLDivElement>(null);
+  const [chatOpen, setChatOpen] = useState(false);
   const [draft, setDraft] = useState("");
   const [thread, setThread] = useState<Exchange[]>([]);
   const [busy, setBusy] = useState(false);
   const [context, setContext] = useState<AsterContext | null>(null);
+
+  function openChat() {
+    if (!dialog.current || dialog.current.open) return;
+    dialog.current.showModal();
+    setChatOpen(true);
+  }
 
   useEffect(() => {
     function openContext(event: Event) {
       const selected = (event as CustomEvent<AsterContext>).detail;
       setContext(selected);
       setDraft(selected.question);
-      if (dialog.current && !dialog.current.open) dialog.current.showModal();
+      openChat();
     }
     window.addEventListener(ASTER_CONTEXT_EVENT, openContext);
     return () => window.removeEventListener(ASTER_CONTEXT_EVENT, openContext);
@@ -105,14 +112,14 @@ export function Aster() {
   return (
     <div data-noprint>
       <button ref={launcher} type="button" className="ea-aster-launcher" data-compact={path === "/simulator" || undefined} aria-label="Ask Aster"
-        aria-haspopup="dialog" aria-controls="aster-dialog" onClick={() => dialog.current?.showModal()}>
+        aria-haspopup="dialog" aria-controls="aster-dialog" onClick={openChat}>
         <span className="ea-aster-launcher__icon"><Orb state={busy ? "thinking" : "speaking"} size={14} /></span><span>Ask Aster</span>
       </button>
-      <dialog id="aster-dialog" ref={dialog} aria-labelledby="aster-title" onClose={() => launcher.current?.focus()}
+      <dialog id="aster-dialog" ref={dialog} aria-labelledby="aster-title" onClose={() => { setChatOpen(false); launcher.current?.focus(); }}
         className="ea-aster-dialog glass fixed inset-y-0 left-auto right-0 m-0 h-[100dvh] max-h-none w-full max-w-none overflow-hidden border-0 border-l p-0 text-ink backdrop:bg-black/40 backdrop:backdrop-blur-sm sm:w-[28rem]">
         <div className="flex h-full flex-col">
           <header className="flex items-center justify-between gap-3 border-b border-line p-4">
-            <h2 id="aster-title" className="flex items-center gap-2 text-[15px] font-semibold tracking-tight"><Orb state={busy ? "thinking" : thread.at(-1)?.run?.done?.offline ? "offline" : "speaking"} size={15} /> Aster <span className="text-[12px] font-normal text-faint">NASA research</span></h2>
+            <h2 id="aster-title" className="flex items-center gap-2 text-[15px] font-semibold tracking-tight"><Orb state={busy ? "thinking" : thread.at(-1)?.run?.done?.offline ? "offline" : "speaking"} size={38} interactive={chatOpen} /> Aster <span className="text-[12px] font-normal text-faint">NASA research</span></h2>
             <button type="button" className="grid h-7 w-7 place-items-center rounded-full text-faint transition-colors hover:bg-surface2 hover:text-ink" aria-label="Close" autoFocus onClick={() => dialog.current?.close()}>✕</button>
           </header>
           {context && <div className="flex items-center justify-between gap-2 border-b border-line px-4 py-2 text-sm">
