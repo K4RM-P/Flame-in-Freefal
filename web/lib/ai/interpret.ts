@@ -5,6 +5,9 @@ import { z } from "zod";
 import type OpenAI from "openai";
 import { guard, stripUnsupported } from "./guard";
 import { model } from "./client";
+import { designReview } from "@/lib/sim/designReview";
+import { simulate } from "@/lib/sim/engine";
+import { ScenarioSchema } from "@/lib/sim/types";
 
 export const EvidenceSchema = z.object({
   accession: z.string().regex(/^PSI-\d+$/), title: z.string().max(300),
@@ -22,17 +25,27 @@ export const InterpretRequestSchema = z.object({
   evidence: z.array(EvidenceSchema).max(30),
   sensitivity: z.array(z.record(z.unknown())).max(20).optional(),
   next_test: z.record(z.unknown()).optional(),
+  design_review: z.array(z.record(z.unknown())).max(20).optional(),
 });
 export type InterpretRequest = z.infer<typeof InterpretRequestSchema>;
+
+/** Ranked fixes recomputed deterministically from the posted scenario (engine numbers, not client numbers). */
+export function reviewFor(scenario: unknown) {
+  const p = ScenarioSchema.safeParse(scenario);
+  if (!p.success) return null;
+  try { return designReview(p.data, simulate(p.data)).slice(0, 5).map((f, i) => ({ rank: i + 1, ...f })); } catch { return null; }
+}
 
 /** The only material the model sees, and the pool the guard checks against. Time series are dropped. */
 export function buildFacts(r: InterpretRequest) {
   const { outcome, events, warnings, provenance } = r.result as Record<string, unknown>;
+  const review = reviewFor(r.scenario) ?? r.design_review ?? null;
   return {
     scenario: r.scenario, question: r.question, outcome, events, warnings,
     calibration: (provenance as { params?: unknown } | undefined)?.params,
     evidence: r.evidence.map(({ accession, title, summary, role, doi }) => ({ accession, title, summary, role, doi })),
     sensitivity: r.sensitivity, next_test: r.next_test,
+    design_review: review,
   };
 }
 
@@ -66,9 +79,10 @@ export const INSTRUCTIONS = [
   "You interpret one run of the EmberAtlas cabin fire simulator for a spacecraft or habitat engineer.",
   "Write 4 to 6 plain sentences, no lists or headings:",
   "1) what drove the outcome; 2) how these conditions differ from the ISS conditions in the PSI evidence;",
-  "3) the single design change with the biggest effect (use the sensitivity results if given).",
+  "3) the single design change with the biggest effect: it MUST be fix #1 of design_review (rank 1), stated with its before → after numbers; if that fix has basis \"theory-only\", say it is theory-only.",
   "Use ONLY numbers that appear in the JSON facts, copied with their units; do not compute new numbers.",
-  "Cite PSI accessions (e.g. PSI-99) only from the evidence list. Never call partial-gravity results measured: they are bounded estimates between microgravity and 1 g.",
+  "Cite PSI accessions (e.g. PSI-99) only from the evidence list. Never call partial-gravity results measured: they are estimates between microgravity and 1 g, and NASA's FM2 lunar-gravity tests show some materials burn more readily at lunar g than at either, so the estimate may be non-conservative.",
+  "Any CO or smoke number is theory-only (uncalibrated sub-model): say so whenever you use one.",
   "If a sub-model is marked uncalibrated or a warning says theory-only, say so plainly. Do not soften failures.",
   "If a user question is included, answer that question directly while staying within the supplied facts and cite every PSI accession you use.",
 ].join("\n");

@@ -8,7 +8,7 @@ import { MATERIALS, insideRange, tolerantRange } from "./params";
 import { CREW_RESPONSE } from "./presets";
 import { sensitivityMulti, type TornadoRow } from "./sensitivity";
 import type { Scenario, SimResult } from "./types";
-import { sig } from "@/lib/ui/format";
+import { sig, withUnit } from "@/lib/ui/format";
 
 export interface DesignFix {
   id: string; title: string; detail: string; metric: string; before: number | null; after: number | null; units: string;
@@ -32,7 +32,7 @@ export function metricOf(r: SimResult, key: string): number | null {
 const basisOf = (r: SimResult, deps: string[]): DesignFix["basis"] =>
   deps.every((d) => r.provenance.params[d]?.calibrated) ? "calibrated" : "theory-only";
 /** Display string used in `detail`; tests check it against the engine value with the same formatter. */
-export const show = (v: number | null, units: string) => (v === null ? "never" : `${sig(v, 3)} ${units}`);
+export const show = (v: number | null, units: string) => (v === null ? "never" : withUnit(v, units, 3));
 
 const clone = (s: Scenario): Scenario => JSON.parse(JSON.stringify(s));
 const memo = new Map<string, SimResult | null>();
@@ -116,9 +116,12 @@ export function designReview(s: Scenario, r: SimResult): DesignFix[] {
       }
     }
   }
-  const levers = [...best.values()];
-  const tier = (f: DesignFix) => (!f.id.startsWith("lever-") ? 0 : f.basis === "theory-only" ? 2 : 1);
-  return [...rule, ...levers].sort((a, b) => tier(a) - tier(b) || Number(b.inEnvelope) - Number(a.inEnvelope) || b.effect - a.effect);
+  return rankFixes([...rule, ...best.values()]);
+}
+/** Rule-based (design-input) fixes first, then calibrated levers, then theory-only levers; in-envelope first; then effect. */
+export function rankFixes(fixes: DesignFix[]): DesignFix[] {
+  const tier = (f: DesignFix) => (f.basis === "theory-only" ? 2 : f.basis === "design-input" ? 0 : 1);
+  return [...fixes].sort((a, b) => tier(a) - tier(b) || Number(b.inEnvelope) - Number(a.inEnvelope) || b.effect - a.effect);
 }
 const rank = (f: DesignFix) => (f.basis === "theory-only" ? 1 : 0);
 

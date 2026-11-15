@@ -10,6 +10,9 @@ export function sig(x: number | null | undefined, s = 3): string {
   const [i, d] = String(r).split(".");
   return i.replace(/\B(?=(\d{3})+(?!\d))/g, THIN) + (d ? `.${d}` : "");
 }
+/** Number + unit joined by a narrow no-break space (U+202F): a plain space renders full-width in the mono number font ("322  s"). */
+export const UNIT_SEP = "\u202F";
+export const withUnit = (x: number | null | undefined, units: string, s = 3) => (units ? `${sig(x, s)}${UNIT_SEP}${units}` : sig(x, s));
 export function bandSig(p50: number, p05: number, p95: number): number {
   const half = Math.max(Math.abs(p95 - p50), Math.abs(p50 - p05));
   return Math.abs(p50) > 0 && half / Math.abs(p50) > 0.2 ? 2 : 3;

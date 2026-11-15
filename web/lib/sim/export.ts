@@ -30,10 +30,12 @@ export function exportPsiRowsCsv(s: Scenario, _r?: SimResult | null): string {
 export function exportSeriesCsv(r: SimResult): string {
   const fields = Object.keys(r.state[0] ?? {}) as (keyof SimResult["state"][number])[];
   const bandCols = r.bands ? Object.keys(r.bands).flatMap((k) => [`${k}_p05`, `${k}_p50`, `${k}_p95`]) : [];
-  const head = ["t_s", ...fields, ...bandCols];
+  // Columns from uncalibrated sub-models carry the flag in the header itself (CO, smoke always; T when heat loss is uncalibrated).
+  const th = (k: string) => k.startsWith("x_co") && !k.startsWith("x_co2") || k.startsWith("smoke") || (k.startsWith("T_K") && !r.provenance.params.habitat?.calibrated);
+  const head = ["t_s", ...fields, ...bandCols].map((h) => (th(h) ? `${h} (theory-only)` : h));
   const rows = r.t.map((t, i) => [t, ...fields.map((f) => r.state[i][f]),
     ...(r.bands ? Object.values(r.bands).flatMap((b) => [b.p05[i], b.p50[i], b.p95[i]]) : [])]);
-  const meta = `# EmberAtlas engine ${r.provenance.engine_version}, seed ${r.provenance.seed}; SI units (K, Pa, mol/mol, kg/m3, W, m2)\n`;
+  const meta = `# EmberAtlas engine ${r.provenance.engine_version}, seed ${r.provenance.seed}; SI units (K, Pa, mol/mol, kg/m3, W, m2); "(theory-only)" columns come from uncalibrated sub-models\n`;
   return meta + toCsv(head, rows);
 }
 export function exportScenarioJson(s: Scenario): string {

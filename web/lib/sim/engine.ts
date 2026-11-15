@@ -325,6 +325,17 @@ function runOnce(s: Scenario, d: Draws, seed: number): SimResult {
   return res;
 }
 
+/** Sub-models behind each metric; a metric is theory-only when any of them is uncalibrated (CO/smoke always). */
+const METRIC_DEPS: Record<string, string[]> = { peak_co: ["smoke"], peak_T: ["habitat"] };
+export function markTheoryOnly(o: Outcome, params: SimResult["provenance"]["params"]): Outcome {
+  return { ...o, metrics: o.metrics.map((m) => {
+    const deps = METRIC_DEPS[m.key];
+    if (!deps) return m;
+    const th = m.key === "peak_co" || deps.some((d) => !params[d]?.calibrated);
+    return th ? { ...m, theory_only: true, label: m.label.includes("theory-only") ? m.label : `${m.label} (theory-only)` } : m;
+  }) };
+}
+
 function dedupe(p: Provenance[]): Provenance[] {
   const seen = new Set<string>();
   return p.filter((x) => { const k = `${x.source_id}|${x.locator ?? ""}`; if (!x.source_id || seen.has(k)) return false; seen.add(k); return true; });
@@ -333,6 +344,9 @@ function dedupe(p: Provenance[]): Provenance[] {
 // ---------- outcome ----------
 const lim = (k: Limit["key"]) => LIMITS_SI.find((l) => l.key === k);
 export function outcomeOf(r: SimResult): Outcome {
+  return markTheoryOnly(rawOutcome(r), r.provenance.params);
+}
+function rawOutcome(r: SimResult): Outcome {
   const ev = (k: string) => r.events.find((e) => e.kind === k);
   const ign = r.items.some((i) => i.status.includes("burning"));
   const allOut = ign && r.items.every((i) => !i.status.includes("burning") || i.status[i.status.length - 1] === "out");

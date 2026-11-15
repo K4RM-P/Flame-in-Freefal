@@ -66,7 +66,7 @@ export interface SimResult {
   flags?: { partial_g_nonconservative?: boolean };
   provenance: { sources: Provenance[]; params: Record<string, { calibrated: boolean; source: string }>; seed: number; engine_version: string };
 }
-export interface OutcomeMetric { key: string; label: string; value: number | null; units: string; band?: Band; limit?: number; limit_source?: string; pass?: boolean | null }
+export interface OutcomeMetric { key: string; label: string; value: number | null; units: string; theory_only?: boolean; band?: Band; limit?: number; limit_source?: string; pass?: boolean | null }
 export interface Outcome {
   metrics: OutcomeMetric[];                 // time_to_alarm, time_to_extinguish, peak_T, min_o2, peak_co, peak_co2
   probabilities?: { key: string; label: string; p: number }[]; // MC: e.g. "CO limit exceeded"

@@ -9,13 +9,14 @@ import { replayError } from "@/lib/sim/replay";
 import { exportPsiRowsCsv, exportScenarioJson, exportSeriesCsv } from "@/lib/sim/export";
 import { ScenarioSchema, type Scenario, type SimResult } from "@/lib/sim/types";
 import { lsGet, lsSet } from "@/lib/store";
-import { sig } from "@/lib/ui/format";
+import { sig, withUnit } from "@/lib/ui/format";
 import { CHARTS, Charts } from "./Charts";
 import { CabinView, Legend, runFacts, useReducedMotion } from "./CabinView";
 import { ScenarioPanel, applyPreset, fmtProv } from "./ScenarioPanel";
 import { TELEMETRY, materialByKey } from "./data";
 import { BoundedBadge, Evidence, Interpretation, MC_N, NextTest, Outcome, ReplayMetrics, TheoryBadge, Tornado, download, missingFields, playPause, runAll } from "./bits";
 import { nextTest, outOfEnvelope } from "@/lib/sim/nextTest";
+import { DesignReview } from "./DesignReview";
 import spreadCal from "@/data/params/spread.json";
 import { LAYERS, PLAYBACK, loadUi, saveUi, useSim } from "./store";
 import { Scene3D } from "./scene3d/Scene3D";
@@ -501,6 +502,7 @@ function RightPanel() {
           {b && rb && <Outcome sc={b} r={rb} label="B" />}
           <Tornado sc={a} />
           {b && rb ? <NextTest sc={b} r={rb} /> : ra && <NextTest sc={a} r={ra} />}
+          {b && rb ? <DesignReview sc={b} r={rb} label="B" /> : <DesignReview sc={a} r={ra} />}
         </div>}
         {rightTab === "evidence" && <Evidence sc={a} />}
         {rightTab === "assistant" && <Interpretation />}
@@ -566,7 +568,7 @@ function DeltaCard({ a, b, ra, rb, openInspector }: { a: Scenario; b: Scenario; 
       const ratio = timeLike ? Math.max(va, vb) / Math.min(va, vb) : vb / va;
       tail = timeLike ? ` (${sig(ratio, 2)}× ${vb < va ? "faster" : vb > va ? "slower" : "same"})` : ` (${sig(ratio, 2)}× A)`;
     }
-    headline = <>{label}: {a.name} <span className="num">{sig(va, 3)} {ma.units}</span> → {b.name} <span className="num">{sig(vb, 3)} {mb.units}</span>{tail}</>;
+    headline = <>{label}: {a.name} <span className="num">{withUnit(va, ma.units)}</span> → {b.name} <span className="num">{withUnit(vb, mb.units)}</span>{tail}</>;
   }
   const goNext = () => { openInspector(); set({ rightTab: "outputs" }); requestAnimationFrame(() => requestAnimationFrame(() => document.getElementById("next-test")?.scrollIntoView({ block: "start", behavior: "smooth" }))); };
   return (
@@ -602,7 +604,7 @@ function StatusBar() {
     <div className="flex flex-wrap items-center gap-3 border-t border-line bg-panel px-3 py-0.5 text-[11px] text-faint lg:h-6 lg:flex-nowrap" data-noprint>
       <a className="underline underline-offset-2" href="https://psi.nasa.gov/physci/repo/search?q=combustion" target="_blank" rel="noreferrer" data-testid="psi-resource-link">NASA PSI Data Repository: Combustion Science</a>
       <span>Partial gravity is a bounded estimate (µg ↔ 1 g). Not for flight certification.</span>
-      {ra && <span className="num ml-auto">EmberAtlas {ra.provenance.engine_version} · seed {ra.provenance.seed} · {MC_N} MC runs · SI internal</span>}
+      {ra && <span className="num ml-auto">EmberAtlas {ra.provenance.engine_version} · seed {ra.provenance.seed} · {MC_N} MC runs · spread test error {spreadCal.metrics.test_mape_pct} % (n = {spreadCal.metrics.test.length})</span>}
     </div>
   );
 }
