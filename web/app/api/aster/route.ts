@@ -2,7 +2,7 @@ import { isTargetLanguage, TARGET_LANGUAGES, type TargetLanguage } from "@/lib/l
 import { z } from "zod";
 import { gate, json, readJson } from "@/lib/ai/http";
 import { model, openaiClient } from "@/lib/ai/client";
-import { AsterContextSchema } from "@/lib/ai/asterContext";
+import { AsterContextSchema, localContextAnswer } from "@/lib/ai/asterContext";
 import { answerLocally } from "@/lib/ai/localAster";
 import { guard, numbersIn, stripUnsupported } from "@/lib/ai/guard";
 import { sseResponse, step } from "@/lib/ai/stream";
@@ -28,7 +28,7 @@ export async function POST(request: Request) {
   if (input.data.stream) return streamAster(question, context, input.data.path, languageInstruction);
   if (context && typeof context !== "string") {
     const client = openaiClient();
-    if (!client) return json({ error: "OpenAI is unavailable for context questions. Clear the context to search the NASA catalog." }, 503);
+    if (!client) return json({ answer: localContextAnswer(context), mode: "local", offline: true });
     try {
       const response = await client.responses.create({
         model: model(),
@@ -43,7 +43,7 @@ export async function POST(request: Request) {
     } catch {
       // The selected context is retained so the visitor can retry.
     }
-    return json({ error: "Aster couldn’t explain this context right now. Try again or clear the context to search the NASA catalog." }, 502);
+    return json({ answer: localContextAnswer(context), mode: "local", offline: true });
   }
   const client = openaiClient();
   let searchQuestion = question;
@@ -122,9 +122,9 @@ function streamAster(question: string, context: z.infer<typeof requestSchema>["c
             input: JSON.stringify(structured ? { question, context: structured } : { question, path, records: sources.map(({ id, title, excerpt }) => ({ id, title, excerpt })) }) }, { timeout: 15_000, maxRetries: 0 });
           for await (const ev of s) if (ev.type === "response.output_text.delta") { text += ev.delta; emit({ type: "token", text: ev.delta }); }
         });
-      } catch { offline = true; if (text) emit({ type: "replace", text: "" }); text = structured ? "" : answerLocally(question).answer; }
+      } catch { offline = true; if (text) emit({ type: "replace", text: "" }); text = structured ? localContextAnswer(structured) : answerLocally(question).answer; }
     }
-    if (offline && structured) { emit({ type: "error", error: "OpenAI is unavailable for context questions. Clear the context to search the NASA catalog." }); return; }
+    if (offline && structured && !text) text = localContextAnswer(structured);
     if (offline) emit({ type: "token", text });
     const k = numbersIn(text).length;
     const g = await step(emit, "guard", `Checking ${k} number${k === 1 ? "" : "s"} against the sources…`, () => guard(text, pool, question), (r) => (r.ok ? `${k} numbers checked` : `Removed ${r.unsupported.length} unsupported number(s)`));

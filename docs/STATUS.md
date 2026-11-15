@@ -46,3 +46,15 @@
 ## AI fire engineer
 Done: no-fire fix + card; interview (AI-chosen or fixed follow-ups ≤ 4, live provenance schematic, assumption confirm, camera to ignition); SSE streaming for /api/interpret and /api/aster with real-step thinking trail; Apple-Intelligence-style glow/orb kit (components/ai/kit.tsx); analyst drawer (briefing with number/citation chips, ranked fixes with Apply & re-run, what-if engine runs, suggested questions, next-test card, orb tab); Aster unified (same kit, Build this scenario, preset links); unit tests + offline Playwright (e2e/ai.spec.ts); screenshots docs/screenshots/ai-*.png.
 Known gaps: sensitivity-lever fixes have no Apply button (no stored scenario); streamed answers are guarded after streaming (stripped text replaces the stream), not regenerated.
+
+## 2026-11-15 — judge-polish pass (10-min time-box)
+Done:
+- P0 AI offline: Aster context questions (JSON and stream) now answer locally from the engine's own facts under "AI offline: explanations are generated locally from the engine." — no 502/503 error states. NO_KEY_MESSAGE reworded to the same note. New test `web/tests/ai-offline.test.ts` runs Aster (context JSON, context stream, catalog) and the Build-with-AI interview with no key.
+- P1 timeline: scrubber/playback horizon trimmed to last fire-out / agent-release event + 15 % (`web/lib/sim/horizon.ts`); engine untouched.
+- P1 one-click demo: landing CTA already opens `/simulator?preset=iss-vs-lunar&run=1` (verified in code, not re-run in a browser).
+- P2 metadata: root title/template and descriptions name EmberAtlas and the Flame in Freefall challenge; OG image already uses the brand hero.
+- P2 About: team line "Team EmberAtlas, Toronto: Aaron, Anujan, Karm, Xuliang" + challenge name; existing Use of AI section kept.
+Left undone (time-box):
+- P1 lazy-load Plotly / 3D scene with next/dynamic + skeleton (First Load JS still ~608 kB).
+- P1 placeholder sweep for the NASA candle photo / demo video slots (no "TODO/placeholder/lorem" strings found in app/components; media slots not audited visually).
+- P2 390 px mobile audit, axe run on all five pages, language-switcher fallback audit.

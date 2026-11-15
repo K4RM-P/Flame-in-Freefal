@@ -7,8 +7,8 @@ import "./globals.css";
 import { Shell } from "@/components/shell/Shell";
 
 export const metadata: Metadata = {
-  title: { default: "EmberAtlas", template: "%s · EmberAtlas" },
-  description: "EmberAtlas shows where and how a fire would start in your spacecraft, and which design change prevents it. Built on NASA's ISS fire data, explained by AI.",
+  title: { default: "EmberAtlas · Flame in Freefall challenge", template: "%s · EmberAtlas · Flame in Freefall" },
+  description: "EmberAtlas, for the Flame in Freefall challenge, shows where and how a fire would start in your spacecraft, and which design change prevents it. Built on NASA's ISS fire data, explained by AI.",
 };
 
 // Dark-first: only an explicit saved "light" choice switches the theme.

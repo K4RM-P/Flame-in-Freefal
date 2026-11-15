@@ -19,7 +19,7 @@ export async function POST(req: Request) {
   const comparison = measuredComparisons(parsed.data.scenario);
   const base = { matches, comparison };
   const client = openaiClient();
-  if (!client) return json({ ...base, ai: null, notice: `${NO_KEY_MESSAGE}. NASA matches and measured data are still available.` });
+  if (!client) return json({ ...base, ai: null, notice: `${NO_KEY_MESSAGE} NASA matches and measured data are still available.` });
   const facts = {
     question: parsed.data.question || "Which NASA evidence applies to this design?",
     scenario: parsed.data.scenario,

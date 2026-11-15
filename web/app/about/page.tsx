@@ -3,7 +3,7 @@ import { CrewCarousel } from "./CrewCarousel";
 import type { Metadata } from "next";
 import Link from "next/link";
 
-export const metadata: Metadata = { title: "About" };
+export const metadata: Metadata = { title: "About", description: "Team EmberAtlas (Toronto) and the Flame in Freefall challenge: who built EmberAtlas and how AI was used." };
 const team = [
   {
     name: "Aaron",
@@ -38,6 +38,7 @@ export default function About() {
         <p className="label">NASA Space Apps · Flame in Freefall</p>
         <h1 className="display my-3 text-5xl md:text-7xl">EmberAtlas: the firefighter for space</h1>
         <p className="measure text-lg leading-relaxed text-mute">It shows where and how a fire would start in your spacecraft, and which design change prevents it. Built on NASA&apos;s ISS fire data, explained by AI.</p>
+        <p className="mt-3 text-[13px] text-mute">Team EmberAtlas, Toronto: {team.map((t) => t.name).join(", ")}. Challenge: Flame in Freefall (NASA Space Apps).</p>
       </header>
       <CrewCarousel team={team}>
         {team.map(({ name, initials, focus, bio }) => (

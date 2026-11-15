@@ -39,6 +39,7 @@ import { LAYERS, PLAYBACK, loadUi, saveUi, useSim, type ChatMsg } from "./store"
 import { HudExtras, Scene3D } from "./scene3d/Scene3D";
 import { BuildWithAiButton, NoFireCard } from "./AiInterview";
 import { Analyst, OrbTab } from "./Analyst";
+import { visibleLastIndex } from "@/lib/sim/horizon";
 import { PRESET_LABELS } from "./scene3d/CameraRig";
 
 const ICON = { size: 16, strokeWidth: 1.5 } as const;
@@ -106,10 +107,10 @@ function revealMissing(label: string) {
 /* ---------- playback: advances the playhead through engine frames (data-driven, not decorative) ---------- */
 const BASE_S = 24;
 function usePlayback() {
-  const { playing, ra, set, present, speed } = useSim();
+  const { playing, ra, rb, set, present, speed } = useSim();
   useEffect(() => {
     if (!playing || !ra) return;
-    const N = ra.t.length, tEnd = ra.t[N - 1], t0 = ra.t[0];
+    const N = visibleLastIndex(ra.t, [ra.events, ...(rb ? [rb.events] : [])]) + 1, tEnd = ra.t[N - 1], t0 = ra.t[0];
     const rate = ((tEnd - t0) / (present ? 22 : BASE_S)) * (present ? 1 : speed);
     let tSim = ra.t[Math.min(useSim.getState().frame, N - 1)], last = performance.now(), lastSet = 0, raf = 0, lo = 0;
     const tick = (now: number) => {
@@ -124,7 +125,7 @@ function usePlayback() {
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, [playing, ra, set, present, speed]);
+  }, [playing, ra, rb, set, present, speed]);
 }
 
 /* ---------- keyboard: R run, Space play/pause, F fullscreen, C charts, 1–4 camera (hints live in tooltips) ---------- */
@@ -177,10 +178,10 @@ const EV: Record<string, { label: string; cls: string }> = {
 };
 
 function Toolbar() {
-  const { a, b, ra, running, playing, frame, presetId, set } = useSim();
+  const { a, b, ra, rb, running, playing, frame, presetId, set } = useSim();
   if (!a) return null;
   const missing = [...missingFields(a), ...(b ? missingFields(b).map((m) => `B: ${m}`) : [])];
-  const last = ra ? ra.t.length - 1 : 0, f = Math.min(frame, last);
+  const last = ra ? visibleLastIndex(ra.t, [ra.events, ...(rb ? [rb.events] : [])]) : 0, f = Math.min(frame, last);
   const t0 = ra?.t[0] ?? 0, tEnd = ra?.t[last] ?? 1;
   const evs = ra ? ra.events.filter((e) => EV[e.kind]).filter((e, i, arr) => arr.findIndex((x) => x.kind === e.kind) === i) : [];
   return (
