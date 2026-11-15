@@ -3,25 +3,40 @@
 // Nav: Simulator · Evidence · Methods (logo → landing), theme toggle; About lives in the footer.
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Aster } from "@/components/Aster";
-import { useMission, lsSet } from "@/lib/store";
+import { useMission, lsGet, lsSet } from "@/lib/store";
 
 const NAV = [["/simulator", "Simulator"], ["/evidence", "Evidence"], ["/methods", "Methods"], ["/about", "About"]] as const;
 
 export function Shell({ children }: { children: React.ReactNode }) {
   const set = useMission((s) => s.set);
   const path = usePathname().replace(/(.)\/$/, "$1");
+  const [preference, setPreference] = useState<"system" | "light" | "dark">("system");
   useEffect(() => {
+    const saved = lsGet<unknown>("ea.theme", "system");
+    setPreference(saved === "light" || saved === "dark" ? saved : "system");
     set({ theme: document.documentElement.dataset.theme === "light" ? "light" : "dark" });
+    const media = window.matchMedia("(prefers-color-scheme: dark)");
+    function followSystem() {
+      const choice = lsGet<unknown>("ea.theme", "system");
+      if (choice === "dark" || choice === "light") return;
+      const theme = media.matches ? "dark" : "light";
+      document.documentElement.dataset.theme = theme;
+      set({ theme });
+    }
+    media.addEventListener("change", followSystem);
+    return () => media.removeEventListener("change", followSystem);
   }, [set]);
 
-  function toggleTheme() {
-    const root = document.documentElement;
-    const theme = root.dataset.theme === "light" ? "dark" : "light";
-    root.dataset.theme = theme;
+  function chooseTheme(choice: typeof preference) {
+    const theme = choice === "system"
+      ? window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"
+      : choice;
+    document.documentElement.dataset.theme = theme;
     set({ theme });
-    lsSet("ea.theme", theme);
+    setPreference(choice);
+    lsSet("ea.theme", choice);
   }
   return (
     <>
@@ -33,9 +48,12 @@ export function Shell({ children }: { children: React.ReactNode }) {
               className={`px-2 py-1 text-[14px] ${path === href ? "bg-surface2 text-ink" : "text-mute hover:text-ink"}`} style={{ borderRadius: 6 }}>{label}</Link>
           ))}
         </nav>
-        <button type="button" className="btn theme-toggle ml-auto" onClick={toggleTheme} aria-label="Toggle theme">
-          <span className="theme-toggle__ivory">Ivory</span><span className="theme-toggle__dark">Dark</span>
-        </button>
+        <select className="ml-auto theme-toggle" aria-label="Theme" value={preference}
+          onChange={(event) => chooseTheme(event.target.value as typeof preference)}>
+          <option value="system">System</option>
+          <option value="light">Ivory</option>
+          <option value="dark">Dark</option>
+        </select>
       </header>
       <main key={path} className={`page-fade mx-auto min-w-0 ${path === "/" ? "max-w-none p-0" : "max-w-[1600px] px-4 py-4 md:px-6"}`}>{children}</main>
       <footer className="mx-auto max-w-[1600px] border-t border-line px-4 py-3 text-[12px] text-faint md:px-6" data-noprint>

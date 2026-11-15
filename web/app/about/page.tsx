@@ -4,6 +4,7 @@ import path from "node:path";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { IdeaOrbit } from "./IdeaOrbit";
+import { CrewCarousel } from "./CrewCarousel";
 import { MissionLog } from "./MissionLog";
 
 export const metadata: Metadata = { title: "About" };
@@ -47,27 +48,26 @@ export default function About() {
         <div id="idea-orbit"><IdeaOrbit /></div>
       </header>
       <MissionLog />
-      <section aria-labelledby="team-title">
-        <h2 id="team-title" className="display mb-4 text-2xl">Meet the team</h2>
-        <ul className="grid gap-4 sm:grid-cols-2">
-          {team.map(({ name, initials, focus, bio }) => {
-            const portrait = `/team/${name.toLowerCase().replaceAll(" ", "-")}.jpg`;
-            const hasPortrait = existsSync(path.join(process.cwd(), "public", portrait));
-            return (
-            <li key={name} className="ea-profile ea-about__profile card space-y-3 md:p-7">
-              <div className="ea-about__portrait grid aspect-square w-24 place-items-center overflow-hidden rounded-lg border border-line md:w-28" aria-hidden="true">
+      <CrewCarousel names={team.map(({ name }) => name)}>
+        {team.map(({ name, initials, focus, bio }) => {
+          const portrait = `/team/${name.toLowerCase().replaceAll(" ", "-")}.jpg`;
+          const hasPortrait = existsSync(path.join(process.cwd(), "public", portrait));
+          return (
+            <li key={name} className="ea-crew__slide">
+              <div className="ea-crew__portrait" aria-hidden="true">
                 {hasPortrait
                   ? <img className="h-full w-full object-cover" src={portrait} alt="" loading="lazy" />
-                  : <span className="num text-2xl text-mute">{initials}</span>}
+                  : <span className="num">{initials}</span>}
               </div>
-              <h3 className="display text-2xl">{name}</h3>
-              <p className="label">{focus}</p>
-              <p className="text-base leading-relaxed text-mute">{bio}</p>
+              <div className="ea-crew__bio">
+                <p className="label">{focus}</p>
+                <h3 className="display my-2 text-3xl md:text-4xl">{name}</h3>
+                <p className="measure leading-relaxed text-mute">{bio}</p>
+              </div>
             </li>
-            );
-          })}
-        </ul>
-      </section>
+          );
+        })}
+      </CrewCarousel>
       <section aria-labelledby="built-about" className="card space-y-3 md:p-8">
         <h2 id="built-about" className="display text-2xl">How we built it</h2>
         <dl className="ea-build-list">

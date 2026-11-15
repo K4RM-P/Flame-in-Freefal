@@ -8,7 +8,7 @@ for (const width of [390, 1440]) {
 
     for (const theme of ["dark", "light"] as const) {
       await page.goto("/evidence");
-      if (theme === "light") await page.getByRole("button", { name: "Toggle theme" }).click();
+      await page.getByRole("combobox", { name: "Theme", exact: true }).selectOption(theme);
       await expect(page.locator("html")).toHaveAttribute("data-theme", theme);
       await page.reload();
       await expect(page.locator("html")).toHaveAttribute("data-theme", theme);

@@ -14,7 +14,12 @@ export const metadata: Metadata = {
   description: "NASA PSI evidence and transparent spacecraft fire-safety simulation.",
 };
 
-const themeBootstrap = "try{document.documentElement.dataset.theme=JSON.parse(localStorage.getItem('ea.theme'))==='light'?'light':'dark'}catch{}";
+const themeBootstrap = `(() => {
+  let saved;
+  try { saved = JSON.parse(localStorage.getItem("ea.theme")); } catch {}
+  document.documentElement.dataset.theme = saved === "dark" || saved === "light"
+    ? saved : matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+})();`;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
