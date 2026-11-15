@@ -127,7 +127,7 @@ function streamAster(question: string, context: z.infer<typeof requestSchema>["c
     if (offline && structured) { emit({ type: "error", error: "OpenAI is unavailable for context questions. Clear the context to search the NASA catalog." }); return; }
     if (offline) emit({ type: "token", text });
     const k = numbersIn(text).length;
-    const g = await step(emit, "guard", `Checking ${k} number${k === 1 ? "" : "s"} against the sources…`, () => guard(text, pool, question), (r) => (r.ok ? `${k} numbers checked ✓` : `Removed ${r.unsupported.length} unsupported number(s)`));
+    const g = await step(emit, "guard", `Checking ${k} number${k === 1 ? "" : "s"} against the sources…`, () => guard(text, pool, question), (r) => (r.ok ? `${k} numbers checked` : `Removed ${r.unsupported.length} unsupported number(s)`));
     if (!g.ok) { text = stripUnsupported(text, pool, question); emit({ type: "replace", text }); }
     const cited = [...new Set(text.match(/PSI-\d+/g) ?? [])].filter((id) => !sources.length || sources.some((x) => x.id === id));
     if (cited.length) await step(emit, "cite", `Citing ${cited.join(", ")}…`, () => cited, () => `Cited ${cited.join(", ")}`);

@@ -4,37 +4,64 @@
 // steps only), streamed answer with number + citation chips, guard badge and offline chip.
 import { useCallback, useRef, useState, type ReactNode } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { Check, ShieldCheck, ShieldAlert } from "lucide-react";
+import { ShieldCheck, ShieldAlert } from "lucide-react";
 import { emptyRun, readEvents, reduceRun, type AiEvent, type AiRun, type Trail } from "@/lib/ai/stream";
 import { cn } from "@/lib/utils";
 
 export type OrbState = "idle" | "thinking" | "speaking" | "offline";
+/** The AI mark: a four-point star (no orb). It turns and breathes in warm light while the AI thinks. */
 export function Orb({ state, size = 14, className }: { state: OrbState; size?: number; className?: string }) {
-  return <span aria-hidden data-orb={state} data-state={state} className={cn("ai-orb", className)} style={{ width: size, height: size }}><span className="ai-orb__spark" /><span className="ai-orb__spark" /></span>;
+  return (
+    <svg aria-hidden data-orb={state} data-state={state} className={cn("ai-mark", className)} width={size} height={size} viewBox="0 0 24 24">
+      <path fill="currentColor" d="M12 1.5c.5 4.6 2 7.9 4.3 9.6 1.5 1.1 3.6 1.7 6.2 1.9-2.6.2-4.7.8-6.2 1.9-2.3 1.7-3.8 5-4.3 9.6-.5-4.6-2-7.9-4.3-9.6-1.5-1.1-3.6-1.7-6.2-1.9 2.6-.2 4.7-.8 6.2-1.9C10 9.4 11.5 6.1 12 1.5Z" />
+    </svg>
+  );
 }
-export const orbOf = (run: AiRun | null): OrbState => (!run ? "idle" : run.error || run.done?.offline ? "offline" : run.streaming ? (run.text ? "speaking" : "thinking") : "speaking");
+export const orbOf = (run: AiRun | null): OrbState => (!run ? "idle" : run.error || run.done?.offline ? "offline" : run.streaming ? "thinking" : "speaking");
 
-/** Glass panel with the rotating gradient edge; it spins only while the AI is working. */
+/** Liquid-glass AI surface: hairline warm ring that turns + blooms while thinking, flow line on top. */
 export function AiGlow({ thinking, children, className, testid }: { thinking: boolean; children: ReactNode; className?: string; testid?: string }) {
-  return <div className={cn("ai-glow rounded-lg", className)} data-thinking={thinking} data-testid={testid}><div className="ai-glow__inner p-3">{children}</div></div>;
+  return (
+    <div className={cn("ai-glow", className)} data-thinking={thinking} data-testid={testid}>
+      <div className="ai-glow__inner glass overflow-hidden">
+        <div className="ai-flow" data-on={thinking} aria-hidden />
+        <div className="p-3.5">{children}</div>
+      </div>
+    </div>
+  );
 }
 
 export function OfflineChip({ on }: { on: boolean }) {
   if (!on) return null;
-  return <span className="ea-pill" data-testid="offline-chip" title="No OpenAI key or the API failed: deterministic engine/catalog answer">offline mode</span>;
+  return <span className="rounded-full border border-line px-2 py-0.5 text-[11px] text-faint" data-testid="offline-chip" title="No OpenAI key or the API failed: deterministic engine/catalog answer">Offline</span>;
+}
+
+/** Pill composer with a round send button (Aster, analyst). */
+export function Composer({ value, onChange, onSubmit, placeholder, disabled, busy, label, testid }: { value: string; onChange: (v: string) => void; onSubmit: () => void; placeholder: string; disabled?: boolean; busy?: boolean; label: string; testid?: string }) {
+  return (
+    <form className="ai-composer" onSubmit={(e) => { e.preventDefault(); if (value.trim() && !busy) onSubmit(); }} data-testid={testid}>
+      <input type="text" aria-label={label} placeholder={placeholder} value={value} maxLength={800} disabled={disabled} onChange={(e) => onChange(e.target.value)} />
+      <button type="submit" className="ai-send" aria-label="Send" disabled={disabled || busy || !value.trim()}>
+        {busy ? <span className="ai-arc" style={{ width: 14, height: 14 }} /> : <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden><path d="M12 19V5M5 12l7-7 7 7" /></svg>}
+      </button>
+    </form>
+  );
 }
 
 export function ThinkingTrail({ steps }: { steps: Trail[] }) {
   const reduce = useReducedMotion();
   if (!steps.length) return null;
   return (
-    <ol className="space-y-1 text-[12px]" aria-label="What the AI is doing" data-testid="thinking-trail">
+    <ol className="space-y-1.5 text-[12.5px]" aria-label="What the AI is doing" data-testid="thinking-trail">
       <AnimatePresence initial={false}>
         {steps.map((s) => (
           <motion.li key={s.id} className="flex items-center gap-2" data-step={s.id} data-status={s.status}
             initial={reduce ? false : { opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }} transition={{ type: "spring", stiffness: 380, damping: 30 }}>
-            {s.status === "done" ? <Check size={12} strokeWidth={2} className="text-ok" aria-label="done" /> : <Orb state="thinking" size={9} />}
-            <span className={s.status === "active" ? "ai-shimmer" : "text-mute"}>{s.label}</span>
+            {s.status === "done"
+              ? <svg width="12" height="12" viewBox="0 0 24 24" aria-label="done" className="flex-none text-ember"><motion.path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"
+                  initial={reduce ? false : { pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 0.35, ease: [0.2, 0.8, 0.2, 1] }} /></svg>
+              : <span className="ai-arc" aria-hidden />}
+            <span className={s.status === "active" ? "ai-shimmer" : "text-faint"}>{s.label}</span>
           </motion.li>
         ))}
       </AnimatePresence>
@@ -44,12 +71,12 @@ export function ThinkingTrail({ steps }: { steps: Trail[] }) {
 
 export function Cites({ ids }: { ids?: string[] }) {
   if (!ids?.length) return null;
-  return <div className="flex flex-wrap gap-1.5" data-testid="cites">{ids.map((c) => <a key={c} href={`/evidence#${c.toLowerCase()}`} className="ea-pill hover:text-ink" data-tone="ember">{c}</a>)}</div>;
+  return <div className="flex flex-wrap gap-1.5" data-testid="cites">{ids.map((c) => <a key={c} href={`/evidence#${c.toLowerCase()}`} className="ai-chip !px-2.5 !py-0.5 font-mono !text-[11px]">{c}</a>)}</div>;
 }
 
 export function GuardBadge({ ok, stripped }: { ok: boolean; stripped?: boolean }) {
   return ok && !stripped
-    ? <p className="flex items-center gap-1.5 text-[12px] text-ok" data-testid="guard"><ShieldCheck size={13} strokeWidth={1.5} />Numbers checked against the engine ✓</p>
+    ? <p className="flex items-center gap-1.5 text-[11.5px] text-faint" data-testid="guard"><ShieldCheck size={13} strokeWidth={1.5} className="text-ok" />Every number checked against the engine</p>
     : <p className="flex items-center gap-1.5 text-[12px] text-warn" data-testid="guard"><ShieldAlert size={13} strokeWidth={1.5} />Unsupported numbers removed</p>;
 }
 
@@ -76,7 +103,7 @@ export function NumberText({ text, engine = [], onHot }: { text: string; engine?
 /** Streamed answer: chunks fade in while streaming; once done, numbers become chips. */
 export function StreamAnswer({ run, engine, onHot }: { run: AiRun; engine?: EngineValue[]; onHot?: (l: string | null) => void }) {
   if (run.error && !run.text) return <p className="text-[13px] text-warn" role="status">{run.error}</p>;
-  if (run.streaming && !run.text) return <div className="space-y-1.5" aria-busy="true" data-testid="answer-skeleton"><div className="h-3 w-5/6 animate-pulse rounded bg-surface2" /><div className="h-3 w-2/3 animate-pulse rounded bg-surface2" /><div className="h-3 w-3/4 animate-pulse rounded bg-surface2" /></div>;
+  if (run.streaming && !run.text) return <div className="space-y-2 pt-1" aria-busy="true" data-testid="answer-skeleton">{["92%", "78%", "60%"].map((w) => <div key={w} className="ai-skel h-2.5 rounded-full" style={{ width: w }} />)}</div>;
   return (
     <p className="measure whitespace-pre-line text-[14px] leading-relaxed" data-testid="ai-answer">
       {run.streaming ? run.chunks.map((c, i) => <span key={i} className="ai-fade">{c}</span>) : <NumberText text={run.text} engine={engine} onHot={onHot} />}

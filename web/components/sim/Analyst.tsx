@@ -10,8 +10,7 @@ import { parseWhatIf, suggestQuestions, whatIfAnswer, whatIfFacts } from "@/lib/
 import { nextTest } from "@/lib/sim/nextTest";
 import { runInWorker } from "@/lib/sim/runInWorker";
 import type { Scenario, SimResult } from "@/lib/sim/types";
-import { Button } from "@/components/ui/button";
-import { AiGlow, Cites, GuardBadge, OfflineChip, Orb, StreamAnswer, ThinkingTrail, orbOf, type EngineValue } from "@/components/ai/kit";
+import { AiGlow, Cites, Composer, GuardBadge, OfflineChip, Orb, StreamAnswer, ThinkingTrail, orbOf, type EngineValue } from "@/components/ai/kit";
 import { DesignReview } from "./DesignReview";
 import { compact, evidenceForAI, MC_N } from "./bits";
 import { useSim, type ChatMsg } from "./store";
@@ -75,11 +74,11 @@ export function Briefing() {
   const g = d.guard as { ok?: boolean; stripped?: boolean } | undefined;
   return (
     <AiGlow thinking={brief.streaming} testid="briefing">
-      <div className="mb-2 flex items-center gap-2"><Orb state={orbOf(brief)} /><p className="ea-meta ai-iris flex-1">Briefing</p><OfflineChip on={!!d.offline} /></div>
+      <div className="mb-2.5 flex items-center gap-2"><Orb state={orbOf(brief)} size={14} /><p className="flex-1 text-[13px] font-semibold">Briefing</p><OfflineChip on={!!d.offline} /></div>
       <ThinkingTrail steps={brief.steps} />
       <div className="mt-2"><StreamAnswer run={brief} engine={engine} onHot={setHot} /></div>
       {!brief.streaming && engine.length > 0 && <ul className="mt-2 grid grid-cols-2 gap-x-3 text-[12px]" aria-label="Engine values">
-        {engine.slice(0, 6).map((e) => <li key={e.label} data-hot={hot === e.label} className={`num rounded px-1 transition-colors ${hot === e.label ? "bg-surface2 text-ink" : "text-faint"}`}>{e.label}: {+e.value.toPrecision(4)} {e.units}</li>)}
+        {engine.slice(0, 6).map((e) => <li key={e.label} data-hot={hot === e.label} className={`num rounded-md px-1.5 py-0.5 transition-colors ${hot === e.label ? "bg-ember/15 text-ink" : "text-faint"}`}>{e.label}: {+e.value.toPrecision(4)} {e.units}</li>)}
       </ul>}
       {!brief.streaming && <div className="mt-2 space-y-1.5"><Cites ids={d.citations as string[] | undefined} />{g && <GuardBadge ok={!!g.ok} stripped={g.stripped} />}</div>}
     </AiGlow>
@@ -90,26 +89,26 @@ function Chat() {
   const { chat, a, ra } = useSim();
   const engine = useMemo(() => engineValues(ra), [ra]);
   return <div className="space-y-3">{chat.map((m, i) => m.role === "user"
-    ? <p key={i} className="ml-8 rounded-lg border border-line bg-bg p-2.5 text-[13px]">{m.text}</p>
+    ? <p key={i} className="ml-auto w-fit max-w-[85%] rounded-[18px] rounded-br-md bg-ember/15 px-3.5 py-2 text-[13px] text-ink">{m.text}</p>
     : <AiGlow key={i} thinking={!!m.run?.streaming}>
-        <div className="mb-1 flex items-center gap-2"><Orb state={orbOf(m.run ?? null)} size={12} /><span className="flex-1" /><OfflineChip on={!!m.run?.done?.offline} /></div>
+        <div className="mb-1.5 flex items-center gap-2"><Orb state={orbOf(m.run ?? null)} size={12} /><span className="flex-1" /><OfflineChip on={!!m.run?.done?.offline} /></div>
         {m.run ? <><ThinkingTrail steps={m.run.steps} /><div className="mt-1.5"><StreamAnswer run={m.run} engine={engine} /></div>
           {!m.run.streaming && !m.run.error && <div className="mt-1.5 space-y-1.5"><Cites ids={m.citations} /><GuardBadge ok={(m.run.done?.guard as { ok?: boolean } | undefined)?.ok !== false} /></div>}</>
           : <p className="text-[13px]">{m.text}</p>}
-        {m.whatIf && a && <Button size="sm" variant="secondary" className="mt-2 h-7" data-testid="open-as-b" onClick={() => void openAsB(m.whatIf!)}>Open as scenario B</Button>}
+        {m.whatIf && a && <button type="button" className="ai-chip mt-2.5" data-testid="open-as-b" onClick={() => void openAsB(m.whatIf!)}>Open as scenario B →</button>}
       </AiGlow>)}</div>;
 }
 
 function NextTestCard({ sc, r }: { sc: Scenario; r: SimResult }) {
   const nt = useMemo(() => nextTest(sc, r), [sc, r]);
   const [copied, setCopied] = useState(false);
-  if (!nt) return <section className="rounded-lg border border-line p-3 text-[13px] text-mute" data-testid="next-test-card">Next test: inside the tested envelope, no new test needed for this scenario.</section>;
+  if (!nt) return <section className="glass rounded-[18px] p-3.5 text-[13px] text-mute" data-testid="next-test-card">Next test: inside the tested envelope, no new test needed for this scenario.</section>;
   const spec = JSON.stringify({ next_test: nt, scenario: { name: sc.name, cabin: sc.cabin, items: sc.items, detection: sc.detection, suppression: sc.suppression } }, null, 2);
   return (
-    <section className="space-y-1.5 rounded-lg border border-line p-3 text-[13px]" data-testid="next-test-card">
-      <p className="ea-meta">The next test to fly</p>
+    <section className="glass space-y-2 rounded-[18px] p-3.5 text-[13px]" data-testid="next-test-card">
+      <p className="ai-label">The next test to fly</p>
       <p className="font-medium">{nt.condition}</p><p className="text-mute">{nt.reason}</p>
-      <Button size="sm" variant="secondary" className="h-7" onClick={() => { void navigator.clipboard?.writeText(spec).then(() => setCopied(true)).catch(() => setCopied(false)); }}>{copied ? "Copied ✓" : "Copy test spec"}</Button>
+      <button type="button" className="ai-chip" onClick={() => { void navigator.clipboard?.writeText(spec).then(() => setCopied(true)).catch(() => setCopied(false)); }}>{copied ? "Copied ✓" : "Copy test spec"}</button>
     </section>
   );
 }
@@ -124,12 +123,9 @@ export function Analyst() {
       <Briefing />
       {ra && <DesignReview sc={a} r={ra} label={b ? "A" : null} />}
       <Chat />
-      {ra && <div className="space-y-1.5"><p className="ea-meta">Ask anything</p>
-        {sugg.map((s) => <button key={s} type="button" disabled={asking} data-testid="suggested-q" className="block w-full rounded-lg border border-line px-3 py-2 text-left text-[13px] text-mute transition-colors hover:border-faint/50 hover:text-ink disabled:opacity-50" onClick={() => void askAnalyst(s)}>{s}</button>)}
-        <form className="flex gap-2 pt-1" onSubmit={(e) => { e.preventDefault(); const t = q.trim(); if (t) { setQ(""); void askAnalyst(t); } }}>
-          <input type="text" className="min-w-0 flex-1" aria-label="Question for the AI" placeholder="Ask, or try “what if O₂ were 25 %?”" value={q} maxLength={800} onChange={(e) => setQ(e.target.value)} />
-          <Button size="sm" className="h-8" disabled={asking || !q.trim()}>Ask</Button>
-        </form>
+      {ra && <div className="space-y-2"><p className="ai-label">Ask anything</p>
+        {sugg.map((s) => <button key={s} type="button" disabled={asking} data-testid="suggested-q" className="ai-chip w-full justify-start text-left disabled:opacity-50" onClick={() => void askAnalyst(s)}>{s}</button>)}
+        <div className="pt-1"><Composer value={q} onChange={setQ} busy={asking} onSubmit={() => { const t = q.trim(); setQ(""); void askAnalyst(t); }} placeholder="Ask, or try “what if O₂ were 25 %?”" label="Question for the AI" /></div>
       </div>}
       {ra && <NextTestCard sc={b && rb ? b : a} r={b && rb ? rb : ra} />}
     </div>
@@ -144,7 +140,7 @@ export function OrbTab() {
   const ready = !!brief && !brief.streaming && !briefSeen;
   return (
     <motion.button type="button" data-testid="ask-ai" aria-label={ready ? "Briefing ready: open the AI analyst" : "Open the AI analyst"}
-      className={`absolute right-0 top-1/3 z-30 flex flex-col items-center gap-1.5 rounded-l-lg border border-r-0 border-line bg-panel/90 px-2 py-3 text-[11px] text-mute backdrop-blur ${ready ? "ai-pulse-once" : ""}`}
+      className={`glass absolute right-3 top-1/3 z-30 flex flex-col items-center gap-2 rounded-full px-2 py-3.5 text-[11px] font-medium text-mute transition-transform hover:-translate-x-0.5 ${ready ? "ai-pulse-once text-ink" : ""}`}
       initial={reduce ? false : { x: 24, opacity: 0 }} animate={{ x: 0, opacity: 1 }} onClick={() => set({ drawer: "ai", briefSeen: true })}>
       <Orb state={orbOf(brief)} size={16} /><span className="[writing-mode:vertical-rl]">{ready ? "Briefing ready" : brief?.streaming ? "Thinking…" : "AI analyst"}</span>
     </motion.button>

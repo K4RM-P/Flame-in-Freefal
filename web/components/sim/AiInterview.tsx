@@ -11,7 +11,7 @@ import type { Trail } from "@/lib/ai/stream";
 import { applyNoFireFix, noFireReason } from "@/lib/sim/noFire";
 import type { Scenario } from "@/lib/sim/types";
 import { Button } from "@/components/ui/button";
-import { AiGlow, OfflineChip, Orb, ThinkingTrail } from "@/components/ai/kit";
+import { AiGlow, Composer, OfflineChip, Orb, ThinkingTrail } from "@/components/ai/kit";
 import { runAll } from "./bits";
 import { materialByKey } from "./data";
 import { useSim } from "./store";
@@ -40,7 +40,7 @@ const TONE: Record<FieldTag["source"], string> = { nasa: "text-ok", user: "text-
 
 export function BuildWithAiButton({ className = "", large = false }: { className?: string; large?: boolean }) {
   const setAi = useAi((s) => s.set);
-  return <Button size={large ? "default" : "sm"} className={`btn-accent ai-pill gap-2 ${large ? "h-11 px-5 text-[15px]" : "h-8"} ${className}`} data-testid="build-ai" onClick={() => setAi({ open: true })}><Orb state="idle" size={large ? 16 : 12} /><span>✦ Build with AI</span></Button>;
+  return <button type="button" className={`ai-cta ${className}`} data-size={large ? "lg" : undefined} data-testid="build-ai" onClick={() => setAi({ open: true })}><span className="ai-star" aria-hidden>✦</span>Build with AI</button>;
 }
 
 /** Re-build the draft from the answers on the client (same pure builder as the server; no request, no AI). */
@@ -132,60 +132,59 @@ export function AiInterview() {
   const at = step === "prompt" ? 0 : step === "ask" ? qi + 1 : qs.length + 1;
   return (
     <AnimatePresence>
-      {open && <motion.div key="ai-interview" className="fixed inset-0 z-50 grid place-items-center bg-bg/70 p-4 backdrop-blur-md" role="dialog" aria-modal="true" aria-label="Build with AI" data-testid="ai-interview"
+      {open && <motion.div key="ai-interview" className="fixed inset-0 z-50 grid place-items-center bg-bg/55 p-4 backdrop-blur-xl" role="dialog" aria-modal="true" aria-label="Build with AI" data-testid="ai-interview"
         initial={reduce ? false : { opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0, transition: { duration: 0.28 } }}>
         <div className="ai-screen-edge" data-on={busy} aria-hidden data-testid="ai-screen-edge" />
         <motion.div layoutId="ai-sheet" className="w-full max-w-3xl" initial={reduce ? false : { scale: 0.96, y: 12 }} animate={{ scale: 1, y: 0 }} exit={reduce ? { opacity: 0 } : { scale: 0.7, y: 90, opacity: 0, transition: { duration: 0.28, ease: [0.4, 0, 1, 1] } }} transition={{ type: "spring", stiffness: 260, damping: 28 }}>
-          <AiGlow thinking={busy} className="shadow-2xl">
-            <div className="grid gap-4 p-2 md:grid-cols-[1fr_250px]">
-              <div className="space-y-3">
+          <AiGlow thinking={busy} className="rounded-[22px]">
+            <div className="grid gap-6 p-2 md:grid-cols-[1fr_240px]">
+              <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <h2 className="flex items-center gap-2 text-[16px] font-medium"><Orb state={busy ? "thinking" : offline ? "offline" : "speaking"} size={18} /> <span className="ai-iris font-semibold">AI fire engineer</span></h2>
-                  <div className="flex items-center gap-2"><OfflineChip on={offline} /><button type="button" className="text-faint hover:text-ink" aria-label="Close" onClick={close}>✕</button></div>
+                  <h2 className="flex items-center gap-2 text-[15px] font-semibold tracking-[-0.01em]"><Orb state={busy ? "thinking" : offline ? "offline" : "speaking"} size={16} />AI fire engineer</h2>
+                  <div className="flex items-center gap-2"><OfflineChip on={offline} /><button type="button" className="grid h-7 w-7 place-items-center rounded-full text-faint transition-colors hover:bg-surface2 hover:text-ink" aria-label="Close" onClick={close}>✕</button></div>
                 </div>
-                <div className="flex gap-1.5" aria-label={`Step ${at + 1} of ${dots.length}`} data-testid="ai-progress">{dots.map((k, i) => <span key={k + i} className={`h-1.5 rounded-full transition-all ${i === at ? "w-4 bg-ember" : i < at ? "w-1.5 bg-ember/60" : "w-1.5 bg-line"}`} />)}</div>
+                <div className="ai-steps" aria-label={`Step ${at + 1} of ${dots.length}`} data-testid="ai-progress">{dots.map((k, i) => <span key={k + i} data-done={i <= at} />)}</div>
                 <ThinkingTrail steps={trail} />
                 {step === "prompt" && <>
-                  <label htmlFor="ai-prompt" className="block text-[14px]">Describe the spacecraft and what might catch fire.</label>
-                  <textarea id="ai-prompt" rows={3} className="w-full" value={text} onChange={(e) => setText(e.target.value)} data-testid="ai-prompt" placeholder="e.g. Moon base at 34% oxygen, a SIBAL curtain near an overheated wire" />
-                  <div className="flex flex-wrap gap-1.5">{EXAMPLES.map(([l, t]) => <button key={l} type="button" className="btn text-[12px]" onClick={() => setText(t)}>{l}</button>)}</div>
-                  <Button size="sm" disabled={busy || text.trim().length < 3} onClick={() => void start()} data-testid="ai-next">{busy ? "Reading…" : "Next"}</Button>
+                  <label htmlFor="ai-prompt" className="block text-[20px] font-semibold tracking-[-0.015em]">Describe the spacecraft and what might catch fire.</label>
+                  <textarea id="ai-prompt" rows={3} className="ai-field" autoFocus value={text} onChange={(e) => setText(e.target.value)} data-testid="ai-prompt" placeholder="e.g. Moon base at 34% oxygen, a SIBAL curtain near an overheated wire" />
+                  <div className="flex flex-wrap gap-1.5">{EXAMPLES.map(([l, t]) => <button key={l} type="button" className="ai-chip" onClick={() => setText(t)}>{l}</button>)}</div>
+                  <button type="button" className="ai-primary" disabled={busy || text.trim().length < 3} onClick={() => void start()} data-testid="ai-next">{busy ? "Reading…" : "Continue"}</button>
                 </>}
-                {step === "ask" && qs[qi] && <motion.div key={qs[qi].id} className="space-y-2 rounded-lg border border-line p-3" data-testid="ai-question" initial={reduce ? false : { opacity: 0, x: 12 }} animate={{ opacity: 1, x: 0 }}>
-                  <p className="text-[14px] font-medium">{qs[qi].question}</p>
-                  <div className="flex flex-wrap gap-1.5">{qs[qi].options.map((o) => <button key={o.value} type="button" className="btn text-[13px]" data-testid="ai-option" onClick={() => void answer(qs[qi], o.value)}>
-                    {o.label}{o.badge && <span className={`ml-1.5 text-[11px] ${o.badge === "NASA-tested" ? "text-ok" : "text-faint"}`}>{o.badge}</span>}</button>)}
-                    {qs[qi].allowOther && other === null && <button type="button" className="btn text-[13px] text-mute" onClick={() => setOther("")}>Other…</button>}</div>
-                  {other !== null && <form className="flex gap-2" onSubmit={(e) => { e.preventDefault(); if (other.trim()) void answerOther(qs[qi], other.trim()); }}>
-                    <input autoFocus className="min-w-0 flex-1" value={other} onChange={(e) => setOther(e.target.value)} aria-label="Other answer" /><Button size="sm" className="h-8">Use</Button></form>}
+                {step === "ask" && qs[qi] && <motion.div key={qs[qi].id} className="space-y-3" data-testid="ai-question" initial={reduce ? false : { opacity: 0, x: 12 }} animate={{ opacity: 1, x: 0 }}>
+                  <p className="text-[20px] font-semibold tracking-[-0.015em]">{qs[qi].question}</p>
+                  <div className="flex flex-wrap gap-1.5">{qs[qi].options.map((o) => <button key={o.value} type="button" className="ai-chip" data-testid="ai-option" onClick={() => void answer(qs[qi], o.value)}>
+                    {o.label}{o.badge && <span className="ai-chip__badge" data-tone={o.badge === "NASA-tested" ? "ok" : undefined}>{o.badge}</span>}</button>)}
+                    {qs[qi].allowOther && other === null && <button type="button" className="ai-chip text-mute" onClick={() => setOther("")}>Other…</button>}</div>
+                  {other !== null && <Composer value={other} onChange={setOther} onSubmit={() => void answerOther(qs[qi], other.trim())} placeholder="Say it in your own words…" label="Other answer" />}
                 </motion.div>}
                 {step === "review" && draft && <div className="space-y-2" data-testid="ai-review">
-                  <p className="text-[14px] font-medium">Review every field and its source.</p>
-                  <ul className="max-h-52 space-y-1 overflow-auto text-[12px]">{Object.entries(draft.fields).map(([k, f]) => <li key={k} className="flex gap-2"><span className={`w-24 shrink-0 ${TONE[f.source]}`}>{SRC[f.source]}</span><span className="num text-faint">{k}</span><span className="text-mute">{f.note}</span></li>)}</ul>
+                  <p className="text-[20px] font-semibold tracking-[-0.015em]">Ready to ignite?</p><p className="text-[13px] text-mute">Every field and where it came from.</p>
+                  <ul className="max-h-52 divide-y divide-line/60 overflow-auto rounded-xl border border-line/70 text-[12px]">{Object.entries(draft.fields).map(([k, f]) => <li key={k} className="flex items-baseline gap-2 px-3 py-1.5"><span className={`w-24 shrink-0 ${TONE[f.source]}`}>{SRC[f.source]}</span><span className="text-mute">{f.note}</span></li>)}</ul>
                   {draft.rejected.map((r, i) => <p key={i} className="text-[12px] text-warn">✕ {r.reason}</p>)}
                   {draft.notes.map((n, i) => <p key={i} className="text-[12px] text-mute">• {n}</p>)}
-                  {assumptions.length > 0 && <label className="flex items-center gap-2 text-[13px] text-warn"><input type="checkbox" checked={confirmed} onChange={(e) => setConfirmed(e.target.checked)} data-testid="ai-confirm" />I confirm the {assumptions.length} AI assumption{assumptions.length === 1 ? "" : "s"} (edit them after in the setup panel)</label>}
+                  {assumptions.length > 0 && <label className="flex items-center gap-2 text-[13px] text-warn"><input type="checkbox" className="accent-[rgb(var(--ember))]" checked={confirmed} onChange={(e) => setConfirmed(e.target.checked)} data-testid="ai-confirm" />I confirm the {assumptions.length} AI assumption{assumptions.length === 1 ? "" : "s"} (edit them after in the setup panel)</label>}
                   <div className="flex gap-2">
-                    <Button size="sm" className="btn-accent" disabled={busy || (assumptions.length > 0 && !confirmed)} onClick={() => void ignite()} data-testid="ai-ignite">Ignite simulation</Button>
-                    <Button size="sm" variant="secondary" onClick={() => { setStep("prompt"); setTrail([]); }}>Edit description</Button>
+                    <button type="button" className="ai-primary" disabled={busy || (assumptions.length > 0 && !confirmed)} onClick={() => void ignite()} data-testid="ai-ignite">Ignite simulation</button>
+                    <button type="button" className="ai-chip" onClick={() => { setStep("prompt"); setTrail([]); }}>Edit description</button>
                   </div>
                 </div>}
                 {err && <p className="text-[13px] text-warn" role="alert">{err}</p>}
               </div>
-              <aside className="space-y-2 border-l border-line pl-4 text-[12px]" aria-label="Live draft" data-testid="ai-schematic">
-                <p className="ea-meta">Live draft</p>
+              <aside className="space-y-3 rounded-2xl bg-bg/35 p-3.5 text-[12px] ring-1 ring-inset ring-line/60" aria-label="Live draft" data-testid="ai-schematic">
+                <p className="ai-label">Live draft</p>
                 {sc ? <>
                   <div className="flex flex-wrap gap-1">{([["cabin.x_o2", `O₂ ${(sc.cabin.x_o2 * 100).toFixed(1)} %`], ["cabin.P_Pa", `${(sc.cabin.P_Pa / 1e3).toFixed(1)} kPa`], ["cabin.gravity_g", `${sc.cabin.gravity_g} g`]] as const).map(([k, l]) =>
                     <motion.span key={k + l} initial={reduce ? false : { opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} title={draft?.fields[k] ? `${SRC[draft.fields[k].source]}: ${draft.fields[k].note}` : undefined}
-                      className={`num rounded-md border px-1.5 py-0.5 ${draft?.fields[k]?.source === "assumption" ? "border-warn/60 text-warn" : "border-line"}`}>{l}</motion.span>)}</div>
-                  <div className="relative h-28 overflow-hidden rounded-lg border border-line bg-bg">
+                      className={`num rounded-full border px-2 py-0.5 ${draft?.fields[k]?.source === "assumption" ? "border-warn/50 text-warn" : "border-line text-ink"}`}>{l}</motion.span>)}</div>
+                  <div className="relative h-28 overflow-hidden rounded-xl bg-bg/60 ring-1 ring-inset ring-line/60">
                     <div className="absolute inset-x-3 bottom-3 top-3 rounded-[40px] border border-line/70" aria-hidden />
-                    <AnimatePresence>{sc.items.map((it, i) => <motion.span key={it.id} layout className="absolute rounded-md border border-line bg-surface2 px-1.5 py-0.5" style={{ left: 16 + (i % 2) * 104, top: 26 + Math.floor(i / 2) * 30 }}
+                    <AnimatePresence>{sc.items.map((it, i) => <motion.span key={it.id} layout className="absolute rounded-full border border-line bg-panel/80 px-2 py-0.5 backdrop-blur" style={{ left: 16 + (i % 2) * 104, top: 26 + Math.floor(i / 2) * 30 }}
                       initial={reduce ? false : { opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
-                      {materialByKey(it.material_key)?.display_name ?? it.material_key}{it.ignite && <span className="ml-1.5 inline-block h-2 w-2 animate-pulse rounded-full bg-ember align-middle motion-reduce:animate-none" aria-label="ignition point" />}</motion.span>)}</AnimatePresence>
+                      {materialByKey(it.material_key)?.display_name ?? it.material_key}{it.ignite && <span className="relative ml-1.5 inline-flex h-2 w-2 align-middle" aria-label="ignition point"><span className="absolute inset-0 animate-ping rounded-full bg-ember/70 motion-reduce:animate-none" /><span className="relative h-2 w-2 rounded-full bg-ember" /></span>}</motion.span>)}</AnimatePresence>
                     {!sc.items.length && <span className="absolute inset-0 grid place-items-center text-faint">no items yet</span>}
                   </div>
-                  <p className="text-faint"><span className="text-ok">●</span> NASA-cited <span className="ml-1 text-blue">●</span> you said <span className="ml-1 text-warn">●</span> assumption</p>
+                  <p className="flex flex-wrap gap-x-2.5 gap-y-1 text-faint"><span><span className="text-ok">●</span> NASA-cited</span><span><span className="text-blue">●</span> you said</span><span><span className="text-warn">●</span> assumption</span></p>
                 </> : <p className="text-faint">Fills in as you answer.</p>}
               </aside>
             </div>
@@ -207,10 +206,10 @@ export function NoFireCard() {
   if (!nf || (!hasRun && (nf.reason === "no_ignition" || nf.reason === "too_little_oxygen"))) return null;
   return (
     <div className="absolute inset-0 z-20 grid place-items-center bg-bg/60 backdrop-grayscale" data-testid="no-fire">
-      <motion.div className="max-w-sm space-y-2 rounded-lg border border-line bg-panel p-4" initial={reduce ? false : { opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}>
-        <p className="text-[16px] font-medium" data-testid="no-fire-title"><span className="text-mute">✕</span> {nf.title}</p>
+      <motion.div className="glass max-w-sm space-y-2.5 rounded-[20px] p-5" initial={reduce ? false : { opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}>
+        <p className="text-[17px] font-semibold tracking-[-0.01em]" data-testid="no-fire-title"><span className="text-mute">✕</span> {nf.title}</p>
         <p className="text-[13px] text-mute">{nf.detail}</p>
-        {nf.fix && <Button size="sm" data-testid="no-fire-fix" onClick={() => { useAi.getState().set({ rejected: [] }); void igniteScenario(applyNoFireFix(a, nf.fix!)); }}>{nf.fix.label}</Button>}
+        {nf.fix && <button type="button" className="ai-primary" data-testid="no-fire-fix" onClick={() => { useAi.getState().set({ rejected: [] }); void igniteScenario(applyNoFireFix(a, nf.fix!)); }}>{nf.fix.label}</button>}
       </motion.div>
     </div>
   );

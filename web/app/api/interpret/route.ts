@@ -57,7 +57,7 @@ function streamed(data: Parameters<typeof buildFacts>[0], client: ReturnType<typ
       emit({ type: "token", text });
     }
     const k = numbersIn(text).length;
-    const chk = await step(emit, "guard", `Checking ${k} number${k === 1 ? "" : "s"} against the engine…`, () => checkAnswer(text, facts), (c) => (c.ok ? `${k} numbers checked ✓` : `Removed ${c.unsupported.length + c.unknown_ids.length} unsupported claim(s)`));
+    const chk = await step(emit, "guard", `Checking ${k} number${k === 1 ? "" : "s"} against the engine…`, () => checkAnswer(text, facts), (c) => (c.ok ? `${k} numbers checked` : `Removed ${c.unsupported.length + c.unknown_ids.length} unsupported claim(s)`));
     let stripped = false;
     if (!chk.ok) { text = stripAnswer(text, facts); stripped = true; emit({ type: "replace", text }); }
     const citations = citationCheck(text, facts.evidence).citations;

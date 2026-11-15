@@ -106,14 +106,14 @@ export function Aster() {
     <div data-noprint>
       <button ref={launcher} type="button" className="ea-aster-launcher" data-compact={path === "/simulator" || undefined} aria-label="Ask Aster"
         aria-haspopup="dialog" aria-controls="aster-dialog" onClick={() => dialog.current?.showModal()}>
-        <span className="ea-aster-launcher__icon"><Orb state={busy ? "thinking" : "idle"} size={16} /></span><span>Ask Aster</span><span className="ea-aster-launcher__dot" aria-hidden />
+        <span className="ea-aster-launcher__icon"><Orb state={busy ? "thinking" : "speaking"} size={14} /></span><span>Ask Aster</span><span className="ea-aster-launcher__dot" aria-hidden />
       </button>
       <dialog id="aster-dialog" ref={dialog} aria-labelledby="aster-title" onClose={() => launcher.current?.focus()}
-        className="ea-aster-dialog fixed inset-y-0 left-auto right-0 m-0 h-[100dvh] max-h-none w-full max-w-none overflow-hidden border-0 border-l border-line bg-panel p-0 text-ink backdrop:bg-black/50 sm:w-[28rem]">
+        className="ea-aster-dialog glass fixed inset-y-0 left-auto right-0 m-0 h-[100dvh] max-h-none w-full max-w-none overflow-hidden border-0 border-l p-0 text-ink backdrop:bg-black/40 backdrop:backdrop-blur-sm sm:w-[28rem]">
         <div className="flex h-full flex-col">
           <header className="flex items-center justify-between gap-3 border-b border-line p-4">
-            <h2 id="aster-title" className="flex items-center gap-2 text-[15px] font-semibold tracking-tight"><Orb state={busy ? "thinking" : thread.at(-1)?.run?.done?.offline ? "offline" : "speaking"} size={16} /> Aster <span className="ea-pill">NASA research</span></h2>
-            <button type="button" className="btn" autoFocus onClick={() => dialog.current?.close()}>Close</button>
+            <h2 id="aster-title" className="flex items-center gap-2 text-[15px] font-semibold tracking-tight"><Orb state={busy ? "thinking" : thread.at(-1)?.run?.done?.offline ? "offline" : "speaking"} size={15} /> Aster <span className="text-[12px] font-normal text-faint">NASA research</span></h2>
+            <button type="button" className="grid h-7 w-7 place-items-center rounded-full text-faint transition-colors hover:bg-surface2 hover:text-ink" aria-label="Close" autoFocus onClick={() => dialog.current?.close()}>✕</button>
           </header>
           {context && <div className="flex items-center justify-between gap-2 border-b border-line px-4 py-2 text-sm">
             <span className="min-w-0 break-words"><strong>Context:</strong> {context.label}</span>
@@ -128,28 +128,28 @@ export function Aster() {
                 {next && <Link className="btn" href={next.href} onClick={() => dialog.current?.close()}>Open {next.label} →</Link>}
               </div>
             </div>}
-            <div className="space-y-2 rounded-md border border-line p-3" data-testid="aster-launch">
-              <p className="label">Simulate it</p>
-              <button type="button" className="btn-accent inline-flex items-center gap-2" data-testid="aster-build" onClick={buildScenario}><Orb state="idle" size={12} />✦ Build this scenario</button>
-              <div className="flex flex-wrap gap-1.5">{PRESET_LINKS.map(([id, label]) => <a key={id} className="btn text-[12px]" href={`/simulator?preset=${id}`}>{label}</a>)}</div>
+            <div className="glass space-y-2.5 rounded-[18px] p-3.5" data-testid="aster-launch">
+              <p className="ai-label">Simulate it</p>
+              <button type="button" className="ai-cta" data-testid="aster-build" onClick={buildScenario}><span className="ai-star" aria-hidden>✦</span>Build this scenario</button>
+              <div className="flex flex-wrap gap-1.5">{PRESET_LINKS.map(([id, label]) => <a key={id} className="ai-chip !py-1 !text-[12px]" href={`/simulator?preset=${id}`}>{label}</a>)}</div>
             </div>
             {!guide && thread.length === 0 && <p className="text-mute">Ask about a NASA fire experiment. Aster searches EmberAtlas’s bundled study catalog.</p>}
             {thread.map(({ question, error, destination, contextLabel, run }, index) => (
               <div key={index} className="space-y-2">
-                <p className="rounded-md border border-line bg-bg p-3"><strong>You</strong> · <span data-no-translate>{question}</span>{contextLabel && <span className="block text-xs text-mute">{contextLabel}</span>}</p>
+                <p className="ml-auto w-fit max-w-[85%] rounded-[18px] rounded-br-md bg-ember/15 px-3.5 py-2"><span data-no-translate>{question}</span>{contextLabel && <span className="block text-xs text-mute">{contextLabel}</span>}</p>
                 {destination && <div className="space-y-2">
                   <p className="text-mute">Ready to open {destination.label}.</p>
                   <Link className="btn-accent" href={destination.href} onClick={() => dialog.current?.close()}>Open {destination.label} →</Link>
                 </div>}
                 {error && <p className="text-warn">{error}</p>}
                 {run && <AiGlow thinking={run.streaming}>
-                  <div className="mb-1 flex items-center gap-2"><Orb state={orbOf(run)} size={12} /><p className="label flex-1">{run.done?.mode === "openai" ? "AI answer" : "Catalog search"}</p><OfflineChip on={!!run.done?.offline} /></div>
+                  <div className="mb-1.5 flex items-center gap-2"><Orb state={orbOf(run)} size={12} /><p className="ai-label flex-1">{run.done?.mode === "openai" ? "AI answer" : "Catalog search"}</p><OfflineChip on={!!run.done?.offline} /></div>
                   <ThinkingTrail steps={run.steps} />
                   <div className="mt-1.5"><StreamAnswer run={run} /></div>
                   {!run.streaming && !run.error && <div className="mt-1.5 space-y-1.5"><Cites ids={run.done?.citations as string[] | undefined} /><GuardBadge ok={(run.done?.guard as { ok?: boolean } | undefined)?.ok !== false} /></div>}
                 </AiGlow>}
                 {(run?.done?.sources as LocalAnswer["sources"] | undefined)?.map((study) => (
-                  <article key={study.id} className="rounded-md border border-line p-3">
+                  <article key={study.id} className="rounded-[14px] border border-line/70 bg-bg/40 p-3">
                     <p className="num text-xs text-mute">{study.id}</p>
                     <a className="font-medium underline underline-offset-2" href={study.url} target="_blank" rel="noreferrer">{study.title}</a>
                     <p className="mt-1 text-mute">{study.excerpt}{study.excerpt.length === 420 ? "…" : ""}</p>
@@ -158,11 +158,14 @@ export function Aster() {
               </div>
             ))}
           </div>
-          <form onSubmit={submit} className="flex gap-2 border-t border-line p-4 pb-[max(1rem,env(safe-area-inset-bottom))]">
-            <input className="min-w-0 flex-1" aria-label="Question for Aster" placeholder="Ask about research or say ‘open Methods’…" value={draft}
-              maxLength={800} onChange={(event) => setDraft(event.target.value)} />
-            <button className="btn-accent" disabled={busy || !draft.trim()}>Send</button>
-          </form>
+          <div className="p-3 pb-[max(.75rem,env(safe-area-inset-bottom))]">
+            <form onSubmit={submit} className="ai-composer">
+              <input aria-label="Question for Aster" placeholder="Ask about NASA research, or “open Methods”" value={draft} maxLength={800} onChange={(event) => setDraft(event.target.value)} />
+              <button type="submit" className="ai-send" aria-label="Send" disabled={busy || !draft.trim()}>
+                {busy ? <span className="ai-arc" style={{ width: 14, height: 14 }} /> : <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden><path d="M12 19V5M5 12l7-7 7 7" /></svg>}
+              </button>
+            </form>
+          </div>
         </div>
       </dialog>
     </div>

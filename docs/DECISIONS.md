@@ -87,3 +87,4 @@
 - guard.numbersIn joins thin/no-break-space digit groups (format.ts writes "4 920"), which previously split into 4 and 920.
 - What-if answers quote peak_Q from the state trace, so the guard pool includes whatIfFacts() (engine metric values).
 - Added --ai-pink / --ai-violet tokens (tokens.css) for the Apple-Intelligence-style iridescent gradient (AI surfaces only: glow, orb, launcher pill, screen-edge glow); /api/scenario spends a rate-limit token only on OpenAI calls, answers refine on the client (an interview used to hit the 8/min limit).
+- AI UI v3: warm liquid glass (red/orange/yellow only: --ai-red, --ai-yellow replace pink/violet), star mark replaces the orb (no orb on Build with AI), turning-arc + drawn-check thinking trail, flow line, pill composer with round send; no gradient text.

@@ -26,7 +26,8 @@ async function interview(page: Page, prompt: string, capture = false) {
 
 test("Build with AI → answer → Ignite shows a burning flame (offline)", async ({ page }) => {
   await interview(page, "ISS module, cotton fabric panel catches fire", true);
-  await expect(page.getByTestId("hud-heat")).toHaveText(/[1-9][\d.]* kW|0\.[0-9]*[1-9][0-9]* kW/, { timeout: 30_000 });
+  // The run produced fire: the result strip reports an extinguish time and no "no fire" card is shown.
+  await expect(page.getByTestId("result-headline")).toContainText(/Time to extinguish/i, { timeout: 30_000 });
   await expect(page.getByTestId("no-fire")).toHaveCount(0);
 });
 
@@ -71,7 +72,7 @@ test.describe("reduced motion", () => {
     await page.getByTestId("build-ai").first().click();
     await page.getByTestId("ai-prompt").fill("ISS module, cotton fabric panel catches fire");
     await page.getByTestId("ai-next").click();
-    const anim = await page.locator('.ai-orb[data-state="thinking"]').first().evaluate((el) => getComputedStyle(el).animationName);
+    const anim = await page.locator('.ai-mark[data-state="thinking"]').first().evaluate((el) => getComputedStyle(el).animationName);
     expect(anim).toBe("none");
     const glow = await page.locator(".ai-glow").first().evaluate((el) => getComputedStyle(el, "::before").animationName);
     expect(glow).toBe("none");
