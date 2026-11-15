@@ -5,7 +5,8 @@ import { useRef, useState, type FormEvent } from "react";
 import type { answerLocally } from "@/lib/ai/localAster";
 
 type LocalAnswer = ReturnType<typeof answerLocally>;
-type Exchange = { question: string; answer?: string; sources?: LocalAnswer["sources"]; error?: string };
+type Mode = "catalog" | "openai";
+type Exchange = { mode?: Mode; question: string; answer?: string; sources?: LocalAnswer["sources"]; error?: string };
 
 const guides: Record<string, { title: string; tip: string; question: string }> = {
   "/": { title: "Overview", tip: "Start with the Earth-versus-orbit comparison to see a real NASA experiment, then try a cabin scenario.", question: "What was FLEX?" },
@@ -47,9 +48,9 @@ export function Aster() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ question }),
       });
-      const result = await response.json() as Partial<LocalAnswer> & { error?: string };
+      const result = await response.json() as Partial<LocalAnswer> & { mode?: Mode; error?: string };
       exchange = response.ok && result.answer
-        ? { question, answer: result.answer, sources: result.sources }
+        ? { question, answer: result.answer, sources: result.sources, mode: result.mode }
         : { question, error: result.error ?? "Aster could not answer. Please try again." };
     } catch {
       exchange = { question, error: "Aster couldn’t connect. Please try again." };
@@ -71,7 +72,7 @@ export function Aster() {
         className="ea-aster-dialog fixed inset-auto bottom-0 right-0 m-0 w-full max-w-none overflow-hidden rounded-t-xl border border-line bg-surface2 p-0 text-ink shadow-xl backdrop:bg-black/30 sm:bottom-4 sm:right-4 sm:w-[30rem] sm:rounded-xl">
         <div className="flex h-[min(35rem,85dvh)] flex-col">
           <header className="flex items-center justify-between gap-3 border-b border-line p-4">
-            <h2 id="aster-title" className="flex items-center gap-2 text-lg font-semibold"><OrbitStar /> Aster <span className="chip border border-line text-mute">Local research</span></h2>
+            <h2 id="aster-title" className="flex items-center gap-2 text-lg font-semibold"><OrbitStar /> Aster <span className="chip border border-line text-mute">NASA research</span></h2>
             <button type="button" className="btn" autoFocus onClick={() => dialog.current?.close()}>Close</button>
           </header>
           <div ref={transcript} role="log" aria-label="Aster conversation" className="min-h-0 flex-1 space-y-4 overflow-auto break-words p-4 text-sm">
@@ -81,11 +82,14 @@ export function Aster() {
               <button type="button" className="btn text-left" onClick={() => setDraft(guide.question)}>{guide.question}</button>
             </div>}
             {!guide && thread.length === 0 && <p className="text-mute">Ask about a NASA fire experiment. Aster searches EmberAtlas’s bundled study catalog.</p>}
-            {thread.map(({ question, answer, error, sources }, index) => (
+            {thread.map(({ question, answer, error, sources, mode }, index) => (
               <div key={index} className="space-y-2">
                 <p className="rounded-md border border-line bg-bg p-3"><strong>You</strong> · {question}</p>
                 {error && <p className="text-warn">{error}</p>}
-                {answer && <p className="leading-relaxed">{answer}</p>}
+                {answer && <div className="space-y-1">
+                  <p className="label">{mode === "openai" ? "OpenAI summary" : "Catalog search"}</p>
+                  <p className="whitespace-pre-line leading-relaxed">{answer}</p>
+                </div>}
                 {sources?.map((study) => (
                   <article key={study.id} className="rounded-md border border-line p-3">
                     <p className="num text-xs text-mute">{study.id}</p>

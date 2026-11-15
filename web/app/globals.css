@@ -277,3 +277,26 @@ table.data th.ea-numeric, table.data td.ea-numeric { text-align: right; }
     transition: color .16s ease, background-color .16s ease, border-color .16s ease;
   }
 }
+
+/* About mission log */
+.ea-about [id] { scroll-margin-top: 6.5rem; }
+.ea-mission-hero { position: relative; isolation: isolate; overflow: hidden; }
+.ea-mission-hero::after {
+  content: ""; position: absolute; z-index: -1; width: 90%; height: 150%;
+  top: -72%; right: -26%; transform: rotate(-22deg);
+  border: 1px solid rgb(var(--accent-text) / .24); border-radius: 50%;
+  box-shadow: 0 0 0 28px rgb(var(--accent-text) / .05), 0 0 0 57px rgb(var(--accent-text) / .03);
+  pointer-events: none;
+}
+.ea-mission-question { padding: 1.25rem; transition: border-color .2s ease, transform .2s ease; }
+.ea-mission-question summary { cursor: pointer; font-size: 1.1rem; font-weight: 650; }
+.ea-mission-question summary::marker { color: rgb(var(--accent-text)); }
+.ea-mission-question[open], .ea-mission-question:focus-within { border-color: rgb(var(--accent-text) / .65); }
+.ea-mission-console { padding: clamp(1rem, 4vw, 2rem); background: linear-gradient(145deg, rgb(var(--accent) / .07), transparent 65%), rgb(var(--panel)); }
+.ea-mission-console [aria-pressed="true"] { border-color: rgb(var(--accent-text)); background: rgb(var(--surface2)); }
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .ea-mission-question:not([open]):has(summary:hover) { border-color: rgb(var(--accent-text)); transform: translateY(-3px); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .ea-mission-view, .ea-mission-question[open] > p { animation: ea-cover-in .22s ease-out both; }
+}
