@@ -16,11 +16,16 @@ test("Scenario Brief keeps and pre-fills a partial draft for review", async ({ p
   await page.getByRole("button", { name: /Build my scenario/ }).click();
   await expect(page.getByRole("heading", { name: "Draft ready for review" })).toBeVisible();
   await expect(page.getByLabel("Oxygen (%)", { exact: true })).toHaveValue("34");
-  await page.getByRole("button", { name: /Load reviewed draft/ }).click();
+  await page.getByRole("button", { name: /Load draft in Simulator/ }).click();
   await expect(page.getByRole("alert")).toContainText("Enter a cabin volume");
   await page.getByLabel("Cabin volume (m³)").fill("100");
-  await page.getByRole("button", { name: /Load reviewed draft/ }).click();
+  await page.getByRole("button", { name: /Load draft in Simulator/ }).click();
   await expect(page.getByTestId("workspace")).toBeVisible();
+  await expect(page.getByRole("combobox", { name: "Scenario", exact: true })).toContainText("Fabric comparison");
+  const run = page.getByRole("toolbar", { name: "Simulation" }).getByRole("button", { name: "Run simulation", exact: true });
+  await expect(run).toBeEnabled();
+  await run.click();
+  await expect(page.getByTestId("run")).toHaveText(/Play|Pause/, { timeout: 90_000 });
 });
 
 test("Aster previews a destination and navigates after the visitor clicks", async ({ page }) => {

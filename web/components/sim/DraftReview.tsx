@@ -65,7 +65,7 @@ export function DraftReview({ draft, onAccept }: { draft: ScenarioDraftResponse;
 
   return <section className="panel mt-4 space-y-4 p-4" aria-labelledby="draft-review-title">
     <h2 className="text-xl font-semibold" id="draft-review-title">Draft ready for review</h2>
-    <p className="text-mute">Fill in the blanks and check the extracted values. The simulation starts only when you choose Run.</p>
+    <p className="text-mute">Fill in the blanks and check the extracted values. Load the draft to open the simulator, then choose Run simulation.</p>
     {[...draft.notes, ...draft.rejected.map(({ requested, reason }) => `${requested}: ${reason}`)].map((note, i) => <p key={i} className="text-sm text-mute">{note}</p>)}
     <div className="grid gap-3 sm:grid-cols-2">
       {allFields.map(({ path, label, scale, choices: options }) => {
@@ -87,6 +87,6 @@ export function DraftReview({ draft, onAccept }: { draft: ScenarioDraftResponse;
       })}
     </div>
     {issues.length > 0 && <ul role="alert" className="list-disc space-y-1 pl-5 text-warn">{issues.map((issue, i) => <li key={i}>{issue}</li>)}</ul>}
-    <button className="btn-accent" type="button" onClick={accept}>Load reviewed draft →</button>
+    <button className="btn-accent" type="button" onClick={accept}>Load draft in Simulator →</button>
   </section>;
 }

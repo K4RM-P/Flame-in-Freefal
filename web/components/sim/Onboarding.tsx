@@ -28,6 +28,7 @@ export function Onboarding() {
   const [draft, setDraft] = useState<ScenarioDraftResponse | null>(null);
 
   function acceptDraft(scenario: Scenario) {
+    window.scrollTo({ top: 0, behavior: "instant" });
     set({ a: scenario, b: null, editing: "a", presetId: null, replay: false, ra: null, rb: null, frame: 0, interp: { state: "idle" }, runError: null });
   }
 

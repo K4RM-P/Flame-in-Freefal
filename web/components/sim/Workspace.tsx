@@ -117,11 +117,10 @@ function NextStep({ inspectorOpen, openInspector }: { inspectorOpen: boolean; op
   const missing = [...missingFields(a), ...(b ? missingFields(b).map((m) => `B: ${m}`) : [])];
   let text: React.ReactNode, action: React.ReactNode = null;
   if (missing.length) {
-    text = <>Enter the <b>{missing.join(", ")}</b>: there is no sourced value. Then press ▶ Play.</>;
+    text = <>Enter the <b>{missing.join(", ")}</b>: there is no sourced value. Then press <b>Run simulation</b>.</>;
     action = <button type="button" className="btn px-2 py-0.5 text-[12px]" onClick={() => revealMissing(missing[0])}>Enter it</button>;
-  } else return null;
-  if (running) text = <>Simulating {MC_N} Monte Carlo runs…</>;
-  else if (!ra) text = <>Press <b>▶ Run</b> to simulate this cabin. Inputs and presets are in Scenario setup on the left.</>;
+  } else if (running) text = <>Simulating {MC_N} Monte Carlo runs…</>;
+  else if (!ra) text = <>Your scenario is ready. Select <b>Run simulation</b> to calculate and play it.</>;
   else if (!inspectorOpen) {
     text = <>{playing ? "Playing back" : <>Press <b>▷</b> to play back</>} the cabin view, then open the results to see the sources behind them.</>;
     action = <button type="button" className="btn px-2 py-0.5 text-[12px]" onClick={openInspector}>Results &amp; evidence</button>;
@@ -335,11 +334,12 @@ function Center({ openInspector }: { openInspector: () => void }) {
 
 /** The single Play action, shared by the toolbar and the viewport transport (same behaviour everywhere). */
 function PlayButton({ className, testid, compact = false }: { className: string; testid?: string; compact?: boolean }) {
-  const { a, b, running, playing } = useSim();
-  const missing = a ? [...missingFields(a), ...(b ? missingFields(b) : [])] : [];
-  return <button type="button" className={className} data-testid={testid} disabled={running || missing.length > 0} aria-label={playing ? "Pause" : "Play"}
-    title={missing.length ? `Enter ${missing.join(", ")} first` : "Play (Space): runs the simulation if needed, then plays it"} onClick={() => void playPause()}>
-    {running ? (compact ? "…" : "Simulating…") : playing ? (compact ? "❚❚" : "❚❚ Pause") : (compact ? "▶" : "▶ Play")}</button>;
+  const { a, b, ra, running, playing } = useSim();
+  const missing = a ? [...missingFields(a), ...(b ? missingFields(b).map((m) => `B: ${m}`) : [])] : [];
+  const label = running ? "Simulating…" : playing ? "Pause" : ra ? "Play" : "Run simulation";
+  return <button type="button" className={className} data-testid={testid} disabled={running || missing.length > 0} aria-label={label}
+    title={missing.length ? `Enter ${missing.join(", ")} first` : `${label} (Space)`} onClick={() => void playPause()}>
+    {running ? (compact ? "…" : label) : <>{playing ? "❚❚" : "▶"}{!compact && ` ${label}`}</>}</button>;
 }
 
 const EV: Record<string, [string, string]> = { ignition: ["●", "text-accent"], alarm: ["▲", "text-bad"], fan_off: ["■", "text-mute"], agent_released: ["▨", "text-blue"], extinguished: ["✕", "text-ink"] };
