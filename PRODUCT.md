@@ -10,7 +10,7 @@ Engineers, safety reviewers, and experiment planners managing spacecraft and lun
 
 ## Product Purpose
 
-EmberAtlas shows what NASA's ISS fire experiments prove about cabin materials, where that proof stops, and simulates what lies beyond, so the next test is the right one. Three surfaces (Simulator, Evidence, Methods) make scenario, provenance, extrapolation and next-test state legible without inventing measurements or hiding missing inputs.
+EmberAtlas: the firefighter for space. It shows where and how a fire would start in your spacecraft, and which design change prevents it. Built on NASA's ISS fire data, explained by AI. Find (simulate the cabin fire) · Explain (grounded interpretation) · Prevent (ranked design fixes, deterministic) · then the next test to fly. Three surfaces (Simulator, Evidence, Methods) make scenario, provenance, extrapolation and next-test state legible without inventing measurements or hiding missing inputs.
 
 ## Brand Personality
 

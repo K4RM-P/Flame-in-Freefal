@@ -1,15 +1,20 @@
 # EmberAtlas: NASA Space Apps 2026 submission
 
-**Title:** EmberAtlas: will it burn on the Moon?
+**Title:** EmberAtlas: the firefighter for space
+
+**One-liner:** EmberAtlas: the firefighter for space. It shows where and how a fire would start in your spacecraft, and which design change prevents it. Built on NASA's ISS fire data, explained by AI.
 
 ## Summary (150 words)
-Maya is a fire-safety engineer approving cabin materials for a lunar habitat that will breathe 34% oxygen at 56.5 kPa and one-sixth gravity. NASA approves materials with an Earth-gravity burn test. EmberAtlas answers her three questions from NASA's PSI ISS fire data. First, does the Earth test hold up in orbit? In SAFFIRE-II like-for-like samples, no material burned worse in orbit than in the 1 g test. Second, where does the evidence stop? No solid in PSI has been burned near 34% oxygen; the only flight data at exploration atmospheres is ACME BRE, a gas burner that emulates solids. Third, what lies beyond? The simulator runs the ISS and the lunar cabin side by side, marks every result outside the tested envelope as extrapolated, and proposes the test NASA should fly next. Every number traces to a PSI accession, file and row.
+On Artemis II, a smoke alarm went off in Orion. Fire in space is hard to see and impossible to escape. Maya approves cabin fabrics for a Moon base that will breathe 34% oxygen at 56.5 kPa and one-sixth gravity, and nobody can tell her if they are safe: no solid in NASA's PSI data was ever burned above 22.2% oxygen. EmberAtlas is the firefighter for space. Find: it burns the same NASA-tested fabric in an ISS cabin and a Moon cabin. Explain: on the ISS, cutting the fan puts the fire out at 30 s; on the Moon the fire outlasts a 2 kg CO₂ extinguisher and burns out at 171 s. Prevent: a deterministic design review ranks the fixes, starting with the gap that the extinguisher never fires. Then it names the next test. Every number traces to a PSI accession or is labelled a design input.
 
 - **Demo link:** TODO
 - **Project link:** TODO
 
 ## Detailed description
-EmberAtlas has three surfaces: `/simulator`, `/evidence` and `/methods` (plus `/` and `/about`). The simulator ships three presets: *Saffire replay*, *Same fabric: ISS vs Lunar Habitat*, and *Lunar Habitat: tune the response*. `/simulator?preset=iss-vs-lunar&run=1` loads and runs the comparison in one click.
+EmberAtlas follows one story: (1) the Artemis II smoke alarm; (2) fire in space is hard to see and impossible to escape; (3) Maya approves fabrics for a 34% O₂ Moon base; (4) nobody can tell her if it is safe; (5) EmberAtlas: **Find · Explain · Prevent**; (6) the next test to fly. It has three surfaces: `/simulator`, `/evidence` and `/methods` (plus `/` and `/about`). The simulator ships four presets: *Saffire replay*, *Same fabric: ISS vs Lunar Habitat* (same crew-detection, fan-off and CO₂ response in both cabins, all design inputs), *Moon base: find the gaps* (the unfixed cabin for the design review) and *Lunar Habitat: tune the response*. `/simulator?preset=iss-vs-lunar&run=1` loads and runs the comparison in one click. Exact demo numbers: `docs/DEMO_SCRIPT.md`.
+
+### Prevent: design review
+`web/lib/sim/designReview.ts` ranks fixes deterministically (no API): rule-based gaps first (extinguisher with no alarm path, no suppression, ventilation not cut on alarm, ignition material outside its tested O₂), then the largest one-at-a-time sensitivity swings on time to extinguish, peak heat, minimum ppO₂ and peak CO, each with before → after copied from the engine. Fixes resting on an uncalibrated sub-model are labelled theory-only and never outrank calibrated or rule-based ones; O₂ levers never go below the crew ppO₂ floor; partial-gravity results are estimates that may be non-conservative (NASA FM2, NTRS 20240015307). The AI interpretation must name fix #1.
 
 ### Identify
 The evidence ranking (`web/lib/sim/evidence.ts`) gates PSI investigations by material class first: for a solid fabric, investigations that burned that material rank first, then solid-fuel campaigns (BASS, BASS-II, SAFFIRE), then ACME BRE when the mission O₂ is at least 26%. Droplet campaigns (FLEX, FLEX-2, CFI) appear only for suppression; SAME, SAME-R and DAFT for smoke. The Evidence page shows the Earth-vs-orbit table, the "where the evidence stops" table and the mission-to-experiment match.

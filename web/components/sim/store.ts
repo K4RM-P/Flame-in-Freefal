@@ -44,7 +44,7 @@ interface SimState {
 export const useSim = create<SimState>((set) => ({
   a: null, b: null, editing: "a", presetId: null, replay: false,
   ra: null, rb: null, running: false, runError: null, frame: 0, receipt: null, interp: { state: "idle" }, topOpen: true,
-  playing: false, view: "3d", layers: { geometry: true, heat: true, smoke: true, airflow: true, detector: true, suppression: true, module: true, crew: true, labels: false },
+  playing: false, view: "3d", layers: { geometry: true, heat: true, smoke: true, airflow: true, detector: true, suppression: true, module: true, crew: false, labels: false },
   dockOpen: false, dockVh: 38, treeOpen: true, camPreset: null, present: false, speed: 1, ranKey: null,
   rightTab: "outputs", dockTab: "T_K", assumptionsOpen: false, sens: null, chat: [], asking: false,
   set: (p) => set(p),

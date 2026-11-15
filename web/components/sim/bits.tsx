@@ -9,6 +9,7 @@ import { runInWorker } from "@/lib/sim/runInWorker";
 import { rankEvidence } from "@/lib/sim/evidence";
 import { sensitivity } from "@/lib/sim/sensitivity";
 import { nextTest } from "@/lib/sim/nextTest";
+import { localInterpret } from "@/lib/ai/localInterpret";
 import type { PlotParams } from "react-plotly.js";
 import { Plot } from "@/components/Plot";
 import { OKABE_ITO } from "@/lib/ui/palette";
@@ -108,9 +109,9 @@ export async function interpret(a: Scenario, ra: SimResult, b: Scenario | null, 
       body: JSON.stringify({ scenario: a, result: compact(ra), evidence: evidenceForAI(a), ...(b && rb && { compare: { scenario: b, result: compact(rb) } }) }),
     });
     const j = await res.json().catch(() => ({}));
-    if (!res.ok) set({ interp: { state: "error", error: j.error ?? `Interpretation unavailable (${res.status})` } });
+    if (!res.ok) set({ interp: { state: "error", error: `${j.error ?? `Interpretation unavailable (${res.status})`} · ${localInterpret(a, ra)}` } });
     else set({ interp: { state: "ok", text: j.text, citations: j.citations ?? [] } });
-  } catch (e) { set({ interp: { state: "error", error: String(e) } }); }
+  } catch (e) { set({ interp: { state: "error", error: `${String(e)} · ${localInterpret(a, ra)}` } }); }
 }
 
 /** The one Play action (toolbar and viewport): run first if there is no result or the inputs changed, then play

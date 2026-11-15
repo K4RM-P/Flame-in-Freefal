@@ -1,13 +1,16 @@
-# EmberAtlas: will it burn on the Moon?
-EmberAtlas shows what NASA's ISS fire experiments prove about cabin materials, where that proof stops, and simulates what lies beyond, so the next test is the right one. NASA Space Apps 2026 · Flame in Freefall.
+# EmberAtlas: the firefighter for space
+It shows where and how a fire would start in your spacecraft, and which design change prevents it. Built on NASA's ISS fire data, explained by AI. NASA Space Apps 2026 · Flame in Freefall.
 
+**Live app: https://flame-in-freefal.vercel.app**
+
+**Find · Explain · Prevent** (numbers from `web/scripts/engine-check.ts`, see `docs/DEMO_SCRIPT.md`): the same SAFFIRE SIBAL fabric burns in an ISS cabin and a 34 % O₂ / 56.5 kPa / 1/6 g Moon-base cabin with the same response (crew detects at 30 s, fan off, 2 kg CO₂ 30 s later: design inputs, not NASA measurements). **ISS:** cutting the fan puts the fire out at 30 s. **Moon:** the fire outlasts the CO₂ and burns the whole sample by 171 s (peak heat 4 900 W vs 2 580 W). **Prevent:** a deterministic design review ranks the fixes (no AI needed); on the unfixed Moon cabin (`lunar-design-review`) fix #1 is "the extinguisher never fires: give it an alarm path". Then the app names the next test to fly. Earth test vs orbit: in SAFFIRE-II (PSI-99) like-for-like samples, none burned worse in orbit than in the 1 g test (7 samples, small n); no solid in PSI was burned above 22.2 % O₂.
 **Findings** (all computed from `web/data`, shown on `/` and `/evidence`): 1. **Earth test vs orbit:** in SAFFIRE-II (PSI-99) like-for-like samples, none burned worse in orbit than in the 1 g test (currently 7 samples: 4 less flammable, 3 the same; small n). 2. **Where the evidence stops:** no solid in PSI was burned above 22.2% O₂ (`web/data/materials.json`); a lunar habitat breathes 34% at 56.5 kPa. ACME BRE (PSI-20) is the only flight data at exploration atmospheres, and it is a gas burner emulating solids. 3. **Beyond it:** the simulator runs the lunar cabin; every out-of-envelope result carries an EXTRAPOLATED badge and the app proposes the next test to fly.
 
 **Simulator (3D):** the cabin view is a procedural, illustrative lab-module interior in which every fire-related visual (flame, char, fire light, smoke, alarm, fan, agent) is driven only by the engine frame via `web/components/sim/scene3d/frame.ts`; Elevation and Section remain as the 2D schematic, and the SVG is the fallback without WebGL. Keys: R run · C charts · F fullscreen · 1–4 camera presets · `?present=1` for a chrome-less demo run.
 
 ![3D overview](docs/screenshots/3d-overview.png) ![Sample close-up](docs/screenshots/3d-closeup.png) ![Compare ISS vs Lunar Habitat](docs/screenshots/3d-compare.png)
 
-**Routes:** `/` story · `/simulator` (presets: Saffire replay; Same fabric: ISS vs Lunar Habitat; Lunar Habitat: tune the response) · `/evidence` (Earth vs orbit, where the evidence stops, mission-to-experiment match) · `/methods` · `/about`.
+**Routes:** `/` story · `/simulator` (presets: Saffire replay; Same fabric: ISS vs Lunar Habitat; Moon base: find the gaps; Lunar Habitat: tune the response) · `/evidence` (Earth vs orbit, where the evidence stops, mission-to-experiment match) · `/methods` · `/about`.
 
 **Run:** `pnpm -C web install` · `pnpm -C web dev` · `pnpm -C web test` · `pnpm -C web build`. Set `OPENAI_API_KEY` as a server-side env var (never `NEXT_PUBLIC_`, never committed); without it the AI panels say so and everything else works.
 

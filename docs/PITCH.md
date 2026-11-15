@@ -1,27 +1,28 @@
 # EmberAtlas pitch
 
-## 30-second script (English subtitles, ~75 words)
-1. *(Aerospace America headline)* "On Artemis II, a smoke alarm went off in Orion."
-2. "Moon bases will breathe 34% oxygen. Will the cabin fabric burn?"
-3. *(/evidence)* "NASA's Earth test held up in orbit for every like-for-like sample."
-4. "But no solid has ever been tested at 34%."
-5. *(/ → Run ISS vs Lunar Habitat)* "Same fabric, lunar cabin: it burns about twice as fast, and that's an extrapolation."
-6. *(next-test card)* "So here's the test NASA should fly."
-7. "EmberAtlas. Safer air for the next giant leap."
+> EmberAtlas: the firefighter for space. It shows where and how a fire would start in your spacecraft, and which design change prevents it. Built on NASA's ISS fire data, explained by AI.
 
-Beat 3 and beat 5 must match what the app shows on recording day (counts and ratio are computed live; re-read them before recording).
+## 30-second script (English subtitles, ~80 words)
+1. *(Aerospace America headline)* "On Artemis II, a smoke alarm went off in Orion."
+2. "In space, fire is hard to see, and there's nowhere to run."
+3. "Maya approves fabrics for a Moon base breathing 34% oxygen. Nobody can tell her if they're safe."
+4. *(/simulator, ISS vs Moon)* "EmberAtlas finds it: same fabric, same crew response. On the ISS, cutting the fan puts it out at 30 seconds. On the Moon it beats the extinguisher and burns until 171 seconds."
+5. *(Design review)* "And it prevents it: fix number one, the extinguisher never fires."
+6. *(next-test line)* "Then it names the test NASA should fly next. EmberAtlas: the firefighter for space."
+
+Numbers in beats 4–5 come from `docs/DEMO_SCRIPT.md` (engine check); re-run `pnpm -C web exec tsx scripts/engine-check.ts` before recording. The 30 s alarm, fan-off and 2 kg CO₂ are design inputs, not NASA measurements.
 
 ## 7-slide outline
-1. Hook: Artemis II smoke alarm; Moon habitats at 34% O₂ · 56.5 kPa · 1/6 g.
-2. Maya: approving cabin materials with an Earth-gravity test.
-3. Finding 1: Earth test vs orbit (SAFFIRE-II, PSI-99, like-for-like, small n).
-4. Finding 2: where the evidence stops (highest solid test in PSI vs 34%; BRE is a gas burner).
-5. Finding 3: ISS vs Lunar Habitat run with the EXTRAPOLATED badge and the next test.
-6. Trust: PSI rows with provenance, FLEX cross-check, held-out MAPE, SIBAL n = 1, not for certification.
-7. Team, use of AI (Claude Code built it; OpenAI API at runtime), links.
+1. **Hook:** Artemis II smoke alarm in Orion (Aerospace America).
+2. **The problem:** fire in space is hard to see (no buoyant plume in µg) and impossible to escape.
+3. **Maya:** approving fabrics for a 34% O₂ · 56.5 kPa · 1/6 g Moon base; no solid in PSI was burned above 22.2% O₂, so nobody can tell her if it's safe.
+4. **EmberAtlas: Find · Explain · Prevent.** ISS vs Moon run: ISS fire out at 30 s on fan-off; Moon fire outlasts 2 kg CO₂, burnout at 171 s; peak heat 2 580 W vs 4 900 W.
+5. **Prevent:** design review on "Moon base: find the gaps": (1) give the detector an alarm path (the extinguisher never fires); (2) SIBAL untested at 34% O₂; (3) cabin O₂ 29.2% (crew ppO₂ floor) cuts peak heat 4 920 W → 4 040 W.
+6. **Trust + next test:** every value traces to a PSI accession or is a labelled design input; spread validated on n = 1 held-out sample (29.3% error); CO/smoke theory-only; 1/6 g may be non-conservative (FM2). Next test: SIBAL at 34% O₂ and 56.5 kPa.
+7. **Team, use of AI** (Claude Code built it; OpenAI API explains runs, with a numeric guard; the design review works without AI), live app https://flame-in-freefal.vercel.app.
 
 ## Judge map
-- **Impact:** `/` story and `/simulator?preset=iss-vs-lunar&run=1` (one-click lunar result plus next test).
+- **Impact:** `/simulator?preset=iss-vs-lunar&run=1` (one-click ISS vs Moon fire) and the *Moon base: find the gaps* design review.
 - **Creativity:** `/evidence#earth-vs-orbit` and `/evidence#where-evidence-stops` tables.
 - **Validity:** `/methods#validation` (held-out FLEX, SIBAL spread, cabin-scale sanity check) and `/methods#limitations`.
 - **Relevance:** `/evidence` and `/methods#data`: every PSI accession, file and row used.

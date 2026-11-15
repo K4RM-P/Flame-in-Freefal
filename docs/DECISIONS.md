@@ -33,3 +33,26 @@
 - Added `typecheck` script to web (`tsc --noEmit`); typecheck, lint, 58 tests and `next build` pass locally.
 - Vercel: exactly one project (`flame-in-freefal`, team karm-patels-projects, Git-linked to K4RM-P/flame-in-freefal, Production Branch `main`), no duplicates to remove. It had Root Directory `physics` + Framework Python (production ERROR); fixed via API to Root `web`, Next.js, Node 22.x, `pnpm install`/`pnpm build`. Production: https://flame-in-freefal.vercel.app.
 - `OPENAI_API_KEY` is not set on Vercel (no env vars at all); not invented — HUMAN_TASKS #13.
+
+## 2026-11-15 core fixes (firefighter story)
+- Alarm source: option (b). No smoke/soot yield for SIBAL (cotton/fiberglass) is in `properties.yaml` or `sources.yaml`, and no detector threshold is sourced; not invented. Presets use `detection.manual_alarm_s = 30` ("crew detects the fire at t = 30 s", provenance `design input`).
+- `iss-vs-lunar` A and B, and `lunar-tune`, share `CREW_RESPONSE` (crew alarm 30 s, fan off on alarm, 2 kg CO₂ 30 s after alarm), all `source_id: "design input"`.
+- Demo chain result (not tuned): ISS = alarm 30 s → fan off 30 s → extinguished 30 s (quench: no flow in µg) → CO₂ 60 s, i.e. the fire is out BEFORE the agent. Moon = alarm → fan off → CO₂ 60 s → burnout 171 s: the agent fails. Tests assert this real order, not the hoped-for one.
+- New preset `lunar-design-review` = `lunar-tune` with `manual_alarm_s: null`: extinguisher fitted, no alarm path, agent never released.
+- Design review (`lib/sim/designReview.ts`): tiers = rule-based (design-input) → calibrated levers → theory-only levers; in-envelope first; then effect. Metrics: time_to_extinguish, peak_Q (from state), min_o2, peak_co; peak_co is theory-only (smoke/CO uncalibrated); one fix per lever.
+- Sensitivity runs shared across metrics via `sensitivityMulti` + a memoized runner: 12 runs + ≤ 3 rule runs ≤ 15. Runs on the main thread (≈ 1 s); not moved to the worker (the worker only takes simulate()).
+- Added an agent-mass lever (×0.5/×2) to the tornado; material lever now lists only alternative materials (the current one is the base).
+- O₂ lever low end floored at the sourced crew minimum ppO₂ (16.5 kPa, `nasa-std-3001-v2`, TODO_VERIFY) so the review never proposes a hypoxic cabin (Moon: 29.2 % at 56.5 kPa instead of 16.4 %).
+- AI facts: `design_review` is recomputed server-side from the posted scenario (engine numbers), so the guard's allowed-number pool contains the fix numbers; INSTRUCTIONS require fix #1 and the theory-only mention.
+- AI unavailable: the interpretation error now appends a deterministic "Offline summary" (`lib/ai/localInterpret.ts`); the design review panel never needs the API.
+- Partial gravity: one wording (`lib/sim/wording.ts`, FM2 NTRS 20240015307) in engine warnings, Methods text, UI caveat strings, glossary, nextTest, AI instructions, README, STATUS, CLAUDE.md; `SimResult.flags.partial_g_nonconservative`. FM2 finding added as a `note` in `sources.yaml`, mirrored by hand into `web/data/sources.json` and `docs/REFERENCES.json` (venv not available to regenerate).
+- Python `CAVEAT_G` and TS `CAVEAT_G` updated identically (still contain "bounded estimates" for the pytest check).
+- CO/smoke: `OutcomeMetric.theory_only` + "(theory-only)" in the peak CO label; series CSV headers for x_co and smoke_det (and T_K while heat loss is uncalibrated) carry "(theory-only)".
+- Spread validation: no additional rows. PSI Saffire tables and `saffire_ntrs.yaml` hold only two µg opposed-flow SIBAL spread rates (I-2, III-2); Saffire-II's opposed row is silicone at 1 g (no properties); BASS/BASS-II tables have no spread rate. Stays n_test = 1, MAPE 29.3 %. (scipy not installed, so a 2-fold swap was not computed.)
+- Unit spacing: "322  s" came from a full-width space in the mono number font; `withUnit()` in `lib/ui/format.ts` joins number and unit with U+202F; used in the Compare headline and the design review.
+- Footer "SI internal" → "spread test error 29.3 % (n = 1)" (data-driven from `params/spread.json`).
+- NASA images: download blocked (proxy 403 for nasa.gov and images-assets.nasa.gov). `lib/media.ts` holds local target paths + fallback URLs; HUMAN_TASKS #14.
+- GitHub Pages: no `.github/workflows` exists in the repo (already removed); HUMAN_TASKS #12 removed. Vercel is the only deploy.
+- About: removed IdeaOrbit, CrewCarousel, MissionLog (no other importers); team shown as names only (roles unconfirmed). Their `ea-crew*`/orbit CSS in globals.css is the UI session's to delete (docs/HANDOFF_UI.md).
+- 3D crew figure: off by default in Layers (toggle kept).
+- Demo Numbers: not in `lib/` (lives only in `components/sim/Onboarding.tsx`); left for the UI session (docs/HANDOFF_UI.md).
