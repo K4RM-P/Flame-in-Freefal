@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { Aster } from "@/components/Aster";
 import { useMission, lsGet, lsSet } from "@/lib/store";
 
+import { PageTranslation } from "./PageTranslation";
 import { LANGUAGES, LanguageContext, navigationLabels, type Language } from "./Language";
 
 const NAV = ["/simulator", "/evidence", "/methods", "/about"] as const;
@@ -53,9 +54,9 @@ export function Shell({ children }: { children: React.ReactNode }) {
               className={`px-2 py-1 text-[14px] ${path === href ? "bg-surface2 text-ink" : "text-mute hover:text-ink"}`} style={{ borderRadius: 6 }} lang={language}>{navigationLabels(language)[index]}</Link>
           ))}
         </nav>
-        <div className="shell-preferences ml-auto flex items-center gap-2">
-          <label htmlFor="site-language" className="sr-only">Interface language (navigation and team controls)</label>
-          <select id="site-language" className="shell-language" value={language} title="Language for navigation and team controls"
+        <div data-no-translate className="shell-preferences ml-auto flex items-center gap-2">
+          <label htmlFor="site-language" className="sr-only">Site language</label>
+          <select id="site-language" className="shell-language" value={language} title="Site language"
             onChange={(event) => {
               const choice = event.target.value as Language;
               lsSet("ea.language", choice);
@@ -71,6 +72,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
         </select>
         </div>
       </header>
+      <PageTranslation />
       <main key={path} className={`page-fade mx-auto min-w-0 ${path === "/" ? "max-w-none p-0" : "max-w-[1600px] px-4 py-4 md:px-6"}`}>{children}</main>
       <footer className="mx-auto max-w-[1600px] border-t border-line px-4 py-3 text-[12px] text-faint md:px-6" data-noprint>
         Built on NASA PSI Data Repository: Combustion Science. Partial gravity is an estimate (µg ↔ 1 g) that may be non-conservative (NASA FM2). Not for flight certification.

@@ -28,7 +28,10 @@ function OrbitStar() {
   );
 }
 
+import { useLanguage } from "@/components/shell/Language";
+
 export function Aster() {
+  const { language } = useLanguage();
   const path = usePathname().replace(/(.)\/$/, "$1");
   const guide = guides[path];
   const next = ({
@@ -76,7 +79,7 @@ export function Aster() {
       const response = await fetch("/api/aster", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ question, path, context: context ?? document.body.innerText.slice(0, 12000) }),
+        body: JSON.stringify({ question, path, language, context: context ?? document.body.innerText.slice(0, 12000) }),
       });
       const result = await response.json() as Partial<LocalAnswer> & { mode?: Mode; error?: string };
       exchange = response.ok && result.answer
@@ -125,7 +128,7 @@ export function Aster() {
             {!guide && thread.length === 0 && <p className="text-mute">Ask about a NASA fire experiment. Aster searches EmberAtlas’s bundled study catalog.</p>}
             {thread.map(({ question, answer, error, sources, mode, destination, contextLabel }, index) => (
               <div key={index} className="space-y-2">
-                <p className="rounded-md border border-line bg-bg p-3"><strong>You</strong> · {question}{contextLabel && <span className="block text-xs text-mute">{contextLabel}</span>}</p>
+                <p className="rounded-md border border-line bg-bg p-3"><strong>You</strong> · <span data-no-translate>{question}</span>{contextLabel && <span className="block text-xs text-mute">{contextLabel}</span>}</p>
                 {destination && <div className="space-y-2">
                   <p className="text-mute">Ready to open {destination.label}.</p>
                   <Link className="btn-accent" href={destination.href} onClick={() => dialog.current?.close()}>Open {destination.label} →</Link>

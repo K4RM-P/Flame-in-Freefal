@@ -1,5 +1,6 @@
 "use client";
 
+import type { TargetLanguage } from "@/lib/languages";
 import { createContext, useContext } from "react";
 
 export const LANGUAGES = {
@@ -12,7 +13,7 @@ export const LANGUAGES = {
   ta: "தமிழ்",
 } as const;
 
-export type Language = keyof typeof LANGUAGES;
+export type Language = "en" | TargetLanguage;
 
 const COPY: Record<Language, {
   nav: string[];
