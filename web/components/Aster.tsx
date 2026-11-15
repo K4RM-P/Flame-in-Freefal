@@ -112,7 +112,7 @@ export function Aster() {
 
   return (
     <div data-noprint>
-      <button ref={launcher} type="button" className="ea-aster-launcher" data-compact={path === "/simulator" || undefined} aria-label="Ask Aster"
+      <button ref={launcher} type="button" className="ea-aster-launcher" aria-label="Ask Aster"
         aria-haspopup="dialog" aria-controls="aster-dialog" onClick={openChat}>
         <span className="ea-aster-launcher__icon"><Orb state={busy ? "thinking" : "speaking"} size={14} /></span><span>Ask Aster</span>
       </button>
