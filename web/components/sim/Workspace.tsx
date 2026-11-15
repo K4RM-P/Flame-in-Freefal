@@ -27,7 +27,7 @@ export function Workspace() {
       <Toolbar inspectorOpen={inspectorOpen} onToggleInspector={() => setInspectorOpen((v) => !v)} />
       <NextStep inspectorOpen={inspectorOpen} openInspector={() => setInspectorOpen(true)} />
       <div className={`grid min-h-0 flex-1 gap-2 lg:gap-0 ${inspectorOpen ? "lg:grid-cols-[288px_minmax(0,1fr)_384px]" : "lg:grid-cols-[288px_minmax(0,1fr)]"}`}>
-        <aside className="min-h-0 overflow-y-auto border-line px-3 pb-3 lg:border-r" data-noprint aria-label="Project and scenario setup">
+        <aside className="min-h-0 overflow-y-auto border-line bg-panel/40 px-3 pb-3 lg:border-r" data-noprint aria-label="Project and scenario setup">
           <ProjectTree />
           <details id="setup-details" className="border-b border-line" open={false}>
             <summary className="cursor-pointer list-none py-2 text-[12px] font-medium text-mute hover:text-ink">
@@ -41,7 +41,7 @@ export function Workspace() {
           </details>
         </aside>
         <Center openInspector={() => setInspectorOpen(true)} />
-        <aside className={`flex min-h-0 flex-col border-line lg:border-l ${inspectorOpen ? "" : "hidden"}`} aria-label="Outputs, evidence and interpretation"><RightPanel /></aside>
+        <aside className={`flex min-h-0 min-w-0 flex-col border-line bg-panel/40 lg:border-l ${inspectorOpen ? "" : "hidden"}`} aria-label="Outputs, evidence and interpretation"><RightPanel /></aside>
       </div>
       <StatusBar />
     </div>

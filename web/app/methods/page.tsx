@@ -73,6 +73,12 @@ export default function Methods() {
         <h1 className="display mt-3 text-4xl md:text-7xl">Methods &amp; validation</h1>
         <p className="measure mt-4 text-lg leading-relaxed text-mute">Follow a simulation from its equations to the NASA experiments and validation checks behind it.</p>
         <p className="next-step mt-4"><span className="next-step__tag">Next step</span><span>Pick a model in <a className="underline underline-offset-2" href="#overview">Models at a glance</a>, then open one of its formula cards.</span></p>
+        <nav className="ea-jumps mt-5" aria-label="Methods shortcuts">
+          <a href="#overview">Browse models</a>
+          <a href="#models">Find a formula</a>
+          <a href="#validation">Check validation</a>
+          <a href="#references">Find a source</a>
+        </nav>
       </header>
       <div className="methods-layout">
       <nav aria-label="On this page" className="methods-nav">

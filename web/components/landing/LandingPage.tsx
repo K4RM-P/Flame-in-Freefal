@@ -33,6 +33,19 @@ export function LandingPage() {
     <>
       <OverviewIntro image={NASA_IMAGE} source={NASA_IMAGE_SOURCE} run={RUN_HREF} />
       <div id="findings" className="ea-findings mx-auto max-w-6xl px-4 pb-16 sm:px-6">
+      <section className="ea-photo-story" aria-labelledby="photo-story-title">
+        <figure>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="https://www.nasa.gov/wp-content/uploads/2023/12/jsc2023e046375medium.jpg" alt="An orange flame spreads across fabric inside the Saffire-IV experiment." width={1280} height={1037} loading="lazy" decoding="async" />
+          <figcaption>Saffire-IV fabric burn · <a href="https://www.nasa.gov/centers-and-facilities/glenn/flame-burns-out-on-nasas-long-running-spacecraft-fire-experiment/">NASA / Glenn ↗</a></figcaption>
+        </figure>
+        <div className="ea-photo-story__copy">
+          <p className="label">Spacecraft Fire Safety Experiment</p>
+          <h2 id="photo-story-title">From flame to flight evidence.</h2>
+          <p className="text-base text-mute">NASA’s Saffire experiments burned materials inside uncrewed spacecraft. Explore the earlier Saffire-II dataset to compare how matching samples behaved on Earth and in orbit.</p>
+          <Link className="btn mt-4" href="/evidence#earth-vs-orbit">Compare the tests ↗</Link>
+        </div>
+      </section>
       <section className="mt-12 border-l-2 border-accent bg-panel p-5 md:p-8" aria-labelledby="design-question">
         <p className="label">From experiment to design decision</p>
         <h2 id="design-question" className="display mt-2 text-2xl md:text-4xl">What would you test before flying a cabin material?</h2>
@@ -41,19 +54,19 @@ export function LandingPage() {
 
       <div className="mt-8 grid gap-4 md:grid-cols-3">
         <section className="card border-t-2 border-t-accent p-5 md:p-6" aria-labelledby="f1-title">
-          <p className="label">Finding 1</p>
+          <p className="label">Saffire-II</p>
           <h2 id="f1-title" className="display mt-2 text-xl">Does the Earth test hold up in orbit?</h2>
           <p className="mt-3 text-[15px]" data-testid="landing-orbit-counts"><span className="num">{n}</span> like-for-like samples: <span className="num">{better}</span> less flammable in orbit, <span className="num">{same}</span> the same, <span className="num">{worse}</span> worse.</p>
           <p className="mt-3 text-[12px] text-faint">SAFFIRE-II, PSI-99, like-for-like samples, small n</p>
         </section>
         <section className="card border-t-2 border-t-accent p-5 md:p-6" aria-labelledby="f2-title">
-          <p className="label">Finding 2</p>
+          <p className="label">Test coverage</p>
           <h2 id="f2-title" className="display mt-2 text-xl">Where the evidence stops</h2>
           <p className="mt-3 text-[15px]">Highest O₂ at which any solid was burned in PSI: <span className="num">{maxSolid == null ? "no data" : pct(maxSolid)}</span>. The lunar habitat breathes <span className="num text-warn">{pct(lunarO2)}</span>.</p>
           <p className="mt-3 text-[12px] text-faint">{stops.bre_note}</p>
         </section>
         <section className="card border-t-2 border-t-accent p-5 md:p-6" aria-labelledby="f3-title">
-          <p className="label">Finding 3</p>
+          <p className="label">Cabin model</p>
           <h2 id="f3-title" className="display mt-2 text-xl">Simulate beyond it</h2>
           <p className="mt-3 text-[15px]">Every result past the tested envelope carries an EXTRAPOLATED badge, and the app proposes the next test to fly.</p>
           <div className="mt-4"><RunCta /></div>

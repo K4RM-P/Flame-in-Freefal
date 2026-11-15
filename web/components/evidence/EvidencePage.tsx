@@ -17,18 +17,29 @@ export function EvidencePage() {
   const { counts } = evo;
   const m = stops.mission;
   return (
-    <div className="mx-auto max-w-[1240px] space-y-10">
-      <header className="border-b border-line pb-4">
+    <div className="ea-evidence mx-auto max-w-[1240px] space-y-6 pb-12">
+      <header className="ea-research-hero">
         <p className="label">NASA PSI evidence</p>
         <h1 className="display mt-2 text-[clamp(2rem,5vw,3.6rem)] leading-none">What NASA has tested, and where it stops.</h1>
+        <p className="measure mt-3 text-base text-mute">Compare flight results, see where test coverage ends, or find an experiment for your mission.</p>
+        <nav className="ea-jumps mt-5" aria-label="Evidence sections">
+          <a href="#earth-vs-orbit">Earth vs. orbit</a>
+          <a href="#where-evidence-stops">Test coverage</a>
+          <a href="#experiment-match">Experiment match</a>
+        </nav>
       </header>
 
-      <section id="earth-vs-orbit" aria-labelledby="evo-h" className="space-y-3 scroll-mt-20">
+      <section id="earth-vs-orbit" aria-labelledby="evo-h" className="ea-evidence-section space-y-4 scroll-mt-24">
         <h2 id="evo-h" className="text-[22px] font-semibold">Does the Earth test hold up in orbit?</h2>
-        <div data-testid="evo-counts" className="panel p-3 text-[16px]">
-          <span className="num">{counts.n}</span> like-for-like SAFFIRE-II samples: <span className="num">{counts.better}</span> less flammable in orbit, <span className="num">{counts.same}</span> the same, <span className="num">{counts.worse}</span> worse
+        <div data-testid="evo-counts" className="space-y-3">
+          <p className="text-mute"><span className="num">{counts.n}</span> like-for-like Saffire-II samples</p>
+          <dl className="ea-evidence-counts">
+            {[[counts.better, "Less flammable in orbit"], [counts.same, "Same outcome"], [counts.worse, "More flammable in orbit"]].map(([count, label]) => (
+              <div key={label}><dt>{label}</dt><dd className="num">{count}</dd></div>
+            ))}
+          </dl>
         </div>
-        <div className="overflow-x-auto">
+        <div className="ea-table-scroll overflow-x-auto" tabIndex={0} role="region" aria-label="Experiment data table">
           <table className="data">
             <thead><tr><th>sample</th><th>material</th><th>thickness</th><th>O₂</th><th>flow + direction</th><th>1 g result</th><th>µg result</th><th>agreement</th></tr></thead>
             <tbody>
@@ -52,14 +63,14 @@ export function EvidencePage() {
         {evo.source_ids.length > 0 && <p className="text-[12px] text-faint">Sources: {evo.source_ids.join(", ")}</p>}
       </section>
 
-      <section id="where-evidence-stops" aria-labelledby="stops-h" className="space-y-3 scroll-mt-20">
+      <section id="where-evidence-stops" aria-labelledby="stops-h" className="ea-evidence-section space-y-4 scroll-mt-24">
         <h2 id="stops-h" className="text-[22px] font-semibold">Where the evidence stops</h2>
         <p className="text-[14px] text-mute">
           {m.name}: <span className="num">{pct(m.x_o2)}% O₂ · {sig(m.P_Pa / 1e3, 3)} kPa · {sig(m.flow_m_s * 100, 3)} cm/s · {sig(m.gravity_g, 3)} g</span>.
           {stops.max_solid_x_o2 != null && <> Highest O₂ tested for a solid in PSI: <span className="num">{pct(stops.max_solid_x_o2)}%</span>.</>}
           {" "}<span className="text-warn">Amber</span> = the habitat value lies outside every tested range for that material.
         </p>
-        <div className="overflow-x-auto">
+        <div className="ea-table-scroll overflow-x-auto" tabIndex={0} role="region" aria-label="Experiment data table">
           <table className="data">
             <thead><tr><th>material</th><th>tested O₂ %</th><th>tested pressure kPa</th><th>tested flow cm/s</th><th>investigations</th></tr></thead>
             <tbody>
@@ -79,7 +90,7 @@ export function EvidencePage() {
         {stops.bre_note && <p className="text-[12px] text-mute">{stops.bre_note}</p>}
       </section>
 
-      <section id="experiment-match" aria-label="Mission to experiment match" className="scroll-mt-20 border-t border-line pt-6">
+      <section id="experiment-match" aria-label="Mission to experiment match" className="ea-evidence-section scroll-mt-24">
         <ExperimentMatch />
       </section>
     </div>
