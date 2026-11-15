@@ -27,6 +27,26 @@ const guides: Record<string, { title: string; tip: string; question: string }> =
 
 import { useLanguage } from "@/components/shell/Language";
 
+function SourcePreviews({ sources }: { sources?: LocalAnswer["sources"] }) {
+  if (!sources?.length) return null;
+  return (
+    <details className="rounded-[14px] border border-line/70 bg-bg/40" data-testid="aster-sources">
+      <summary className="cursor-pointer rounded-[14px] px-3 py-2 text-sm font-medium text-mute hover:text-ink">
+        Sources <span className="num">({sources.length})</span>
+      </summary>
+      <div className="divide-y divide-line/70 border-t border-line/70">
+        {sources.map((study) => (
+          <article key={study.id} className="p-3">
+            <p className="num text-xs text-mute">{study.id}</p>
+            <a className="font-medium underline underline-offset-2" href={study.url} target="_blank" rel="noreferrer">{study.title}</a>
+            <p className="mt-1 text-mute">{study.excerpt}{study.excerpt.length === 420 ? "…" : ""}</p>
+          </article>
+        ))}
+      </div>
+    </details>
+  );
+}
+
 export function Aster() {
   const { language } = useLanguage();
   const path = usePathname().replace(/(.)\/$/, "$1");
@@ -157,13 +177,7 @@ export function Aster() {
                   {(!run.streaming || run.text) && <div className="mt-1.5"><StreamAnswer run={run} /></div>}
                   {!run.streaming && !run.error && <div className="mt-1.5 space-y-1.5"><Cites ids={run.done?.citations as string[] | undefined} /><GuardBadge ok={(run.done?.guard as { ok?: boolean } | undefined)?.ok !== false} /></div>}
                 </AiGlow>}
-                {(run?.done?.sources as LocalAnswer["sources"] | undefined)?.map((study) => (
-                  <article key={study.id} className="rounded-[14px] border border-line/70 bg-bg/40 p-3">
-                    <p className="num text-xs text-mute">{study.id}</p>
-                    <a className="font-medium underline underline-offset-2" href={study.url} target="_blank" rel="noreferrer">{study.title}</a>
-                    <p className="mt-1 text-mute">{study.excerpt}{study.excerpt.length === 420 ? "…" : ""}</p>
-                  </article>
-                ))}
+                <SourcePreviews sources={run?.done?.sources as LocalAnswer["sources"] | undefined} />
               </div>
             ))}
           </div>
