@@ -1,10 +1,19 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { useRef, useState, type FormEvent } from "react";
 import type { answerLocally } from "@/lib/ai/localAster";
 
 type LocalAnswer = ReturnType<typeof answerLocally>;
 type Exchange = { question: string; answer?: string; sources?: LocalAnswer["sources"]; error?: string };
+
+const guides: Record<string, { title: string; tip: string; question: string }> = {
+  "/": { title: "Overview", tip: "Start with the Earth-versus-orbit comparison to see a real NASA experiment, then try a cabin scenario.", question: "What was FLEX?" },
+  "/evidence": { title: "Evidence", tip: "Compare the Saffire-II outcomes, then check whether your cabin conditions fall within the tested ranges.", question: "What did Saffire-II test?" },
+  "/simulator": { title: "Simulator", tip: "Choose a scenario, review its inputs, then run it. Open the inspector to see results and their sources.", question: "What did Saffire-III study?" },
+  "/methods": { title: "Methods", tip: "Choose a model and open a formula card. The validation table shows how predictions compared with published or held-out results.", question: "What did FLEX measure?" },
+  "/about": { title: "About", tip: "Find the team and see how the research tools and scenario builder were put together.", question: "What does the NASA FLEX study cover?" },
+};
 
 function OrbitStar() {
   return (
@@ -16,6 +25,7 @@ function OrbitStar() {
 }
 
 export function Aster() {
+  const guide = guides[usePathname().replace(/(.)\/$/, "$1")];
   const dialog = useRef<HTMLDialogElement>(null);
   const launcher = useRef<HTMLButtonElement>(null);
   const transcript = useRef<HTMLDivElement>(null);
@@ -53,7 +63,7 @@ export function Aster() {
 
   return (
     <div data-noprint>
-      <button ref={launcher} type="button" className="btn fixed bottom-4 right-4 z-40 inline-flex items-center gap-2 bg-surface2 shadow-lg"
+      <button ref={launcher} type="button" className="btn fixed bottom-[max(1rem,env(safe-area-inset-bottom))] right-4 z-40 inline-flex items-center gap-2 bg-surface2 shadow-lg"
         aria-haspopup="dialog" aria-controls="aster-dialog" onClick={() => dialog.current?.showModal()}>
         <OrbitStar /> Ask Aster
       </button>
@@ -65,7 +75,12 @@ export function Aster() {
             <button type="button" className="btn" autoFocus onClick={() => dialog.current?.close()}>Close</button>
           </header>
           <div ref={transcript} role="log" aria-label="Aster conversation" className="min-h-0 flex-1 space-y-4 overflow-auto break-words p-4 text-sm">
-            {thread.length === 0 && <p className="text-mute">Ask about a NASA fire experiment. Aster searches EmberAtlas’s bundled study catalog.</p>}
+            {guide && <div className="space-y-2 rounded-md border border-line bg-panel p-3">
+              <p className="label">{guide.title} guide</p>
+              <p className="text-mute">{guide.tip}</p>
+              <button type="button" className="btn text-left" onClick={() => setDraft(guide.question)}>{guide.question}</button>
+            </div>}
+            {!guide && thread.length === 0 && <p className="text-mute">Ask about a NASA fire experiment. Aster searches EmberAtlas’s bundled study catalog.</p>}
             {thread.map(({ question, answer, error, sources }, index) => (
               <div key={index} className="space-y-2">
                 <p className="rounded-md border border-line bg-bg p-3"><strong>You</strong> · {question}</p>

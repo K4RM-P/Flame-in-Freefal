@@ -34,3 +34,19 @@ test("the Overview language setting translates the introduction and survives rel
   await page.reload();
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("Comment le feu se comporte-t-il dans l’espace ?");
 });
+
+test("visitors can follow evidence to the simulator and open a page-specific guide on a phone", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/");
+  await page.getByTestId("cta-evidence").click();
+  await expect(page).toHaveURL(/\/evidence#earth-vs-orbit$/);
+  await page.getByRole("button", { name: "Ask Aster" }).click();
+  await expect(page.getByRole("dialog")).toContainText("Evidence guide");
+  await page.getByRole("button", { name: "What did Saffire-II test?" }).click();
+  await expect(page.getByRole("textbox", { name: "Question for Aster" })).toHaveValue("What did Saffire-II test?");
+  await page.getByRole("button", { name: "Close" }).click();
+  await page.getByRole("link", { name: "Try a cabin scenario" }).click();
+  await expect(page).toHaveURL(/\/simulator$/);
+  await page.getByRole("button", { name: "Ask Aster" }).click();
+  await expect(page.getByRole("dialog")).toContainText("Simulator guide");
+});

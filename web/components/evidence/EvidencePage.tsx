@@ -2,6 +2,7 @@
 // SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 // Evidence page: (a) SAFFIRE-II Earth test vs orbit, (b) where the PSI-tested envelope stops for the Lunar Habitat,
 // (c) the mission-to-experiment match (the one AI surface on this page). Every number comes from lib/sim/evidence.
+import Link from "next/link";
 import { useMemo } from "react";
 import { earthVsOrbitSummary, evidenceStops } from "@/lib/sim/evidence";
 import { sig } from "@/lib/ui/format";
@@ -31,6 +32,8 @@ export function EvidencePage() {
 
       <section id="earth-vs-orbit" aria-labelledby="evo-h" className="ea-evidence-section space-y-4 scroll-mt-24">
         <h2 id="evo-h" className="text-[22px] font-semibold">Does the Earth test hold up in orbit?</h2>
+        <p className="measure text-mute">Under the study’s matched conditions, {counts.better} of {counts.n} samples were less flammable in orbit and {counts.same} had the same outcome. This comparison covers only the samples and conditions tested.</p>
+        <a className="inline-block underline underline-offset-4" href="https://doi.org/10.60555/2chp-m469">Original NASA dataset · Saffire-II, PSI-99 ↗</a>
         <div data-testid="evo-counts" className="space-y-3">
           <p className="text-mute"><span className="num">{counts.n}</span> like-for-like Saffire-II samples</p>
           <dl className="ea-evidence-counts">
@@ -39,7 +42,7 @@ export function EvidencePage() {
             ))}
           </dl>
         </div>
-        <div className="ea-table-scroll overflow-x-auto" tabIndex={0} role="region" aria-label="Experiment data table">
+        <div className="ea-table-scroll overflow-x-auto" tabIndex={0} role="region" aria-labelledby="evo-h">
           <table className="data">
             <thead><tr><th>sample</th><th>material</th><th>thickness</th><th>O₂</th><th>flow + direction</th><th>1 g result</th><th>µg result</th><th>agreement</th></tr></thead>
             <tbody>
@@ -61,16 +64,18 @@ export function EvidencePage() {
         {evo.caveats.length > 0 && <ul className="list-disc space-y-0.5 pl-5 text-[12px] text-mute">{evo.caveats.map((c, i) => <li key={i}>{c}</li>)}</ul>}
         {evo.rows.some((r: { thickness?: unknown }) => /^0\d/.test(String(r.thickness))) && <p className="text-[12px] text-faint"><span className="text-warn">†</span> Raw PSI-99 cell shown as written; the decimal point looks missing (likely 0.37 mm). Not corrected here.</p>}
         {evo.source_ids.length > 0 && <p className="text-[12px] text-faint">Sources: {evo.source_ids.join(", ")}</p>}
+        <Link className="btn-accent" href="/simulator">Try a cabin scenario →</Link>
       </section>
 
       <section id="where-evidence-stops" aria-labelledby="stops-h" className="ea-evidence-section space-y-4 scroll-mt-24">
         <h2 id="stops-h" className="text-[22px] font-semibold">Where the evidence stops</h2>
+        <p className="measure text-mute">Use these ranges to see whether the selected cabin conditions have been tested for each material. A value outside the tested range needs more evidence before it can support a design decision.</p>
         <p className="text-[14px] text-mute">
           {m.name}: <span className="num">{pct(m.x_o2)}% O₂ · {sig(m.P_Pa / 1e3, 3)} kPa · {sig(m.flow_m_s * 100, 3)} cm/s · {sig(m.gravity_g, 3)} g</span>.
           {stops.max_solid_x_o2 != null && <> Highest O₂ tested for a solid in PSI: <span className="num">{pct(stops.max_solid_x_o2)}%</span>.</>}
           {" "}<span className="text-warn">Amber</span> = the habitat value lies outside every tested range for that material.
         </p>
-        <div className="ea-table-scroll overflow-x-auto" tabIndex={0} role="region" aria-label="Experiment data table">
+        <div className="ea-table-scroll overflow-x-auto" tabIndex={0} role="region" aria-labelledby="stops-h">
           <table className="data">
             <thead><tr><th>material</th><th>tested O₂ %</th><th>tested pressure kPa</th><th>tested flow cm/s</th><th>investigations</th></tr></thead>
             <tbody>
