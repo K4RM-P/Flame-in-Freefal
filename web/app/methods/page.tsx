@@ -102,13 +102,15 @@ export default function Methods() {
         <p className="measure text-mute">Four sub-models make up a run. Their validation status differs; Theory-only means uncalibrated physics, and the simulator labels those values the same way.</p>
         <ul className="grid gap-3 sm:grid-cols-2">
           {models.map((m) => (
-            <li key={m.id} className="methods-equation">
+            <li key={m.id}>
+              <a className="methods-equation ea-model-card h-full" href={`#model-${m.id}`}>
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <h3 className="font-semibold">{m.name}</h3>
                 <Status calibrated={m.calibrated} />
               </div>
               <p className="text-sm text-mute">{MODEL_EVIDENCE[m.id]}</p>
-              <a className="methods-source w-fit" href={`#model-${m.id}`}>View formulas <span className="sr-only">for {m.name}</span> →</a>
+              <span className="ea-source-link">View formulas <span aria-hidden="true">→</span></span>
+              </a>
             </li>
           ))}
         </ul>

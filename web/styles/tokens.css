@@ -4,15 +4,16 @@
 :root {
   --bg: 11 13 18; --panel: 17 20 27; --surface2: 23 27 36; --line: 35 40 54;
   --ink: 231 233 238; --mute: 154 161 178; --faint: 128 136 156;
-  --accent: 255 107 53;
-  --ok: 63 182 139; --bad: 229 72 77; --warn: 245 165 36; --blue: 76 154 255; --theory: 139 147 167;
+  --accent: 255 107 53; --accent-text: 255 154 118; --on-accent: 31 15 9;
+  --ok: 63 182 139; --bad: 247 115 120; --warn: 245 165 36; --blue: 76 154 255; --theory: 139 147 167;
   --radius-control: 6px; --radius-card: 8px;
   color-scheme: dark;
 }
 [data-theme="light"] {
-  --bg: 247 243 236; --panel: 255 253 248; --surface2: 239 233 223; --line: 228 221 208;
-  --ink: 43 43 43; --mute: 98 93 85; --faint: 112 106 97;
-  --ok: 31 128 92; --bad: 190 42 48; --warn: 160 98 0; --blue: 28 98 196; --theory: 107 112 128;
+  --bg: 247 243 236; --panel: 255 253 248; --surface2: 239 233 223; --line: 199 188 171;
+  --ink: 43 43 43; --mute: 98 93 85; --faint: 104 98 90;
+  --accent-text: 152 52 22;
+  --ok: 23 100 71; --bad: 166 33 43; --warn: 119 73 0; --blue: 22 81 168; --theory: 79 85 106;
   color-scheme: light;
 }
 @media print {

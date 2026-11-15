@@ -245,3 +245,35 @@ table.data td { @apply border-b border-line/60 px-2 py-1.5 align-top; }
   .ea-start__card:first-child { grid-row: auto; min-height: 10rem; }
   .ea-aster-launcher { right: max(.65rem, env(safe-area-inset-right)); bottom: max(.65rem, env(safe-area-inset-bottom)); }
 }
+
+/* Theme-aware research controls */
+.theme-toggle { min-width: 3.8rem; justify-content: center; }
+.theme-toggle__dark, [data-theme="light"] .theme-toggle__ivory { display: none; }
+[data-theme="light"] .theme-toggle__dark { display: inline; }
+.btn-accent { color: rgb(var(--on-accent)); }
+.ea-source-link, .methods-source, .ea-card-arrow { color: rgb(var(--accent-text)); }
+.ea-evidence .ea-research-table { min-width: 0; max-width: 100%; }
+.ea-research-table table { min-width: 42rem; }
+table.data th.ea-numeric, table.data td.ea-numeric { text-align: right; }
+.ea-numeric { font-variant-numeric: tabular-nums; }
+.ea-model-card, .methods-equation:has(> summary) { transition: border-color .18s ease, background-color .18s ease, box-shadow .18s ease, transform .18s ease; }
+.ea-model-card:is(:hover, :focus-visible), .methods-equation:has(> summary:focus-visible) { border-color: rgb(var(--accent-text)); background: rgb(var(--surface2)); }
+.methods-equation > summary::after { color: rgb(var(--accent-text)); }
+.methods-content [id] { scroll-margin-top: 6.5rem; }
+.ea-build-list { display: grid; gap: .8rem; padding-block: .5rem; }
+.ea-build-list > div { display: grid; grid-template-columns: minmax(8rem, 12rem) minmax(0, 1fr); gap: .5rem 1.25rem; border-top: 1px solid rgb(var(--line)); padding-top: .8rem; }
+.ea-build-list dt { font-weight: 650; }
+.ea-build-list dd { color: rgb(var(--mute)); max-width: 65ch; }
+@media (max-width: 600px) {
+  .ea-build-list > div { grid-template-columns: 1fr; }
+  .theme-toggle { min-width: 3.4rem; }
+}
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .ea-model-card:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgb(var(--ink) / .08); }
+  .methods-equation:has(> summary:hover) { border-color: rgb(var(--accent-text)); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  body, .shell-header, .ea-evidence-section, .ea-research-hero, .methods-hero, .methods-content .card, .ea-about .card, .ea-aster-dialog {
+    transition: color .16s ease, background-color .16s ease, border-color .16s ease;
+  }
+}

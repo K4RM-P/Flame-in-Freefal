@@ -14,9 +14,12 @@ export const metadata: Metadata = {
   description: "NASA PSI evidence and transparent spacecraft fire-safety simulation.",
 };
 
+const themeBootstrap = "try{document.documentElement.dataset.theme=JSON.parse(localStorage.getItem('ea.theme'))==='light'?'light':'dark'}catch{}";
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" data-theme="dark" className={`${inter.variable} ${mono.variable} ${serif.variable}`}>
+    <html lang="en" data-theme="dark" suppressHydrationWarning className={`${inter.variable} ${mono.variable} ${serif.variable}`}>
+      <head><script dangerouslySetInnerHTML={{ __html: themeBootstrap }} /></head>
       <body className="min-h-screen font-sans antialiased">
         <Shell>{children}</Shell>
       </body>

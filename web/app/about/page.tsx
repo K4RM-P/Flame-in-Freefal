@@ -63,10 +63,12 @@ export default function About() {
       </section>
       <section aria-labelledby="built-about" className="card space-y-3 md:p-8">
         <h2 id="built-about" className="display text-2xl">How we built it</h2>
-        <p className="measure text-base leading-relaxed text-mute">Our team combined human-written code with Claude Code. We wrote and reviewed code, worked through design decisions, and tested the results together.</p>
-        <p className="measure text-base leading-relaxed text-mute">The OpenAI API powers the scenario builder, which turns a plain-language description into draft inputs you can review.</p>
-        <p className="measure text-base leading-relaxed text-mute"><strong className="text-ink">Aster</strong> is our research chatbot. It searches EmberAtlas’s bundled NASA study catalog and returns relevant study excerpts with source links. Open Ask Aster in the bottom-right corner to try it.</p>
-        <Link className="underline underline-offset-4" href="/methods">Explore the methods and validation</Link>
+        <dl className="ea-build-list">
+          <div><dt>Code and review</dt><dd>Our team combined human-written code with Claude Code. We wrote and reviewed code, worked through design decisions, and tested the results together.</dd></div>
+          <div><dt>Scenario builder</dt><dd>The OpenAI API turns a plain-language description into draft inputs you can review.</dd></div>
+          <div><dt>Aster research chat</dt><dd>Aster searches our bundled NASA study catalog and returns relevant excerpts with source links. Open Ask Aster in the bottom-right corner to try it.</dd></div>
+        </dl>
+        <Link className="ea-source-link inline-block underline underline-offset-4" href="/methods">Explore the methods and validation</Link>
       </section>
     </article>
   );

@@ -33,7 +33,7 @@ export function EvidencePage() {
       <section id="earth-vs-orbit" aria-labelledby="evo-h" className="ea-evidence-section space-y-4 scroll-mt-24">
         <h2 id="evo-h" className="text-[22px] font-semibold">Does the Earth test hold up in orbit?</h2>
         <p className="measure text-mute">Under the study’s matched conditions, {counts.better} of {counts.n} samples were less flammable in orbit and {counts.same} had the same outcome. This comparison covers only the samples and conditions tested.</p>
-        <a className="inline-block underline underline-offset-4" href="https://doi.org/10.60555/2chp-m469">Original NASA dataset · Saffire-II, PSI-99 ↗</a>
+        <a className="ea-source-link inline-block underline underline-offset-4" href="https://doi.org/10.60555/2chp-m469">Original NASA dataset · Saffire-II, PSI-99 ↗</a>
         <div data-testid="evo-counts" className="space-y-3">
           <p className="text-mute"><span className="num">{counts.n}</span> like-for-like Saffire-II samples</p>
           <dl className="ea-evidence-counts">
@@ -42,14 +42,14 @@ export function EvidencePage() {
             ))}
           </dl>
         </div>
-        <div className="ea-table-scroll overflow-x-auto" tabIndex={0} role="region" aria-labelledby="evo-h">
+        <div className="ea-table-scroll ea-research-table overflow-x-auto" tabIndex={0} role="region" aria-labelledby="evo-h">
           <table className="data">
-            <thead><tr><th>sample</th><th>material</th><th>thickness</th><th>O₂</th><th>flow + direction</th><th>1 g result</th><th>µg result</th><th>agreement</th></tr></thead>
+            <thead><tr><th>sample</th><th>material</th><th className="ea-numeric">thickness</th><th className="ea-numeric">O₂</th><th>flow + direction</th><th>1 g result</th><th>µg result</th><th>agreement</th></tr></thead>
             <tbody>
               {evo.rows.map((r, i) => (
                 <tr key={`${r.sample}-${i}`} title={[r.source_id, r.locator].filter(Boolean).join(" · ")}>
-                  <td className="num">{r.sample}</td><td>{r.material}</td><td className="num">{r.thickness}{/^0\d/.test(String(r.thickness)) && <span className="text-warn" title="Raw PSI-99 cell, shown as written (decimal point likely missing)"> †</span>}</td>
-                  <td className="num">{r.x_o2_lo === r.x_o2_hi || r.x_o2_hi == null ? pct(r.x_o2_lo) : `${pct(r.x_o2_lo)}–${pct(r.x_o2_hi)}`}%</td>
+                  <td className="num">{r.sample}</td><td>{r.material}</td><td className="num ea-numeric">{r.thickness}{/^0\d/.test(String(r.thickness)) && <span className="text-warn" title="Raw PSI-99 cell, shown as written (decimal point likely missing)"> †</span>}</td>
+                  <td className="num ea-numeric">{r.x_o2_lo === r.x_o2_hi || r.x_o2_hi == null ? pct(r.x_o2_lo) : `${pct(r.x_o2_lo)}–${pct(r.x_o2_hi)}`}%</td>
                   <td className="num">{r.flow_cm_s == null ? "—" : sig(r.flow_cm_s, 3)} cm/s {String(r.flow_direction ?? "").toLowerCase()}</td>
                   <td>{[r.g1_burn_length, r.g1_spread_rate].filter((x) => x != null && x !== "").join(" · ") || "—"}</td>
                   <td>{[r.ug_burn_length, r.ug_spread].filter((x) => x != null && x !== "").join(" · ") || "—"}</td>
@@ -75,16 +75,16 @@ export function EvidencePage() {
           {stops.max_solid_x_o2 != null && <> Highest O₂ tested for a solid in PSI: <span className="num">{pct(stops.max_solid_x_o2)}%</span>.</>}
           {" "}<span className="text-warn">Amber</span> = the habitat value lies outside every tested range for that material.
         </p>
-        <div className="ea-table-scroll overflow-x-auto" tabIndex={0} role="region" aria-labelledby="stops-h">
+        <div className="ea-table-scroll ea-research-table overflow-x-auto" tabIndex={0} role="region" aria-labelledby="stops-h">
           <table className="data">
-            <thead><tr><th>material</th><th>tested O₂ %</th><th>tested pressure kPa</th><th>tested flow cm/s</th><th>investigations</th></tr></thead>
+            <thead><tr><th>material</th><th className="ea-numeric">tested O₂ %</th><th className="ea-numeric">tested pressure kPa</th><th className="ea-numeric">tested flow cm/s</th><th>investigations</th></tr></thead>
             <tbody>
               {stops.rows.map((r) => (
                 <tr key={r.material_key}>
                   <td>{r.display_name}</td>
-                  <td className={`num ${r.beyond.o2 ? "text-warn" : ""}`}>{fmtRange(r.o2_range, 100)}{r.beyond.o2 && ` (habitat ${pct(m.x_o2)})`}</td>
-                  <td className={`num ${r.beyond.P ? "text-warn" : ""}`}>{fmtRange(r.P_range_Pa, 1e-3)}{r.beyond.P && ` (habitat ${sig(m.P_Pa / 1e3, 3)})`}</td>
-                  <td className={`num ${r.beyond.flow ? "text-warn" : ""}`}>{fmtRange(r.flow_range_m_s, 100)}{r.beyond.flow && ` (habitat ${sig(m.flow_m_s * 100, 3)})`}</td>
+                  <td className={`num ea-numeric ${r.beyond.o2 ? "text-warn" : ""}`}>{fmtRange(r.o2_range, 100)}{r.beyond.o2 && ` (habitat ${pct(m.x_o2)})`}</td>
+                  <td className={`num ea-numeric ${r.beyond.P ? "text-warn" : ""}`}>{fmtRange(r.P_range_Pa, 1e-3)}{r.beyond.P && ` (habitat ${sig(m.P_Pa / 1e3, 3)})`}</td>
+                  <td className={`num ea-numeric ${r.beyond.flow ? "text-warn" : ""}`}>{fmtRange(r.flow_range_m_s, 100)}{r.beyond.flow && ` (habitat ${sig(m.flow_m_s * 100, 3)})`}</td>
                   <td className="text-[12px] text-mute">{r.investigations.join(", ") || "—"}</td>
                 </tr>
               ))}
