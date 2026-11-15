@@ -509,3 +509,31 @@ select { height: 2rem; background: rgb(var(--panel)); }
 }
 .ai-skel { background: linear-gradient(90deg, rgb(var(--ink) / .06) 30%, rgb(var(--ember) / .22) 50%, rgb(var(--ink) / .06) 70%) 0 0 / 250% 100%; animation: ai-shimmer 1.6s linear infinite; }
 @media (prefers-reduced-motion: reduce) { .ai-skel { animation: none; } }
+
+/* Aster's pending reply condenses into an orb, then yields to the streamed answer. */
+.ea-thinking-stage { overflow: hidden; }
+.ea-thinking-stage__space { display: grid; min-height: 88px; place-items: center; }
+.ea-thinking-stage__orb {
+  position: relative;
+  display: grid;
+  width: 58px;
+  aspect-ratio: 1;
+  place-items: center;
+  border: 1px solid rgb(var(--blue) / .38);
+  background: radial-gradient(circle at 24% 22%, rgb(255 179 217 / .24), transparent 56%),
+    radial-gradient(circle at 78% 66%, rgb(135 206 235 / .3), transparent 64%), rgb(var(--surface2));
+  box-shadow: 0 0 28px rgb(var(--blue) / .2), inset 0 0 16px rgb(var(--blue) / .12);
+}
+.ea-thinking-stage__orb::after {
+  content: "";
+  position: absolute;
+  inset: -5px;
+  border: 1px solid transparent;
+  border-top-color: rgb(var(--blue) / .64);
+  border-right-color: rgb(var(--ember) / .42);
+  border-radius: 50%;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .ea-thinking-stage__orb::after { animation: ea-thinking-orbit 1.8s linear infinite; }
+}
+@keyframes ea-thinking-orbit { to { transform: rotate(360deg); } }
