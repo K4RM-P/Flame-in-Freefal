@@ -1,8 +1,8 @@
 "use client";
 // SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 // Pinned-visual story: the left column scrolls through four beats, the right panel is position: sticky and crossfades.
-import { AnimatePresence, motion, useMotionValueEvent, useReducedMotion, useScroll, useSpring } from "motion/react";
-import { useRef, useState } from "react";
+import { motion, useReducedMotion, useScroll, useSpring } from "motion/react";
+import { useEffect, useRef, useState } from "react";
 import { ImageOff } from "lucide-react";
 import { sig } from "@/lib/ui/format";
 
@@ -21,7 +21,17 @@ export function Story({ f }: { f: StoryFacts }) {
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
   const rail = useSpring(scrollYProgress, { stiffness: 200, damping: 40 });
   const [beat, setBeat] = useState(0);
-  useMotionValueEvent(scrollYProgress, "change", (v) => setBeat(Math.min(BEATS.length - 1, Math.max(0, Math.floor(v * BEATS.length)))));
+  // Active beat from the section's own rect (robust to jumps of several beats at once).
+  useEffect(() => {
+    const on = () => {
+      const el = ref.current; if (!el) return;
+      const r = el.getBoundingClientRect();
+      const v = Math.min(0.9999, Math.max(0, -r.top / Math.max(1, r.height - window.innerHeight)));
+      setBeat(Math.floor(v * BEATS.length));
+    };
+    on(); window.addEventListener("scroll", on, { passive: true }); window.addEventListener("resize", on);
+    return () => { window.removeEventListener("scroll", on); window.removeEventListener("resize", on); };
+  }, []);
   return (
     <section id="story" ref={ref} className="relative border-t border-line" aria-label="Why EmberAtlas" style={{ height: `${BEATS.length * 100}vh` }}>
       <div className="mx-auto grid h-full max-w-6xl grid-cols-1 gap-8 px-4 md:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] md:px-6">
@@ -31,9 +41,9 @@ export function Story({ f }: { f: StoryFacts }) {
           </div>
           {BEATS.map((b, i) => (
             <div key={b.k} className="flex h-screen items-center md:pl-10">
-              <div className={`transition-opacity duration-300 ${beat === i ? "opacity-100" : "md:opacity-40"}`}>
+              <div>
                 <p className="ea-meta">{b.eyebrow}</p>
-                <h2 className="mt-3 text-[32px] font-semibold leading-[1.05] tracking-[-0.035em] md:text-[44px]">{b.title}</h2>
+                <h2 className={`transition-colors duration-300 ${beat === i ? "text-ink" : "md:text-faint"} mt-3 text-[32px] font-semibold leading-[1.05] tracking-[-0.035em] md:text-[44px]`}>{b.title}</h2>
                 <p className="mt-4 max-w-[46ch] text-[16px] leading-relaxed text-mute">{b.body}</p>
                 <p className="mt-4 font-mono text-[11px] uppercase tracking-[0.06em] text-faint">Source · {b.cite}</p>
                 <div className="mt-6 md:hidden"><Panel k={b.k} f={f} /></div>
@@ -44,11 +54,12 @@ export function Story({ f }: { f: StoryFacts }) {
         <div className="hidden md:block">
           <div className="sticky top-0 flex h-screen items-center" data-testid="story-sticky">
             <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[12px] border border-line bg-panel">
-              <AnimatePresence mode="popLayout" initial={false}>
-                <motion.div key={beat} className="absolute inset-0" initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 1.01 }} transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}>
-                  <Panel k={BEATS[beat].k} f={f} />
-                </motion.div>
-              </AnimatePresence>
+              {BEATS.map((b, i) => (
+                <div key={b.k} aria-hidden={beat !== i} data-active={beat === i || undefined}
+                  className={`absolute inset-0 transition-[opacity,transform] duration-500 ease-out ${beat === i ? "scale-100 opacity-100" : "pointer-events-none scale-[.98] opacity-0"}`}>
+                  <Panel k={b.k} f={f} />
+                </div>
+              ))}
             </div>
           </div>
         </div>

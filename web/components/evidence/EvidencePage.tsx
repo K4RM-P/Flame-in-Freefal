@@ -66,7 +66,7 @@ export function EvidencePage() {
         </nav>
       </header>
 
-      <section id="earth-vs-orbit" aria-labelledby="evo-h" className="ea-evidence-section space-y-4 scroll-mt-24">
+      <section id="earth-vs-orbit" aria-label="Earth vs. orbit" className="ea-evidence-section space-y-4 scroll-mt-24">
         <h2 id="evo-h" className="text-[22px] font-semibold tracking-[-0.02em]">Does the Earth test hold up in orbit?<CopyLink id="earth-vs-orbit" label="Earth vs. orbit" /></h2>
         <p className="measure text-mute">Under the study’s matched conditions, {counts.better} of {counts.n} samples were less flammable in orbit and {counts.same} had the same outcome. This comparison covers only the samples and conditions tested.</p>
         <a className="ea-source-link inline-block underline underline-offset-4" href="https://doi.org/10.60555/2chp-m469">Original NASA dataset · Saffire-II, PSI-99 ↗</a>
