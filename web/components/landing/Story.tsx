@@ -3,8 +3,8 @@
 // Pinned-visual story: the left column scrolls through four beats, the right panel is position: sticky and crossfades.
 import { motion, useReducedMotion, useScroll, useSpring } from "motion/react";
 import { useEffect, useRef, useState } from "react";
-import { ImageOff } from "lucide-react";
 import { sig } from "@/lib/ui/format";
+import { media } from "@/lib/media";
 
 export interface StoryFacts { mission: number; P_kPa: number; gravity: number; maxSolid: number | null; materials: { name: string; max: number | null }[]; note: string }
 const pct = (x: number) => `${sig(x * 100, 3)}%`;
@@ -70,6 +70,7 @@ export function Story({ f }: { f: StoryFacts }) {
 
 function Panel({ k, f }: { k: (typeof BEATS)[number]["k"]; f: StoryFacts }) {
   const reduce = useReducedMotion();
+  const [photoFailed, setPhotoFailed] = useState(false);
   if (k === "alarm") return (
     <div className="ea-dots relative flex h-full min-h-[16rem] flex-col items-center justify-center gap-4 rounded-[12px] border border-line bg-panel p-6 md:border-0">
       <span className="relative grid h-20 w-20 place-items-center">
@@ -81,11 +82,31 @@ function Panel({ k, f }: { k: (typeof BEATS)[number]["k"]; f: StoryFacts }) {
     </div>
   );
   if (k === "hidden") return (
-    <figure className="flex h-full min-h-[16rem] flex-col rounded-[12px] border border-line bg-panel md:border-0" data-testid="nasa-photo-placeholder">
-      <div className="grid flex-1 place-items-center border-b border-dashed border-line text-center">
-        <div className="flex flex-col items-center gap-2 text-faint"><ImageOff size={20} strokeWidth={1.5} /><span className="font-mono text-[11px] uppercase tracking-[0.08em]">NASA photo</span><span className="text-[12px]">Candle flame, 1 g vs microgravity</span></div>
-      </div>
-      <figcaption className="px-4 py-2 font-mono text-[11px] uppercase tracking-[0.06em] text-faint">NASA Glenn Research Center · GRC C-1998-485 · public domain</figcaption>
+    <figure className="relative flex h-full min-h-[16rem] flex-col overflow-hidden rounded-[12px] border border-line bg-[#080b11] md:border-0" data-testid="microgravity-visual">
+      {!photoFailed ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          className="absolute inset-0 h-full w-full object-cover"
+          src={media.candle.src}
+          alt={media.candle.alt}
+          loading="lazy"
+          decoding="async"
+          onError={() => setPhotoFailed(true)}
+        />
+      ) : (
+        <div className="grid flex-1 place-items-center bg-[radial-gradient(ellipse_at_50%_42%,#263449_0%,#101722_55%,#080b11_100%)] p-6">
+          <svg viewBox="0 0 600 360" className="h-full max-h-full w-full" role="img" aria-label="Illustration comparing an Earth candle flame with a rounded microgravity flame">
+            <g fill="none" stroke="#718097" strokeWidth="2"><path d="M72 282h190M338 282h190"/><path d="M124 282v-26h86v26M390 282v-26h86v26"/></g>
+            <path d="M167 245c-45-52-2-113 0-163 53 57 72 118 0 163Z" fill="#ff7043" opacity=".9"/>
+            <circle cx="433" cy="181" r="67" fill="#64c8ff" opacity=".85"/>
+            <text x="167" y="326" fill="#a3adbd" fontFamily="monospace" fontSize="16" textAnchor="middle">1 g · buoyant plume</text>
+            <text x="433" y="326" fill="#a3adbd" fontFamily="monospace" fontSize="16" textAnchor="middle">microgravity · spherical</text>
+          </svg>
+        </div>
+      )}
+      <figcaption className="relative mt-auto border-t border-white/15 bg-black/65 px-4 py-2 font-mono text-[11px] uppercase tracking-[0.06em] text-white/70">
+        NASA Glenn Research Center · GRC C-1998-485 · public domain
+      </figcaption>
     </figure>
   );
   if (k === "maya") return (
