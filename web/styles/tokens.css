@@ -1,22 +1,35 @@
-/* EmberAtlas tokens. Channels are "R G B" so Tailwind can apply alpha.
-   Derived from three inputs: base (warm grey, low chroma in LCH), accent (#FF6B35), contrast.
-   Dark is default; [data-theme="light"] is the warm-ivory editorial theme (also used for print). */
+/* EmberAtlas tokens — Geist/Vercel instrument palette. Channels are "R G B" so Tailwind can apply alpha.
+   Dark is default; [data-theme="light"] is the light theme (also the print base).
+   Legacy names (bg/panel/surface2/line/ink/mute/faint/accent) are kept so older components keep working;
+   shadcn names (--background, --primary, …) alias them. CSS var --accent = ember; Tailwind `accent` = raised surface (shadcn). */
 :root {
-  --bg: 11 13 18; --panel: 17 20 27; --surface2: 23 27 36; --line: 35 40 54;
-  --ink: 231 233 238; --mute: 154 161 178; --faint: 128 136 156;
-  --accent: 255 107 53; --accent-text: 255 154 118; --on-accent: 31 15 9;
-  --ok: 63 182 139; --bad: 247 115 120; --warn: 245 165 36; --blue: 76 154 255; --theory: 139 147 167;
-  --radius-control: 6px; --radius-card: 8px;
+  --bg: 10 10 10; --panel: 17 17 17; --surface2: 23 23 23; --line: 38 38 38;
+  --ink: 237 237 237; --mute: 161 161 161; --faint: 143 143 143; --faint-deco: 107 107 107;
+  --ember: 255 107 44; --accent: 255 107 44; --accent-text: 255 128 74; --on-accent: 10 10 10;
+  --ok: 61 214 140; --bad: 255 77 77; --warn: 245 165 36; --blue: 90 169 255; --theory: 143 143 143;
+  --radius-control: 6px; --radius-card: 10px; --radius-panel: 12px;
+  --ease-out: cubic-bezier(.16, 1, .3, 1); --dur-ui: 180ms; --dur-reveal: 750ms;
+  /* shadcn aliases */
+  --background: var(--bg); --foreground: var(--ink);
+  --card: var(--panel); --card-foreground: var(--ink);
+  --popover: var(--panel); --popover-foreground: var(--ink);
+  --primary: var(--ember); --primary-foreground: var(--on-accent);
+  --secondary: var(--surface2); --secondary-foreground: var(--ink);
+  --muted: var(--surface2); --muted-foreground: var(--mute);
+  --accent-surface: var(--surface2); --accent-foreground: var(--ink);
+  --destructive: var(--bad); --destructive-foreground: 10 10 10;
+  --border: var(--line); --input: var(--line); --ring: var(--ember);
+  --radius: 6px;
   color-scheme: dark;
 }
 [data-theme="light"] {
-  --bg: 247 243 236; --panel: 255 253 248; --surface2: 239 233 223; --line: 199 188 171;
-  --ink: 43 43 43; --mute: 98 93 85; --faint: 104 98 90;
-  --accent-text: 152 52 22;
-  --ok: 23 100 71; --bad: 166 33 43; --warn: 119 73 0; --blue: 22 81 168; --theory: 79 85 106;
+  --bg: 250 250 250; --panel: 255 255 255; --surface2: 243 243 243; --line: 234 234 234;
+  --ink: 10 10 10; --mute: 82 82 82; --faint: 107 107 107; --faint-deco: 163 163 163;
+  --accent-text: 194 65 12; --on-accent: 10 10 10;
+  --ok: 21 128 61; --bad: 200 30 30; --warn: 161 98 7; --blue: 29 100 200; --theory: 98 98 98;
+  --destructive-foreground: 255 255 255;
   color-scheme: light;
 }
 @media print {
-  :root { --bg: 247 243 236; --panel: 255 253 248; --surface2: 239 233 223; --line: 228 221 208; --ink: 43 43 43; --mute: 107 102 94; }
   nav, header, aside, .no-print { display: none !important; }
 }

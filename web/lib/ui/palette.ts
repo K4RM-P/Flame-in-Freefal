@@ -4,5 +4,6 @@ export const OKABE_ITO = ["#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2",
 const ORDER = ["FLEX", "BASS-II", "Saffire-I-III", "ACME-BRE", "SAME", "BASS", "Saffire-IV-VI"];
 export const invColor = (id: string) => OKABE_ITO[Math.max(0, ORDER.indexOf(id)) % OKABE_ITO.length];
 export const FUEL_COLOR: Record<string, string> = { "n-heptane": "#E69F00", methanol: "#56B4E9" };
-export const ACCENT = "#FF6B35";
+export const ACCENT = "#FF6B2C";
+export const OXYGEN_BLUE = "#5AA9FF";
 export const OUTCOME_SYMBOL: Record<string, string> = { burn: "circle", extinct: "x-thin", cool_flame: "diamond-open", no_ignition: "square-open" };

@@ -56,3 +56,10 @@
 - About: removed IdeaOrbit, CrewCarousel, MissionLog (no other importers); team shown as names only (roles unconfirmed). Their `ea-crew*`/orbit CSS in globals.css is the UI session's to delete (docs/HANDOFF_UI.md).
 - 3D crew figure: off by default in Layers (toggle kept).
 - Demo Numbers: not in `lib/` (lives only in `components/sim/Onboarding.tsx`); left for the UI session (docs/HANDOFF_UI.md).
+- 2026-11-15 · lucide-react 1.x ships no brand icons; the GitHub link uses Lucide `FolderGit2` (Lucide-only rule kept).
+- 2026-11-15 · UI v2 palette: dark-first Geist/Vercel tokens (#0A0A0A/#111/#171717, #262626 hairlines); ember #FF6B2C replaces #FF6B35 per the v2 brief (supersedes the CLAUDE.md accent value).
+- 2026-11-15 · `--faint` text is #8F8F8F (dark) / #6B6B6B (light), not #6B6B6B on dark: #6B6B6B on #0A0A0A is 3.6:1 and fails WCAG AA; #6B6B6B kept as `--faint-deco` for non-text.
+- 2026-11-15 · Tailwind `accent` now = raised surface (shadcn semantics); the ember colour is Tailwind `ember` (+ `ember-text`). CSS var `--accent` still = ember so existing CSS keeps working.
+- 2026-11-15 · shadcn structure: `components.json` (new-york, rsc), `lib/utils.ts` `cn()`, primitives in `components/ui/` (button, dropdown-menu, popover, collapsible, tooltip, sonner, kit); `components/ui-kit` merged into `components/ui/kit.tsx`.
+- 2026-11-15 · Fonts via the local `geist` package (no `next/font/google`); Newsreader/Inter/JetBrains Mono and `.serif` removed.
+- 2026-11-15 · Theme bootstrap is dark unless the user saved "light" (dark-first; system preference no longer auto-selects light).

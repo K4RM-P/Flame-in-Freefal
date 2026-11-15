@@ -4,7 +4,7 @@
 import { useState } from "react";
 import { PRESETS } from "@/lib/sim/presets";
 import { GRAVITY, ScenarioSchema, type Item, type Provenance, type Scenario } from "@/lib/sim/types";
-import { Segmented } from "@/components/ui-kit";
+import { Segmented } from "@/components/ui/kit";
 import { MATERIALS, canIgnite, depthLine, materialByKey } from "./data";
 import { NumField, Section, BoundedBadge } from "./bits";
 import { useSim } from "./store";

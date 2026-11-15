@@ -3,7 +3,7 @@
 // Four time-series charts with p05–p95 bands; B overlays dashed; Saffire replay overlays the real PSI-100 telemetry.
 import type { PlotParams } from "react-plotly.js";
 import { Plot } from "@/components/Plot";
-import { OKABE_ITO } from "@/lib/ui/palette";
+import { ACCENT, OKABE_ITO, OXYGEN_BLUE } from "@/lib/ui/palette";
 import { BAND_OPACITY } from "@/lib/ui/plotTheme";
 import type { CabinState, Scenario, SimResult } from "@/lib/sim/types";
 import { TELEMETRY } from "./data";
@@ -31,7 +31,7 @@ export function Charts({ ra, rb, sa, frame, replay, only, height = 220 }: { ra: 
         for (const [r, tag, dash] of [[ra, "A", "solid"], [rb, "B", "dash"]] as const) {
           if (!r) continue;
           for (const l of c.lines) {
-            const col = OKABE_ITO[l.k];
+            const col = l.y2 ? OKABE_ITO[l.k] : tag === "A" ? OXYGEN_BLUE : ACCENT; // ISS/baseline blue, B ember
             const yaxis = l.y2 ? "y2" : "y";
             const band = r.bands?.[l.f];
             if (band) {

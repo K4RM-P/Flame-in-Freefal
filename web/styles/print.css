@@ -1,8 +1,8 @@
-/* Print: warm-ivory editorial theme for the Evidence Brief (PDF export via window.print). Reuses [data-theme="light"] token values. */
+/* Print: light theme for the Evidence Brief (PDF export via window.print). Reuses [data-theme="light"] token values. */
 @media print {
   :root, [data-theme] {
-    --bg: 255 253 248; --panel: 255 253 248; --surface2: 239 233 223; --line: 228 221 208;
-    --ink: 43 43 43; --mute: 98 93 85; --faint: 112 106 97;
+    --bg: 255 255 255; --panel: 255 255 255; --surface2: 243 243 243; --line: 234 234 234;
+    --ink: 10 10 10; --mute: 82 82 82; --faint: 107 107 107;
     --ok: 31 128 92; --bad: 190 42 48; --warn: 160 98 0; --blue: 28 98 196; --theory: 107 112 128;
     color-scheme: light;
   }

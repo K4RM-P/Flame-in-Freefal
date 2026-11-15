@@ -316,7 +316,7 @@ function Hud({ sc, r, f, F, compact, fanOff, u }: { sc: Scenario; r: SimResult |
 export function Legend() {
   return (
     <div className="flex flex-wrap gap-x-3 gap-y-0.5 text-[11px] text-mute" data-testid="legend">
-      <span><span className="text-accent">●</span> burning (flame zone)</span>
+      <span><span className="text-ember">●</span> burning (flame zone)</span>
       <span><span className="text-bad">▲</span> alarm (engine event)</span>
       <span>✕ extinct · ○ not ignited</span>
       <a href="/methods#overview" className="text-theory hover:underline">◌ theory-only (dashed) →</a>

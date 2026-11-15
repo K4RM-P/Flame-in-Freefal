@@ -107,7 +107,7 @@ function Hud3D({ v, frame, compact }: { v: SceneView; frame: number; compact: bo
       {/* empty state */}
       {!r && <div className="absolute inset-x-0 top-[16%] flex justify-center" data-testid="scene-empty">
         <div className="glass pointer-events-auto flex items-center gap-3 px-4 py-3">
-          {!missing.length && <button type="button" className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-accent text-[16px] text-black disabled:opacity-60" disabled={running} aria-label="Play simulation" data-testid="play-center" onClick={() => void playPause()}>{running ? "…" : "▶"}</button>}
+          {!missing.length && <button type="button" className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-ember text-[16px] text-black disabled:opacity-60" disabled={running} aria-label="Play simulation" data-testid="play-center" onClick={() => void playPause()}>{running ? "…" : "▶"}</button>}
           <div>
           <p className="text-[16px] font-medium">{running ? "Simulating…" : missing.length ? "Inputs needed" : "Ready · press Play (Space)"}</p>
           <p className="mt-0.5 text-[12px] text-mute">{missing.length ? `Enter ${missing.join(", ")}: there is no sourced value.` : `${sc.items.length} unburnt item${sc.items.length > 1 ? "s" : ""} in the holder · ${sig(sc.cabin.x_o2 * 100, 3)}% O₂ · ${sig(sc.cabin.gravity_g, 3)} g`}</p>

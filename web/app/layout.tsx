@@ -1,31 +1,28 @@
 // SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 import type { Metadata } from "next";
-import { Inter, JetBrains_Mono, Newsreader } from "next/font/google";
+import { GeistSans } from "geist/font/sans";
+import { GeistMono } from "geist/font/mono";
 import "katex/dist/katex.min.css";
 import "./globals.css";
 import { Shell } from "@/components/shell/Shell";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
-const mono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mono", display: "swap" });
-const serif = Newsreader({ subsets: ["latin"], variable: "--font-serif", display: "swap", style: ["normal", "italic"] });
-
 export const metadata: Metadata = {
   title: { default: "EmberAtlas", template: "%s · EmberAtlas" },
-  description: "NASA PSI evidence and transparent spacecraft fire-safety simulation.",
+  description: "EmberAtlas shows where and how a fire would start in your spacecraft, and which design change prevents it. Built on NASA's ISS fire data, explained by AI.",
 };
 
+// Dark-first: only an explicit saved "light" choice switches the theme.
 const themeBootstrap = `(() => {
   let saved;
   try { saved = JSON.parse(localStorage.getItem("ea.theme")); } catch {}
-  document.documentElement.dataset.theme = saved === "dark" || saved === "light"
-    ? saved : matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  document.documentElement.dataset.theme = saved === "light" ? "light" : "dark";
 })();`;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" data-theme="dark" suppressHydrationWarning className={`${inter.variable} ${mono.variable} ${serif.variable}`}>
+    <html lang="en" data-theme="dark" suppressHydrationWarning className={`${GeistSans.variable} ${GeistMono.variable}`}>
       <head><script dangerouslySetInnerHTML={{ __html: themeBootstrap }} /></head>
-      <body className="min-h-screen font-sans antialiased">
+      <body className="min-h-screen bg-bg font-sans text-ink antialiased">
         <Shell>{children}</Shell>
       </body>
     </html>
