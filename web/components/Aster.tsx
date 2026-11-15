@@ -46,7 +46,7 @@ export function Aster() {
       const response = await fetch("/api/aster", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ question }),
+        body: JSON.stringify({ question, path: window.location.pathname, context: document.body.innerText.slice(0, 12000) }),
       });
       const result = await response.json() as Partial<LocalAnswer> & { mode?: Mode; error?: string };
       exchange = response.ok && result.answer

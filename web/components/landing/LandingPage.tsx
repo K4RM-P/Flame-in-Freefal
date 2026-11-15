@@ -37,7 +37,7 @@ export function LandingPage() {
         <figure>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="https://www.nasa.gov/wp-content/uploads/2023/12/jsc2023e046375medium.jpg" alt="An orange flame spreads across fabric inside the Saffire-IV experiment." width={1280} height={1037} loading="lazy" decoding="async" />
-          <figcaption>Saffire-IV fabric burn · <a href="https://www.nasa.gov/centers-and-facilities/glenn/flame-burns-out-on-nasas-long-running-spacecraft-fire-experiment/">NASA / Glenn ↗</a></figcaption>
+          <figcaption>Saffire-IV fabric burn · NASA / Glenn</figcaption>
         </figure>
         <div className="ea-photo-story__copy">
           <p className="label">Spacecraft Fire Safety Experiment</p>
@@ -75,6 +75,10 @@ export function LandingPage() {
 
       <FlexChart />
 
+      <section className="mt-16 border-y border-line py-12" aria-labelledby="platform-title">
+        <div className="max-w-3xl"><p className="label">One workspace, three decisions</p><h2 id="platform-title" className="display mt-2 text-3xl md:text-5xl">From NASA evidence to a testable cabin decision.</h2><p className="mt-4 text-lg leading-relaxed text-mute">EmberAtlas keeps the source, model, and uncertainty together. Start from a NASA experiment, build a custom cabin, or ask whether your design resembles a test that already exists.</p></div>
+        <div className="mt-8 grid gap-px border border-line bg-line md:grid-cols-3"><div className="bg-bg p-5"><p className="label">01 · Find</p><h3 className="mt-2 text-xl font-semibold">Match a prior experiment</h3><p className="mt-3 text-sm leading-relaxed text-mute">Search the bundled PSI catalog by material, atmosphere, flow, gravity, and measurement type.</p></div><div className="bg-bg p-5"><p className="label">02 · Run</p><h3 className="mt-2 text-xl font-semibold">Replay or model a cabin</h3><p className="mt-3 text-sm leading-relaxed text-mute">Run a sourced preset or enter your own SI variables. Required gaps stay visible instead of becoming hidden defaults.</p></div><div className="bg-bg p-5"><p className="label">03 · Review</p><h3 className="mt-2 text-xl font-semibold">Know what remains untested</h3><p className="mt-3 text-sm leading-relaxed text-mute">Inspect receipts, Monte Carlo bands, theory-only models, replay error, and the next test the evidence calls for.</p></div></div>
+      </section>
       <section className="mt-8 border-t border-line pt-4 text-[13px] text-mute" aria-label="Trust and limits">
         <ul className="space-y-1">
           <li><span className="num">{psiRows.toLocaleString("en-US")}</span> PSI rows with provenance from <span className="num">{psiAccessions}</span> accessions</li>

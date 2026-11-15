@@ -10,28 +10,28 @@ import { MissionLog } from "./MissionLog";
 export const metadata: Metadata = { title: "About" };
 const team: { name: string; initials: string; focus: string; bio: string }[] = [
   {
-    name: "Anujan Akaljan",
-    initials: "AA",
-    focus: "Student developer · Team Ontario athlete · Aerospace technology",
-    bio: "Anujan is a Grade 10 Pre-IB student at Milliken Mills High School. He represented Team Ontario at the U16 Ontario–Quebec Dual Meet and competed at OFSAA, with events spanning hurdles, jumps, and the pentathlon. He builds Orbit for youth program operations and Learnify for student assignments and progress tracking, co-created the FridgeOMeter science fair project, and coordinates youth programming with CFLI. He is exploring a potential Learnify integration with Knowledgehook to connect math practice, assignment feedback, and student progress. His aerospace interests include interactive simulations and AI tools that help people understand how spacecraft crews make decisions under pressure.",
-  },
-  {
     name: "Karm Patel",
     initials: "KP",
-    focus: "Aerospace research · Atmospheric combustion · Fire prevention",
-    bio: "Karm’s aerospace research and engineering work explores how atmospheric conditions affect combustion and flame behavior. His work on fire and flame prevention connects the physics of how flames ignite and spread with practical engineering approaches to controlling them.",
+    focus: "Project lead · Aerospace research · Atmospheric combustion",
+    bio: "Karm leads EmberAtlas’s research direction, connecting NASA combustion evidence to transparent spacecraft fire-safety decisions and the simulator’s atmosphere and flame-spread questions.",
+  },
+  {
+    name: "Anujan Akaljan",
+    initials: "AA",
+    focus: "Product and interaction design · Aerospace technology",
+    bio: "Anujan shapes EmberAtlas’s interactive research experience, helping turn complex spacecraft fire evidence into clear tools for exploring scenarios and decisions.",
   },
   {
     name: "Aaron Sui",
     initials: "AS",
-    focus: "Competitive runner · Student inventor · Robotics",
-    bio: "Aaron is a Grade 10 Pre-IB student at Milliken Mills High School who competed at OFSAA Cross Country in 2026. He co-created FridgeOMeter, which earned multiple awards at the 2026 York Region Science and Technology Fair. He brings hands-on mechanical experience from VEX Robotics and the FIRST Robotics Competition, where he actively contributes to building and refining robot mechanisms.",
+    focus: "Mechanical systems · Robotics · Prototyping",
+    bio: "Aaron contributes hands-on systems and robotics thinking to EmberAtlas, helping shape practical fire-mitigation scenarios and the way engineering results are presented.",
   },
   {
     name: "Xuliang Sun",
     initials: "XS",
-    focus: "Grade 10 Pre-IB · Milliken Mills High School",
-    bio: "Xuliang is a Grade 10 Pre-IB student at Milliken Mills High School and a member of the EmberAtlas team.",
+    focus: "Research support · Data and interface review",
+    bio: "Xuliang supports the project’s research and review work, helping keep the evidence trail understandable and the experience coherent for new users.",
   },
 ];
 

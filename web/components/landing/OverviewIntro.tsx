@@ -20,6 +20,10 @@ export function OverviewIntro({ image, source, run }: { image: string; source: s
     const saved = localStorage.getItem("ea.overview-language");
     if (saved && Object.hasOwn(languages, saved)) setLanguage(saved as Language);
   }, []);
+  useEffect(() => {
+    const onLanguage = (event: Event) => { const next = (event as CustomEvent<string>).detail; if (Object.hasOwn(languages, next)) setLanguage(next as Language); };
+    window.addEventListener("ea:language", onLanguage); return () => window.removeEventListener("ea:language", onLanguage);
+  }, []);
   const [, title, intro, evidence, scroll, start, ...labels] = languages[language];
   const tools = [
     ["/evidence", labels[0], labels[1], "01"],
@@ -31,16 +35,6 @@ export function OverviewIntro({ image, source, run }: { image: string; source: s
       <section className="ea-cover" aria-labelledby="landing-title">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img className="ea-cover__image" src={image} alt="NASA: an acrylic sphere burning in microgravity aboard the ISS" fetchPriority="high" />
-        <label className="ea-cover__language">
-            {labels[6]}
-            <select value={language} onChange={(event) => {
-              const next = event.target.value as Language;
-              setLanguage(next);
-              localStorage.setItem("ea.overview-language", next);
-            }}>
-              {Object.entries(languages).map(([code, [name]]) => <option key={code} value={code} lang={code}>{name}</option>)}
-            </select>
-        </label>
         <div className="ea-cover__content">
           <p className="ea-cover__label" lang="en">NASA Space Apps · Flame in Freefall</p>
           <h1 id="landing-title">{title}</h1>
@@ -50,7 +44,7 @@ export function OverviewIntro({ image, source, run }: { image: string; source: s
             <a href="#findings" className="ea-cover__scroll">{scroll} <span aria-hidden="true">↓</span></a>
           </div>
         </div>
-        <a className="ea-cover__credit" href={source} target="_blank" rel="noreferrer" lang="en">SoFIE-GEL · NASA / JSC ↗</a>
+        <span className="ea-cover__credit" lang="en">SoFIE-GEL · NASA / JSC</span>
       </section>
       <nav className="ea-start" aria-label={start}>
         <h2>{start}</h2>

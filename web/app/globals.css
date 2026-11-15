@@ -227,9 +227,15 @@ button:focus-visible, a:focus-visible, select:focus-visible, input:focus-visible
     linear-gradient(180deg, #120c19a6, transparent 24%);
 }
 .ea-cover__content { max-width: 68rem; padding: 4rem 0 1rem; }
+.ea-cover { align-items: center; }
 .ea-cover h1 { font-size: clamp(3rem, 7.8vw, 7rem); }
 .ea-cover__intro { margin-inline: auto; }
 .ea-cover__language { position: absolute; z-index: 1; top: 1rem; right: 1rem; margin: 0; }
+.shell-header { transition: background-color .25s ease, backdrop-filter .25s ease, box-shadow .25s ease; }
+.shell-header--top { background: rgb(var(--bg) / .42); backdrop-filter: blur(18px) saturate(1.15); }
+.shell-header--scrolled { background: rgb(var(--panel) / .86); backdrop-filter: blur(22px) saturate(1.2); box-shadow: 0 8px 24px rgb(var(--ink) / .08); }
+.shell-settings { min-width: 2.25rem; padding-inline: .55rem; }
+.shell-settings-menu { border-radius: .5rem; }
 .ea-cover__actions { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: .75rem 1.25rem; }
 .ea-cover__scroll { margin: 0; }
 .ea-cover__action { transition: background-color .2s ease, transform .2s ease; }
