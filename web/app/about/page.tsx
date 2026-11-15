@@ -10,14 +10,14 @@ const team: { name: string; initials: string; focus: string; bio: string }[] = [
   {
     name: "Anujan Akaljan",
     initials: "AA",
-    focus: "Student developer · Team Ontario athlete · Aerospace technology",
-    bio: "Anujan is a Grade 10 Pre-IB student at Milliken Mills High School. He represented Team Ontario at the U16 Ontario–Quebec Dual Meet and competed at OFSAA, with events spanning hurdles, jumps, and the pentathlon. He builds Orbit for youth program operations and Learnify for student assignments and progress tracking, co-created the FridgeOMeter science fair project, and coordinates youth programming with CFLI. He is exploring a potential Learnify integration with Knowledgehook to connect math practice, assignment feedback, and student progress. His aerospace interests include interactive simulations and AI tools that help people understand how spacecraft crews make decisions under pressure.",
+    focus: "Applied science · Student developer · Team Ontario athlete",
+    bio: "Anujan is a Grade 10 Pre-IB student at Milliken Mills High School. He represented Team Ontario at the U16 Ontario–Quebec Dual Meet and competed at OFSAA, with events spanning hurdles, jumps, and the pentathlon. He co-created FridgeOMeter, a science fair project that earned multiple awards at the 2026 York Region Science and Technology Fair. That project and EmberAtlas reflect his interest in using software to make measurements and scientific results easier to interpret. He builds Orbit for youth program operations and Learnify for student assignments and progress tracking, and coordinates youth programming with CFLI. He is exploring a potential Learnify integration with Knowledgehook to connect math practice, assignment feedback, and student progress. For EmberAtlas, he helped build ways to explore NASA’s combustion research through interactive simulations and AI-guided questions. He is interested in how changing oxygen, pressure, or airflow affects a modeled cabin fire, and how the simulator can help a researcher identify which predictions need new experiments.",
   },
   {
     name: "Karm Patel",
     initials: "KP",
     focus: "Aerospace research · Atmospheric combustion · Fire prevention",
-    bio: "Karm’s aerospace research and engineering work explores how atmospheric conditions affect combustion and flame behavior. His work on fire and flame prevention connects the physics of how flames ignite and spread with practical engineering approaches to controlling them. He is interested in how fire experiments can inform material choices and prevention strategies for future crewed spacecraft and habitats. He approaches spacecraft safety through the conditions that change a flame’s behavior, including oxygen and airflow.",
+    bio: "Karm is a Grade 10 Pre-IB student at Milliken Mills High School. His aerospace research and engineering work explores how atmospheric conditions affect combustion and flame behavior. His work on fire and flame prevention connects the physics of how flames ignite and spread with practical engineering approaches to controlling them. He is interested in how fire experiments can inform material choices and prevention strategies for future crewed spacecraft and habitats. He approaches spacecraft safety through the conditions that change a flame’s behavior, including oxygen and airflow.",
   },
   {
     name: "Aaron Sui",
@@ -41,12 +41,12 @@ export default function About() {
         <h1 className="display my-3 text-5xl md:text-7xl">EmberAtlas: the firefighter for space</h1>
         <p className="measure text-lg leading-relaxed text-mute">It shows where and how a fire would start in your spacecraft, and which design change prevents it. Built on NASA&apos;s ISS fire data, explained by AI.</p>
       </header>
-      <CrewCarousel names={team.map(({ name }) => name)}>
+      <CrewCarousel team={team}>
         {team.map(({ name, initials, focus, bio }) => {
           const portrait = `/team/${name.toLowerCase().replaceAll(" ", "-")}.jpg`;
           const hasPortrait = existsSync(path.join(process.cwd(), "public", portrait));
           return (
-            <li key={name} className="ea-crew__slide">
+            <li key={name} id={`crew-${initials.toLowerCase()}`} className="ea-crew__slide">
               <div className="ea-crew__portrait" aria-hidden="true">
                 {hasPortrait
                   ? <img className="h-full w-full object-cover" src={portrait} alt="" loading="lazy" />
