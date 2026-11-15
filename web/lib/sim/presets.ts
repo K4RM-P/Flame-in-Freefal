@@ -16,6 +16,17 @@ export interface Preset {
 }
 const HELD_EQUAL: Provenance = { source_id: "design input", note: "held equal to Scenario A for a like-for-like comparison" };
 const DESIGN: Provenance = { source_id: "design input", note: "a design choice for the user to vary — not a measured value" };
+/** Shared fire response for the ISS-vs-Moon pair and lunar-tune: every value is a design input, not a NASA measurement. */
+export const CREW_RESPONSE = { manual_alarm_s: 30, agent: "CO2" as const, delay_s: 30, mass_kg: 2, fan_off_on_alarm: true };
+const CREW_DETECT: Provenance = { source_id: "design input", note: "crew detects the fire at t = 30 s (design assumption, not a NASA measurement); SIBAL has no sourced smoke yield and no detector threshold is sourced, so a smoke alarm cannot fire" };
+const AGENT: Provenance = { source_id: "design input", note: "portable CO₂ extinguisher, 2 kg, discharged 30 s after the alarm (design assumption, not a NASA measurement)" };
+const FAN_OFF: Provenance = { source_id: "design input", note: "ventilation stopped on alarm (design assumption)" };
+function crewResponse(prov: Record<string, Provenance>, pre = "") {
+  prov[`${pre}detection.manual_alarm_s`] = CREW_DETECT;
+  prov[`${pre}suppression.agent`] = AGENT; prov[`${pre}suppression.delay_s`] = AGENT; prov[`${pre}suppression.mass_kg`] = AGENT;
+  prov[`${pre}cabin.fan_off_on_alarm`] = FAN_OFF;
+  return { agent: CREW_RESPONSE.agent, delay_s: CREW_RESPONSE.delay_s, mass_kg: CREW_RESPONSE.mass_kg };
+}
 const sibal = () => MATERIALS.find((m) => m.properties_key === "sibal") ?? MATERIALS.find((m) => /sibal/i.test(m.display_name)) ?? null;
 const SAF: any[] = saffireRows as any[];
 const row = (acc: string, sample: string) => SAF.find((r) => r.accession === acc && r.sample === sample);
@@ -91,7 +102,9 @@ function buildPair(): { a: Scenario; b: Scenario } {
   const mk = (a: Atmosphere | null, name: string): Scenario => ({
     name, preset_id: "iss-vs-lunar",
     cabin: a ? cabinFrom(a, prov, name.startsWith("ISS") ? "cabin" : "b.cabin") : { x_o2: NaN, P_Pa: NaN, gravity_g: 0, V_m3: null, flow_m_s: 0, fan_off_on_alarm: true },
-    items: item ? [item] : [], detection: detection("photoelectric", prov), suppression: noAgent, t_end_s: 600,
+    items: item ? [item] : [],
+    detection: { ...detection("photoelectric", prov), manual_alarm_s: CREW_RESPONSE.manual_alarm_s },
+    suppression: crewResponse(prov, name.startsWith("ISS") ? "" : "b."), t_end_s: 600,
   });
   const a = mk(iss, "ISS"), b = mk(lunar, "Lunar Habitat");
   // The lunar module volume has no sourced value: hold it equal to A so the pair is a like-for-like comparison.
@@ -105,16 +118,26 @@ function buildTune(): Scenario {
   const prov = tuneProv;
   const item = sibalItem(prov, row("PSI-98", "S1"));
   const lunar = atmosphereById("LunarHabitat");
-  prov["suppression.agent"] = DESIGN; prov["suppression.delay_s"] = DESIGN; prov["suppression.mass_kg"] = DESIGN;
   const cabin = lunar ? cabinFrom(lunar, prov) : { x_o2: NaN, P_Pa: NaN, gravity_g: 0, V_m3: null as number | null, flow_m_s: 0, fan_off_on_alarm: true };
   const iss = atmosphereById("ISS");
   if (cabin.V_m3 === null && iss?.V_m3) { cabin.V_m3 = iss.V_m3; prov["cabin.V_m3"] = { ...HELD_EQUAL, note: "held equal to the ISS habitable volume (Scenario A of the ISS vs Lunar preset) for a like-for-like comparison" }; }
   return {
     name: "Lunar Habitat response", preset_id: "lunar-tune",
     cabin,
-    items: item ? [item] : [], detection: detection("photoelectric", prov),
-    suppression: { agent: "CO2", delay_s: 30, mass_kg: 2 }, t_end_s: 600,
+    items: item ? [item] : [], detection: { ...detection("photoelectric", prov), manual_alarm_s: CREW_RESPONSE.manual_alarm_s },
+    suppression: crewResponse(prov), t_end_s: 600,
   };
+}
+
+// ---------- 4. Moon base: find the gaps (design review demo) ----------
+// The unfixed lunar cabin: an extinguisher is fitted, but nothing can raise the alarm (no sourced smoke yield for SIBAL,
+// no sourced detector threshold, no crew-detection input), so the agent is never released.
+const reviewProv: Record<string, Provenance> = {};
+function buildReview(): Scenario {
+  const s = buildTune();
+  Object.assign(reviewProv, tuneProv);
+  reviewProv["detection.manual_alarm_s"] = { source_id: "design input", note: "deliberately unset: this preset is the unfixed cabin for the design review" };
+  return { ...s, name: "Moon base: find the gaps", preset_id: "lunar-design-review", detection: { ...s.detection, manual_alarm_s: null } };
 }
 
 const req = (s: Scenario | { a: Scenario; b: Scenario }) => {
@@ -126,7 +149,8 @@ const req = (s: Scenario | { a: Scenario; b: Scenario }) => {
 
 export const PRESETS: Preset[] = [
   { id: "saffire-replay", label: "Saffire replay (real NASA fire)", description: "SAFFIRE-III sample S1 (PSI-100): SIBAL 94 × 40.6 cm, 30 cm/s concurrent flow, in Cygnus. Overlay the real telemetry.", build: buildReplay, provenance: replayProv, get required() { return req(buildReplay()); } },
-  { id: "iss-vs-lunar", label: "Same fabric: ISS vs Lunar Habitat", description: "SAFFIRE-I SIBAL sample under the ISS atmosphere (A) and the lunar exploration atmosphere (B, 34 % O₂ at 56.5 kPa, 0.165 g bounded).", build: buildPair, provenance: pairProv, get required() { return req(buildPair()); } },
+  { id: "iss-vs-lunar", label: "Same fabric: ISS vs Lunar Habitat", description: "SAFFIRE-I SIBAL sample under the ISS atmosphere (A) and the lunar exploration atmosphere (B, 34 % O₂ at 56.5 kPa, 0.165 g estimate). Same response in both: crew detects at 30 s, fan off, 2 kg CO₂ 30 s later (design inputs).", build: buildPair, provenance: pairProv, get required() { return req(buildPair()); } },
+  { id: "lunar-design-review", label: "Moon base: find the gaps", description: "The unfixed lunar cabin: a CO₂ extinguisher is fitted but no alarm can fire. Open the design review to see the ranked fixes.", build: buildReview, provenance: reviewProv, get required() { return req(buildReview()); } },
   { id: "lunar-tune", label: "Lunar Habitat: tune the response", description: "Lunar exploration atmosphere with detector, fan-off and a CO₂ release you can tune (design inputs).", build: buildTune, provenance: tuneProv, get required() { return req(buildTune()); } },
 ];
 // Build once at load so the provenance maps are populated for hover text before the first click.

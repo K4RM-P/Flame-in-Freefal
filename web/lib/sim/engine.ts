@@ -10,6 +10,7 @@ import * as SU from "@/lib/physics/suppression";
 import { R, cpMolar, formulaMass, molarMass } from "@/lib/physics/thermo";
 import { makeRng, percentiles, sampleDist, type Rng } from "@/lib/physics/uq";
 import { HABITAT, LIMITS_SI, MATERIALS, SMOKE, SOLID_ENVELOPE, SPREAD, insideRange, material, tolerantRange, type Limit } from "./params";
+import { PARTIAL_G_SOURCE, partialGCaveat } from "./wording";
 import type { CabinState, Item, ItemTrace, Outcome, OutcomeMetric, Provenance, Scenario, SimBands, SimEvent, SimResult } from "./types";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -141,7 +142,9 @@ function runOnce(s: Scenario, d: Draws, seed: number): SimResult {
   const yieldBy: Record<string, { y: number; source: string } | null> = {};
   for (const r of runs) if (r.key) yieldBy[r.key] = smokeYield(r.key);
   if (runs.some((r) => r.key && !yieldBy[r.key])) warnings.push("No sourced smoke yield for at least one burning material: its smoke is not counted at the detector.");
-  if (det.threshold === null) warnings.push("No data (no sourced detector threshold): the alarm time is not computed; the run proceeds.");
+  if (det.threshold === null) warnings.push(det.manual_alarm_s != null
+    ? `No sourced detector threshold: the alarm comes from the crew-detection design input (t = ${det.manual_alarm_s} s, not a NASA measurement).`
+    : "No data (no sourced detector threshold): the alarm time is not computed; the run proceeds.");
   const smokeHist: number[] = []; // cabin smoke mass (kg) per step
   let smokeMass = 0;
   let flow = c.flow_m_s;
@@ -308,6 +311,7 @@ function runOnce(s: Scenario, d: Draws, seed: number): SimResult {
 
   const res: SimResult = {
     t, state, events, items: runs.map((r) => r.trace), warnings: [...new Set(warnings)], outcome: { metrics: [] },
+    flags: { partial_g_nonconservative: c.gravity_g > 0 && c.gravity_g < 1 },
     provenance: {
       sources: dedupe(sources), seed, engine_version: ENGINE_VERSION,
       params: {
@@ -384,7 +388,7 @@ function attachMC(base: SimResult, s: Scenario, n: number, seed: number): SimRes
 export function envelopeWarnings(s: Scenario): string[] {
   const w: string[] = [];
   const g = s.cabin.gravity_g;
-  if (g > 0 && g < 1) w.push(`Partial gravity (${g} g) is a bounded estimate (µg ↔ 1 g): PSI has no partial-gravity fire data.`);
+  if (g > 0 && g < 1) w.push(`${partialGCaveat(g)} PSI has no partial-gravity fire data (FM2: ${PARTIAL_G_SOURCE}, outside PSI).`);
   const pct = (x: number) => (x * 100).toFixed(1);
   for (const it of s.items) {
     const m = MATERIALS.find((x) => x.material_key === it.material_key);

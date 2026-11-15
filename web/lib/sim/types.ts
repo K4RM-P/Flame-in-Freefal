@@ -62,6 +62,8 @@ export interface SimResult {
   items: ItemTrace[];
   warnings: string[];                       // out-of-envelope, theory-only, partial-gravity bounds…
   outcome: Outcome;
+  /** Machine-readable caveats the result strip can show (partial_g_nonconservative: FM2, NTRS 20240015307). */
+  flags?: { partial_g_nonconservative?: boolean };
   provenance: { sources: Provenance[]; params: Record<string, { calibrated: boolean; source: string }>; seed: number; engine_version: string };
 }
 export interface OutcomeMetric { key: string; label: string; value: number | null; units: string; band?: Band; limit?: number; limit_source?: string; pass?: boolean | null }
