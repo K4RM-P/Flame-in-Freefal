@@ -66,13 +66,13 @@ export function Aster() {
     <div data-noprint>
       <button ref={launcher} type="button" className="ea-aster-launcher"
         aria-haspopup="dialog" aria-controls="aster-dialog" onClick={() => dialog.current?.showModal()}>
-        <span className="ea-aster-launcher__icon"><OrbitStar /></span><span>Ask Aster</span>
+        <span className="ea-aster-launcher__icon"><OrbitStar /></span><span>Ask Aster</span><span className="ea-aster-launcher__dot" aria-hidden />
       </button>
       <dialog id="aster-dialog" ref={dialog} aria-labelledby="aster-title" onClose={() => launcher.current?.focus()}
-        className="ea-aster-dialog fixed inset-auto bottom-0 right-0 m-0 w-full max-w-none overflow-hidden rounded-t-xl border border-line bg-surface2 p-0 text-ink shadow-xl backdrop:bg-black/30 sm:bottom-4 sm:right-4 sm:w-[30rem] sm:rounded-xl">
-        <div className="flex h-[min(35rem,85dvh)] flex-col">
+        className="ea-aster-dialog fixed inset-y-0 left-auto right-0 m-0 h-[100dvh] max-h-none w-full max-w-none overflow-hidden border-0 border-l border-line bg-panel p-0 text-ink backdrop:bg-black/50 sm:w-[28rem]">
+        <div className="flex h-full flex-col">
           <header className="flex items-center justify-between gap-3 border-b border-line p-4">
-            <h2 id="aster-title" className="flex items-center gap-2 text-lg font-semibold"><OrbitStar /> Aster <span className="chip border border-line text-mute">NASA research</span></h2>
+            <h2 id="aster-title" className="flex items-center gap-2 text-[15px] font-semibold tracking-tight"><OrbitStar /> Aster <span className="ea-pill">NASA research</span></h2>
             <button type="button" className="btn" autoFocus onClick={() => dialog.current?.close()}>Close</button>
           </header>
           <div ref={transcript} role="log" aria-label="Aster conversation" className="min-h-0 flex-1 space-y-4 overflow-auto break-words p-4 text-sm">
@@ -84,7 +84,7 @@ export function Aster() {
             {!guide && thread.length === 0 && <p className="text-mute">Ask about a NASA fire experiment. Aster searches EmberAtlas’s bundled study catalog.</p>}
             {thread.map(({ question, answer, error, sources, mode }, index) => (
               <div key={index} className="space-y-2">
-                <p className="rounded-md border border-line bg-bg p-3"><strong>You</strong> · {question}</p>
+                <p className="rounded-md border border-line bg-bg p-3"><span className="ea-meta mr-1">You</span> · {question}</p>
                 {error && <p className="text-warn">{error}</p>}
                 {answer && <div className="space-y-1">
                   <p className="label">{mode === "openai" ? "OpenAI summary" : "Catalog search"}</p>
