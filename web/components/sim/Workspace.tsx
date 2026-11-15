@@ -5,6 +5,7 @@
 // (popover editors) + collapsed Advanced. Centre = 3D viewport (≥ 75 %) with 4 HUD chips, one-line result strip and a
 // thin chart strip. Right = AI drawer (closed by default). Everything else lives in ⋯ More.
 import { useCallback, useEffect, useRef, useState } from "react";
+import { AskAsterButton } from "@/components/AskAsterButton";
 import {
   Bell, Box, Camera, Check, ChevronDown, ChevronRight, Download, Eye, FileJson, Flame, FlaskConical, Gauge, HelpCircle,
   Image as ImageIcon, Info, Layers, ListChecks, Maximize, MoreHorizontal, PanelLeftClose, PanelLeftOpen, Pause, Play,
@@ -33,7 +34,7 @@ import { CabinView, Legend, runFacts } from "./CabinView";
 import { ScenarioPanel, applyPreset, fmtProv, type ScenarioPart } from "./ScenarioPanel";
 import { TELEMETRY, materialByKey } from "./data";
 import { DesignReview } from "./DesignReview";
-import { BoundedBadge, Evidence, Interpretation, MC_N, NextTest, Outcome, ReplayMetrics, TheoryBadge, Tornado, compact, download, evidenceForAI, missingFields, playPause, runAll } from "./bits";
+import { BoundedBadge, Evidence, Interpretation, MC_N, NextTest, Outcome, ReplayMetrics, TheoryBadge, Tornado, compact, download, evidenceForAI, missingFields, playPause, runAll, runInputs } from "./bits";
 import { LAYERS, PLAYBACK, loadUi, saveUi, useSim, type ChatMsg } from "./store";
 import { HudExtras, Scene3D } from "./scene3d/Scene3D";
 import { PRESET_LABELS } from "./scene3d/CameraRig";
@@ -154,6 +155,19 @@ function useShortcuts() {
   }, [set]);
 }
 
+/** Clear the scenario and return to the start screen (a shared preset URL would otherwise reopen the previous run). */
+function startNewScenario() {
+  const url = new URL(window.location.href);
+  for (const key of ["preset", "run", "present"]) url.searchParams.delete(key);
+  if (url.href !== window.location.href) window.history.replaceState(window.history.state, "", url);
+  PLAYBACK.fi = 0;
+  useSim.getState().set({
+    a: null, b: null, editing: "a", presetId: null, replay: false, ra: null, rb: null, frame: 0, playing: false, ranKey: null, runError: null,
+    receipt: null, interp: { state: "idle" }, sens: null, chat: [], asking: false, drawer: null, row: null, assumptionsOpen: false, camPreset: null, present: false,
+  });
+  requestAnimationFrame(() => document.getElementById("scenario-start")?.focus());
+}
+
 /* ---------- top bar: ≤ 5 visible controls ---------- */
 const EV: Record<string, { label: string; cls: string }> = {
   ignition: { label: "Ignition", cls: "bg-ember" }, alarm: { label: "Alarm", cls: "bg-bad" },
@@ -169,12 +183,12 @@ function Toolbar() {
   const evs = ra ? ra.events.filter((e) => EV[e.kind]).filter((e, i, arr) => arr.findIndex((x) => x.kind === e.kind) === i) : [];
   return (
     <div className="flex flex-wrap items-center gap-2 border-b border-line bg-bg px-3 py-2 lg:h-12 lg:flex-nowrap lg:py-0" role="toolbar" aria-label="Simulation" data-noprint data-testid="toolbar">
-      <select aria-label="Preset" className="h-8 max-w-[230px] text-[13px]" value={presetId ?? "custom"} onChange={(e) => { const p = PRESETS.find((x) => x.id === e.target.value); if (p) applyPreset(p); }}>
+      <select aria-label="Scenario" className="h-8 max-w-[230px] text-[13px]" value={presetId ?? "custom"} onChange={(e) => { const p = PRESETS.find((x) => x.id === e.target.value); if (p) applyPreset(p); }}>
         {!presetId && <option value="custom">{a.name}</option>}
         {PRESETS.map((p) => <option key={p.id} value={p.id}>{p.id === "iss-vs-lunar" ? "ISS vs Moon base" : p.label}</option>)}
       </select>
       <Tip label={missing.length ? `Enter ${missing.join(", ")} first` : "Run the simulation"} kbd="R">
-        <span><Button size="sm" className="h-8 min-w-[84px]" data-testid="run" disabled={running || missing.length > 0} onClick={() => void run()}>
+        <span><Button size="sm" className="h-8 min-w-[84px]" data-testid="run" aria-label="Run simulation" disabled={running || missing.length > 0} onClick={() => void run()}>
           {running ? "Running…" : "Run"}</Button></span>
       </Tip>
       <Tip label={playing ? "Pause" : "Play"} kbd="Space">
@@ -223,6 +237,7 @@ function MoreMenu() {
         </DropdownMenuTrigger>
       </Tip>
       <DropdownMenuContent align="end" className="w-60">
+        <DropdownMenuItem onSelect={startNewScenario}><Sparkles {...ICON} />New scenario</DropdownMenuItem>
         <DropdownMenuItem onSelect={() => { const p = PRESETS.find((x) => x.id === presetId); if (p) applyPreset(p); else set({ ra: null, rb: null, frame: 0, playing: false }); }}><RotateCcw {...ICON} />Reset</DropdownMenuItem>
         <DropdownMenuSub>
           <DropdownMenuSubTrigger data-testid="view-switch"><Eye {...ICON} />View · {view === "3d" ? "3D" : view === "elevation" ? "Elevation" : "Section"}</DropdownMenuSubTrigger>
@@ -627,6 +642,19 @@ function AiDrawer() {
           </div>
         </>}
         {drawer === "outputs" && <div className="space-y-3">
+          {ra && <AskAsterButton context={{
+            kind: "run", label: rb ? "Completed simulation runs A and B" : "Completed simulation run",
+            question: rb ? "Explain how these two runs differed, and what the comparison can support." : "Explain this run’s main results and warnings in plain language.",
+            facts: JSON.stringify([ra, ...(rb ? [rb] : [])].map((result) => {
+              const scenario = runInputs.get(result);
+              return {
+                scenario: scenario && { name: scenario.name, cabin: scenario.cabin, items: scenario.items.slice(0, 5), detection: scenario.detection, suppression: scenario.suppression },
+                results: result.outcome.metrics.slice(0, 10).map(({ label, value, units, pass }) => ({ label, value, units, pass })),
+                warnings: result.warnings.slice(0, 5).map((warning) => warning.slice(0, 200)),
+                sources: result.provenance.sources.slice(0, 5).map(({ source_id }) => source_id),
+              };
+            })),
+          }}>Ask Aster about this run</AskAsterButton>}
           <Mitigation sc={a} r={ra} label={b ? "A" : "Now"} frame={frame} />
           {b && <Mitigation sc={b} r={rb} label="B" frame={frame} />}
           <Outcome sc={a} r={ra} label={b ? "A" : null} />

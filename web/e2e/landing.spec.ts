@@ -33,13 +33,13 @@ test("visitors can follow evidence to the simulator and open a page-specific gui
   await page.goto("/");
   await page.getByTestId("cta-evidence").click();
   await expect(page).toHaveURL(/\/evidence$/);
-  await page.getByRole("button", { name: "Ask Aster" }).click();
+  await page.getByRole("button", { name: "Ask Aster", exact: true }).click();
   await expect(page.getByRole("dialog")).toContainText("Evidence guide");
   await page.getByRole("button", { name: "What did Saffire-II test?" }).click();
   await expect(page.getByRole("textbox", { name: "Question for Aster" })).toHaveValue("What did Saffire-II test?");
   await page.getByRole("button", { name: "Close" }).click();
   await page.getByRole("link", { name: "Try a cabin scenario" }).click();
   await expect(page).toHaveURL(/\/simulator$/);
-  await page.getByRole("button", { name: "Ask Aster" }).click();
+  await page.getByRole("button", { name: "Ask Aster", exact: true }).click();
   await expect(page.getByRole("dialog")).toContainText("Simulator guide");
 });

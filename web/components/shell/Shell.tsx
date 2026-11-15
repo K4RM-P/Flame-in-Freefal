@@ -11,10 +11,11 @@ import { TooltipProvider, Tip } from "@/components/ui/tooltip";
 import { Toaster } from "@/components/ui/sonner";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { useMission, lsSet } from "@/lib/store";
+import { useMission, lsGet, lsSet } from "@/lib/store";
 import { Logo, REPO_URL } from "./brand";
+import { LANGUAGES, LanguageContext, navigationLabels, type Language } from "./Language";
 
-const NAV = [["/simulator", "Simulator"], ["/evidence", "Evidence"], ["/methods", "Methods"], ["/about", "About"]] as const;
+const NAV = ["/simulator", "/evidence", "/methods", "/about"] as const;
 
 export function Shell({ children }: { children: React.ReactNode }) {
   const set = useMission((s) => s.set);
@@ -22,9 +23,12 @@ export function Shell({ children }: { children: React.ReactNode }) {
   const reduce = useReducedMotion();
   const [theme, setTheme] = useState<"dark" | "light">("dark");
   const [scrolled, setScrolled] = useState(false);
+  const [language, setLanguage] = useState<Language>("en");
   useEffect(() => {
     const t = document.documentElement.dataset.theme === "light" ? "light" : "dark";
     setTheme(t); set({ theme: t });
+    const saved = lsGet<unknown>("ea.language", "en");
+    if (typeof saved === "string" && Object.prototype.hasOwnProperty.call(LANGUAGES, saved)) setLanguage(saved as Language);
   }, [set]);
   useEffect(() => {
     const on = () => setScrolled(window.scrollY > 8);
@@ -38,12 +42,14 @@ export function Shell({ children }: { children: React.ReactNode }) {
   }
   const landing = path === "/";
   return (
+    <LanguageContext.Provider value={language}>
     <TooltipProvider delayDuration={250}>
       <header className={cn("sticky top-0 z-40 flex h-14 items-center gap-6 border-b px-4 transition-[background-color,border-color] duration-200 md:px-6",
         scrolled || !landing ? "border-line bg-bg/80 backdrop-blur-md" : "border-transparent bg-transparent")} data-testid="topbar">
         <Link href="/" aria-label="EmberAtlas" className="shrink-0 rounded-md"><Logo /></Link>
         <nav aria-label="Main" className="flex min-w-0 items-center gap-1 overflow-x-auto">
-          {NAV.map(([href, label]) => {
+          {NAV.map((href, index) => {
+            const label = navigationLabels(language)[index];
             const active = path === href;
             return (
               <Link key={href} href={href} aria-current={active ? "page" : undefined}
@@ -55,6 +61,11 @@ export function Shell({ children }: { children: React.ReactNode }) {
           })}
         </nav>
         <div className="ml-auto flex items-center gap-1">
+          <label htmlFor="site-language" className="sr-only">Interface language (navigation and team controls)</label>
+          <select id="site-language" className="h-8 w-auto max-w-[7.5rem] text-[12px] text-mute" value={language} title="Language for navigation and team controls"
+            onChange={(e) => { const c = e.target.value as Language; lsSet("ea.language", c); setLanguage(c); }}>
+            {Object.entries(LANGUAGES).map(([code, name]) => <option key={code} value={code} lang={code}>{name}</option>)}
+          </select>
           <Tip label={theme === "dark" ? "Switch to light theme" : "Switch to dark theme"}>
             <Button variant="ghost" size="icon-sm" aria-label="Theme" aria-pressed={theme === "light"} data-theme-value={theme} onClick={toggleTheme}>
               {theme === "dark" ? <Moon strokeWidth={1.5} /> : <Sun strokeWidth={1.5} />}
@@ -74,5 +85,6 @@ export function Shell({ children }: { children: React.ReactNode }) {
       <Aster />
       <Toaster />
     </TooltipProvider>
+    </LanguageContext.Provider>
   );
 }

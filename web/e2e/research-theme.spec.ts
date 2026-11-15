@@ -37,10 +37,10 @@ for (const width of [390, 1440]) {
           await formula.press("Enter");
           await expect(formula.locator("..")).toHaveAttribute("open", "");
         }
-        await page.getByRole("button", { name: "Ask Aster" }).click();
+        await page.getByRole("button", { name: "Ask Aster", exact: true }).click();
         await expect(page.getByRole("dialog")).toBeVisible();
         await page.keyboard.press("Escape");
-        await expect(page.getByRole("button", { name: "Ask Aster" })).toBeFocused();
+        await expect(page.getByRole("button", { name: "Ask Aster", exact: true })).toBeFocused();
       }
     }
     expect(errors).toEqual([]);
