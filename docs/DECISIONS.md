@@ -31,4 +31,5 @@
 - `.gitignore` now also ignores `.next/`, `out/`, `*.log`, `.env*.local` at any depth.
 - One Next app in `web/`; root package.json only proxies scripts. `vercel.json` (root and `web/`, since Vercel reads it from the Root Directory) = Next.js, `pnpm install`, `pnpm build`, auto-deploy `main`; Node 22.x via `web/package.json` engines.
 - Added `typecheck` script to web (`tsc --noEmit`); typecheck, lint, 58 tests and `next build` pass locally.
-- No `VERCEL_TOKEN` in the session: no Vercel projects listed/removed, no deploy; dashboard steps are in HUMAN_TASKS #13.
+- Vercel: exactly one project (`flame-in-freefal`, team karm-patels-projects, Git-linked to K4RM-P/flame-in-freefal, Production Branch `main`), no duplicates to remove. It had Root Directory `physics` + Framework Python (production ERROR); fixed via API to Root `web`, Next.js, Node 22.x, `pnpm install`/`pnpm build`. Production: https://flame-in-freefal.vercel.app.
+- `OPENAI_API_KEY` is not set on Vercel (no env vars at all); not invented — HUMAN_TASKS #13.
