@@ -17,7 +17,12 @@ export function CrewCarousel({ names, children }: { names: string[]; children: R
   return (
     <section aria-labelledby="team-title" className="ea-crew card">
       <div className="ea-crew__header">
-        <h2 id="team-title" className="display text-3xl">Meet the team</h2>
+        <div>
+          <h2 id="team-title" className="display text-3xl">Meet the team</h2>
+          <p className="mt-2 border-l-2 border-line pl-3 text-sm italic text-mute">
+            “Ask better questions before launch.”
+          </p>
+        </div>
         <div className="flex items-center gap-2">
           <button className="btn" type="button" aria-label="Previous teammate" onClick={() => go(active - 1)}>←</button>
           <span className="num text-sm text-mute" aria-live="polite">{active + 1} / {names.length}</span>
