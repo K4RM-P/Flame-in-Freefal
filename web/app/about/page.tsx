@@ -3,6 +3,7 @@ import { existsSync } from "node:fs";
 import path from "node:path";
 import type { Metadata } from "next";
 import Link from "next/link";
+import { IdeaOrbit } from "./IdeaOrbit";
 import { MissionLog } from "./MissionLog";
 
 export const metadata: Metadata = { title: "About" };
@@ -33,12 +34,6 @@ const team: { name: string; initials: string; focus: string; bio: string }[] = [
   },
 ];
 
-const questions = [
-  { title: "What changes when fire leaves Earth?", explanation: "The project opens with a side-by-side comparison of matching Saffire-II samples. You can see the outcomes and the conditions behind them.", href: "/evidence#earth-vs-orbit", label: "Compare the tests" },
-  { title: "How do we show where the evidence runs out?", explanation: "The Evidence page shows the ranges NASA tested for each material alongside the lunar cabin inputs, so you can spot the gaps.", href: "/evidence#where-evidence-stops", label: "Explore test coverage" },
-  { title: "Could the sources travel with the answer?", explanation: "Aster finds relevant NASA studies in the catalog and includes links. With OpenAI available, it can also explain what those sources say.", href: "#built-about", label: "See how Aster works" },
-];
-
 export default function About() {
   return (
     <article className="ea-about mx-auto max-w-6xl space-y-10 py-8 md:py-12">
@@ -47,21 +42,10 @@ export default function About() {
         <h1 className="display my-3 text-5xl md:text-7xl">Inside EmberAtlas</h1>
         <p className="measure text-lg leading-relaxed text-mute">We built EmberAtlas to make spacecraft fire research easier to explore, compare, and trace back to the experiments behind it.</p>
         <nav className="ea-jumps mt-5" aria-label="About sections">
-          <a href="#team-questions">Questions</a><a href="#compare-views">Try both views</a><a href="#team-title">Team</a><a href="#built-about">How we built it</a>
+          <a href="#idea-orbit">Questions</a><a href="#compare-views">Try both views</a><a href="#team-title">Team</a><a href="#built-about">How we built it</a>
         </nav>
+        <div id="idea-orbit"><IdeaOrbit /></div>
       </header>
-      <section className="space-y-4" aria-labelledby="team-questions">
-        <h2 id="team-questions" className="display text-2xl">Questions that shaped the project</h2>
-        <div className="grid items-start gap-3 md:grid-cols-3">
-          {questions.map(({ title, explanation, href, label }) => (
-            <details key={title} className="ea-mission-question card">
-              <summary>{title}</summary>
-              <p className="mt-3 text-mute">{explanation}</p>
-              <Link className="ea-source-link mt-3 inline-block underline underline-offset-4" href={href}>{label} ↗</Link>
-            </details>
-          ))}
-        </div>
-      </section>
       <MissionLog />
       <section aria-labelledby="team-title">
         <h2 id="team-title" className="display mb-4 text-2xl">Meet the team</h2>

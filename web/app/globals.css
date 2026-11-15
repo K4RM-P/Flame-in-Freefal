@@ -300,3 +300,22 @@ table.data th.ea-numeric, table.data td.ea-numeric { text-align: right; }
 @media (prefers-reduced-motion: no-preference) {
   .ea-mission-view, .ea-mission-question[open] > p { animation: ea-cover-in .22s ease-out both; }
 }
+
+/* Interactive idea map inside the About masthead */
+.ea-idea-orbit { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); align-items: center; gap: clamp(1rem, 4vw, 3rem); margin-top: 1.75rem; border-top: 1px solid rgb(var(--line)); }
+.ea-idea-map { position: relative; width: min(100%, 21rem); height: 13rem; margin: .75rem auto 0; }
+.ea-idea-map__ring { position: absolute; inset: 2.3rem 13%; border: 1px solid rgb(var(--accent-text) / .48); border-radius: 50%; transform: rotate(-14deg); box-shadow: 0 0 0 .9rem rgb(var(--accent-text) / .05); }
+.ea-idea-map__core { position: absolute; inset: 0; display: grid; place-items: center; pointer-events: none; }
+.ea-idea-map__core span { display: grid; place-items: center; width: 4rem; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle at 36% 26%, #ffdec6, #fb976e 46%, #843b61); color: #321739; box-shadow: 0 0 30px rgb(var(--accent) / .28); font-size: 1.6rem; }
+.ea-idea-node { position: absolute; min-height: 44px; padding: .5rem .85rem; border: 1px solid rgb(var(--line)); border-radius: 999px; background: rgb(var(--panel)); font-weight: 650; transition: border-color .2s ease, box-shadow .2s ease; }
+.ea-idea-node[data-position="0"] { top: 12%; right: 10%; }
+.ea-idea-node[data-position="1"] { top: 48%; left: 2%; }
+.ea-idea-node[data-position="2"] { bottom: 12%; right: 8%; }
+.ea-idea-node:is([aria-pressed="true"], :hover) { border-color: rgb(var(--accent-text)); box-shadow: 0 0 0 3px rgb(var(--accent-text) / .13); color: rgb(var(--accent-text)); }
+.ea-idea-detail { border-left: 2px solid rgb(var(--accent)); padding-left: 1.15rem; }
+@media (max-width: 650px) {
+  .ea-idea-orbit { grid-template-columns: minmax(0, 1fr); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .ea-idea-detail__body { animation: ea-cover-in .24s ease-out both; }
+}
