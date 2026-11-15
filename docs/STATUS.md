@@ -45,4 +45,4 @@
 
 ## AI interview (time-boxed)
 Done: no-fire fix + `lib/sim/noFire.ts` card, rule-based/AI interview modal (`components/sim/AiInterview.tsx`), `/api/scenario` mode contract, `web/scripts/ai-fire-check.ts`, `tests/aiFire.test.ts`.
-Not done (over budget): streaming/thinking trail, drawer Apply & re-run, Aster unification, Playwright offline specs, docs/screenshots/ai-*.png.
+Apply & re-run done in the design review (rule fixes; lever fixes have no stored scenario yet). Not done (over budget): streaming/thinking trail, Aster unification, Playwright offline specs, docs/screenshots/ai-*.png.

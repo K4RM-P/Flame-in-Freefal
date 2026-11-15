@@ -7,6 +7,7 @@ import { applyNoFireFix, firstBurningFrame, noFireReason } from "@/lib/sim/noFir
 import { MAX_QUESTIONS, QuestionsSchema, SYNONYMS, buildLocal, fixedQuestions, matchMaterial, questionFor } from "@/lib/ai/localScenario";
 import type { Scenario } from "@/lib/sim/types";
 import { guard } from "@/lib/ai/guard";
+import { designReview, metricOf } from "@/lib/sim/designReview";
 
 const keys = new Set(MATERIALS.map((m) => m.material_key));
 const run = (p: string) => { const d = buildLocal(p); const s = d.scenario!; const r = s.items.length ? simulate(s) : null; return { d, s, r }; };
@@ -50,5 +51,17 @@ describe("guard on a streamed answer", () => {
   it("rejects a made-up number once the chunks are joined", () => {
     const chunks = ["Peak heat release was ", "1234", "5 W."];
     expect(guard(chunks.join(""), [{ peak_Q: 2580.2 }]).ok).toBe(false);
+  });
+});
+
+describe("apply & re-run", () => {
+  it("fix #1 on lunar-design-review is engine-identical to a manual edit", () => {
+    const s = presetById("lunar-design-review")!.build() as Scenario;
+    const f = designReview(s, simulate(s))[0];
+    const manual = structuredClone(s); manual.detection.manual_alarm_s = 30;
+    expect(f.scenario).toEqual(manual);
+    const a = simulate(f.scenario!), b = simulate(manual);
+    expect(a.outcome).toEqual(b.outcome);
+    expect(metricOf(a, f.metric)).toBe(f.after);
   });
 });

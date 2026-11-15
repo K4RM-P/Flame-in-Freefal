@@ -28,6 +28,13 @@ It shows where and how a fire would start in your spacecraft, and which design c
 
 **Docs:** `docs/SUBMISSION.md` · `docs/PITCH.md` · `docs/STATUS.md` · `docs/VALIDATION.md` · `CREDITS.md`. **License:** MIT (`LICENSE`).
 
+## AI
+- **Build with AI** (simulator toolbar): an interview (one prompt, ≤ 4 follow-ups, review) builds the cabin from `missions.json` and `materials.json` only; every field is tagged NASA-cited, "you said" or AI assumption (amber).
+- If a run has no flame, a card says why (`web/lib/sim/noFire.ts`: nothing to burn, no ignition, too little O₂, material not in NASA's data) and offers a one-click fix.
+- **Apply & re-run**: rule-based design fixes run their edited copy as Scenario B in a Compare split (engine-identical to a manual edit, unit-tested).
+- **Guard:** answers may only contain numbers present in tool output (`web/lib/ai/guard.ts`).
+- **Offline fallback:** with no `OPENAI_API_KEY`, the keyword parser and fixed questions give the same flow, marked by an "offline mode" chip.
+
 ## Design
 
 - **Type:** Geist Sans for UI/headings (600, −0.04em at display sizes) and Geist Mono for numbers, labels and data (`tabular-nums`), loaded locally from the `geist` package.

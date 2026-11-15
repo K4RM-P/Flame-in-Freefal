@@ -77,3 +77,4 @@
 - Cygnus/lunar volumes without a source are held equal to the ISS habitable volume, tagged "AI assumption" (amber).
 - /api/scenario modes parse|followups|finalize; follow-ups use the fixed missing-field set (≤ 4) even with a key (AI-chosen questions cut for time).
 - Cut for the 15-min box: streaming + thinking trail, analyst drawer Apply & re-run, Aster unification, Playwright specs, screenshots.
+- Apply & re-run uses the exact edited scenario stored on each rule-based DesignFix (`scenario`), loaded as B and run with the A/B compare; sensitivity-lever fixes get no button until they carry one.

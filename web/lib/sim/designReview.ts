@@ -13,6 +13,8 @@ import { sig, withUnit } from "@/lib/ui/format";
 export interface DesignFix {
   id: string; title: string; detail: string; metric: string; before: number | null; after: number | null; units: string;
   effect: number; basis: "calibrated" | "theory-only" | "design-input"; inEnvelope: boolean; sources: string[];
+  /** The edited scenario this fix was scored on (rule-based fixes); "Apply & re-run" runs exactly this. */
+  scenario?: Scenario;
 }
 
 /** Metrics the review scores, with the direction that is safer. `peak_Q` is read from the state trace. */
@@ -74,7 +76,7 @@ export function designReview(s: Scenario, r: SimResult): DesignFix[] {
     const tail = fails ? ` Even then the ${s.suppression.mass_kg} kg charge does not put this fire out${why === "burnout" ? " (it ends by burnout)" : ""}: size the agent next.` : "";
     rule.push({ id: "alarm-path", title: "Give the detector an alarm level / detection path", metric: "time_to_agent", before: null, after: tA, units: "s",
       detail: `The ${s.suppression.mass_kg} kg ${s.suppression.agent} extinguisher never fires: no alarm can trigger (no sourced smoke yield or detector threshold, no crew-detection input). With crew detection at t = ${CREW_RESPONSE.manual_alarm_s} s (design input), the agent is released at ${show(tA, "s")}; time to extinguish ${show(te0, "s")} → ${show(te1, "s")}.${tail}`,
-      effect: 1, basis: "design-input", inEnvelope: true, sources: DI });
+      effect: 1, basis: "design-input", inEnvelope: true, sources: DI, scenario: fixed });
   }
   if (!hasAgent) {
     const fixed = clone(s); fixed.suppression = { agent: CREW_RESPONSE.agent, delay_s: CREW_RESPONSE.delay_s, mass_kg: CREW_RESPONSE.mass_kg };
@@ -83,7 +85,7 @@ export function designReview(s: Scenario, r: SimResult): DesignFix[] {
     const b = metricOf(r, "time_to_extinguish"), a = rf ? metricOf(rf, "time_to_extinguish") : null;
     rule.push({ id: "add-suppression", title: "Add suppression", metric: "time_to_extinguish", before: b, after: a, units: "s",
       detail: `No extinguisher is fitted. A ${CREW_RESPONSE.mass_kg} kg ${CREW_RESPONSE.agent} release ${CREW_RESPONSE.delay_s} s after the alarm (design input) changes time to extinguish ${show(b, "s")} → ${show(a, "s")}.`,
-      effect: 0.9, basis: "design-input", inEnvelope: true, sources: DI });
+      effect: 0.9, basis: "design-input", inEnvelope: true, sources: DI, scenario: fixed });
   }
   if (!s.cabin.fan_off_on_alarm && s.cabin.flow_m_s > 0) {
     const fixed = clone(s); fixed.cabin.fan_off_on_alarm = true;
@@ -91,7 +93,7 @@ export function designReview(s: Scenario, r: SimResult): DesignFix[] {
     const b = metricOf(r, "time_to_extinguish"), a = rf ? metricOf(rf, "time_to_extinguish") : null;
     rule.push({ id: "fan-off", title: "Cut ventilation on alarm", metric: "time_to_extinguish", before: b, after: a, units: "s",
       detail: `Ventilation (${sig(s.cabin.flow_m_s * 100, 3)} cm/s) keeps feeding the flame after the alarm. Stopping it on alarm changes time to extinguish ${show(b, "s")} → ${show(a, "s")}${alarmed ? "" : " (needs an alarm first)"}.`,
-      effect: 0.8, basis: "design-input", inEnvelope: true, sources: DI });
+      effect: 0.8, basis: "design-input", inEnvelope: true, sources: DI, scenario: fixed });
   }
   for (const m of ignitionOutOfO2(s)) {
     rule.push({ id: `o2-envelope-${m.material_key}`, title: `${m.display_name} is untested at this O₂`, metric: "x_o2", before: s.cabin.x_o2 * 100, after: m.o2_range![1] * 100, units: "% O₂",
