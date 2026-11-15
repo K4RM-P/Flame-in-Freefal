@@ -1,6 +1,7 @@
 // SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 import type { Metadata } from "next";
 import { LandingPage } from "@/components/landing/LandingPage";
+import { media } from "@/lib/media";
 
 export const metadata: Metadata = {
   title: "Spacecraft fire, tested against NASA evidence",
@@ -9,7 +10,7 @@ export const metadata: Metadata = {
     title: "EmberAtlas | Spacecraft fire, tested against NASA evidence",
     description: "Trace NASA PSI combustion data into a spacecraft fire-safety simulation.",
     type: "website",
-    images: [{ url: "https://science.nasa.gov/wp-content/uploads/2024/01/jsc2023e002281orig.jpg?format=jpeg&w=1280", alt: "A nearly spherical flame surrounding an acrylic sample in the International Space Station's Combustion Integrated Rack" }],
+    images: [{ url: media.hero.src, alt: media.hero.alt }],
   },
   twitter: { card: "summary_large_image" },
 };

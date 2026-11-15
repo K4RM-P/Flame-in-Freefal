@@ -20,7 +20,6 @@
 10. **New TODO_VERIFY values:** `smoke.particle_density` (unit-density convention from the PSI-47 workbook, used for SM4 settling) and the ACME BRE result "extinct at 21 % within ~40 s; steady at 26.5/34/40 %" (`dehghani-bre`).
 11. **Earth test vs orbit wording review:** a science checker should read `/evidence#earth-vs-orbit` and confirm the classification rule (Complete / ~0 / partial) and that the 1 g column in PSI-99 is the normal-gravity screening result the SAFFIRE objective refers to.
 
-12. **GitHub Pages (repo admin):** Settings → Pages → Build and deployment → Source = **GitHub Actions**, then re-run the "Deploy web app to GitHub Pages" workflow (Actions tab). Until then https://k4rm-p.github.io/Flame-in-Freefal/ shows the README rendered by Jekyll, not the app.
 
 ## PSI table spot-check (verified=false until done)
 Open each file from psi.nasa.gov (or `physics/data/raw/psi/`) and compare the listed rows with `physics/data/processed/psi/<table>.csv` (normalized columns + `raw`). Record name/date per table in `physics/data/verification.yaml → psi_spotcheck`.
@@ -35,3 +34,10 @@ Open each file from psi.nasa.gov (or `physics/data/raw/psi/`) and compare the li
 - [ ] Spot-check the visualization-only flame correlations in `web/data/params/flame_visual.json` (Heskestad 1983 constants 0.235/1.02; puffing c = 1.5 from Cetegen & Ahmed 1993; air α at 800 K from Incropera Table A.4) and set `verified: true`.
 
 13. **Vercel `OPENAI_API_KEY`:** the project (`flame-in-freefal`, https://flame-in-freefal.vercel.app) is linked, builds from `web/` and auto-deploys `main`, but has no env vars. vercel.com → flame-in-freefal → Settings → Environment Variables → add `OPENAI_API_KEY` (and optional `OPENAI_MODEL`) for Production + Preview (never `NEXT_PUBLIC_`) → Deployments → Redeploy the latest production deployment. Until then `/api/scenario` with valid text returns 503 "no key".
+
+14. **Self-host the NASA images (sandbox network blocked the download, proxy 403):** download each file, crop out any NASA logo/insignia (Space Apps rules), save at the exact path, then set `selfHosted: true` for that entry in `web/lib/media.ts` (and fill `width`/`height` where null):
+    - `web/public/nasa/jsc2023e002281.jpg` ← https://science.nasa.gov/wp-content/uploads/2024/01/jsc2023e002281orig.jpg?format=jpeg&w=1280 (landing hero + OpenGraph)
+    - `web/public/nasa/jsc2023e046375.jpg` ← https://www.nasa.gov/wp-content/uploads/2023/12/jsc2023e046375medium.jpg (Saffire-IV photo, 1280×1037)
+    - `web/public/nasa/GRC-1998-C-00485.jpg` ← https://images-assets.nasa.gov/image/GRC-1998-C-00485/GRC-1998-C-00485~medium.jpg (candle on Earth vs in microgravity)
+    - `web/public/nasa/iss040e072900.jpg` ← https://images-assets.nasa.gov/image/iss040e072900/iss040e072900~large.jpg (BASS-II flame on the ISS)
+    One-liner once the files are in place: `pnpm -C web add -D sharp` and crop with `sharp(in).extract({left,top,width,height}).toFile(out)`.

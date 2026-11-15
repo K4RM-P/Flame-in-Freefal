@@ -6,9 +6,10 @@ import tablesIndex from "@/data/psi/tables_index.json";
 import flexCrosscheck from "@/data/psi/flex_crosscheck.json";
 import dropletK from "@/data/validation/droplet_K.json";
 import { earthVsOrbitSummary, evidenceStops } from "@/lib/sim/evidence";
+import { media } from "@/lib/media";
 
-const NASA_IMAGE = "https://science.nasa.gov/wp-content/uploads/2024/01/jsc2023e002281orig.jpg?format=jpeg&w=1280";
-const NASA_IMAGE_SOURCE = "https://science.nasa.gov/biological-physical/stories/how-and-why-do-nasa-researchers-simulate-microgravity-on-earth/";
+const NASA_IMAGE = media.hero.src;
+const NASA_IMAGE_SOURCE = media.hero.sourceUrl;
 const RUN_HREF = "/simulator?preset=iss-vs-lunar&run=1";
 
 // Trust-strip numbers are computed from the shipped data files, never typed in.
@@ -36,7 +37,7 @@ export function LandingPage() {
       <section className="ea-photo-story" aria-labelledby="photo-story-title">
         <figure>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="https://www.nasa.gov/wp-content/uploads/2023/12/jsc2023e046375medium.jpg" alt="An orange flame spreads across fabric inside the Saffire-IV experiment." width={1280} height={1037} loading="lazy" decoding="async" />
+          <img src={media.saffire.src} alt={media.saffire.alt} width={1280} height={1037} loading="lazy" decoding="async" />
           <figcaption>Saffire-IV fabric burn · NASA / Glenn</figcaption>
         </figure>
         <div className="ea-photo-story__copy">
