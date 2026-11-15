@@ -19,7 +19,7 @@ export function FloatingPaths({ position, active = true, className }: { position
   }));
   const animating = active && !reduce;
   return (
-    <div className={cn("pointer-events-none absolute inset-0", position === 1 ? "text-[#FF6B2C]" : "text-[#5AA9FF]", className)} aria-hidden>
+    <div className={cn("pointer-events-none absolute inset-0", position === 1 ? "text-ember" : "text-blue", className)} aria-hidden>
       <svg className="h-full w-full overflow-visible" style={{ willChange: animating ? "transform" : "auto" }} viewBox="0 0 696 316" fill="none" preserveAspectRatio="xMidYMid slice">
         {paths.map((p) => (
           <motion.path key={p.id} d={p.d} stroke="currentColor" strokeWidth={p.width} strokeOpacity={0.04 + p.id * 0.012}
@@ -55,7 +55,7 @@ export function LetterReveal({ text, className }: { text: string; className?: st
       {words.map((word, wi) => (
         <span key={wi} className="mr-[0.22em] inline-block whitespace-nowrap last:mr-0" aria-hidden>
           {word.split("").map((ch, li) => (
-            <motion.span key={`${wi}-${li}`} className="inline-block bg-gradient-to-b from-[#EDEDED] to-[#A1A1A1] bg-clip-text text-transparent [[data-theme=light]_&]:from-[#0A0A0A] [[data-theme=light]_&]:to-[#525252]"
+            <motion.span key={`${wi}-${li}`} className="inline-block bg-gradient-to-b from-ink to-mute bg-clip-text text-transparent"
               initial={reduce ? false : { y: 80, opacity: 0 }} animate={{ y: 0, opacity: 1 }}
               transition={{ delay: wi * 0.1 + li * 0.03, type: "spring", stiffness: 150, damping: 25 }}>{ch}</motion.span>
           ))}
@@ -68,7 +68,7 @@ export function LetterReveal({ text, className }: { text: string; className?: st
 export function BackgroundPaths({ title = "The firefighter for space." }: { title?: string }) {
   const [ref, on] = useOnScreen<HTMLDivElement>();
   return (
-    <div ref={ref} className="relative flex min-h-screen w-full items-center justify-center overflow-hidden bg-[#0A0A0A]">
+    <div ref={ref} className="relative flex min-h-screen w-full items-center justify-center overflow-hidden bg-bg">
       <div className="absolute inset-0"><FloatingPaths position={1} active={on} /><FloatingPaths position={-1} active={on} /></div>
       <div className="ea-grid absolute inset-0" aria-hidden />
       <div className="relative z-10 mx-auto px-4 text-center md:px-6">
