@@ -49,15 +49,18 @@ test("iss-vs-lunar: run, scrub to the end, HUD shows the alarm state, no console
   await expect(page.getByTestId("run")).toBeEnabled({ timeout: 90_000 });
   // Play runs then plays like a video: the playhead advances on its own
   const time = page.getByTestId("transport").locator(".num").first();
-  const t1 = await time.textContent(); await page.waitForTimeout(1500);
-  expect(await time.textContent()).not.toBe(t1);
-  await page.getByTestId("play").click(); // the viewport button does the same thing: pause
-  await expect(page.getByTestId("run")).toHaveText(/Play/);
+  const t1 = await time.textContent();
+  // Software WebGL (SwiftShader) starves rAF; poll instead of a fixed 1.5 s sample.
+  await expect.poll(() => time.textContent(), { timeout: 15_000 }).not.toBe(t1);
+  await page.getByTestId("play").click(); // Play/Pause toggles playback
+  await expect(page.getByTestId("play")).toHaveAttribute("aria-label", "Play");
   const slider = page.getByLabel("Simulation time");
   await slider.focus(); await page.keyboard.press("End");
   await expect(page.getByTestId("hud-alarm").first()).toBeVisible();
   await expect(page.getByTestId("hud-alarm").first()).toHaveText(/ALARM|monitoring|no detector threshold/);
+  await page.getByTestId("details").click();
   await expect(page.getByTestId("scene-caption").first()).toContainText(/engine frame \d+\/\d+/i);
+  await page.keyboard.press("Escape");
   await page.keyboard.press("c");
   await expect(page.getByTestId("dock")).toHaveAttribute("data-open", "true");
   await page.waitForTimeout(1000);

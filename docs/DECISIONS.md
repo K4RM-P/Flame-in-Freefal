@@ -63,3 +63,10 @@
 - 2026-11-15 · shadcn structure: `components.json` (new-york, rsc), `lib/utils.ts` `cn()`, primitives in `components/ui/` (button, dropdown-menu, popover, collapsible, tooltip, sonner, kit); `components/ui-kit` merged into `components/ui/kit.tsx`.
 - 2026-11-15 · Fonts via the local `geist` package (no `next/font/google`); Newsreader/Inter/JetBrains Mono and `.serif` removed.
 - 2026-11-15 · Theme bootstrap is dark unless the user saved "light" (dark-first; system preference no longer auto-selects light).
+- 2026-11-15 · Landing numbers come from `lib/landing/facts.ts`, which runs the real `iss-vs-lunar` engine at build time with the simulator's MC size (`components/sim/constants.ts`) and default seed, so landing and simulator agree (1.9×). `tests/landing.test.ts` bans literal stat values in `components/landing/*`.
+- 2026-11-15 · The Overview language selector was dropped with the old landing (the new copy is English-only); its e2e test was removed.
+- 2026-11-15 · Simulator: Run = (re)simulate then play; Play/Pause only toggles playback. HUD values are plain text (4 chips); the receipt buttons moved to the ⓘ details popover so the chrome stays ≤ 12 controls (measured: 11 at 1440×900).
+- 2026-11-15 · Old right-panel tabs (Outputs, Evidence, AI) became the AI drawer tabs (AI · Results · Evidence); the NEXT STEP banner and the duplicate "Results & evidence" button were removed.
+- 2026-11-15 · Story panels crossfade with CSS on stacked layers (not AnimatePresence), and the active beat is computed from the section rect, so jumping several beats at once never leaves a stale panel.
+- 2026-11-15 · Live demo uses a static screenshot of our own simulator (`public/media/sim-3d.webp`) rather than a lazy live `<Scene3D>`; it costs about 190 KB versus a WebGL context on the landing. `demo.mp4` is used automatically once it is added.
+- 2026-11-15 · Evidence: the Earth-vs-orbit `<section>` uses `aria-label` so only the table scroll region is named after the heading (Playwright strict mode).

@@ -27,3 +27,19 @@ It shows where and how a fire would start in your spacecraft, and which design c
 **Use of AI:** Claude Code (Anthropic) wrote the code under human direction and review. At runtime the OpenAI API powers the scenario builder, run interpretation and the experiment-match explanation, grounded on engine output and PSI rows, with a numeric guard (`web/lib/ai/guard.ts`). No AI-generated images.
 
 **Docs:** `docs/SUBMISSION.md` · `docs/PITCH.md` · `docs/STATUS.md` · `docs/VALIDATION.md` · `CREDITS.md`. **License:** MIT (`LICENSE`).
+
+## Design
+
+- **Type:** Geist Sans for UI/headings (600, −0.04em at display sizes) and Geist Mono for numbers, labels and data (`tabular-nums`), loaded locally from the `geist` package.
+- **Tokens:** dark-first palette in `web/styles/tokens.css` (#0A0A0A / #111 / #171717 surfaces, #262626 hairlines, ember #FF6B2C for the one primary action and live state, oxygen blue #5AA9FF for ISS/baseline series), mapped to shadcn variables and Tailwind colours.
+- **Structure:** shadcn layout (`web/components.json`, `cn()` in `web/lib/utils.ts`); primitives live in `web/components/ui/*`, product components in `sim/`, `landing/`, `evidence/`.
+- **Motion:** `motion/react`, 150–250 ms ease-out for UI, 600–900 ms scroll reveals on the landing, springs for emphasis; sticky sections use plain `position: sticky` with explicit heights.
+- **Reduced motion:** `prefers-reduced-motion` renders final states (no letter reveal, static streamlines, no marquee or loops).
+
+| Landing hero | Sticky story | How it works |
+|---|---|---|
+| ![Hero](docs/screenshots/ui-hero.png) | ![Story](docs/screenshots/ui-story.png) | ![How it works](docs/screenshots/ui-how.png) |
+
+| Simulator | Evidence |
+|---|---|
+| ![Simulator](docs/screenshots/ui-simulator.png) | ![Evidence](docs/screenshots/ui-evidence.png) |
