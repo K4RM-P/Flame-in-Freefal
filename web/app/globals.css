@@ -368,3 +368,15 @@ table.data th.ea-numeric, table.data td.ea-numeric { text-align: right; }
 .glass { background: rgb(var(--panel) / 0.66); border: 1px solid rgb(var(--line) / 0.9); border-radius: 6px; -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); box-shadow: 0 6px 24px rgb(0 0 0 / 0.25); color: rgb(var(--ink)); }
 .glass .num, .hud3d { font-variant-numeric: tabular-nums; }
 .viewport3d:fullscreen { background: rgb(var(--bg)); }
+
+.ea-openai-credit {
+  display: inline-flex; align-items: center; gap: .5rem;
+  padding: .45rem .75rem; border: 1px solid #ffb29470; border-radius: 999px;
+  color: #fff1e8; background: #251620; font-size: .8rem;
+  transition: border-color .18s ease, background-color .18s ease;
+}
+.ea-openai-credit:is(:hover, :focus-visible) { border-color: #ffd0aa; background: #3a2031; }
+.ea-openai-credit > span[aria-hidden] { color: #ffd0aa; }
+@media (min-width: 960px) {
+  .ea-openai-credit { position: absolute; left: clamp(1rem, 4vw, 4rem); bottom: .95rem; }
+}

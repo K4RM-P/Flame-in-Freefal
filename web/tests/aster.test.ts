@@ -45,3 +45,16 @@ describe("Aster research answers", () => {
     expect((await (await POST(request())).json()).mode).toBe("catalog");
   });
 });
+
+it("explains selected website context without requiring a NASA keyword match", async () => {
+  const create = vi.fn().mockResolvedValue({ status: "completed", output_text: "This is the cabin energy balance." });
+  vi.mocked(openaiClient).mockReturnValue({ responses: { create } } as unknown as ReturnType<typeof openaiClient>);
+  const response = await POST(new Request("http://localhost/api/aster", {
+    method: "POST",
+    body: JSON.stringify({ question: "Explain this formula", context: {
+      kind: "formula", label: "HA1", facts: "Cabin energy balance", question: "Explain this formula",
+    } }),
+  }));
+  expect(await response.json()).toEqual({ mode: "openai", answer: "This is the cabin energy balance." });
+  expect(create).toHaveBeenCalledWith(expect.objectContaining({ input: expect.stringContaining("HA1"), store: false }), expect.anything());
+});

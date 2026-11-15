@@ -44,6 +44,9 @@ export function OverviewIntro({ image, source, run }: { image: string; source: s
             <a href="#findings" className="ea-cover__scroll">{scroll} <span aria-hidden="true">↓</span></a>
           </div>
         </div>
+        <Link className="ea-openai-credit" href="/about#built-about" lang="en">
+          <span aria-hidden="true">✦</span> AI/SI features powered by OpenAI <span aria-hidden="true">↗</span>
+        </Link>
         <span className="ea-cover__credit" lang="en">SoFIE-GEL · NASA / JSC</span>
       </section>
       <nav className="ea-start" aria-label={start}>

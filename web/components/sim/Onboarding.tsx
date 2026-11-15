@@ -1,6 +1,8 @@
 "use client";
 // SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 // First-run flow: selections are context only; the AI must source or request every scenario value.
+import { DraftReview } from "./DraftReview";
+import type { ScenarioDraftResponse } from "@/lib/ai/scenario";
 import { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { GRAVITY, ScenarioSchema, type Scenario } from "@/lib/sim/types";
@@ -23,9 +25,14 @@ export function Onboarding() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [manual, setManual] = useState(false);
+  const [draft, setDraft] = useState<ScenarioDraftResponse | null>(null);
+
+  function acceptDraft(scenario: Scenario) {
+    set({ a: scenario, b: null, editing: "a", presetId: null, replay: false, ra: null, rb: null, frame: 0, interp: { state: "idle" }, runError: null });
+  }
 
   async function build() {
-    setBusy(true); setError(null);
+    setBusy(true); setError(null); setDraft(null);
     const cabinLabel = CABINS.find(([id]) => id === cabin)?.[1] ?? cabin;
     const materialLabel = MATERIALS.find((m) => m.material_key === material)?.display_name ?? material;
     const text = [
@@ -37,9 +44,8 @@ export function Onboarding() {
       const res = await fetch("/api/scenario", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ text }) });
       const body = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(body.error ?? `AI request failed (${res.status})`);
-      const parsed = ScenarioSchema.safeParse(body.scenario);
-      if (!parsed.success) throw new Error("The AI returned an incomplete scenario. Nothing was started; review the missing fields below.");
-      set({ a: parsed.data, b: null, editing: "a", presetId: null, replay: false, ra: null, rb: null, frame: 0, interp: { state: "idle" }, runError: null });
+      if (!body.scenario || !Array.isArray(body.notes) || !Array.isArray(body.rejected)) throw new Error("The server returned no scenario draft.");
+      setDraft(body);
     } catch (e) {
       setError(e instanceof Error ? e.message : "AI scenario builder unavailable.");
     } finally { setBusy(false); }
@@ -71,6 +77,7 @@ export function Onboarding() {
         </section>
       </motion.div>}
       </AnimatePresence>
+      {!manual && draft && <DraftReview draft={draft} onAccept={acceptDraft} />}
       <p className="mt-5 max-w-2xl text-[12px] text-faint">AI needs a server-side <code>OPENAI_API_KEY</code> in Vercel. If it is missing, this screen reports that directly.</p>
     </main>
   );

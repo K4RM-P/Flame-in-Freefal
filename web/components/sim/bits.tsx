@@ -128,12 +128,16 @@ export async function playPause() {
   s.set({ frame: s.frame >= s.ra.t.length - 1 ? 0 : s.frame, playing: true });
 }
 
+export const runInputs = new WeakMap<SimResult, Scenario>();
+
 export async function runAll() {
   const { a, b, set } = useSim.getState();
   if (!a || missingFields(a).length || (b && missingFields(b).length)) return;
   set({ running: true, runError: null, frame: 0, playing: false, interp: { state: "idle" } });
   try {
     const [ra, rb] = await Promise.all([runInWorker(a, { mc: MC_N }), b ? runInWorker(b, { mc: MC_N }) : Promise.resolve(null)]);
+    runInputs.set(ra, a);
+    if (rb && b) runInputs.set(rb, b);
     set({ ra, rb, running: false, frame: ra.t.length - 1, ranKey: keyOf(a, b) });
     void interpret(a, ra, b, rb);
   } catch (e) { set({ running: false, runError: String(e) }); }

@@ -3,6 +3,7 @@
 // Simulation Hub: full-height engineering workspace (desktop-first, no page scroll while simulating).
 // Toolbar · left project tree + scenario setup + saved states · center cabin viewport + (Compare) delta card + chart dock · right outputs/evidence/interpretation.
 // Reuses the existing engine (runAll), receipts (Num), outcome/evidence/sensitivity/next-test panels and manual setup.
+import { AskAsterButton } from "@/components/AskAsterButton";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { PRESETS } from "@/lib/sim/presets";
 import { replayError } from "@/lib/sim/replay";
@@ -14,7 +15,7 @@ import { CHARTS, Charts } from "./Charts";
 import { CabinView, Legend, runFacts, useReducedMotion } from "./CabinView";
 import { ScenarioPanel, applyPreset, fmtProv } from "./ScenarioPanel";
 import { TELEMETRY, materialByKey } from "./data";
-import { BoundedBadge, Evidence, Interpretation, MC_N, NextTest, Outcome, ReplayMetrics, TheoryBadge, Tornado, download, missingFields, playPause, runAll } from "./bits";
+import { BoundedBadge, Evidence, Interpretation, MC_N, NextTest, Outcome, ReplayMetrics, TheoryBadge, Tornado, download, missingFields, playPause, runAll, runInputs } from "./bits";
 import { nextTest, outOfEnvelope } from "@/lib/sim/nextTest";
 import { DesignReview } from "./DesignReview";
 import spreadCal from "@/data/params/spread.json";
@@ -496,6 +497,19 @@ function RightPanel() {
       </div>
       <div className="min-h-0 flex-1 overflow-y-auto p-3" role="tabpanel">
         {rightTab === "outputs" && <div className="space-y-2">
+          {ra && <AskAsterButton context={{
+            kind: "run", label: rb ? "Completed simulation runs A and B" : "Completed simulation run",
+            question: rb ? "Explain how these two runs differed, and what the comparison can support." : "Explain this run’s main results and warnings in plain language.",
+            facts: JSON.stringify([ra, ...(rb ? [rb] : [])].map((result) => {
+              const scenario = runInputs.get(result);
+              return {
+                scenario: scenario && { name: scenario.name, cabin: scenario.cabin, items: scenario.items.slice(0, 5), detection: scenario.detection, suppression: scenario.suppression },
+                results: result.outcome.metrics.slice(0, 10).map(({ label, value, units, pass }) => ({ label, value, units, pass })),
+                warnings: result.warnings.slice(0, 5).map((warning) => warning.slice(0, 200)),
+                sources: result.provenance.sources.slice(0, 5).map(({ source_id }) => source_id),
+              };
+            })),
+          }}>Ask Aster about this run</AskAsterButton>}
           <Mitigation sc={a} r={ra} label={b ? "A" : null} />
           {b && <Mitigation sc={b} r={rb} label="B" />}
           <Outcome sc={a} r={ra} label={b ? "A" : null} />

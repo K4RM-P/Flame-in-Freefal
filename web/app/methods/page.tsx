@@ -1,5 +1,6 @@
 // SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 // Plain-language methods: engine loop, sub-models + calibration source, validation, limitations, data, use of AI.
+import { AskAsterButton } from "@/components/AskAsterButton";
 import fs from "node:fs";
 import path from "node:path";
 import { EQUATIONS } from "@/lib/equations";
@@ -142,6 +143,11 @@ export default function Methods() {
                     <dt>In the simulator</dt><dd>{notes[e]?.[2] ?? "—"}</dd>
                     <dt>Evidence</dt><dd>{SOURCES[EQUATIONS[e].ref] ? <a className="methods-source" href={`#source-${EQUATIONS[e].ref}`}>{SOURCES[EQUATIONS[e].ref].title}</a> : "No published source listed"}{" · "}<span className="text-mute">model status: {m.calibrated ? "calibrated" : "theory-only"}</span></dd>
                   </dl>
+                  <AskAsterButton context={{
+                    kind: "formula", label: `${e} · ${EQUATIONS[e].text}`.slice(0, 180),
+                    question: "Explain this formula, its symbols, and how EmberAtlas uses it.",
+                    facts: JSON.stringify({ id: e, equation: EQUATIONS[e], notes: notes[e], model: m.name, calibrated: m.calibrated, reference: SOURCES[EQUATIONS[e].ref]?.title }),
+                  }}>Ask Aster about this formula</AskAsterButton>
                 </details>
               ))}
               </div>
