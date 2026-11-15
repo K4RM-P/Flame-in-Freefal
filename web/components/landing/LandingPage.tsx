@@ -22,14 +22,24 @@ const pct = (x: number) => `${Math.round(x * 100)}%`;
 function RunCta() {
   return <Link href={RUN_HREF} className="btn-accent" data-testid="cta-run">Run ISS vs Lunar Habitat</Link>;
 }
+// SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
+// Scroll-driven landing (same arc as the pitch deck). All numbers come from lib/landing/facts (data + engine).
+import { existsSync } from "node:fs";
+import { join } from "node:path";
+import dynamic from "next/dynamic";
+import summary from "@/data/validation/summary.json";
+import { landingFacts } from "@/lib/landing/facts";
+import { Hero } from "./Hero";
+import { Story } from "./Story";
+import { FinalCta, Findings, LandingFooter, LiveDemo, Marquee, Trust } from "./Sections";
+
+const Bento = dynamic(() => import("./Bento").then((m) => m.Bento));
+const HowItWorks = dynamic(() => import("./HowItWorks").then((m) => m.HowItWorks));
 
 export function LandingPage() {
-  const orbit = earthVsOrbitSummary();
-  const { better, same, worse, n } = orbit.counts;
-  const stops = evidenceStops("LunarHabitat");
-  const lunarO2 = stops.mission.x_o2;
-  const maxSolid = stops.max_solid_x_o2;
-
+  const f = landingFacts();
+  const targets = (summary as { targets: { status: string }[] }).targets;
+  const video = existsSync(join(process.cwd(), "public/media/demo.mp4"));
   return (
     <>
       <OverviewIntro image={NASA_IMAGE} source={NASA_IMAGE_SOURCE} run={RUN_HREF} />
@@ -90,5 +100,17 @@ export function LandingPage() {
       </section>
       </div>
     </>
+    <div className="bg-bg">
+      <Hero status={{ experiments: f.psi.accessions, rows: f.psi.rows, mismatches: f.flex.mismatches, compared: f.flex.compared }} />
+      <Story f={f.stops} />
+      <Bento f={{ front: f.run?.front ?? null, aName: f.run?.aName ?? "A", bName: f.run?.bName ?? "B", evidence: f.run?.evidence ?? [], fixes: f.run?.fixes ?? [], next: f.run?.next ?? null }} />
+      <HowItWorks />
+      <LiveDemo run={f.run} video={video} />
+      <Findings f={f} />
+      <Marquee chips={f.psi.chips} />
+      <Trust f={f} pass={targets.filter((t) => t.status === "pass").length} total={targets.length} />
+      <FinalCta />
+      <LandingFooter />
+    </div>
   );
 }

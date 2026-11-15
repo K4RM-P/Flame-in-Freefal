@@ -78,7 +78,8 @@ export function BoundedBadge() {
 export const methodsHref = (what: string) => ["spread", "habitat", "smoke", "suppression"].includes(what) ? `/methods#model-${what}` : "/methods#overview";
 
 /* ---------- run helpers (formerly RunPanel) ---------- */
-export const MC_N = 200;
+export { MC_N } from "./constants";
+import { MC_N } from "./constants";
 
 /** Fields the engine cannot run without (unsourced values the user must supply). */
 export function missingFields(s: Scenario | null): string[] {

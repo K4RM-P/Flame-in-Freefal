@@ -20,10 +20,9 @@ export function FloatingPaths({ position, active = true, className }: { position
   const animating = active && !reduce;
   return (
     <div className={cn("pointer-events-none absolute inset-0", position === 1 ? "text-[#FF6B2C]" : "text-[#5AA9FF]", className)} aria-hidden>
-      <svg className="h-full w-full" viewBox="0 0 696 316" fill="none" preserveAspectRatio="xMidYMid slice">
+      <svg className="h-full w-full overflow-visible" style={{ willChange: animating ? "transform" : "auto" }} viewBox="0 0 696 316" fill="none" preserveAspectRatio="xMidYMid slice">
         {paths.map((p) => (
           <motion.path key={p.id} d={p.d} stroke="currentColor" strokeWidth={p.width} strokeOpacity={0.04 + p.id * 0.012}
-            style={{ willChange: animating ? "transform" : "auto" }}
             initial={reduce ? false : { pathLength: 0.3, opacity: 0.6 }}
             animate={animating ? { pathLength: 1, opacity: [0.3, 0.6, 0.3], pathOffset: [0, 1, 0] } : { pathLength: 1, opacity: 0.5 }}
             transition={animating ? { duration: 20 + ((p.id * 37) % 10), repeat: Number.POSITIVE_INFINITY, ease: "linear" } : { duration: 0 }} />
