@@ -12,7 +12,7 @@ const stagger = (i: number) => i * 0.06; // 60 ms reveal stagger
 export interface BentoFacts {
   front: { t: number[]; a: number[]; b: number[] } | null; aName: string; bName: string;
   evidence: { accession: string; title: string; role: string }[];
-  fixes: { label: string; swing: number; units: string }[]; next: { condition: string } | null;
+  fixes: { title: string; before: string; after: string; basis: string; effect: number }[]; next: { condition: string } | null;
 }
 
 function Card({ children, className = "", i }: { children: React.ReactNode; className?: string; i: number }) {
@@ -61,12 +61,19 @@ export function Bento({ f }: { f: BentoFacts }) {
         </Card>
         <Card i={2} className="md:col-span-2">
           <Head icon={<ShieldCheck size={20} strokeWidth={1.5} />} k="Prevent" t="The design changes that cut risk most, plus the test that proves it." />
-          <ol className="mt-6 space-y-2">
-            {f.fixes.filter((x) => x.swing > 0).map((x, i) => (
-              <li key={x.label} className="flex items-center gap-3 text-[13px]"><span className="num w-5 text-faint">{i + 1}</span><span className="w-32 truncate">{x.label}</span>
-                <span className="h-1.5 flex-1 rounded-full bg-surface2"><span className="ea-bar block h-full origin-left rounded-full bg-ember transition-transform duration-500 group-hover:scale-x-100 md:scale-x-[.35]" style={{ width: `${(x.swing / f.fixes[0].swing) * 100}%` }} /></span>
-                <span className="num text-mute">±{sig(x.swing / 2, 3)} {x.units}</span></li>
-            ))}
+          <ol className="mt-6 space-y-2.5">
+            {f.fixes.map((x, i) => {
+              const top = Math.max(...f.fixes.map((y) => y.effect), 1e-9);
+              return (
+                <li key={x.title} className="grid grid-cols-[1.25rem_minmax(0,1fr)_auto] items-center gap-x-3 gap-y-1 text-[13px]">
+                  <span className="num text-faint">{i + 1}</span><span className="truncate">{x.title}</span>
+                  <span className="num whitespace-nowrap text-mute">{x.before} → {x.after}</span>
+                  <span /><span className="h-1 rounded-full bg-surface2"><span className="ea-bar block h-full origin-left rounded-full bg-ember transition-transform duration-500 group-hover:scale-x-100 md:scale-x-[.35]" style={{ width: `${(x.effect / top) * 100}%` }} /></span>
+                  <span className="font-mono text-[11px] uppercase text-faint">{x.basis}</span>
+                </li>
+              );
+            })}
+            {!f.fixes.length && <li className="text-[13px] text-mute">No design gap with a measurable effect in this scenario.</li>}
           </ol>
           {f.next && <p className="mt-4 border-t border-line pt-3 text-[13px] text-mute"><span className="ea-meta mr-2">Next test</span>{f.next.condition}</p>}
         </Card>

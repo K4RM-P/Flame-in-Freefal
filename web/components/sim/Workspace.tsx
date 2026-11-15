@@ -17,14 +17,6 @@ import { ScenarioSchema, type Scenario, type SimResult } from "@/lib/sim/types";
 import { nextTest, outOfEnvelope } from "@/lib/sim/nextTest";
 import { lsGet, lsSet } from "@/lib/store";
 import { sig, withUnit } from "@/lib/ui/format";
-import { CHARTS, Charts } from "./Charts";
-import { CabinView, Legend, runFacts, useReducedMotion } from "./CabinView";
-import { ScenarioPanel, applyPreset, fmtProv } from "./ScenarioPanel";
-import { TELEMETRY, materialByKey } from "./data";
-import { BoundedBadge, Evidence, Interpretation, MC_N, NextTest, Outcome, ReplayMetrics, TheoryBadge, Tornado, download, missingFields, playPause, runAll } from "./bits";
-import { nextTest, outOfEnvelope } from "@/lib/sim/nextTest";
-import { DesignReview } from "./DesignReview";
-import { sig } from "@/lib/ui/format";
 import { cn } from "@/lib/utils";
 import spreadCal from "@/data/params/spread.json";
 import { Button } from "@/components/ui/button";
@@ -40,6 +32,7 @@ import { CHARTS, Charts } from "./Charts";
 import { CabinView, Legend, runFacts } from "./CabinView";
 import { ScenarioPanel, applyPreset, fmtProv, type ScenarioPart } from "./ScenarioPanel";
 import { TELEMETRY, materialByKey } from "./data";
+import { DesignReview } from "./DesignReview";
 import { BoundedBadge, Evidence, Interpretation, MC_N, NextTest, Outcome, ReplayMetrics, TheoryBadge, Tornado, compact, download, evidenceForAI, missingFields, playPause, runAll } from "./bits";
 import { LAYERS, PLAYBACK, loadUi, saveUi, useSim, type ChatMsg } from "./store";
 import { HudExtras, Scene3D } from "./scene3d/Scene3D";
@@ -447,12 +440,12 @@ function ResultStrip() {
       const [k, verb] = pick, va = metric(ra, k)!.value as number, vb = metric(rb, k)!.value as number, u = metric(ra, k)!.units;
       const time = k === "time_to_extinguish";
       const ratio = time && va > 0 && vb > 0 ? Math.max(va, vb) / Math.min(va, vb) : null;
-      headline = <>{b.name} {verb} {ratio != null ? <><span className="num text-ember-text">{sig(ratio, 2)}×</span> {vb < va ? "faster" : vb > va ? "slower" : "the same"}</> : <span className="num">{sig(vb, 3)} {u}</span>}
-        <span className="ml-2 font-mono text-[12px] font-normal text-mute">{a.name} <span className="num">{sig(va, 3)}</span> → {b.name} <span className="num">{sig(vb, 3)} {u}</span></span></>;
+      headline = <>{b.name} {verb} {ratio != null ? <><span className="num text-ember-text">{sig(ratio, 2)}×</span> {vb < va ? "faster" : vb > va ? "slower" : "the same"}</> : <span className="num">{withUnit(vb, u)}</span>}
+        <span className="ml-2 font-mono text-[12px] font-normal text-mute">{a.name} <span className="num">{withUnit(va, u)}</span> → {b.name} <span className="num">{withUnit(vb, u)}</span></span></>;
     }
   } else {
     const m = metric(ra, "time_to_extinguish")?.value != null ? metric(ra, "time_to_extinguish") : metric(ra, "peak_T");
-    if (m?.value != null) headline = <>{m.label} <span className="num text-ember-text">{sig(m.value, 3)} {m.units}</span></>;
+    if (m?.value != null) headline = <>{m.label} <span className="num text-ember-text">{withUnit(m.value, m.units)}</span></>;
   }
   return (
     <section data-testid="delta-card" className="flex min-h-12 flex-wrap items-center gap-x-3 gap-y-1.5 border-t border-line bg-bg px-4 py-2" aria-label="Result">
@@ -495,7 +488,7 @@ function Assumptions({ sc, r }: { sc: Scenario; r: SimResult | null }) {
         <ul className="space-y-0.5 text-[12px]">{Object.entries(r.provenance.params).map(([k, p]) => <li key={k}><span className="font-medium">{k}</span>: {p.calibrated ? "calibrated" : "◌ theory-only"} · <span className="text-mute">{p.source}</span></li>)}</ul>
         <p className="ea-meta mt-3">Sources</p>
         <ul className="space-y-0.5 text-[12px]">{r.provenance.sources.map((s, i) => <li key={i} className="border-l-2 border-line pl-2">{fmtProv(s)}</li>)}</ul>
-        <p className="mt-3 font-mono text-[11px] text-faint">EmberAtlas {r.provenance.engine_version} · seed {r.provenance.seed} · {MC_N} MC runs · SI internal</p></>}
+        <p className="mt-3 font-mono text-[11px] text-faint">EmberAtlas {r.provenance.engine_version} · seed {r.provenance.seed} · {MC_N} MC runs · spread test error {spreadCal.metrics.test_mape_pct} % (n = {spreadCal.metrics.test.length}) · SI internal</p></>}
       {!r && <p className="mt-3 text-mute">Run the scenario to see calibration, warnings and sources.</p>}
     </div>
   );
@@ -638,8 +631,6 @@ function AiDrawer() {
           {b && <Mitigation sc={b} r={rb} label="B" frame={frame} />}
           <Outcome sc={a} r={ra} label={b ? "A" : null} />
           {b && rb && <Outcome sc={b} r={rb} label="B" />}
-          <Tornado sc={a} />
-          {b && rb ? <NextTest sc={b} r={rb} /> : ra && <NextTest sc={a} r={ra} />}
           {b && rb ? <DesignReview sc={b} r={rb} label="B" /> : <DesignReview sc={a} r={ra} />}
           <Tornado sc={b ?? a} />
         </div>}
@@ -687,47 +678,6 @@ function Mitigation({ sc, r, label, frame }: { sc: Scenario; r: SimResult | null
   );
 }
 
-/* ---------- Compare: headline delta, extrapolation badge, next test ---------- */
-const DELTA_KEYS = [["time_to_extinguish", "Burnout"], ["peak_T", "Peak temperature"], ["peak_co", "Peak CO"]] as const;
-
-function DeltaCard({ a, b, ra, rb, openInspector }: { a: Scenario; b: Scenario; ra: SimResult; rb: SimResult; openInspector: () => void }) {
-  const set = useSim((s) => s.set);
-  const metric = (r: SimResult, k: string) => r.outcome.metrics.find((m) => m.key === k) ?? null;
-  const pick = DELTA_KEYS.find(([k]) => metric(ra, k)?.value != null && metric(rb, k)?.value != null);
-  const oob = [...outOfEnvelope(b), ...outOfEnvelope(a)];
-  const seen = new Set<string>();
-  const oobText = oob.filter((o) => (seen.has(o.text) ? false : (seen.add(o.text), true))).map((o) => o.text);
-  const nt = nextTest(b, rb);
-  let headline: React.ReactNode = "No data";
-  if (pick) {
-    const [k, label] = pick;
-    const ma = metric(ra, k)!, mb = metric(rb, k)!;
-    const va = ma.value as number, vb = mb.value as number;
-    let tail = "";
-    if (va > 0 && vb > 0) {
-      const timeLike = k === "time_to_extinguish";
-      const ratio = timeLike ? Math.max(va, vb) / Math.min(va, vb) : vb / va;
-      tail = timeLike ? ` (${sig(ratio, 2)}× ${vb < va ? "faster" : vb > va ? "slower" : "same"})` : ` (${sig(ratio, 2)}× A)`;
-    }
-    headline = <>{label}: {a.name} <span className="num">{withUnit(va, ma.units)}</span> → {b.name} <span className="num">{withUnit(vb, mb.units)}</span>{tail}</>;
-  }
-  const goNext = () => { openInspector(); set({ rightTab: "outputs" }); requestAnimationFrame(() => requestAnimationFrame(() => document.getElementById("next-test")?.scrollIntoView({ block: "start", behavior: "smooth" }))); };
-  return (
-    <section data-testid="delta-card" className="space-y-2 border-t border-line bg-panel px-3 py-2" aria-label="Compare result">
-      <p className="text-[18px] font-semibold">{headline}</p>
-      {oobText.length > 0 && <p className="flex flex-wrap items-center gap-2">
-        <span data-testid="extrapolated" className="chip border-2 border-warn px-2 py-0.5 text-[16px] font-bold tracking-wide text-warn">EXTRAPOLATED</span>
-        <span className="num text-[13px] text-warn">{oobText.join(" · ")}</span>
-      </p>}
-      <p className="flex flex-wrap items-center gap-2 text-[13px]">
-        <button type="button" className="btn px-2 py-0.5 text-[12px]" onClick={goNext}>Next test to fly →</button>
-        <span className="text-mute">{nt ? <><b className="text-ink">{nt.condition}.</b> {nt.reason}</> : "Inside the tested envelope, no new test needed for this scenario"}</span>
-      </p>
-    </section>
-  );
-}
-
-/** The real model check beside the replay: spread calibration on the held-out SIBAL flight test (from data/params/spread.json). */
 function SpreadCalibration() {
   const test = (spreadCal.metrics?.test ?? []) as { sample: string; rel_err: number }[];
   return (
@@ -738,15 +688,3 @@ function SpreadCalibration() {
     </aside>
   );
 }
-
-function StatusBar() {
-  const { ra } = useSim();
-  return (
-    <div className="flex flex-wrap items-center gap-3 border-t border-line bg-panel px-3 py-0.5 text-[11px] text-faint lg:h-6 lg:flex-nowrap" data-noprint>
-      <a className="underline underline-offset-2" href="https://psi.nasa.gov/physci/repo/search?q=combustion" target="_blank" rel="noreferrer" data-testid="psi-resource-link">NASA PSI Data Repository: Combustion Science</a>
-      <span>Partial gravity is an estimate (µg ↔ 1 g) that may be non-conservative (NASA FM2). Not for flight certification.</span>
-      {ra && <span className="num ml-auto">EmberAtlas {ra.provenance.engine_version} · seed {ra.provenance.seed} · {MC_N} MC runs · spread test error {spreadCal.metrics.test_mape_pct} % (n = {spreadCal.metrics.test.length})</span>}
-    </div>
-  );
-}
-

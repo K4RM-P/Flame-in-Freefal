@@ -65,15 +65,10 @@ export function Shell({ children }: { children: React.ReactNode }) {
           </Tip>
         </div>
       </header>
-      <main key={path} className={`page-fade mx-auto min-w-0 ${path === "/" ? "max-w-none p-0" : "max-w-[1600px] px-4 py-4 md:px-6"}`}>{children}</main>
-      <footer className="mx-auto max-w-[1600px] border-t border-line px-4 py-3 text-[12px] text-faint md:px-6" data-noprint>
-        Built on NASA PSI Data Repository: Combustion Science. Partial gravity is an estimate (µg ↔ 1 g) that may be non-conservative (NASA FM2). Not for flight certification.
-        {" · "}<Link className="underline underline-offset-2" href="/about">About EmberAtlas</Link>
-      </footer>
       <main key={path} className={`page-fade mx-auto min-w-0 ${landing ? "-mt-14 max-w-none p-0" : "max-w-[1600px] px-4 py-6 md:px-6"}`}>{children}</main>
       {!landing && <footer className="mx-auto flex max-w-[1600px] flex-wrap items-center gap-x-3 gap-y-1 border-t border-line px-4 py-3 font-mono text-[11px] uppercase tracking-[0.06em] text-faint md:px-6" data-noprint>
         <span>NASA PSI Data Repository · Combustion Science</span><span aria-hidden>·</span>
-        <span>Partial gravity = bounded estimate (µg ↔ 1 g)</span><span aria-hidden>·</span><span>Not for flight certification</span>
+        <span>Partial gravity = estimate (µg ↔ 1 g), may be non-conservative (NASA FM2)</span><span aria-hidden>·</span><span>Not for flight certification</span>
         <Link className="ml-auto hover:text-ink" href="/about">About EmberAtlas</Link>
       </footer>}
       <Aster />

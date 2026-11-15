@@ -68,29 +68,6 @@ function Hud3D({ v, frame, compact }: { v: SceneView; frame: number; compact: bo
   const missing = missingFields(sc);
   return (
     <div className="relative h-full min-w-0" data-testid="hud3d">
-      {/* top-left: time, Q, T */}
-      <div className="absolute left-2 top-2 flex max-w-[60%] flex-col items-start gap-1">
-        <div className={chip}>
-          {compact && <span className="font-medium">{label.split(" · ")[0]}</span>}
-          <span className="text-mute">t</span><span className="num" data-testid="hud-time">{r ? `${sig(S.t, 3)} s` : "—"}</span>
-          <span className="text-mute">Q</span>{r ? <Num value={S.hud.Q_W! / 1e3} units="kW" title="Heat release at playhead" sources={src} /> : <span className="num">—</span>}
-          <span className="text-mute">T</span>{r ? <Num value={S.hud.T_K} units="K" title="Cabin temperature at playhead" sources={src} /> : <span className="num">—</span>}
-        </div>
-        <div className="flex flex-wrap gap-1">
-          {r && sum?.noYield && <span className="glass pointer-events-auto px-1.5 py-0.5 text-[11px] text-faint" data-testid="smoke-nodata" title="No sourced smoke yield: no smoke particles are drawn">smoke: ∅ no data</span>}
-          {S.theory.spread && <a href="/methods#overview" className="glass pointer-events-auto px-1.5 py-0.5 text-[11px] text-theory">◌ theory-only</a>}
-          {S.gravityMode === "partial" && <span className="glass px-1.5 py-0.5 text-[11px] text-warn" title="Partial gravity (1/6 g) is estimated between µg and 1 g. NASA's FM2 lunar-gravity tests show some materials burn more readily at lunar g than at either, so this estimate may be non-conservative.">estimate · may be non-conservative · {sig(S.gravity_g, 3)} g</span>}
-          {L.detClamped && <span className="glass px-1.5 py-0.5 text-[11px] text-warn">detector beyond module end: drawn at the bulkhead</span>}
-          {S.limits.map((l, i) => <span key={i} className="glass pointer-events-auto border-bad px-1.5 py-0.5 text-[11px] text-bad" data-testid="limit-chip">⚠ {l.label} · {l.source}</span>)}
-        </div>
-      </div>
-      {/* top-right: O₂, CO, alarm */}
-      <div className="absolute right-2 top-2 flex flex-col items-end gap-1">
-        <div className={chip}>
-          <span className="text-mute">O₂</span>{r ? <Num value={S.hud.x_o2! * 100} units="%" title="Cabin O₂ at playhead" sources={src} /> : <span className="num">{sig(sc.cabin.x_o2 * 100, 3)} %</span>}
-          <span className="text-mute">CO</span>{r ? <Num value={S.hud.x_co_ppm} units="ppm" title="Cabin CO at playhead" sources={src} /> : <span className="num">—</span>}
-        </div>
-        <span className={`glass px-2 py-0.5 text-[12px] hud3d ${S.alarm ? "text-bad" : "text-mute"}`} data-testid="hud-alarm">
       <div className="absolute left-3 top-3 flex max-w-[calc(100%-1.5rem)] flex-wrap items-center gap-1.5">
         {compact && <span className="glass px-2 py-1 text-[12px] font-medium">{label.split(" · ")[0]}</span>}
         <span className={chip}><span className="text-faint">T+</span><span className="num" data-testid="hud-time">{r ? `${sig(S.t, 3)} s` : "—"}</span></span>
@@ -132,7 +109,7 @@ export function HudExtras({ sc, r, frame }: { sc: Scenario; r: SimResult | null;
       <div className="flex flex-wrap gap-1">
         {r && sum?.noYield && <span className="ea-pill" data-testid="smoke-nodata" title="No sourced smoke yield: no smoke particles are drawn">smoke: ∅ no data</span>}
         {S.theory.spread && <a href="/methods#overview" className="ea-pill">◌ theory-only</a>}
-        {S.gravityMode === "partial" && <span className="ea-pill" data-tone="warn" title="Partial gravity is a bounded estimate between µg and 1 g">bounded · {sig(S.gravity_g, 3)} g</span>}
+        {S.gravityMode === "partial" && <span className="ea-pill" data-tone="warn" title="Partial gravity (1/6 g) is estimated between µg and 1 g. NASA's FM2 lunar-gravity tests show some materials burn more readily at lunar g than at either, so this estimate may be non-conservative.">estimate · may be non-conservative · {sig(S.gravity_g, 3)} g</span>}
         {L.detClamped && <span className="ea-pill" data-tone="warn">detector beyond module end: drawn at the bulkhead</span>}
         {S.limits.map((l, i) => <span key={i} className="ea-pill" data-tone="bad" data-testid="limit-chip">⚠ {l.label} · {l.source}</span>)}
         {r && S.fanOff && <span className="ea-pill">■ fan off</span>}

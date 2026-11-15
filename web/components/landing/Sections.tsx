@@ -100,7 +100,7 @@ export function Trust({ f, pass, total }: { f: LandingFacts; pass: number; total
     ["Held-out droplet burning rate", <>MAPE <span className="num">{sig(f.flex.mape, 3)}%</span> (n = <span className="num">{f.flex.n}</span>)</>, "PSI-69 FLEX · test split"],
     ["SIBAL flame-spread error", f.spread.mape == null ? "No data" : <><span className="num">{sig(f.spread.mape, 3)}%</span> (n = <span className="num">{f.spread.n}</span>, a single held-out flight test)</>, "PSI-98/100 SAFFIRE"],
     ["Published validation targets", <><span className="num">{pass}</span> of <span className="num">{total}</span> pass; failures are shown, not hidden</>, "data/validation/summary.json"],
-    ["Limitations", <>Partial gravity is a bounded estimate (µg ↔ 1 g). Not for flight certification. <Link href="/methods#limitations" className="text-ember-text underline-offset-4 hover:underline">Read the limits</Link></>, "Methods"],
+    ["Limitations", <>Partial gravity is an estimate (µg ↔ 1 g) that may be non-conservative (NASA FM2). Not for flight certification. <Link href="/methods#limitations" className="text-ember-text underline-offset-4 hover:underline">Read the limits</Link></>, "Methods"],
   ];
   return (
     <section className="mx-auto max-w-6xl px-4 py-24 md:px-6" aria-labelledby="trust-title">

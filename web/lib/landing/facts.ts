@@ -10,7 +10,7 @@ import { earthVsOrbitSummary, evidenceStops, rankEvidence } from "@/lib/sim/evid
 import { presetById } from "@/lib/sim/presets";
 import { simulate } from "@/lib/sim/engine";
 import { nextTest, outOfEnvelope } from "@/lib/sim/nextTest";
-import { sensitivity } from "@/lib/sim/sensitivity";
+import { designReview, show } from "@/lib/sim/designReview";
 import { MC_N } from "@/components/sim/constants";
 import type { Scenario, SimResult } from "@/lib/sim/types";
 
@@ -35,7 +35,7 @@ export interface LandingFacts {
     front: { t: number[]; a: number[]; b: number[] } | null;
     ignitionS: number | null; alarmS: number | null;
     evidence: { accession: string; title: string; role: string }[];
-    fixes: { label: string; swing: number; units: string }[];
+    fixes: { title: string; before: string; after: string; basis: string; effect: number }[];
   } | null;
 }
 
@@ -70,9 +70,8 @@ function engineRun(): LandingFacts["run"] {
   const step = Math.max(1, Math.ceil(ra.t.length / 48));
   const front = fa && fb ? { t: ra.t.filter((_, i) => i % step === 0), a: fa.filter((_, i) => i % step === 0), b: fb.filter((_, i) => i % step === 0) } : null;
   const ev = (k: string) => rb.events.find((e) => e.kind === k)?.t_s ?? null;
-  const rows = sensitivity(b, "time_to_extinguish") as unknown as { label: string; low: number | null; high: number | null }[];
-  const fixes = rows.filter((r) => r.low != null && r.high != null).map((r) => ({ label: r.label, swing: Math.abs((r.high as number) - (r.low as number)), units: mb?.units ?? "s" }))
-    .sort((x, y) => y.swing - x.swing).slice(0, 3);
+  // "Prevent": the deterministic design review (rule-based gaps + largest sensitivity swings), top 3.
+  const fixes = designReview(b, rb).slice(0, 3).map((x) => ({ title: x.title, before: show(x.before, x.units), after: show(x.after, x.units), basis: x.basis, effect: Math.abs(x.effect) }));
   return {
     aName: a.name, bName: b.name, burnA: va, burnB: vb, units: ma?.units ?? "s", ratio, faster: va != null && vb != null ? vb < va : null,
     extrapolated, next: nt ? { condition: nt.condition, reason: nt.reason } : null, front,

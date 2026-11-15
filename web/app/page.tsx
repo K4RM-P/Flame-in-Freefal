@@ -4,17 +4,9 @@ import { LandingPage } from "@/components/landing/LandingPage";
 import { media } from "@/lib/media";
 
 export const metadata: Metadata = {
-  title: "Spacecraft fire, tested against NASA evidence",
-  description: "Explore NASA's in-space combustion evidence, replay Saffire telemetry, and test spacecraft fire scenarios with explicit sources, uncertainty, and model limits.",
-  openGraph: {
-    title: "EmberAtlas | Spacecraft fire, tested against NASA evidence",
-    description: "Trace NASA PSI combustion data into a spacecraft fire-safety simulation.",
-    type: "website",
-    images: [{ url: media.hero.src, alt: media.hero.alt }],
-  },
   title: { absolute: "EmberAtlas · The firefighter for space" },
   description: "EmberAtlas shows where and how a fire would start in your spacecraft, and which design change prevents it. Built on NASA's ISS fire data, explained by AI.",
-  openGraph: { title: "EmberAtlas · The firefighter for space", description: "Where a fire would start in your spacecraft, and which design change prevents it. Built on NASA's ISS fire data, explained by AI.", type: "website" },
+  openGraph: { title: "EmberAtlas · The firefighter for space", description: "Where a fire would start in your spacecraft, and which design change prevents it. Built on NASA's ISS fire data, explained by AI.", type: "website", images: [{ url: media.hero.src, alt: media.hero.alt }] },
   twitter: { card: "summary_large_image" },
 };
 
