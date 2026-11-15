@@ -38,6 +38,8 @@ interface SimState {
   playing: boolean; view: View; layers: Record<Layer, boolean>; rightTab: "outputs" | "evidence" | "assistant"; dockTab: string;
   assumptionsOpen: boolean; dockOpen: boolean; dockVh: number; treeOpen: boolean; camPreset: { id: number; nonce: number } | null; present: boolean; speed: number; ranKey: string | null;
   sens: Sens | null; chat: ChatMsg[]; asking: boolean;
+  /** Simulator chrome: which scenario row popover is open, and the right drawer tab (null = closed). */
+  row: string | null; drawer: "ai" | "outputs" | "evidence" | null;
   set: (p: Partial<Omit<SimState, "set" | "patch">>) => void;
   patch: (fn: (s: Scenario) => Scenario) => void;
 }
@@ -46,7 +48,7 @@ export const useSim = create<SimState>((set) => ({
   ra: null, rb: null, running: false, runError: null, frame: 0, receipt: null, interp: { state: "idle" }, topOpen: true,
   playing: false, view: "3d", layers: { geometry: true, heat: true, smoke: true, airflow: true, detector: true, suppression: true, module: true, crew: false, labels: false },
   dockOpen: false, dockVh: 38, treeOpen: true, camPreset: null, present: false, speed: 1, ranKey: null,
-  rightTab: "outputs", dockTab: "T_K", assumptionsOpen: false, sens: null, chat: [], asking: false,
+  rightTab: "outputs", dockTab: "T_K", assumptionsOpen: false, sens: null, chat: [], asking: false, row: null, drawer: null,
   set: (p) => set(p),
   patch: (fn) => set((s) => {
     const k = s.editing === "b" && s.b ? "b" : "a";

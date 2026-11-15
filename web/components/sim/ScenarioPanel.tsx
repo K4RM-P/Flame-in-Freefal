@@ -38,7 +38,10 @@ export const fmtProv = (p: Provenance) => [p.source_id, p.locator, p.doi && `doi
 
 const G_OPTS = [{ v: GRAVITY.ug, label: "µg" }, { v: GRAVITY.moon, label: "Moon" }, { v: GRAVITY.mars, label: "Mars" }, { v: GRAVITY.earth, label: "1 g" }];
 
-export function ScenarioPanel() {
+export type ScenarioPart = "cabin" | "materials" | "fire" | "detection" | "suppression" | "advanced" | "setup";
+/** Full setup form, or one part of it (the simulator rows open each part in a popover; "advanced" = pressure, flow,
+ *  gravity and detector threshold; "setup" = describe-with-AI and presets). */
+export function ScenarioPanel({ only }: { only?: ScenarioPart } = {}) {
   const { a, b, editing, presetId, set, patch } = useSim();
   const sc = editing === "b" && b ? b : a;
   if (!sc) return <div className="text-mute">Loading presets…</div>;
@@ -46,50 +49,52 @@ export function ScenarioPanel() {
   const c = sc.cabin;
   const partial = c.gravity_g > 0 && c.gravity_g < 1;
   const ignitable = sc.items.filter((i) => canIgnite(materialByKey(i.material_key)));
+  const show = (p: ScenarioPart) => !only || only === p;
+  const adv = show("advanced");
 
   return (
     <div className="space-y-1">
-      <Describe />
-      <Section id="sec-presets" title="Presets">
+      {show("setup") && <Describe />}
+      {show("setup") && <Section id="sec-presets" title="Presets">
         <div className="flex flex-col gap-1.5">
           {PRESETS.map((p: Preset) => (
             <button key={p.id} type="button" className={`btn justify-start text-left ${presetId === p.id ? "bg-surface2" : ""}`} data-testid={presetTestId(p.id)}
               title={p.description} onClick={() => applyPreset(p)}>{p.label}</button>
           ))}
         </div>
-      </Section>
-      {b && (
+      </Section>}
+      {b && (show("setup") || show("cabin")) && (
         <div className="flex items-center gap-2 py-2 text-[13px]">
           <span className="text-mute">Editing</span>
           <Segmented options={[{ v: "a" as const, label: `A · ${a?.name ?? ""}` }, { v: "b" as const, label: `B · ${b.name}` }]} value={editing} onChange={(v) => set({ editing: v })} />
         </div>
       )}
-      <Section id="sec-cabin" title="Cabin">
-        <label className="grid grid-cols-[1fr_auto] items-center gap-2 text-[13px]"><span className="text-mute">Name</span>
+      {(show("cabin") || adv) && <Section id={only === "advanced" ? "sec-cabin-adv" : "sec-cabin"} title={only === "advanced" ? "Cabin atmosphere and flow" : "Cabin"}>
+        {show("cabin") && <><label className="grid grid-cols-[1fr_auto] items-center gap-2 text-[13px]"><span className="text-mute">Name</span>
           <input type="text" className="w-40" value={sc.name} onChange={(e) => patch((s) => ({ ...s, name: e.target.value }))} /></label>
         <NumField label="Oxygen" units="% mol" value={round(c.x_o2 * 100)} source={src("cabin.x_o2")} step={0.1} min={0} max={100}
-          onChange={(v) => v != null && patch((s) => ({ ...s, cabin: { ...s.cabin, x_o2: v / 100 } }))} />
-        <NumField label="Pressure" units="kPa" value={round(c.P_Pa / 1e3)} source={src("cabin.P_Pa")} step={0.1} min={1}
+          onChange={(v) => v != null && patch((s) => ({ ...s, cabin: { ...s.cabin, x_o2: v / 100 } }))} /></>}
+        {adv && <><NumField label="Pressure" units="kPa" value={round(c.P_Pa / 1e3)} source={src("cabin.P_Pa")} step={0.1} min={1}
           onChange={(v) => v != null && patch((s) => ({ ...s, cabin: { ...s.cabin, P_Pa: v * 1e3 } }))} />
         <div className="flex items-center justify-between gap-2 text-[13px]" title={src("cabin.gravity_g")}>
           <span className="text-mute">Gravity</span>
           <Segmented options={G_OPTS} value={c.gravity_g} onChange={(v) => patch((s) => ({ ...s, cabin: { ...s.cabin, gravity_g: v } }))} testid="gravity" />
         </div>
-        {partial && <BoundedBadge />}
-        <NumField label="Free volume" units="m³" value={c.V_m3} source={src("cabin.V_m3")} required min={0.01}
+        {partial && <BoundedBadge />}</>}
+        {show("cabin") && <><NumField label="Free volume" units="m³" value={c.V_m3} source={src("cabin.V_m3")} required min={0.01}
           onChange={(v) => patch((s) => ({ ...s, cabin: { ...s.cabin, V_m3: v != null && v > 0 ? v : null } }))} testid="volume" />
-        {c.V_m3 == null && src("cabin.V_m3") !== "User input" && <p className="text-[12px] text-warn" data-testid="volume-hint">{src("cabin.V_m3")}</p>}
-        <NumField label="Ventilation past items" units="cm/s" value={round(c.flow_m_s * 100)} source={src("cabin.flow_m_s")} step={0.5} min={0}
-          onChange={(v) => v != null && patch((s) => ({ ...s, cabin: { ...s.cabin, flow_m_s: v / 100 } }))} />
-        <label className="flex items-center justify-between text-[13px]" title={src("cabin.fan_off_on_alarm")}>
+        {c.V_m3 == null && src("cabin.V_m3") !== "User input" && <p className="text-[12px] text-warn" data-testid="volume-hint">{src("cabin.V_m3")}</p>}</>}
+        {adv && <NumField label="Ventilation past items" units="cm/s" value={round(c.flow_m_s * 100)} source={src("cabin.flow_m_s")} step={0.5} min={0}
+          onChange={(v) => v != null && patch((s) => ({ ...s, cabin: { ...s.cabin, flow_m_s: v / 100 } }))} />}
+        {show("cabin") && <label className="flex items-center justify-between text-[13px]" title={src("cabin.fan_off_on_alarm")}>
           <span className="text-mute">Fan off on alarm</span>
           <input type="checkbox" checked={c.fan_off_on_alarm} onChange={(e) => patch((s) => ({ ...s, cabin: { ...s.cabin, fan_off_on_alarm: e.target.checked } }))} />
-        </label>
-      </Section>
-      <Section id="sec-materials" title={`Materials (${sc.items.length})`} right={<AddMaterial />}>
+        </label>}
+      </Section>}
+      {show("materials") && <Section id="sec-materials" title={`Materials (${sc.items.length})`} right={<AddMaterial />}>
         {sc.items.map((it, idx) => <ItemRow key={it.id} it={it} idx={idx} src={src} />)}
-      </Section>
-      <Section id="sec-fire" title="Fire">
+      </Section>}
+      {show("fire") && <Section id="sec-fire" title="Fire">
         {ignitable.length === 0 ? <p className="text-[13px] text-warn">No item has PSI burn data, so nothing can ignite. Add a material with ISS burn tests.</p> : (
           <>
             <label className="grid grid-cols-[1fr_auto] items-center gap-2 text-[13px]"><span className="text-mute">Ignition item</span>
@@ -101,22 +106,22 @@ export function ScenarioPanel() {
               onChange={(v) => v != null && patch((s) => ({ ...s, items: s.items.map((i) => (i.ignite ? { ...i, t_ignite_s: v } : i)) }))} />
           </>
         )}
-      </Section>
-      <Section id="sec-detection" title="Detection">
-        <label className="grid grid-cols-[1fr_auto] items-center gap-2 text-[13px]" title={src("detection.type")}><span className="text-mute">Detector type</span>
+      </Section>}
+      {(show("detection") || adv) && <Section id={only === "advanced" ? "sec-detection-adv" : "sec-detection"} title={only === "advanced" ? "Detector threshold" : "Detection"}>
+        {show("detection") && <><label className="grid grid-cols-[1fr_auto] items-center gap-2 text-[13px]" title={src("detection.type")}><span className="text-mute">Detector type</span>
           <select value={sc.detection.type} onChange={(e) => patch((s) => ({ ...s, detection: { ...s.detection, type: e.target.value as Scenario["detection"]["type"] } }))}>
             <option value="photoelectric">Photoelectric</option><option value="ionization">Ionization</option>
           </select></label>
         <NumField label="Distance from fire" units="m" value={sc.detection.distance_m} min={0.01} source={src("detection.distance_m")}
-          onChange={(v) => v != null && v > 0 && patch((s) => ({ ...s, detection: { ...s.detection, distance_m: v } }))} />
-        <NumField label="Alarm threshold (smoke)" units="mg/m³" value={sc.detection.threshold == null ? null : round(sc.detection.threshold * 1e6)} min={0}
+          onChange={(v) => v != null && v > 0 && patch((s) => ({ ...s, detection: { ...s.detection, distance_m: v } }))} /></>}
+        {adv && <NumField label="Alarm threshold (smoke)" units="mg/m³" value={sc.detection.threshold == null ? null : round(sc.detection.threshold * 1e6)} min={0}
           source={src("detection.threshold")}
-          onChange={(v) => patch((s) => ({ ...s, detection: { ...s.detection, threshold: v != null && v > 0 ? v / 1e6 : null } }))} />
-        <NumField label="Crew-reported alarm (optional)" units="s" value={sc.detection.manual_alarm_s ?? null} min={0} max={600}
+          onChange={(v) => patch((s) => ({ ...s, detection: { ...s.detection, threshold: v != null && v > 0 ? v / 1e6 : null } }))} />}
+        {show("detection") && <NumField label="Crew-reported alarm (optional)" units="s" value={sc.detection.manual_alarm_s ?? null} min={0} max={600}
           source="Design input: time the crew reports the fire; used only if no detector alarm fires earlier"
-          onChange={(v) => patch((s) => ({ ...s, detection: { ...s.detection, manual_alarm_s: v != null && v >= 0 ? v : null } }))} />
-      </Section>
-      <Section id="sec-suppression" title="Suppression">
+          onChange={(v) => patch((s) => ({ ...s, detection: { ...s.detection, manual_alarm_s: v != null && v >= 0 ? v : null } }))} />}
+      </Section>}
+      {show("suppression") && <Section id="sec-suppression" title="Suppression">
         <div className="flex items-center justify-between text-[13px]" title={src("suppression.agent")}><span className="text-mute">Agent</span>
           <Segmented options={[{ v: "none" as const, label: "None" }, { v: "CO2" as const, label: "CO₂" }, { v: "N2" as const, label: "N₂" }]} value={sc.suppression.agent}
             onChange={(v) => patch((s) => ({ ...s, suppression: { ...s.suppression, agent: v } }))} /></div>
@@ -126,7 +131,7 @@ export function ScenarioPanel() {
           <NumField label="Agent mass" units="kg" value={sc.suppression.mass_kg} min={0} source={src("suppression.mass_kg")}
             onChange={(v) => v != null && patch((s) => ({ ...s, suppression: { ...s.suppression, mass_kg: v } }))} />
         </>}
-      </Section>
+      </Section>}
     </div>
   );
 }

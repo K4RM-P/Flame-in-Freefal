@@ -26,7 +26,8 @@ function OrbitStar() {
 }
 
 export function Aster() {
-  const guide = guides[usePathname().replace(/(.)\/$/, "$1")];
+  const path = usePathname().replace(/(.)\/$/, "$1");
+  const guide = guides[path];
   const dialog = useRef<HTMLDialogElement>(null);
   const launcher = useRef<HTMLButtonElement>(null);
   const transcript = useRef<HTMLDivElement>(null);
@@ -64,7 +65,7 @@ export function Aster() {
 
   return (
     <div data-noprint>
-      <button ref={launcher} type="button" className="ea-aster-launcher"
+      <button ref={launcher} type="button" className="ea-aster-launcher" data-compact={path === "/simulator" || undefined} aria-label="Ask Aster"
         aria-haspopup="dialog" aria-controls="aster-dialog" onClick={() => dialog.current?.showModal()}>
         <span className="ea-aster-launcher__icon"><OrbitStar /></span><span>Ask Aster</span><span className="ea-aster-launcher__dot" aria-hidden />
       </button>
