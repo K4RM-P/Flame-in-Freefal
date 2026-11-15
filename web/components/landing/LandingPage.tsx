@@ -33,13 +33,10 @@ export function LandingPage() {
     <>
       <OverviewIntro image={NASA_IMAGE} source={NASA_IMAGE_SOURCE} run={RUN_HREF} />
       <div id="findings" className="ea-findings mx-auto max-w-6xl px-4 pb-16 sm:px-6">
-      <section className="mt-12 border-l-2 border-accent bg-panel p-5 md:p-8" aria-labelledby="maya-title">
-        <h2 id="maya-title" className="label">Maya&apos;s question</h2>
-        <ol className="mt-3 space-y-2 text-[15px]">
-          <li><span className="text-faint">Before · </span>Maya approves cabin fabrics for a lunar habitat at {pct(lunarO2)} O₂ and {stops.mission.P_Pa / 1000} kPa, using an Earth-gravity burn test.</li>
-          <li><span className="text-faint">With EmberAtlas · </span>she sees what NASA&apos;s ISS fire data proves, where it stops, and a simulation of the lunar cabin beyond it.</li>
-          <li><span className="text-faint">After · </span>she knows which result is evidence, which is extrapolation, and which test to fly next.</li>
-        </ol>
+      <section className="mt-12 border-l-2 border-accent bg-panel p-5 md:p-8" aria-labelledby="design-question">
+        <p className="label">From experiment to design decision</p>
+        <h2 id="design-question" className="display mt-2 text-2xl md:text-4xl">What would you test before flying a cabin material?</h2>
+        <p className="measure mt-3 text-base text-mute">A lunar cabin is one example. Compare ground and orbital tests, then see where evidence runs out for the selected lunar habitat at {pct(lunarO2)} oxygen and {stops.mission.P_Pa / 1000} kPa.</p>
       </section>
 
       <div className="mt-8 grid gap-4 md:grid-cols-3">

@@ -30,7 +30,7 @@ test("landing page fits a mobile viewport", async ({ page }) => {
 test("the Overview language setting translates the introduction and survives reload", async ({ page }) => {
   await page.goto("/");
   await page.getByLabel("Overview language").selectOption("fr");
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Brûlera-t-il sur la Lune ?");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Comment le feu se comporte-t-il dans l’espace ?");
   await page.reload();
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Brûlera-t-il sur la Lune ?");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Comment le feu se comporte-t-il dans l’espace ?");
 });

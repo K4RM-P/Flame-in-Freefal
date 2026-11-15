@@ -4,6 +4,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
+import { Aster } from "@/components/Aster";
 import { useMission, lsGet, lsSet } from "@/lib/store";
 
 const NAV = [["/simulator", "Simulator"], ["/evidence", "Evidence"], ["/methods", "Methods"], ["/about", "About"]] as const;
@@ -33,6 +34,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
         Built on NASA PSI Data Repository: Combustion Science. Partial gravity is a bounded estimate (µg ↔ 1 g). Not for flight certification.
         {" · "}<Link className="underline underline-offset-2" href="/about">About EmberAtlas</Link>
       </footer>
+      <Aster />
     </>
   );
 }
