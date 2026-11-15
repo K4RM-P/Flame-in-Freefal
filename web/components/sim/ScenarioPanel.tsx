@@ -54,7 +54,6 @@ export function ScenarioPanel({ only }: { only?: ScenarioPart } = {}) {
 
   return (
     <div className="space-y-1">
-      {show("setup") && <Describe />}
       {show("setup") && <Section id="sec-presets" title="Presets">
         <div className="flex flex-col gap-1.5">
           {PRESETS.map((p: Preset) => (
@@ -179,38 +178,5 @@ function AddMaterial() {
       <option value="">+ Add from PSI library</option>
       {MATERIALS.map((m) => <option key={m.material_key} value={m.material_key}>{depthLine(m)}{m.ignitable ? "" : " · smoke only"}</option>)}
     </select>
-  );
-}
-
-function Describe() {
-  const { set } = useSim();
-  const [text, setText] = useState("");
-  const [busy, setBusy] = useState(false);
-  const [msg, setMsg] = useState<{ notes: string[]; rejected: string[]; error?: string } | null>(null);
-  async function go() {
-    setBusy(true); setMsg(null);
-    try {
-      const r = await fetch("/api/scenario", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ text }) });
-      const j = await r.json().catch(() => ({}));
-      if (!r.ok) { setMsg({ notes: [], rejected: j.rejected ?? [], error: j.error ?? `Request failed (${r.status})` }); return; }
-      const parsed = ScenarioSchema.safeParse(j.scenario);
-      if (!parsed.success) { setMsg({ notes: j.notes ?? [], rejected: j.rejected ?? [], error: "The AI returned a scenario that failed validation; nothing was changed." }); return; }
-      set({ a: parsed.data, b: null, editing: "a", presetId: null, replay: false, ra: null, rb: null, frame: 0, interp: { state: "idle" } });
-      setMsg({ notes: j.notes ?? [], rejected: j.rejected ?? [] });
-    } catch (e) { setMsg({ notes: [], rejected: [], error: String(e) }); } finally { setBusy(false); }
-  }
-  return (
-    <div className="space-y-2 border-b border-line pb-3">
-      <label htmlFor="describe" className="label">Describe a cabin</label>
-      <textarea id="describe" rows={3} className="w-full" placeholder="Describe a cabin… e.g. a lunar habitat at 34% O₂ and 57 kPa with a SIBAL curtain near a photoelectric detector"
-        value={text} onChange={(e) => setText(e.target.value)} />
-      <div className="flex items-center gap-2">
-        <button type="button" className="btn" disabled={busy || !text.trim()} onClick={go}>{busy ? "Building…" : "Fill the fields"}</button>
-        <span className="text-[12px] text-faint">AI fills the fields; review them, then press Run.</span>
-      </div>
-      {msg?.error && <p className="text-[13px] text-warn" role="alert">{msg.error}</p>}
-      {msg?.notes.map((n, i) => <p key={i} className="text-[12px] text-mute">• {n}</p>)}
-      {msg?.rejected.map((n, i) => <p key={i} className="text-[12px] text-warn">✕ {n}</p>)}
-    </div>
   );
 }

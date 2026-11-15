@@ -78,3 +78,12 @@
 - /api/scenario modes parse|followups|finalize; follow-ups use the fixed missing-field set (≤ 4) even with a key (AI-chosen questions cut for time).
 - Cut for the 15-min box: streaming + thinking trail, analyst drawer Apply & re-run, Aster unification, Playwright specs, screenshots.
 - Apply & re-run uses the exact edited scenario stored on each rule-based DesignFix (`scenario`), loaded as B and run with the A/B compare; sensitivity-lever fixes get no button until they carry one.
+- Streaming: one SSE protocol (lib/ai/stream.ts: step/token/replace/done/error) for /api/interpret, /api/aster and client what-ifs; the trail renders only emitted steps.
+- Streamed answers are guarded once complete; a failing answer is stripped and replaces the streamed text (no regeneration while streaming).
+- Offline briefing is the deterministic engine summary sent as one token (no simulated typing).
+- "Apple Intelligence" look = rotating conic glow, viewport edge glow, breathing orb with sparks, shimmer, all in ember/amber/oxygen-blue tokens; disabled under prefers-reduced-motion.
+- AI entry points reduced to Build with AI (simulator + onboarding) and Aster; the analyst drawer opens from the right-edge orb tab after a run. Removed: Describe box, Onboarding draft form, DraftReview, "Ask Aster about this run".
+- AI-chosen follow-ups are re-validated server-side (ids ⊂ missing fields, option values ⊂ fixed set, materials ⊂ materials.json), else fixed questions.
+- guard.numbersIn joins thin/no-break-space digit groups (format.ts writes "4 920"), which previously split into 4 and 920.
+- What-if answers quote peak_Q from the state trace, so the guard pool includes whatIfFacts() (engine metric values).
+- Added --ai-pink / --ai-violet tokens (tokens.css) for the Apple-Intelligence-style iridescent gradient (AI surfaces only: glow, orb, launcher pill, screen-edge glow); /api/scenario spends a rate-limit token only on OpenAI calls, answers refine on the client (an interview used to hit the 8/min limit).

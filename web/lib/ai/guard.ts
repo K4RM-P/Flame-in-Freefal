@@ -4,7 +4,8 @@ const SCALES = [1, 100, 0.01, 1000, 0.001, 1e6, 1e-6, 60, 1 / 60, 1 / 6.89475729
 const NUM = /(?<![\w.:-])[-−]?\d+(?:[.,]\d+)*(?:\.\d+)?(?:[eE][-+]?\d+)?/g;
 
 export function numbersIn(text: string): number[] {
-  const clean = text.replace(/\[(?:S|M):[^\]]*\]/g, " ").replace(/\b(?:V\d+b?|U\d+|SP\d|DR\d|SU\d|BS\d|GR\d|HA\d|SM\d|TH\d|FLEX-\d+|NTRS \d+|JSC[- ]\d+|NASA-STD-\d+|NASA\/TP-\d+-\d+|ICES-\d+-\d+|Saffire[- ]?[IVX]+|BASS-II|FLEX-2|CO₂|O₂|N₂|CO2|O2|N2|H2O|H₂O|d43|d10|d30|p05|p50|p95|d²|r_f|C_thin|\d{4}-\d{2}-\d{2})\b/gi, " ");
+  // Thin/no-break-space digit groups (web/lib/ui/format.ts writes 4 920) are one number, not 4 and 920.
+  const clean = text.replace(/(\d)[\u2009\u202f\u00a0](?=\d{3}\b)/g, "$1").replace(/\[(?:S|M):[^\]]*\]/g, " ").replace(/\b(?:V\d+b?|U\d+|SP\d|DR\d|SU\d|BS\d|GR\d|HA\d|SM\d|TH\d|FLEX-\d+|NTRS \d+|JSC[- ]\d+|NASA-STD-\d+|NASA\/TP-\d+-\d+|ICES-\d+-\d+|Saffire[- ]?[IVX]+|BASS-II|FLEX-2|CO₂|O₂|N₂|CO2|O2|N2|H2O|H₂O|d43|d10|d30|p05|p50|p95|d²|r_f|C_thin|\d{4}-\d{2}-\d{2})\b/gi, " ");
   return (clean.match(NUM) ?? []).map((s) => Number(s.replace("−", "-").replace(/,(?=\d{3}\b)/g, ""))).filter((x) => Number.isFinite(x));
 }
 

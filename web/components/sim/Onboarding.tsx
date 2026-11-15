@@ -1,8 +1,7 @@
 "use client";
 // SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
-// First-run flow: selections are context only; the AI must source or request every scenario value.
-import { DraftReview } from "./DraftReview";
-import type { ScenarioDraftResponse } from "@/lib/ai/scenario";
+// First-run flow: the AI interview (Build with AI) or manual entry. The AI must source or flag every scenario value.
+import { BuildWithAiButton } from "./AiInterview";
 import { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { GRAVITY, ScenarioSchema, type Scenario } from "@/lib/sim/types";
@@ -10,47 +9,8 @@ import { MATERIALS } from "./data";
 import { useSim } from "./store";
 import { spring } from "@/lib/ui/motion";
 
-const CABINS = [
-  ["custom", "I have a cabin in mind"],
-  ["iss", "ISS / spacecraft cabin"],
-  ["lunar", "Lunar habitat"],
-  ["mars", "Mars habitat"],
-] as const;
-
 export function Onboarding() {
-  const { set } = useSim();
-  const [cabin, setCabin] = useState("custom");
-  const [material, setMaterial] = useState("");
-  const [goal, setGoal] = useState("");
-  const [busy, setBusy] = useState(false);
-  const [error, setError] = useState<string | null>(null);
   const [manual, setManual] = useState(false);
-  const [draft, setDraft] = useState<ScenarioDraftResponse | null>(null);
-
-  function acceptDraft(scenario: Scenario) {
-    window.scrollTo({ top: 0, behavior: "instant" });
-    set({ a: scenario, b: null, editing: "a", presetId: null, replay: false, ra: null, rb: null, frame: 0, interp: { state: "idle" }, runError: null });
-  }
-
-  async function build() {
-    setBusy(true); setError(null); setDraft(null);
-    const cabinLabel = CABINS.find(([id]) => id === cabin)?.[1] ?? cabin;
-    const materialLabel = MATERIALS.find((m) => m.material_key === material)?.display_name ?? material;
-    const text = [
-      `Cabin context: ${cabinLabel}.`,
-      materialLabel ? `Material of interest: ${materialLabel}.` : "Material is not chosen yet; ask me for it.",
-      goal.trim(),
-    ].filter(Boolean).join(" ");
-    try {
-      const res = await fetch("/api/scenario", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ text }) });
-      const body = await res.json().catch(() => ({}));
-      if (!res.ok) throw new Error(body.error ?? `AI request failed (${res.status})`);
-      if (!body.scenario || !Array.isArray(body.notes) || !Array.isArray(body.rejected)) throw new Error("The server returned no scenario draft.");
-      setDraft(body);
-    } catch (e) {
-      setError(e instanceof Error ? e.message : "AI scenario builder unavailable.");
-    } finally { setBusy(false); }
-  }
 
   return (
     <main className="mx-auto max-w-5xl py-8 sm:py-14">
@@ -64,22 +24,14 @@ export function Onboarding() {
         <button type="button" className={`btn ${manual ? "bg-surface2 border-ember" : ""}`} onClick={() => setManual(true)} aria-pressed={manual}>Enter manually</button>
       </div>
       <AnimatePresence mode="wait" initial={false}>
-      {manual ? <motion.div key="manual" initial={{ opacity: 0, x: 12 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -12 }} transition={spring.default}><ManualSetup /></motion.div> : <motion.div key="ai" className="mt-8 grid gap-4 md:grid-cols-2" initial={{ opacity: 0, x: -12 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 12 }} transition={spring.default}>
-        <section className="panel onboarding-card space-y-4 p-5">
-          <div><p className="label">Context</p><h2 className="mt-1 text-[20px] font-semibold">What are you testing?</h2></div>
-          <label className="block text-[13px]"><span className="mb-1 block text-mute">Cabin context</span><select className="w-full" value={cabin} onChange={(e) => setCabin(e.target.value)}>{CABINS.map(([id, label]) => <option key={id} value={id}>{label}</option>)}</select></label>
-          <label className="block text-[13px]"><span className="mb-1 block text-mute">Material (optional)</span><select className="w-full" value={material} onChange={(e) => setMaterial(e.target.value)}><option value="">Let AI identify it from my description</option>{MATERIALS.map((m) => <option key={m.material_key} value={m.material_key}>{m.display_name}</option>)}</select></label>
-        </section>
-        <section className="panel onboarding-card space-y-4 p-5">
-          <div><p className="label">Scenario Brief</p><h2 className="mt-1 text-[20px] font-semibold">What fire-safety question are you testing?</h2></div>
-          <textarea className="min-h-40 w-full" value={goal} onChange={(e) => setGoal(e.target.value)} aria-label="Fire-safety question" placeholder="Example: Could a SIBAL curtain sustain burning in a lunar habitat with 34% oxygen?" />
-          <button type="button" className="btn-accent w-full px-5 py-3 text-[16px]" disabled={busy || goal.trim().length < 3} onClick={build}>{busy ? "Building a sourced draft…" : "Build my scenario →"}</button>
-          {error && <p className="text-[13px] text-warn" role="alert">{error}</p>}
-        </section>
+      {manual ? <motion.div key="manual" initial={{ opacity: 0, x: 12 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -12 }} transition={spring.default}><ManualSetup /></motion.div> : <motion.div key="ai" className="panel mt-8 space-y-3 p-6" initial={{ opacity: 0, x: -12 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 12 }} transition={spring.default}>
+        <p className="label">AI fire engineer</p>
+        <h2 className="text-[20px] font-semibold">Describe the spacecraft. The AI asks what it needs, builds the cabin and sets it on fire.</h2>
+        <p className="text-[13px] text-mute">Only NASA materials and cited atmospheres; every assumption is flagged for you to confirm. Works offline with a rule-based parser.</p>
+        <BuildWithAiButton large />
       </motion.div>}
       </AnimatePresence>
-      {!manual && draft && <DraftReview draft={draft} onAccept={acceptDraft} />}
-      <p className="mt-5 max-w-2xl text-[12px] text-faint">AI needs a server-side <code>OPENAI_API_KEY</code> in Vercel. If it is missing, this screen reports that directly.</p>
+      <p className="mt-5 max-w-2xl text-[12px] text-faint">With a server-side <code>OPENAI_API_KEY</code> the AI parses and chooses the questions; without it, an “offline mode” chip shows and the rule-based parser runs the same interview.</p>
     </main>
   );
 }

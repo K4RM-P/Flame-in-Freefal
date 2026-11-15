@@ -11,6 +11,7 @@ import { runAll } from "./bits";
 import { Workspace } from "./Workspace";
 import { useSim } from "./store";
 import { Onboarding } from "./Onboarding";
+import { AiInterview } from "./AiInterview";
 
 export const PRODUCT = "EmberAtlas is an SI-powered cabin fire simulator for spacecraft and lunar habitats. It's built from, ranks, and is checked against NASA's ISS fire experiments in PSI, so engineers can test a cabin design before flight and see exactly which NASA evidence backs every result.";
 
@@ -54,6 +55,7 @@ export function SimApp() {
       <PrintHeader />
       {!a ? <Onboarding /> : <Workspace />}
       <ReceiptDrawer />
+      <AiInterview />
     </div>
   );
 }

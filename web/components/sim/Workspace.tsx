@@ -37,7 +37,8 @@ import { DesignReview } from "./DesignReview";
 import { BoundedBadge, Evidence, Interpretation, MC_N, NextTest, Outcome, ReplayMetrics, TheoryBadge, Tornado, compact, download, evidenceForAI, missingFields, playPause, runAll, runInputs } from "./bits";
 import { LAYERS, PLAYBACK, loadUi, saveUi, useSim, type ChatMsg } from "./store";
 import { HudExtras, Scene3D } from "./scene3d/Scene3D";
-import { AiInterview, BuildWithAiButton, NoFireCard } from "./AiInterview";
+import { BuildWithAiButton, NoFireCard } from "./AiInterview";
+import { Analyst, OrbTab } from "./Analyst";
 import { PRESET_LABELS } from "./scene3d/CameraRig";
 
 const ICON = { size: 16, strokeWidth: 1.5 } as const;
@@ -377,7 +378,7 @@ function LeftPanel() {
           </Collapsible>
           <Collapsible>
             <CollapsibleTrigger className="group flex w-full items-center gap-2 px-3 py-2.5 text-left text-[13px] text-mute hover:text-ink">
-              <ChevronDown size={12} strokeWidth={1.5} className="-rotate-90 transition-transform group-data-[state=open]:rotate-0" /><Sparkles {...ICON} />Describe with AI · presets
+              <ChevronDown size={12} strokeWidth={1.5} className="-rotate-90 transition-transform group-data-[state=open]:rotate-0" /><Sparkles {...ICON} />Presets
             </CollapsibleTrigger>
             <CollapsibleContent className="px-3 pb-3"><ScenarioPanel only="setup" /></CollapsibleContent>
           </Collapsible>
@@ -389,7 +390,8 @@ function LeftPanel() {
 
 /* ---------- centre: viewport, result strip, chart strip ---------- */
 function Center() {
-  const { a, b, ra, rb, frame, runError, assumptionsOpen, view, running } = useSim();
+  const { a, b, ra, rb, frame, runError, assumptionsOpen, view, running, brief, asking } = useSim();
+  const aiBusy = !!brief?.streaming || asking;
   if (!a) return null;
   const missing = [...missingFields(a), ...(b ? missingFields(b).map((m) => `B: ${m}`) : [])];
   const views = [{ sc: a, r: ra, label: b ? `A · ${a.name}` : a.name }, ...(b ? [{ sc: b, r: rb, label: `B · ${b.name}` }] : [])];
@@ -406,7 +408,8 @@ function Center() {
         {running && <div className="pointer-events-none absolute inset-x-0 top-0 z-10 h-0.5 overflow-hidden bg-line" aria-hidden><div className="ea-indeterminate h-full w-1/3 bg-ember" /></div>}
         <ViewportCorner />
         <NoFireCard />
-        <AiInterview />
+        <div className="ai-edge" data-on={aiBusy} aria-hidden data-testid="ai-edge" />
+        <OrbTab />
         {assumptionsOpen && <Assumptions sc={a} r={ra} />}
       </div>
       <ResultStrip />
@@ -479,7 +482,6 @@ function ResultStrip() {
           <div className="mt-2"><NextTest sc={sc} r={r} /></div>
         </PopoverContent>
       </Popover>
-      <Button size="sm" className="h-8" data-testid="ask-ai" onClick={() => set({ drawer: "ai" })}><Sparkles {...ICON} />Ask the AI</Button>
     </section>
   );
 }
@@ -585,31 +587,6 @@ function Sparkline({ r, field, frame }: { r: SimResult | null; field: string; fr
 }
 
 /* ---------- right: AI drawer (interpretation, suggested questions, citations, guard) + results + evidence ---------- */
-const SUGGESTED = ["What should I change first?", "Why is this extrapolated?", "Which NASA test is closest to this cabin?"];
-
-async function ask(question: string) {
-  const { a, ra, b, rb, set, chat } = useSim.getState();
-  if (!a || !ra) return;
-  set({ asking: true, chat: [...chat, { role: "user", text: question }] });
-  try {
-    const res = await fetch("/api/interpret", {
-      method: "POST", headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ question, scenario: a, result: compact(ra), evidence: evidenceForAI(a), ...(b && rb && { compare: { scenario: b, result: compact(rb) } }) }),
-    });
-    const j = await res.json().catch(() => ({}));
-    const msg: ChatMsg = res.ok ? { role: "assistant", text: j.text, citations: j.citations ?? [], stripped: !!j.guard?.stripped } : { role: "assistant", text: j.error ?? `AI unavailable (${res.status})`, error: true };
-    useSim.getState().set({ chat: [...useSim.getState().chat, msg], asking: false });
-  } catch (e) {
-    toast.error("AI request failed", { description: String(e) });
-    useSim.getState().set({ chat: [...useSim.getState().chat, { role: "assistant", text: String(e), error: true }], asking: false });
-  }
-}
-
-function Cites({ ids }: { ids?: string[] }) {
-  if (!ids?.length) return null;
-  return <div className="flex flex-wrap gap-1.5">{ids.map((c) => <a key={c} href={`/evidence#${c.toLowerCase()}`} className="ea-pill hover:text-ink" data-tone="ember">{c}</a>)}</div>;
-}
-
 function AiDrawer() {
   const { a, b, ra, rb, drawer, interp, chat, asking, frame, set } = useSim();
   const [q, setQ] = useState("");
@@ -630,48 +607,16 @@ function AiDrawer() {
         <Tip label="Close" kbd="Esc"><Button variant="ghost" size="icon-sm" aria-label="Close drawer" onClick={close}><X {...ICON} /></Button></Tip>
       </div>
       <div className="min-h-0 flex-1 space-y-4 overflow-y-auto p-4" role="tabpanel">
-        {drawer === "ai" && <>
-          <Interpretation />
-          {interp.state === "ok" && <div className="space-y-2">
-            <Cites ids={interp.citations} />
-            <p className="flex items-center gap-1.5 text-[12px] text-ok" data-testid="guard"><ShieldCheck {...ICON} />Numbers checked against the engine output ✓</p>
-          </div>}
-          {chat.map((m, i) => m.role === "user"
-            ? <p key={i} className="rounded-md border border-line bg-bg p-3 text-[13px]"><span className="ea-meta mr-1">You</span>{m.text}</p>
-            : <div key={i} className="space-y-2 text-[14px]"><p className={cn("whitespace-pre-line", m.error && "text-warn")}>{m.text}</p><Cites ids={m.citations} />
-                {!m.error && <p className="flex items-center gap-1.5 text-[12px] text-ok"><Check {...ICON} />{m.stripped ? "Unsupported claims removed" : "Numbers checked ✓"}</p>}</div>)}
-          {asking && <div className="space-y-2" aria-busy="true"><div className="h-3 w-5/6 animate-pulse rounded bg-surface2" /><div className="h-3 w-2/3 animate-pulse rounded bg-surface2" /></div>}
-          <div className="space-y-1.5"><p className="ea-meta">Suggested</p>
-            {SUGGESTED.map((s) => <button key={s} type="button" disabled={!ra || asking} className="block w-full rounded-md border border-line px-3 py-2 text-left text-[13px] text-mute transition-colors hover:border-faint/50 hover:text-ink disabled:opacity-50" onClick={() => void ask(s)}>{s}</button>)}
-          </div>
-        </>}
+        {drawer === "ai" && <Analyst />}
         {drawer === "outputs" && <div className="space-y-3">
-          {ra && <AskAsterButton context={{
-            kind: "run", label: rb ? "Completed simulation runs A and B" : "Completed simulation run",
-            question: rb ? "Explain how these two runs differed, and what the comparison can support." : "Explain this run’s main results and warnings in plain language.",
-            facts: JSON.stringify([ra, ...(rb ? [rb] : [])].map((result) => {
-              const scenario = runInputs.get(result);
-              return {
-                scenario: scenario && { name: scenario.name, cabin: scenario.cabin, items: scenario.items.slice(0, 5), detection: scenario.detection, suppression: scenario.suppression },
-                results: result.outcome.metrics.slice(0, 10).map(({ label, value, units, pass }) => ({ label, value, units, pass })),
-                warnings: result.warnings.slice(0, 5).map((warning) => warning.slice(0, 200)),
-                sources: result.provenance.sources.slice(0, 5).map(({ source_id }) => source_id),
-              };
-            })),
-          }}>Ask Aster about this run</AskAsterButton>}
           <Mitigation sc={a} r={ra} label={b ? "A" : "Now"} frame={frame} />
           {b && <Mitigation sc={b} r={rb} label="B" frame={frame} />}
           <Outcome sc={a} r={ra} label={b ? "A" : null} />
           {b && rb && <Outcome sc={b} r={rb} label="B" />}
-          {b && rb ? <DesignReview sc={b} r={rb} label="B" /> : <DesignReview sc={a} r={ra} />}
           <Tornado sc={b ?? a} />
         </div>}
         {drawer === "evidence" && <Evidence sc={a} />}
       </div>
-      {drawer === "ai" && <form className="flex gap-2 border-t border-line p-3" onSubmit={(e) => { e.preventDefault(); const t = q.trim(); if (t) { setQ(""); void ask(t); } }}>
-        <input type="text" className="min-w-0 flex-1" aria-label="Question for the AI" placeholder={ra ? "Ask about this run…" : "Run first"} value={q} maxLength={800} disabled={!ra} onChange={(e) => setQ(e.target.value)} />
-        <Button size="sm" className="h-8" disabled={!ra || asking || !q.trim()}>Ask</Button>
-      </form>}
     </aside>
   );
 }

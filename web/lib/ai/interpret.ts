@@ -26,6 +26,8 @@ export const InterpretRequestSchema = z.object({
   sensitivity: z.array(z.record(z.unknown())).max(20).optional(),
   next_test: z.record(z.unknown()).optional(),
   design_review: z.array(z.record(z.unknown())).max(20).optional(),
+  stream: z.boolean().optional(),
+  brief: z.boolean().optional(),
 });
 export type InterpretRequest = z.infer<typeof InterpretRequestSchema>;
 
@@ -85,6 +87,13 @@ export const INSTRUCTIONS = [
   "Any CO or smoke number is theory-only (uncalibrated sub-model): say so whenever you use one.",
   "If a sub-model is marked uncalibrated or a warning says theory-only, say so plainly. Do not soften failures.",
   "If a user question is included, answer that question directly while staying within the supplied facts and cite every PSI accession you use.",
+].join("\n");
+
+/** The auto-briefing after a run: exactly three sentences. */
+export const BRIEF_INSTRUCTIONS = [
+  "You brief a spacecraft fire engineer on one run of the EmberAtlas cabin fire simulator.",
+  "Write exactly 3 plain sentences: 1) what happened (ignition, alarm, agent, how the fire ended); 2) why (the driver, citing the closest PSI accession from the evidence); 3) how sure we are (calibrated vs theory-only sub-models, inside or outside the PSI envelope, partial gravity is an estimate that may be non-conservative per NASA FM2).",
+  "Use ONLY numbers that appear in the JSON facts, copied with their units; do not compute new numbers. Cite PSI accessions only from the evidence list. Do not soften failures.",
 ].join("\n");
 
 export interface InterpretResponse { text: string; citations: string[]; guard: { ok: boolean; unsupported: number[]; unknown_ids: string[]; regenerated: boolean; stripped: boolean }; model: string }

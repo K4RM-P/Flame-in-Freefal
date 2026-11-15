@@ -1,6 +1,7 @@
 "use client";
 // SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 // Screen state for the simulator: scenario A (and B when comparing), results, playhead, receipt drawer.
+import type { AiRun } from "@/lib/ai/stream";
 import { create } from "zustand";
 import type { Provenance, Scenario, SimResult, Band } from "@/lib/sim/types";
 
@@ -28,7 +29,7 @@ export { loadUi };
 export const PLAYBACK = { stepMs: 33, fi: 0 };
 /** Identity of the inputs a result was computed for (stale results re-run on Play). */
 export const keyOf = (a: Scenario | null, b: Scenario | null) => JSON.stringify([a, b]);
-export interface ChatMsg { role: "user" | "assistant"; text: string; citations?: string[]; facts?: string[]; error?: boolean; stripped?: boolean }
+export interface ChatMsg { role: "user" | "assistant"; text: string; citations?: string[]; facts?: string[]; error?: boolean; stripped?: boolean; run?: AiRun; whatIf?: Scenario; offline?: boolean }
 export interface Sens { scenario: Scenario; key: string; rows: unknown[] }
 
 interface SimState {
@@ -38,6 +39,8 @@ interface SimState {
   playing: boolean; view: View; layers: Record<Layer, boolean>; rightTab: "outputs" | "evidence" | "assistant"; dockTab: string;
   assumptionsOpen: boolean; dockOpen: boolean; dockVh: number; treeOpen: boolean; camPreset: { id: number; nonce: number } | null; present: boolean; speed: number; ranKey: string | null;
   sens: Sens | null; chat: ChatMsg[]; asking: boolean;
+  /** Auto-briefing stream for the latest run; briefSeen=false makes the orb tab pulse "briefing ready". */
+  brief: AiRun | null; briefSeen: boolean;
   /** Simulator chrome: which scenario row popover is open, and the right drawer tab (null = closed). */
   row: string | null; drawer: "ai" | "outputs" | "evidence" | null;
   set: (p: Partial<Omit<SimState, "set" | "patch">>) => void;
@@ -45,7 +48,7 @@ interface SimState {
 }
 export const useSim = create<SimState>((set) => ({
   a: null, b: null, editing: "a", presetId: null, replay: false,
-  ra: null, rb: null, running: false, runError: null, frame: 0, receipt: null, interp: { state: "idle" }, topOpen: true,
+  ra: null, rb: null, running: false, runError: null, frame: 0, receipt: null, interp: { state: "idle" }, topOpen: true, brief: null, briefSeen: true,
   playing: false, view: "3d", layers: { geometry: true, heat: true, smoke: true, airflow: true, detector: true, suppression: true, module: true, crew: false, labels: false },
   dockOpen: false, dockVh: 38, treeOpen: true, camPreset: null, present: false, speed: 1, ranKey: null,
   rightTab: "outputs", dockTab: "T_K", assumptionsOpen: false, sens: null, chat: [], asking: false, row: null, drawer: null,

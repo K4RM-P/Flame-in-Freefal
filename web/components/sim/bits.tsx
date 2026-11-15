@@ -2,6 +2,7 @@
 // SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 // Shared simulator pieces: result number + receipt, sections, fields, badges, the run helpers
 // (missing fields, Monte Carlo run, interpretation) and the result panels Workspace renders.
+import { emptyRun, readEvents, reduceRun, type AiEvent } from "@/lib/ai/stream";
 import { useMemo, useState } from "react";
 import { bandSig, fmtBand, sig } from "@/lib/ui/format";
 import type { Band, OutcomeMetric, Provenance, Scenario, SimResult } from "@/lib/sim/types";
@@ -103,19 +104,24 @@ export const evidenceForAI = (s: Scenario) => rankEvidence(s).map((e) => ({
 
 export async function interpret(a: Scenario, ra: SimResult, b: Scenario | null, rb: SimResult | null) {
   const set = useSim.getState().set;
-  set({ interp: { state: "loading" } });
+  let cur = emptyRun();
+  set({ interp: { state: "loading" }, brief: cur, briefSeen: false });
+  const apply = (e: AiEvent) => { if (useSim.getState().ra !== ra) return; cur = reduceRun(cur, e); set({ brief: cur }); };
   try {
     const res = await fetch("/api/interpret", {
       method: "POST", headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ scenario: a, result: compact(ra), evidence: evidenceForAI(a), ...(b && rb && { compare: { scenario: b, result: compact(rb) } }) }),
+      body: JSON.stringify({ stream: true, brief: true, scenario: a, result: compact(ra), evidence: evidenceForAI(a), ...(b && rb && { compare: { scenario: b, result: compact(rb) } }) }),
     });
-    const j = await res.json().catch(() => ({}));
-    if (useSim.getState().ra !== ra) return;
-    if (!res.ok) set({ interp: { state: "error", error: `${j.error ?? `Interpretation unavailable (${res.status})`} · ${localInterpret(a, ra)}` } });
-    else set({ interp: { state: "ok", text: j.text, citations: j.citations ?? [] } });
+    await readEvents(res, apply);
+    if (cur.streaming) apply({ type: "done", data: { text: cur.text } });
   } catch (e) {
-    if (useSim.getState().ra === ra) set({ interp: { state: "error", error: `${String(e)} · ${localInterpret(a, ra)}` } });
+    // Network failure: the deterministic engine summary, clearly marked offline.
+    apply({ type: "token", text: localInterpret(a, ra) }); apply({ type: "done", data: { text: cur.text, offline: true, citations: [], guard: { ok: true } } });
+    void e;
   }
+  if (useSim.getState().ra !== ra) return;
+  const d = cur.done ?? {};
+  set({ interp: cur.error && !cur.text ? { state: "error", error: cur.error } : { state: "ok", text: cur.text, citations: (d.citations as string[]) ?? [] } });
 }
 
 /** The one Play action (toolbar and viewport): run first if there is no result or the inputs changed, then play

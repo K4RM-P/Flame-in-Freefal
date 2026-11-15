@@ -416,3 +416,63 @@ select { height: 2rem; background: rgb(var(--panel)); }
 @media (prefers-reduced-motion: no-preference) {
   .ea-cabin__station { transition: background-color .18s ease, border-color .18s ease; }
 }
+
+/* ---------- AI kit (Apple-Intelligence-style glow in the ember / oxygen-blue palette) ---------- */
+@property --ai-a { syntax: "<angle>"; initial-value: 0deg; inherits: false; }
+.ai-grad { background: conic-gradient(from var(--ai-a), rgb(var(--ember)), rgb(var(--warn)), rgb(var(--ai-pink)), rgb(var(--ai-violet)), rgb(var(--blue)), rgb(var(--ember))); }
+.ai-glow { position: relative; isolation: isolate; }
+.ai-glow::before, .ai-glow::after { content: ""; position: absolute; inset: -1.5px; border-radius: inherit; z-index: -1; pointer-events: none;
+  background: conic-gradient(from var(--ai-a), rgb(var(--ember)), rgb(var(--warn)), rgb(var(--ai-pink)), rgb(var(--ai-violet)), rgb(var(--blue)), rgb(var(--ember)));
+  opacity: .55; transition: opacity .4s ease; }
+.ai-glow::after { inset: -6px; filter: blur(18px); opacity: 0; }
+.ai-glow[data-thinking="true"]::before { opacity: 1; animation: ai-spin 3.2s linear infinite; }
+.ai-glow[data-thinking="true"]::after { opacity: .45; animation: ai-spin 3.2s linear infinite; }
+.ai-glow > .ai-glow__inner { border-radius: inherit; background: rgb(var(--panel) / .96); height: 100%; }
+@keyframes ai-spin { to { --ai-a: 360deg; } }
+/* Edge glow over a whole surface (the 3D viewport) while the AI works. */
+.ai-edge { position: absolute; inset: 0; pointer-events: none; z-index: 15; border-radius: inherit; opacity: 0; transition: opacity .5s ease;
+  padding: 3px; background: conic-gradient(from var(--ai-a), rgb(var(--ember)), rgb(var(--warn)), rgb(var(--ai-pink)), rgb(var(--ai-violet)), rgb(var(--blue)), rgb(var(--ember)));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; filter: blur(2px); }
+.ai-edge[data-on="true"] { opacity: .9; animation: ai-spin 4s linear infinite; }
+/* The orb: breathing ember core with orbiting sparks. */
+.ai-orb { position: relative; display: inline-block; border-radius: 9999px; flex: none;
+  background: radial-gradient(circle at 35% 30%, rgb(255 255 255 / .9), rgb(var(--ember)) 45%, rgb(var(--blue) / .55) 80%, transparent 82%); }
+.ai-orb[data-state="idle"] { opacity: .55; }
+.ai-orb[data-state="speaking"] { box-shadow: 0 0 10px 2px rgb(var(--ember) / .55); }
+.ai-orb[data-state="offline"] { background: none; box-shadow: inset 0 0 0 1.5px rgb(var(--theory)); opacity: .9; }
+.ai-orb[data-state="thinking"] { animation: ai-breathe 1.8s ease-in-out infinite; box-shadow: 0 0 12px 3px rgb(var(--ember) / .5); }
+.ai-orb__spark { position: absolute; inset: -35%; border-radius: 9999px; display: none; }
+.ai-orb[data-state="thinking"] .ai-orb__spark { display: block; animation: ai-orbit 1.6s linear infinite; }
+.ai-orb[data-state="thinking"] .ai-orb__spark:nth-child(2) { animation-duration: 2.3s; animation-direction: reverse; }
+.ai-orb__spark::before { content: ""; position: absolute; top: 0; left: 50%; width: 3px; height: 3px; margin-left: -1.5px; border-radius: 9999px; background: rgb(var(--warn)); box-shadow: 0 0 4px rgb(var(--ember)); }
+.ai-orb__spark:nth-child(2)::before { background: rgb(var(--blue)); box-shadow: 0 0 4px rgb(var(--blue)); }
+@keyframes ai-breathe { 50% { transform: scale(1.18); } }
+@keyframes ai-orbit { to { transform: rotate(360deg); } }
+/* Shimmer on the step in progress; soft fade for streamed tokens. */
+.ai-shimmer { background: linear-gradient(90deg, rgb(var(--mute)) 0%, rgb(var(--ink)) 40%, rgb(var(--ember-text, var(--ember))) 50%, rgb(var(--mute)) 60%) 0 0 / 250% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; animation: ai-shimmer 1.6s linear infinite; }
+@keyframes ai-shimmer { from { background-position: 100% 0; } to { background-position: -150% 0; } }
+.ai-fade { animation: ai-fade .5s ease both; }
+@keyframes ai-fade { from { opacity: 0; } to { opacity: 1; } }
+.ai-pulse-once { animation: ai-pulse 1.2s ease-out 2; }
+@keyframes ai-pulse { 0% { box-shadow: 0 0 0 0 rgb(var(--ember) / .6); } 100% { box-shadow: 0 0 0 14px rgb(var(--ember) / 0); } }
+.ai-numchip { font-family: var(--font-mono, ui-monospace); font-variant-numeric: tabular-nums; border-bottom: 1px dotted rgb(var(--blue) / .7); cursor: help; }
+.ai-numchip[data-hot="true"] { background: rgb(var(--blue) / .18); }
+@media (prefers-reduced-motion: reduce) {
+  .ai-glow::before, .ai-glow::after, .ai-edge, .ai-orb, .ai-orb__spark, .ai-shimmer, .ai-fade, .ai-pulse-once { animation: none !important; }
+  .ai-shimmer { color: rgb(var(--ink)); background: none; }
+}
+
+/* Apple-Intelligence-style extras: whole-screen edge glow, glowing pill launcher, iridescent text. */
+.ai-screen-edge { position: fixed; inset: 0; pointer-events: none; z-index: 60; opacity: 0; transition: opacity .6s ease; }
+.ai-screen-edge::before, .ai-screen-edge::after { content: ""; position: absolute; inset: 0; padding: 4px;
+  background: conic-gradient(from var(--ai-a), rgb(var(--ember)), rgb(var(--warn)), rgb(var(--ai-pink)), rgb(var(--ai-violet)), rgb(var(--blue)), rgb(var(--ember)));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; animation: ai-spin 5s linear infinite; }
+.ai-screen-edge::after { padding: 14px; filter: blur(22px); opacity: .7; }
+.ai-screen-edge[data-on="true"] { opacity: 1; }
+.ai-pill { position: relative; border-radius: 9999px !important; isolation: isolate; }
+.ai-pill::before { content: ""; position: absolute; inset: -1.5px; border-radius: inherit; z-index: -1; background: conic-gradient(from var(--ai-a), rgb(var(--ember)), rgb(var(--warn)), rgb(var(--ai-pink)), rgb(var(--ai-violet)), rgb(var(--blue)), rgb(var(--ember))); animation: ai-spin 6s linear infinite; }
+.ai-pill::after { content: ""; position: absolute; inset: -4px; border-radius: inherit; z-index: -2; background: conic-gradient(from var(--ai-a), rgb(var(--ember)), rgb(var(--warn)), rgb(var(--ai-pink)), rgb(var(--ai-violet)), rgb(var(--blue)), rgb(var(--ember))); filter: blur(10px); opacity: .35; animation: ai-spin 6s linear infinite; transition: opacity .3s; }
+.ai-pill:hover::after { opacity: .7; }
+.ai-iris { background: linear-gradient(90deg, rgb(var(--ember)), rgb(var(--ai-pink)), rgb(var(--ai-violet)), rgb(var(--blue))); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.ai-orb { background: radial-gradient(circle at 32% 28%, rgb(255 255 255 / .95), rgb(var(--warn)) 22%, rgb(var(--ember)) 42%, rgb(var(--ai-pink) / .85) 62%, rgb(var(--ai-violet) / .6) 78%, transparent 82%); }
+@media (prefers-reduced-motion: reduce) { .ai-screen-edge::before, .ai-screen-edge::after, .ai-pill::before, .ai-pill::after { animation: none !important; } }

@@ -29,11 +29,11 @@ It shows where and how a fire would start in your spacecraft, and which design c
 **Docs:** `docs/SUBMISSION.md` · `docs/PITCH.md` · `docs/STATUS.md` · `docs/VALIDATION.md` · `CREDITS.md`. **License:** MIT (`LICENSE`).
 
 ## AI
-- **Build with AI** (simulator toolbar): an interview (one prompt, ≤ 4 follow-ups, review) builds the cabin from `missions.json` and `materials.json` only; every field is tagged NASA-cited, "you said" or AI assumption (amber).
-- If a run has no flame, a card says why (`web/lib/sim/noFire.ts`: nothing to burn, no ignition, too little O₂, material not in NASA's data) and offers a one-click fix.
-- **Apply & re-run**: rule-based design fixes run their edited copy as Scenario B in a Compare split (engine-identical to a manual edit, unit-tested).
-- **Guard:** answers may only contain numbers present in tool output (`web/lib/ai/guard.ts`).
-- **Offline fallback:** with no `OPENAI_API_KEY`, the keyword parser and fixed questions give the same flow, marked by an "offline mode" chip.
+- **The AI fire engineer:** *Build with AI* (simulator) interviews you (one prompt, ≤ 4 follow-ups, review), builds the cabin from NASA atmospheres and PSI materials only, ignites it in 3D; after each run it streams a 3-sentence briefing, ranks fixes you can *Apply & re-run* (A/B compare), and answers questions; what-ifs (“O₂ to 21 %?”) re-run the engine. Aster is the same AI site-wide.
+- **Thinking you can trust:** the trail shows only real server/worker steps (reading evidence, engine run, fix ranking, numeric check, citations), streamed over SSE; no timers.
+- **Guard:** every number in an answer must appear in engine/tool output (`web/lib/ai/guard.ts`), PSI ids must be in the evidence list; failures are stripped and flagged.
+- **Offline fallback:** with no `OPENAI_API_KEY` (server-side only) the rule-based parser, fixed questions, engine summary and catalog search run the same UX, marked “offline mode”; runs with no flame show why (`web/lib/sim/noFire.ts`) with a one-click fix.
+- Screenshots: [interview](docs/screenshots/ai-interview.png) · [thinking](docs/screenshots/ai-thinking.png) · [briefing](docs/screenshots/ai-briefing.png) · [fix](docs/screenshots/ai-fix.png)
 
 ## Design
 
