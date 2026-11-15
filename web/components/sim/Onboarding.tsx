@@ -2,9 +2,11 @@
 // SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 // First-run flow: selections are context only; the AI must source or request every scenario value.
 import { useState } from "react";
+import { AnimatePresence, motion } from "motion/react";
 import { GRAVITY, ScenarioSchema, type Scenario } from "@/lib/sim/types";
 import { MATERIALS } from "./data";
 import { useSim } from "./store";
+import { spring } from "@/lib/ui/motion";
 
 const CABINS = [
   ["custom", "I have a cabin in mind"],
@@ -44,29 +46,31 @@ export function Onboarding() {
   }
 
   return (
-    <main className="mx-auto max-w-4xl py-8 sm:py-14">
-      <div className="max-w-2xl space-y-4">
+    <main className="mx-auto max-w-5xl py-8 sm:py-14">
+      <motion.div className="max-w-2xl space-y-4" initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={spring.gentle}>
         <p className="label">FIRST RUN · NO SCENARIO LOADED</p>
         <h1 className="display text-[clamp(2.4rem,7vw,5rem)] leading-[0.95]">Start with the question.</h1>
         <p className="measure text-[16px] text-mute">Choose the context you know, describe what you’re trying to find out, and EmberAtlas will draft the scenario. It will leave unsourced values empty for you to review—never inventing a cabin, threshold, or result.</p>
-      </div>
+      </motion.div>
       <div className="mt-8 flex items-center gap-3 border-b border-line pb-4">
-        <button type="button" className={`btn ${!manual ? "bg-surface2" : ""}`} onClick={() => setManual(false)}>Build with AI</button>
-        <button type="button" className={`btn ${manual ? "bg-surface2" : ""}`} onClick={() => setManual(true)}>Enter manually</button>
+        <button type="button" className={`btn ${!manual ? "bg-surface2 border-accent" : ""}`} onClick={() => setManual(false)} aria-pressed={!manual}>Build with AI</button>
+        <button type="button" className={`btn ${manual ? "bg-surface2 border-accent" : ""}`} onClick={() => setManual(true)} aria-pressed={manual}>Enter manually</button>
       </div>
-      {manual ? <ManualSetup /> : <div className="mt-8 grid gap-4 md:grid-cols-2">
-        <section className="panel space-y-4 p-4">
+      <AnimatePresence mode="wait" initial={false}>
+      {manual ? <motion.div key="manual" initial={{ opacity: 0, x: 12 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -12 }} transition={spring.default}><ManualSetup /></motion.div> : <motion.div key="ai" className="mt-8 grid gap-4 md:grid-cols-2" initial={{ opacity: 0, x: -12 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 12 }} transition={spring.default}>
+        <section className="panel onboarding-card space-y-4 p-5">
           <div><p className="label">Context</p><h2 className="mt-1 text-[20px] font-semibold">What are you testing?</h2></div>
           <label className="block text-[13px]"><span className="mb-1 block text-mute">Cabin context</span><select className="w-full" value={cabin} onChange={(e) => setCabin(e.target.value)}>{CABINS.map(([id, label]) => <option key={id} value={id}>{label}</option>)}</select></label>
           <label className="block text-[13px]"><span className="mb-1 block text-mute">Material (optional)</span><select className="w-full" value={material} onChange={(e) => setMaterial(e.target.value)}><option value="">Let AI identify it from my description</option>{MATERIALS.map((m) => <option key={m.material_key} value={m.material_key}>{m.display_name}</option>)}</select></label>
         </section>
-        <section className="panel space-y-4 p-4">
+        <section className="panel onboarding-card space-y-4 p-5">
           <div><p className="label">Scenario Brief</p><h2 className="mt-1 text-[20px] font-semibold">What fire-safety question are you testing?</h2></div>
           <textarea className="min-h-40 w-full" value={goal} onChange={(e) => setGoal(e.target.value)} aria-label="Fire-safety question" placeholder="Example: Could a SIBAL curtain sustain burning in a lunar habitat with 34% oxygen?" />
           <button type="button" className="btn-accent w-full px-5 py-3 text-[16px]" disabled={busy || goal.trim().length < 3} onClick={build}>{busy ? "Building a sourced draft…" : "Build my scenario →"}</button>
           {error && <p className="text-[13px] text-warn" role="alert">{error}</p>}
         </section>
-      </div>}
+      </motion.div>}
+      </AnimatePresence>
       <p className="mt-5 max-w-2xl text-[12px] text-faint">AI needs a server-side <code>OPENAI_API_KEY</code> in Vercel. If it is missing, this screen reports that directly.</p>
     </main>
   );
