@@ -21,7 +21,7 @@ export function shots(l: Layout, flame?: THREE.Vector3): { def: Shot; list: Shot
   return {
     def,
     list: [
-      { pos: clampV(new THREE.Vector3(MOD.X1 - 0.2, 0.42, 0.6)), target: new THREE.Vector3(MOD.X0, -0.05, -0.15), label: PRESET_LABELS[0] },
+      { pos: clampV(new THREE.Vector3(MOD.X1 - 0.75, 0.38, 0.55)), target: new THREE.Vector3(MOD.X0, -0.05, -0.2), label: PRESET_LABELS[0] },
       { pos: clampV(fl.clone().add(new THREE.Vector3(0.24, 0.12, 0.54))), target: fl.clone(), label: PRESET_LABELS[1] },
       { pos: clampV(new THREE.Vector3(d.x - 0.15, MOD.HALF - 0.16, d.z + 0.3)), target: s.clone(), label: PRESET_LABELS[2] },
       { pos: clampV(new THREE.Vector3(MOD.X0 - 0.2, 0.15, 0.35)), target: s.clone(), label: PRESET_LABELS[3] },

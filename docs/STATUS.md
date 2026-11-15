@@ -8,6 +8,15 @@
 
 **Skipped:** V6–V10 validation targets (PSI tables do not carry the needed quantities), heat-loss and smoke fits, partial-gravity flight data (none exists).
 
+## 3D viewport (2026-11-15)
+**Done:** fixed the cropped/black 3D view (R3F canvas sized by CSS, no remounts, SSR guard, WebGL + error-boundary fallback to the SVG elevation, loader, never-black empty state). 3D is the default view (3D · Elevation · Section) and takes ≈84 % of the workspace at 1440×900. The project tree collapses to a 44 px rail, side panels overlay below 1440 px, the chart dock collapses to a 36 px strip with a live sparkline (C, drag to resize, remembered), the legend is a `?` popover, and fullscreen is on F. Procedural lab module: 4 walls × 8 bays (16 racks + closeouts), ring frames with ≈800 fasteners, ≥40 cable strands in looms with zip ties, 6 corrugated hoses, 2 ducts, ≥24 handrails, bungees and stowage bags, velcro, 2 laptops (one shows a live engine readout), clipboard, PFE and PBA, hatch with hand-wheel and window, and a crew figure. Engine-driven flame, char, smoulder, fire light, smoke, detector/beacon, fan, vents, agent burst, HUD glass chips, limit chips, theory-only ring and honesty caption. Camera presets 1–4, double-click focus, item tooltip, `?present=1` with a 16:9 letterbox toggle, `?lowfx=1`, PerformanceMonitor degrade ladder (AO → bloom → shadows → DPR 1). Compare uses two drei Views in one Canvas. Methods has a "3D visualization" subsection with the mapping table.
+**Budget (measured in headless SwiftShader):** 95 scene draw calls, ≈218k triangles (budget ≤150 / ≤600k). 60 fps on an M1 Air could not be measured here (no GPU in the sandbox).
+**Verification:** `pnpm test` (incl. `tests/scene3d.test.ts`), `tsc --noEmit`, `pnpm build`, and `e2e/scene3d.spec.ts` (DPR 1 and 2) pass. 2 pre-existing e2e failures on upstream `main` (strict-mode locator on `#earth-vs-orbit` in the evidence page) are unrelated.
+
+### 3D: not done
+- `docs/REFERENCES.json` was not regenerated: `physics/validate/export.py` fails in this sandbox (no project venv; pandas `DataFrame.accession` error). Run `make export` locally to pick up the 4 new libraries already listed in `software.yaml`.
+- Post-processing is off in the Compare split view (EffectComposer is not per-View).
+
 ## Decisions made during the upgrade
 - Landing trust strip computes PSI rows from `tables_index.json`, FLEX mismatches/values from `flex_crosscheck.json`, and the held-out FLEX MAPE and n from `web/data/validation/droplet_K.json` (`summary.json` has no `metrics` block; the metrics live in `droplet_K.json`).
 - Landing is a server component (no hooks); the old Aster button, tiles, conceptual SVG, mitigation review and repeated caveat lists were removed.

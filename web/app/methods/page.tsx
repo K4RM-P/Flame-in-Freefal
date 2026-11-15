@@ -207,6 +207,26 @@ export default function Methods() {
         </table></div>
       </section>
 
+      <section id="visualization-3d" className="card space-y-2" data-testid="methods-3d">
+        <h2 className="text-[20px] font-semibold">3D visualization</h2>
+        <p className="measure text-[14px] text-mute">The 3D cabin view adds no physics. A single pure function (<span className="num">scene3d/frame.ts</span>) maps each engine frame to what is drawn; between frames it interpolates linearly for smooth playback. The module interior (racks, cables, hoses, crew figure) is procedural and illustrative: its size does not change the cabin volume, which always comes from the scenario. Items, the flame front and the detector distance are drawn to scale; flame noise and flicker are cosmetic and never change size, shape or colour.</p>
+        <div className="overflow-x-auto"><table className="w-full text-[13px]">
+          <thead><tr className="text-left text-mute"><th className="py-1 pr-3">Engine output</th><th className="py-1">What you see</th></tr></thead>
+          <tbody>
+              <tr className="border-t border-line"><td className="num py-1 pr-3 align-top">items[i].front_m, burning_area_m2 / width_m</td><td className="py-1">Flame spans the burning length and ends at the front; sample drawn to scale (length × width) in its holder</td></tr>
+              <tr className="border-t border-line"><td className="num py-1 pr-3 align-top">status idle / burning / out</td><td className="py-1">No flame / flame / no flame; a smoulder glow fading over 3 s (sim) only when extinguish_reason is burnout</td></tr>
+              <tr className="border-t border-line"><td className="num py-1 pr-3 align-top">front − burning length</td><td className="py-1">Char: blackened, slightly displaced surface</td></tr>
+              <tr className="border-t border-line"><td className="num py-1 pr-3 align-top">Q_W / max(Q_W)</td><td className="py-1">Flame size and emissive power; intensity of the orange fire light on the cabin walls</td></tr>
+              <tr className="border-t border-line"><td className="num py-1 pr-3 align-top">x_o2(t) / x_o2(0), x_o2</td><td className="py-1">Dimmer and bluer at lower O₂; brighter, whiter and sootier at high O₂ (34 %)</td></tr>
+              <tr className="border-t border-line"><td className="num py-1 pr-3 align-top">gravity_g</td><td className="py-1">µg: hemispherical, surface-hugging sheath; 1 g: teardrop with ≈11 Hz flicker; partial g blended by g^(1/3) and labelled bounded</td></tr>
+              <tr className="border-t border-line"><td className="num py-1 pr-3 align-top">flow_m_s (0 after fan_off)</td><td className="py-1">Flame lean and smoke drift downstream; streaks, ribbons and fan stop after fan_off</td></tr>
+              <tr className="border-t border-line"><td className="num py-1 pr-3 align-top">smoke_det / max(smoke_det)</td><td className="py-1">Smoke particle emission and opacity, cabin haze; no yield → no particles and a ‘smoke: no data’ chip</td></tr>
+              <tr className="border-t border-line"><td className="num py-1 pr-3 align-top">events alarm / agent_released / extinguished</td><td className="py-1">Detector LED red + amber beacon; agent cloud from the nozzle (≈2.5 s sim); flame collapses over 0.5 s (sim)</td></tr>
+              <tr className="border-t border-line"><td className="num py-1 pr-3 align-top">limit_exceeded</td><td className="py-1">Red HUD chip naming the limit and its source</td></tr>
+              <tr className="border-t border-line"><td className="num py-1 pr-3 align-top">uncalibrated spread parameter</td><td className="py-1">Dashed outline ring and ◌ theory-only chip</td></tr>
+          </tbody>
+        </table></div>
+      </section>
       <section id="use-of-ai" className="card space-y-1">
         <h2 className="text-[20px] font-semibold"><span className="methods-num">07</span>Use of AI</h2>
         <ul className="measure ml-5 list-disc space-y-1">
