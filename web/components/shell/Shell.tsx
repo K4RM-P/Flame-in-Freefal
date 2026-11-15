@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useMission, lsGet, lsSet } from "@/lib/store";
 import { Logo, REPO_URL } from "./brand";
+import { PageTranslation } from "./PageTranslation";
 import { LANGUAGES, LanguageContext, navigationLabels, type Language } from "./Language";
 
 const NAV = ["/simulator", "/evidence", "/methods", "/about"] as const;
@@ -60,9 +61,9 @@ export function Shell({ children }: { children: React.ReactNode }) {
             );
           })}
         </nav>
-        <div className="ml-auto flex items-center gap-1">
-          <label htmlFor="site-language" className="sr-only">Interface language (navigation and team controls)</label>
-          <select id="site-language" className="h-8 w-auto max-w-[7.5rem] text-[12px] text-mute" value={language} title="Language for navigation and team controls"
+        <div data-no-translate className="ml-auto flex items-center gap-1">
+          <label htmlFor="site-language" className="sr-only">Site language</label>
+          <select id="site-language" className="h-8 w-auto max-w-[7.5rem] text-[12px] text-mute" value={language} title="Site language"
             onChange={(e) => { const c = e.target.value as Language; lsSet("ea.language", c); setLanguage(c); }}>
             {Object.entries(LANGUAGES).map(([code, name]) => <option key={code} value={code} lang={code}>{name}</option>)}
           </select>
@@ -76,6 +77,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
           </Tip>
         </div>
       </header>
+      <PageTranslation />
       <main key={path} className={`page-fade mx-auto min-w-0 ${landing ? "-mt-14 max-w-none p-0" : "max-w-[1600px] px-4 py-6 md:px-6"}`}>{children}</main>
       {!landing && <footer className="mx-auto flex max-w-[1600px] flex-wrap items-center gap-x-3 gap-y-1 border-t border-line px-4 py-3 font-mono text-[11px] uppercase tracking-[0.06em] text-faint md:px-6" data-noprint>
         <span>NASA PSI Data Repository · Combustion Science</span><span aria-hidden>·</span>
