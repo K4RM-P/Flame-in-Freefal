@@ -15,3 +15,7 @@ web/playwright-report/
 *.tsbuildinfo
 *.egg-info/
 web/e2e-results/
+.next/
+out/
+*.log
+.env*.local

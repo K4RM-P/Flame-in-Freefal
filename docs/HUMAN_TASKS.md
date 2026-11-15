@@ -33,3 +33,5 @@ Open each file from psi.nasa.gov (or `physics/data/raw/psi/`) and compare the li
 - **spice**: `PSI-107_Experimental table_Spice.csv` lines 5, 41, 50, 51, 59, 133, 137, 142, 167, 174, 179, 192, 204, 252, 291, 299, 375, 382, 385, 444
 
 - [ ] Spot-check the visualization-only flame correlations in `web/data/params/flame_visual.json` (Heskestad 1983 constants 0.235/1.02; puffing c = 1.5 from Cetegen & Ahmed 1993; air α at 800 K from Incropera Table A.4) and set `verified: true`.
+
+13. **Vercel auto-deploy from `main` (no token was available to the agent):** vercel.com → Add New → Project → Import `K4RM-P/flame-in-freefal` → Root Directory `web` → Framework Next.js (install `pnpm install`, build `pnpm build` are in `web/vercel.json`) → Settings → General → Node.js 22.x → Settings → Git → Production Branch `main` → Settings → Environment Variables → add `OPENAI_API_KEY` (Production + Preview, never `NEXT_PUBLIC_`) → Deploy. Delete any older duplicate Vercel projects for this repo. Then check `/`, `/simulator?preset=iss-vs-lunar&run=1` return 200 and `POST /api/scenario` with no body returns 400 JSON.

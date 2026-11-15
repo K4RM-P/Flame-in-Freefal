@@ -24,3 +24,11 @@
 - **Video-like playback:** sim time advances with wall time (whole run ≈ 24 s at 1×; 0.5×/1×/2×/4×). The 3D view reads the fractional playhead each frame; the store frame updates at ≤ 20 Hz so the page stays smooth. The scrubber, time, speed and event markers (● ignition, ▲ alarm, ■ fan off, ▨ agent, ✕ extinguished) live in a video-style strip at the bottom of the viewport, with Camera, Layers, ?(legend + assumptions) and fullscreen.
 - **Next-step bar:** only shown when an input is missing (or a run fails); otherwise the viewport says what to do.
 - **Flame shape physics (visual only):** `flamePhys()` in `scene3d/frame.ts` uses engine Q (split by burning area), burning area, flow, spread rate (d front/dt) and g: Heskestad flame length scaled (g/g0)^(−1/5) for partial g; µg sheath ≈ k·α/u_rel (thickens and dims when the fan stops); wind tilt tan θ = u/√(gL) (fully along the flow in µg); puffing frequency 1.5/√D·√(g/g0). Constants and citations are in `web/data/params/flame_visual.json` (verified=false; spot-check in HUMAN_TASKS). None of this changes any engine number.
+
+## Repo + Vercel cleanup (2026-11-15)
+- Only `main` existed on origin (no unmerged branches, nothing to merge or delete); open PRs could not be listed (no `gh`), none closed.
+- No dead routes/components found: every file under web/components and web/lib is referenced (`/api/match` and components/match are live, used by /evidence); no FireScene3D, app-old, v1, backup folders or committed node_modules/.next/out/*.log.
+- `.gitignore` now also ignores `.next/`, `out/`, `*.log`, `.env*.local` at any depth.
+- One Next app in `web/`; root package.json only proxies scripts. `vercel.json` (root and `web/`, since Vercel reads it from the Root Directory) = Next.js, `pnpm install`, `pnpm build`, auto-deploy `main`; Node 22.x via `web/package.json` engines.
+- Added `typecheck` script to web (`tsc --noEmit`); typecheck, lint, 58 tests and `next build` pass locally.
+- No `VERCEL_TOKEN` in the session: no Vercel projects listed/removed, no deploy; dashboard steps are in HUMAN_TASKS #13.
