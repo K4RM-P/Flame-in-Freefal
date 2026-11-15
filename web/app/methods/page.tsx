@@ -17,7 +17,7 @@ function params(name: string): any {
 }
 
 const MODELS = [
-  { id: "spread", name: "Flame spread over each item", plain: "How fast the flame front moves across a material, from the oxygen level, pressure and the air flowing past it. Gravity enters only as an equivalent extra flow (buoyancy), so Moon and Mars values are bounded between microgravity and 1 g.", eqs: ["SP1", "SP2", "SP3", "SP4", "SP5", "GR1", "GR2", "BS2"], params: "spread" },
+  { id: "spread", name: "Flame spread over each item", plain: "How fast the flame front moves across a material, from the oxygen level, pressure and the air flowing past it. Gravity enters only as an equivalent extra flow (buoyancy), so Moon and Mars values are estimated between microgravity and 1 g; NASA's FM2 lunar-gravity tests show some materials burn more readily at lunar g than at either, so this estimate may be non-conservative.", eqs: ["SP1", "SP2", "SP3", "SP4", "SP5", "GR1", "GR2", "BS2"], params: "spread" },
   { id: "habitat", name: "Cabin atmosphere (one well-mixed zone)", plain: "The burning area times the burning rate gives the heat released. That heat, the oxygen used and the CO₂ and CO made are mixed instantly through the whole cabin, with heat lost to the walls.", eqs: ["HA1", "HA2", "HA3", "HA4"], params: "habitat" },
   { id: "smoke", name: "Smoke ageing and transport to the detector", plain: "Smoke particles stick together as they age (coagulation) while the air carries them to the detector; the detector alarms when its threshold is crossed.", eqs: ["SM1", "SM2", "SM3", "SM4"], params: "smoke" },
   { id: "suppression", name: "Suppression by CO₂ or N₂", plain: "The released agent dilutes the cabin oxygen. A flame goes out when the calculated flame temperature falls below a critical value, or the oxygen falls below the inerting limit.", eqs: ["SU1", "SU2"], params: "suppression" },
@@ -185,7 +185,7 @@ export default function Methods() {
         <ul className="measure ml-5 list-disc space-y-1">
           <li><b>One well-mixed zone.</b> The cabin is a single zone with instant mixing, like a simplified form of NIST&apos;s CFAST zone model. Real cabins have hot layers, plumes and dead spots.</li>
           <li><b>1D flame spread per item.</b> Each item has one flame front moving along its length; there is no flame-to-item heat transfer.</li>
-          <li><b>Partial gravity is a bounded estimate.</b> PSI holds microgravity and 1 g tests only. Moon and Mars values sit between those two bounds and are never measurements.</li>
+          <li><b>Partial gravity may be non-conservative.</b> Partial gravity (1/6 g) is estimated between µg and 1 g. NASA's FM2 lunar-gravity tests show some materials burn more readily at lunar g than at either, so this estimate may be non-conservative. PSI holds microgravity and 1 g tests only (FM2: NTRS 20240015307, outside PSI); Moon and Mars values are never measurements.</li>
           <li><b>Theory-only parts.</b> Every sub-model marked Theory-only above is uncalibrated physics; its numbers carry that label in the simulator too.</li>
           <li><b>Small n.</b> Many ISS results are single tests (SAFFIRE-II has one test per material and thickness). Earth-vs-orbit comparisons are like-for-like only and say nothing about a ground test standard as a whole.</li>
           <li><b>Unsourced inputs are required.</b> Where no sourced value exists (for example a cabin volume or a detector threshold) the field stays empty until you enter it.</li>

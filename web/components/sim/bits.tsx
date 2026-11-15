@@ -70,7 +70,7 @@ export function TheoryBadge({ what }: { what: string }) {
   return <a href={methodsHref(what)} className="chip border border-dashed border-theory/60 text-theory hover:border-theory" title={`${what}: not calibrated against PSI data; theory only. Open its Methods section`}>◌ Theory-only · {what} <span aria-hidden>→</span></a>;
 }
 export function BoundedBadge() {
-  return <span className="chip border border-warn/50 text-warn" title="PSI has microgravity and 1 g data only">Partial gravity: bounded estimate (µg ↔ 1 g)</span>;
+  return <span className="chip border border-warn/50 text-warn" title="Partial gravity (1/6 g) is estimated between µg and 1 g. NASA's FM2 lunar-gravity tests show some materials burn more readily at lunar g than at either, so this estimate may be non-conservative.">Partial gravity: estimate, may be non-conservative</span>;
 }
 
 /** Methods anchor for a sub-model key (spread, habitat, smoke, suppression); unknown keys go to the model overview. */

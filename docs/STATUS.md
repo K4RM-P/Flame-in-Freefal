@@ -2,7 +2,7 @@
 
 **Done:** routes `/`, `/simulator`, `/evidence`, `/methods`, `/about` (`/match` → `/evidence`, `/dashboard` → `/simulator`). Three presets (Saffire replay; Same fabric: ISS vs Lunar Habitat; Lunar Habitat: tune the response), one-click run via `?preset=iss-vs-lunar&run=1`. Evidence ranking gated by material class; envelope tolerance and distance-ranked next test; Compare delta card with EXTRAPOLATED badge. Landing page tells the Maya story with live counts. PSI ingest (2,818 rows), FLEX cross-check, held-out FLEX validation, SIBAL spread calibration, CSV export, OpenAI scenario builder / interpretation / match explanation with numeric guard.
 
-**Theory-only:** cabin heat loss, smoke ageing and transport, suppression outside the fitted fuels; partial gravity is a bounded estimate between µg and 1 g.
+**Theory-only:** cabin heat loss, smoke ageing and transport, suppression outside the fitted fuels; partial gravity is estimated between µg and 1 g and may be non-conservative (FM2, NTRS 20240015307).
 
 **Unsourced:** Lunar Habitat volume (held equal to the ISS for a like-for-like comparison), Cygnus free volume (required input in the Saffire replay unless sourced), detector thresholds (alarm shows No data), current NASA-STD-3001 CO₂ limits.
 

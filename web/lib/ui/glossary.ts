@@ -13,5 +13,5 @@ export const GLOSSARY: Record<string, string> = {
   SIBAL: "Cotton–fiberglass (75/25) cabin fabric used as a standard fuel in NASA spacecraft fire tests.",
   PMMA: "Polymethyl methacrylate (acrylic), a clear plastic used for windows and as a reference solid fuel.",
   "buoyant-equivalent flow": "The air speed that buoyancy at a given gravity is worth, added to fan flow; a bounded estimate.",
-  "bounded estimate": "A range between microgravity and gravity-equivalent results, not a measurement; PSI has no partial-gravity tests.",
+  "bounded estimate": "A range between microgravity and 1 g results, not a measurement; PSI has no partial-gravity tests. NASA's FM2 lunar-gravity tests show some materials burn more readily at lunar g than at either, so it may be non-conservative.",
 };

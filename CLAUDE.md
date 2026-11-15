@@ -6,7 +6,7 @@ Spec: docs/PRD.md (authoritative). Status: docs/STATUS.md. Human tasks: docs/HUM
 - Internal units SI (K, Pa, m, s, kg). Convert only at I/O. Carry O2 as x_o2, p_o2, and y_o2.
 - Every model returns ModelResult {value, units, uncertainty{p05,p50,p95}, inputs, equation_ids, assumptions, validity, sources}.
 - Models train only on verified rows; never fit on split=="test".
-- Partial gravity = bounded estimate, never "measured". External data labelled "outside PSI".
+- Partial gravity = estimate between µg and 1 g, never "measured", and may be non-conservative (FM2 lunar-g tests: some materials burn more readily at lunar g than at either). External data labelled "outside PSI".
 - AI answers only from tool outputs; lib/ai/guard.ts rejects numbers not present in tool output.
 - UI: dark theme, accent #FF6B35, colorblind-safe (burn ● / extinct ✕), KaTeX equations, Plotly science plots.
 - Before saying done: `make test` and `pnpm -C web test && pnpm -C web build` pass.

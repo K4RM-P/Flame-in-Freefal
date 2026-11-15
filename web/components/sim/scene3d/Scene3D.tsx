@@ -82,7 +82,7 @@ function Hud3D({ v, frame, compact }: { v: SceneView; frame: number; compact: bo
         <div className="flex flex-wrap gap-1">
           {r && sum?.noYield && <span className="glass pointer-events-auto px-1.5 py-0.5 text-[11px] text-faint" data-testid="smoke-nodata" title="No sourced smoke yield: no smoke particles are drawn">smoke: ∅ no data</span>}
           {S.theory.spread && <a href="/methods#overview" className="glass pointer-events-auto px-1.5 py-0.5 text-[11px] text-theory">◌ theory-only</a>}
-          {S.gravityMode === "partial" && <span className="glass px-1.5 py-0.5 text-[11px] text-warn" title="Partial gravity is a bounded estimate between µg and 1 g">bounded · {sig(S.gravity_g, 3)} g</span>}
+          {S.gravityMode === "partial" && <span className="glass px-1.5 py-0.5 text-[11px] text-warn" title="Partial gravity (1/6 g) is estimated between µg and 1 g. NASA's FM2 lunar-gravity tests show some materials burn more readily at lunar g than at either, so this estimate may be non-conservative.">estimate · may be non-conservative · {sig(S.gravity_g, 3)} g</span>}
           {L.detClamped && <span className="glass px-1.5 py-0.5 text-[11px] text-warn">detector beyond module end: drawn at the bulkhead</span>}
           {S.limits.map((l, i) => <span key={i} className="glass pointer-events-auto border-bad px-1.5 py-0.5 text-[11px] text-bad" data-testid="limit-chip">⚠ {l.label} · {l.source}</span>)}
         </div>

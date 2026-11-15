@@ -47,7 +47,7 @@ export function outOfEnvelope(s: Scenario): OutOfEnvelope[] {
   }
   const g = s.cabin.gravity_g;
   if (g > 0 && g < 1) out.push({ param: "gravity_g", label: "gravity", at: gText(g), distance: Math.min(g, 1 - g) / ENVELOPE_SCALE.gravity_g,
-    text: `${gText(g)} bounded`, why: `${gText(g)}: PSI has no partial-gravity fire data; the result is bounded between µg (ISS) and 1 g ground tests` });
+    text: `${gText(g)} estimate (may be non-conservative)`, why: `${gText(g)}: PSI has no partial-gravity fire data; the result is estimated between µg (ISS) and 1 g ground tests, and NASA's FM2 lunar-gravity tests show some materials burn more readily at lunar g than at either` });
   if (m?.thicknesses_m.length) {
     const lo = Math.min(...m.thicknesses_m), hi = Math.max(...m.thicknesses_m);
     const it = s.items[0];
@@ -63,7 +63,7 @@ export function outOfEnvelope(s: Scenario): OutOfEnvelope[] {
 
 const rigFor = (param: string): { rig: string; inv: string[] } => {
   const sofie = INV.SoFIE, saf = INV["Saffire-IV-VI"];
-  if (param === "gravity_g") return { rig: "No ISS rig flies partial gravity: needs a lunar-surface or partial-g platform experiment (outside PSI). Bound it meanwhile with µg (ISS) and 1 g ground tests of the same sample.", inv: ["PSI-99"] };
+  if (param === "gravity_g") return { rig: "No ISS rig flies partial gravity: needs a lunar-surface or partial-g platform experiment (outside PSI). Meanwhile, µg (ISS) and 1 g ground tests of the same sample do NOT bound it: FM2 (NTRS 20240015307) found lunar g can be worse than both.", inv: ["PSI-99"] };
   if (param === "thickness_m") return { rig: `${saf?.name ?? "Saffire"} — ${saf?.hardware ?? "large-sample flow unit"}`, inv: ["PSI-98", "PSI-99", "PSI-100"] };
   return { rig: `${sofie?.name ?? "SoFIE"} (${sofie?.hardware ?? "SoFIE insert in CIR"}) — varies ${(sofie?.variables_varied ?? ["O2", "pressure", "flow"]).join(", ")}`, inv: ["PSI-25", "PSI-26"] };
 };

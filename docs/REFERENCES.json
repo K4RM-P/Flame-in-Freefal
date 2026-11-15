@@ -436,7 +436,8 @@
    "type": "ntrs",
    "title": "FM2 (Flammability of Materials on the Moon), NTRS 20240015307 - OUTSIDE PSI",
    "url": "https://ntrs.nasa.gov/citations/20240015307",
-   "year": 2024
+   "year": 2024,
+   "note": "FM2 lunar-gravity tests: some materials are more flammable at lunar g than at both 1 g and µg (e.g. SIBAL burns downward at lunar g but extinguishes at 1 g), so µg↔1 g interpolation is not conservative."
   },
   {
    "id": "psi",

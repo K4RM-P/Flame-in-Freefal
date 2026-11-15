@@ -395,7 +395,7 @@ function Assumptions({ sc, r }: { sc: Scenario; r: SimResult | null }) {
     <div className="absolute inset-y-0 right-0 z-20 w-[min(420px,100%)] overflow-y-auto border-l border-line bg-panel p-3 text-[13px] shadow-2xl" role="dialog" aria-label="Assumptions and evidence" data-testid="assumptions">
       <div className="flex items-center justify-between"><p className="label">Assumptions / evidence</p><button type="button" className="btn px-2 py-0.5" onClick={() => set({ assumptionsOpen: false })}>Close</button></div>
       <ul className="mt-2 list-disc space-y-1 pl-4 text-mute">
-        <li>Engine: single well-mixed cabin zone (CFAST-like) with a 1-D flame front per item; partial gravity is bounded between µg and 1 g.</li>
+        <li>Engine: single well-mixed cabin zone (CFAST-like) with a 1-D flame front per item; partial gravity is estimated between µg and 1 g and may be non-conservative (NASA FM2 lunar-g tests).</li>
         <li>Spread uses the opposed-flow equivalent velocity; the viewport draws ventilation opposite to spread accordingly.</li>
         <li>Smoke reaches the detector after τ = distance / flow (no transport when flow is 0); the detector reading is the lagged well-mixed concentration.</li>
         <li>Alarm only when the detector crosses its threshold or at a crew-reported time; with no threshold the alarm is not computed (No data).</li>
@@ -603,7 +603,7 @@ function StatusBar() {
   return (
     <div className="flex flex-wrap items-center gap-3 border-t border-line bg-panel px-3 py-0.5 text-[11px] text-faint lg:h-6 lg:flex-nowrap" data-noprint>
       <a className="underline underline-offset-2" href="https://psi.nasa.gov/physci/repo/search?q=combustion" target="_blank" rel="noreferrer" data-testid="psi-resource-link">NASA PSI Data Repository: Combustion Science</a>
-      <span>Partial gravity is a bounded estimate (µg ↔ 1 g). Not for flight certification.</span>
+      <span>Partial gravity is an estimate (µg ↔ 1 g) that may be non-conservative (NASA FM2). Not for flight certification.</span>
       {ra && <span className="num ml-auto">EmberAtlas {ra.provenance.engine_version} · seed {ra.provenance.seed} · {MC_N} MC runs · spread test error {spreadCal.metrics.test_mape_pct} % (n = {spreadCal.metrics.test.length})</span>}
     </div>
   );

@@ -20,7 +20,7 @@ from .uq import monte_carlo, sample_dist
 from .validity import check
 
 T_AMB = prop("constants", "T_amb")
-CAVEAT_G = "PSI contains microgravity and 1 g data only; partial-gravity values are bounded estimates."
+CAVEAT_G = "PSI contains microgravity and 1 g data only; partial-gravity values are bounded estimates that may be non-conservative (FM2 lunar-g tests, NTRS 20240015307)."
 
 
 def _dist(material: str, key: str) -> tuple[float, dict | None]:

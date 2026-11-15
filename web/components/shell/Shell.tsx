@@ -57,7 +57,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
       </header>
       <main key={path} className={`page-fade mx-auto min-w-0 ${path === "/" ? "max-w-none p-0" : "max-w-[1600px] px-4 py-4 md:px-6"}`}>{children}</main>
       <footer className="mx-auto max-w-[1600px] border-t border-line px-4 py-3 text-[12px] text-faint md:px-6" data-noprint>
-        Built on NASA PSI Data Repository: Combustion Science. Partial gravity is a bounded estimate (µg ↔ 1 g). Not for flight certification.
+        Built on NASA PSI Data Repository: Combustion Science. Partial gravity is an estimate (µg ↔ 1 g) that may be non-conservative (NASA FM2). Not for flight certification.
         {" · "}<Link className="underline underline-offset-2" href="/about">About EmberAtlas</Link>
       </footer>
       <Aster />

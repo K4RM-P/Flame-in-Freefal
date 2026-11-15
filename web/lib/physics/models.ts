@@ -12,7 +12,7 @@ import { atmosphere } from "./thermo";
 import { monteCarlo, makeRng, percentiles, sampleDist, type Band } from "./uq";
 
 export const T_AMB = prop("constants", "T_amb");
-export const CAVEAT_G = "PSI contains microgravity and 1 g data only; partial-gravity values are bounded estimates.";
+export const CAVEAT_G = "PSI contains microgravity and 1 g data only; partial-gravity values are bounded estimates that may be non-conservative (FM2 lunar-g tests, NTRS 20240015307).";
 
 export interface Validity { in_envelope: boolean; nearest_data_distance: number | null; calibrated: boolean; note?: string; quench_warning?: boolean }
 export interface ModelResult {

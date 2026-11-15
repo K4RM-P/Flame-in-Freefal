@@ -19,7 +19,7 @@ EmberAtlas shows what NASA's ISS fire experiments prove about cabin materials, w
 - Flame spread on held-out SIBAL (Saffire-III): 29.3% error, n = 1 (`web/data/params/spread.json`). One training sample, one test sample.
 - Saffire replay is a cabin-scale sanity check only (T RMSE ~6 K, P MAPE ~0.2%): a sample-size fire barely changes the cabin; it does not test flame-spread physics.
 
-**Limitations:** one well-mixed cabin zone; 1D spread per item; partial gravity is bounded between µg and 1 g, never measured; cabin heat loss and smoke are theory-only; small n everywhere. Not for flight certification. Details: `/methods#limitations`, `docs/VALIDATION.md`.
+**Limitations:** one well-mixed cabin zone; 1D spread per item; partial gravity (1/6 g) is estimated between µg and 1 g, never measured, and NASA's FM2 lunar-gravity tests show some materials burn more readily at lunar g than at either, so it may be non-conservative; cabin heat loss and smoke are theory-only; small n everywhere. Not for flight certification. Details: `/methods#limitations`, `docs/VALIDATION.md`.
 
 **Use of AI:** Claude Code (Anthropic) wrote the code under human direction and review. At runtime the OpenAI API powers the scenario builder, run interpretation and the experiment-match explanation, grounded on engine output and PSI rows, with a numeric guard (`web/lib/ai/guard.ts`). No AI-generated images.
 
