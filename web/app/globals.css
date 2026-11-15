@@ -264,7 +264,7 @@ table.data tbody tr:hover { background: rgb(var(--surface2)); }
 .methods-hero, .ea-research-hero, .ea-about__hero, .ea-about__profile, .ea-mission-console, .ea-crew__slide { background: rgb(var(--panel)) !important; border-radius: var(--radius-panel); }
 .methods-hero h1, .ea-research-hero h1 { letter-spacing: -0.04em; font-weight: 600; }
 .methods-equation { background: rgb(var(--bg)); border-radius: var(--radius-card); position: relative; }
-.methods-equation::before { content: "SPEC"; position: absolute; top: -8px; left: 12px; padding: 0 6px; background: rgb(var(--bg)); font: 10px var(--font-geist-mono), monospace; letter-spacing: .1em; color: rgb(var(--faint)); }
+.methods-equation:has(.katex)::before { content: "SPEC"; position: absolute; top: -8px; left: 12px; padding: 0 6px; background: rgb(var(--bg)); font: 10px var(--font-geist-mono), monospace; letter-spacing: .1em; color: rgb(var(--faint)); }
 .methods-math { background: transparent !important; border: 1px solid rgb(var(--line)); border-radius: 6px; padding: .5rem .75rem; }
 .methods-source { text-decoration-color: rgb(var(--ember) / .6); }
 .methods-nav__group { border-left-color: rgb(var(--line)); }
@@ -290,3 +290,5 @@ table.data tbody tr:hover { background: rgb(var(--surface2)); }
 select { height: 2rem; background: rgb(var(--panel)); }
 /* On the simulator the launcher becomes an icon at the bottom of the left rail so it never covers result actions. */
 @media (min-width: 1024px) { .ea-aster-launcher[data-compact] { left: 6px; right: auto; bottom: 46px; width: 36px; padding: 0; justify-content: center; } .ea-aster-launcher[data-compact] > span:not(.ea-aster-launcher__icon) { display: none; } }
+.next-step { display: flex; flex-wrap: wrap; align-items: baseline; gap: .5rem; font-size: 13px; }
+.next-step__tag { color: rgb(var(--faint)); font: 11px var(--font-geist-mono), monospace; letter-spacing: .08em; text-transform: uppercase; }
