@@ -106,7 +106,7 @@ export function Aster() {
     <div data-noprint>
       <button ref={launcher} type="button" className="ea-aster-launcher" data-compact={path === "/simulator" || undefined} aria-label="Ask Aster"
         aria-haspopup="dialog" aria-controls="aster-dialog" onClick={() => dialog.current?.showModal()}>
-        <span className="ea-aster-launcher__icon"><Orb state={busy ? "thinking" : "speaking"} size={14} /></span><span>Ask Aster</span><span className="ea-aster-launcher__dot" aria-hidden />
+        <span className="ea-aster-launcher__icon"><Orb state={busy ? "thinking" : "speaking"} size={14} /></span><span>Ask Aster</span>
       </button>
       <dialog id="aster-dialog" ref={dialog} aria-labelledby="aster-title" onClose={() => launcher.current?.focus()}
         className="ea-aster-dialog glass fixed inset-y-0 left-auto right-0 m-0 h-[100dvh] max-h-none w-full max-w-none overflow-hidden border-0 border-l p-0 text-ink backdrop:bg-black/40 backdrop:backdrop-blur-sm sm:w-[28rem]">
