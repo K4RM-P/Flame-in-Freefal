@@ -182,7 +182,7 @@ export function Aster() {
                 </div>}
                 {error && <p className="text-warn">{error}</p>}
                 {run && <AiGlow thinking={run.streaming}>
-                  <div className="mb-1.5 flex items-center gap-2"><Orb state={orbOf(run)} size={12} /><p className="ai-label flex-1" role="status">{run.streaming ? "Thinking…" : run.error ? "Aster" : run.done?.mode === "openai" ? "AI answer" : "Catalog search"}</p><OfflineChip on={!!run.done?.offline} /></div>
+                  <div className="mb-1.5 flex items-center gap-2"><Orb state={orbOf(run)} size={12} /><p className="ai-label flex-1" role="status">{run.streaming ? "Thinking…" : run.error ? "Aster" : run.done?.mode === "openai" ? "SI answer" : "Catalog search"}</p><OfflineChip on={!!run.done?.offline} /></div>
                   <ThinkingOrb run={run} />
                   <ThinkingTrail steps={run.steps} />
                   {(!run.streaming || run.text) && <div className="mt-1.5"><StreamAnswer run={run} /></div>}

@@ -50,7 +50,7 @@ export function ThinkingTrail({ steps }: { steps: Trail[] }) {
   const reduce = useReducedMotion();
   if (!steps.length) return null;
   return (
-    <ol className="space-y-1.5 text-[12.5px]" aria-label="What the AI is doing" data-testid="thinking-trail">
+    <ol className="space-y-1.5 text-[12.5px]" aria-label="What the SI is doing" data-testid="thinking-trail">
       <AnimatePresence initial={false}>
         {steps.map((s) => (
           <motion.li key={s.id} className="flex items-center gap-2" data-step={s.id} data-status={s.status}
@@ -123,7 +123,7 @@ export function useAiStream() {
       const res = await fetch(url, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ...(body as object), stream: true }) });
       await readEvents(res, apply);
       if (cur.streaming) apply({ type: "done", data: { text: cur.text } });
-    } catch (e) { apply({ type: "error", error: `The AI could not be reached (${String((e as Error)?.message ?? e)}).` }); }
+    } catch (e) { apply({ type: "error", error: `The SI could not be reached (${String((e as Error)?.message ?? e)}).` }); }
     return cur;
   }, []);
   return { run, start, setRun };

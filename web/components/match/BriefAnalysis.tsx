@@ -14,7 +14,7 @@ export function BriefAnalysis({ scenario, ai, comparison, notice, onOpenDraft }:
 }) {
   return (
     <section className="panel space-y-4 p-4" aria-labelledby="brief-title" aria-live="polite">
-      <h2 id="brief-title" className="text-xl font-semibold">AI/SI-powered evidence brief</h2>
+      <h2 id="brief-title" className="text-xl font-semibold">SI-powered evidence brief</h2>
       {!scenario && <p className="text-sm text-mute">Enter your design and build a brief to compare it with NASA experiments.</p>}
       {scenario && <p className="text-sm text-mute">
         {scenario.name} · {Number((scenario.cabin.x_o2 * 100).toPrecision(4))}% O₂ · {scenario.cabin.P_Pa / 1000} kPa · {scenario.cabin.gravity_g} g · {Number((scenario.cabin.flow_m_s * 100).toPrecision(4))} cm/s airflow

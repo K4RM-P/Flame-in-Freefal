@@ -20,18 +20,18 @@ export function Onboarding() {
         <p className="measure text-[16px] text-mute">Choose the context you know, describe what you’re trying to find out, and EmberAtlas will draft the scenario. It will leave unsourced values empty for you to review—never inventing a cabin, threshold, or result.</p>
       </motion.div>
       <div className="mt-8 flex items-center gap-3 border-b border-line pb-4">
-        <button type="button" className={`btn ${!manual ? "bg-surface2 border-ember" : ""}`} onClick={() => setManual(false)} aria-pressed={!manual}>Build with AI</button>
+        <button type="button" className={`btn ${!manual ? "bg-surface2 border-ember" : ""}`} onClick={() => setManual(false)} aria-pressed={!manual}>Build with SI</button>
         <button type="button" className={`btn ${manual ? "bg-surface2 border-ember" : ""}`} onClick={() => setManual(true)} aria-pressed={manual}>Enter manually</button>
       </div>
       <AnimatePresence mode="wait" initial={false}>
       {manual ? <motion.div key="manual" initial={{ opacity: 0, x: 12 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -12 }} transition={spring.default}><ManualSetup /></motion.div> : <motion.div key="ai" className="panel mt-8 space-y-3 p-6" initial={{ opacity: 0, x: -12 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 12 }} transition={spring.default}>
-        <p className="label">AI fire engineer</p>
-        <h2 className="text-[20px] font-semibold">Describe the spacecraft. The AI asks what it needs, builds the cabin and sets it on fire.</h2>
+        <p className="label">SI fire engineer</p>
+        <h2 className="text-[20px] font-semibold">Describe the spacecraft. The SI asks what it needs, builds the cabin and sets it on fire.</h2>
         <p className="text-[13px] text-mute">Only NASA materials and cited atmospheres; every assumption is flagged for you to confirm. Works offline with a rule-based parser.</p>
         <BuildWithAiButton large />
       </motion.div>}
       </AnimatePresence>
-      <p className="mt-5 max-w-2xl text-[12px] text-faint">With a server-side <code>OPENAI_API_KEY</code> the AI parses and chooses the questions; without it, an “offline mode” chip shows and the rule-based parser runs the same interview.</p>
+      <p className="mt-5 max-w-2xl text-[12px] text-faint">With a server-side <code>OPENAI_API_KEY</code> the SI parses and chooses the questions; without it, an “offline mode” chip shows and the rule-based parser runs the same interview.</p>
     </main>
   );
 }

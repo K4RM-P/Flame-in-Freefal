@@ -601,9 +601,9 @@ function AiDrawer() {
     window.addEventListener("keydown", k); return () => window.removeEventListener("keydown", k);
   }, [drawer, close]);
   if (!a || !drawer) return null;
-  const tabs = [["ai", "AI"], ["outputs", "Results"], ["evidence", "Evidence"]] as const;
+  const tabs = [["ai", "SI"], ["outputs", "Results"], ["evidence", "Evidence"]] as const;
   return (
-    <aside className="ea-drawer absolute inset-y-0 right-0 z-40 flex w-full flex-col border-l border-line bg-panel sm:w-[420px]" aria-label="AI and results" data-testid="ai-drawer">
+    <aside className="ea-drawer absolute inset-y-0 right-0 z-40 flex w-full flex-col border-l border-line bg-panel sm:w-[420px]" aria-label="SI and results" data-testid="ai-drawer">
       <div className="flex items-center gap-1 border-b border-line px-2">
         <div className="flex flex-1 items-center" role="tablist" aria-label="Drawer">
           {tabs.map(([k, l]) => <button key={k} type="button" role="tab" aria-selected={drawer === k} data-testid={`tab-${k}`} className={cn("relative px-3 py-3 text-[13px]", drawer === k ? "text-ink after:absolute after:inset-x-3 after:-bottom-px after:h-px after:bg-ember" : "text-mute hover:text-ink")} onClick={() => set({ drawer: k })}>{l}</button>)}

@@ -52,7 +52,7 @@ export async function askAnalyst(question: string) {
       if (run.streaming) apply({ type: "done", data: { text: run.text } });
       updateLast(run, { citations: (run.done?.citations as string[]) ?? [], offline: !!run.done?.offline });
     }
-  } catch (e) { apply({ type: "error", error: `The AI could not answer (${String((e as Error)?.message ?? e)}).` }); }
+  } catch (e) { apply({ type: "error", error: `The SI could not answer (${String((e as Error)?.message ?? e)}).` }); }
   useSim.getState().set({ asking: false });
 }
 
@@ -68,7 +68,7 @@ export function Briefing() {
   const { brief, ra } = useSim();
   const [hot, setHot] = useState<string | null>(null);
   const engine = useMemo(() => engineValues(ra), [ra]);
-  if (!ra) return <p className="text-[13px] text-mute">The AI briefing appears after a run.</p>;
+  if (!ra) return <p className="text-[13px] text-mute">The SI briefing appears after a run.</p>;
   if (!brief) return null;
   const d = brief.done ?? {};
   const g = d.guard as { ok?: boolean; stripped?: boolean } | undefined;
@@ -125,7 +125,7 @@ export function Analyst() {
       <Chat />
       {ra && <div className="space-y-2"><p className="ai-label">Ask anything</p>
         {sugg.map((s) => <button key={s} type="button" disabled={asking} data-testid="suggested-q" className="ai-chip w-full justify-start text-left disabled:opacity-50" onClick={() => void askAnalyst(s)}>{s}</button>)}
-        <div className="pt-1"><Composer value={q} onChange={setQ} busy={asking} onSubmit={() => { const t = q.trim(); setQ(""); void askAnalyst(t); }} placeholder="Ask, or try “what if O₂ were 25 %?”" label="Question for the AI" /></div>
+        <div className="pt-1"><Composer value={q} onChange={setQ} busy={asking} onSubmit={() => { const t = q.trim(); setQ(""); void askAnalyst(t); }} placeholder="Ask, or try “what if O₂ were 25 %?”" label="Question for the SI" /></div>
       </div>}
       {ra && <NextTestCard sc={b && rb ? b : a} r={b && rb ? rb : ra} />}
     </div>
@@ -139,10 +139,10 @@ export function OrbTab() {
   if (drawer || !ra) return null;
   const ready = !!brief && !brief.streaming && !briefSeen;
   return (
-    <motion.button type="button" data-testid="ask-ai" aria-label={ready ? "Briefing ready: open the AI analyst" : "Open the AI analyst"}
+    <motion.button type="button" data-testid="ask-ai" aria-label={ready ? "Briefing ready: open the SI analyst" : "Open the SI analyst"}
       className={`glass absolute right-3 top-1/3 z-30 flex flex-col items-center gap-2 rounded-full px-2 py-3.5 text-[11px] font-medium text-mute transition-transform hover:-translate-x-0.5 ${ready ? "ai-pulse-once text-ink" : ""}`}
       initial={reduce ? false : { x: 24, opacity: 0 }} animate={{ x: 0, opacity: 1 }} onClick={() => set({ drawer: "ai", briefSeen: true })}>
-      <Orb state={orbOf(brief)} size={16} /><span className="[writing-mode:vertical-rl]">{ready ? "Briefing ready" : brief?.streaming ? "Thinking…" : "AI analyst"}</span>
+      <Orb state={orbOf(brief)} size={16} /><span className="[writing-mode:vertical-rl]">{ready ? "Briefing ready" : brief?.streaming ? "Thinking…" : "SI analyst"}</span>
     </motion.button>
   );
 }

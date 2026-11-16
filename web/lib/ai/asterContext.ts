@@ -10,7 +10,7 @@ export const AsterContextSchema = z.object({
 export type AsterContext = z.infer<typeof AsterContextSchema>;
 export const ASTER_CONTEXT_EVENT = "emberatlas:aster-context";
 
-export const AI_OFFLINE_NOTE = "AI offline: explanations are generated locally from the engine.";
+export const AI_OFFLINE_NOTE = "SI offline: explanations are generated locally from the engine.";
 
 /** Offline answer for a context question: the engine's own facts, verbatim, under the offline note, plus the matched
  *  NASA records (ids and titles only). Never invents text. */

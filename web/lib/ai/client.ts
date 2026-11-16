@@ -4,7 +4,7 @@ import OpenAI from "openai";
 
 // Stable Responses API model. OPENAI_MODEL may override this in Vercel when intentionally configured.
 export const DEFAULT_MODEL = "gpt-4o-mini";
-export const NO_KEY_MESSAGE = "AI offline: explanations are generated locally from the engine.";
+export const NO_KEY_MESSAGE = "SI offline: explanations are generated locally from the engine.";
 
 export const model = () => process.env.OPENAI_MODEL?.trim() || DEFAULT_MODEL;
 

@@ -7,7 +7,7 @@ test("AI interview: assumptions must be confirmed before Ignite (offline)", asyn
   await page.getByTestId("ai-next").click();
   await expect(page.getByTestId("ai-question")).toBeVisible();
   for (let i = 0; i < 4 && await page.getByTestId("ai-question").isVisible().catch(() => false); i++) { await page.getByTestId("ai-option").first().click(); await page.waitForTimeout(200); }
-  await expect(page.getByTestId("ai-review")).toContainText("AI assumption");
+  await expect(page.getByTestId("ai-review")).toContainText("SI assumption");
   await expect(page.getByTestId("ai-ignite")).toBeDisabled();
   await page.getByTestId("ai-confirm").check();
   await expect(page.getByTestId("ai-ignite")).toBeEnabled();

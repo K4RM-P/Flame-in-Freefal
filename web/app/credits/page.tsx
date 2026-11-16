@@ -7,7 +7,7 @@ import refs from "@/data/references.json";
 import { PSI_USES } from "@/lib/data/psiUses";
 import { CHALLENGE_NAME, CHALLENGE_URL, TEAM, TEAM_CITY } from "@/lib/team";
 
-export const metadata: Metadata = { title: "Credits & data sources", description: "Every NASA dataset, paper, library, font and AI tool EmberAtlas uses, with licences." };
+export const metadata: Metadata = { title: "Credits & data sources", description: "Every NASA dataset, paper, library, font and SI tool EmberAtlas uses, with licences." };
 
 type Src = { id: string; type?: string; title: string; url?: string; doi?: string; year?: number };
 type Lib = { name: string; version: string; ecosystem: string; license: string };
@@ -53,7 +53,7 @@ export default function Credits() {
         <ul className="space-y-1.5">{other.map((s) => <li key={s.id}>{link(s) ? <a className="underline underline-offset-2" href={link(s)} target="_blank" rel="noreferrer">{s.title}</a> : s.title}{s.year ? <span className="num text-faint"> · {s.year}</span> : null}</li>)}</ul>
       </Section>
 
-      <Section id="ai" title="AI tools">
+      <Section id="ai" title="SI tools">
         <ul className="space-y-2">{R.si_tools.map((t) => <li key={t.name}><b>{t.name}</b><span className="block text-mute">{t.use}</span></li>)}</ul>
         <p className="text-[12px] text-mute">{R.si_media}</p>
       </Section>

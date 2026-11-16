@@ -48,9 +48,9 @@ export function Bento({ f }: { f: BentoFacts }) {
           <FrontStrip f={f} />
         </Card>
         <Card i={1} className="md:row-span-2">
-          <Head icon={<MessageSquareText size={20} strokeWidth={1.5} />} k="Explain" t="AI reads the simulation and says why, citing NASA experiments." />
+          <Head icon={<MessageSquareText size={20} strokeWidth={1.5} />} k="Explain" t="SI reads the simulation and says why, citing NASA experiments." />
           <div className="mt-6 space-y-3 rounded-[10px] border border-line bg-bg p-4 text-[13px]">
-            <p className="ea-meta">Evidence the AI may cite</p>
+            <p className="ea-meta">Evidence the SI may cite</p>
             <ul className="space-y-2">{f.evidence.map((e) => (
               <li key={e.accession} className="flex items-center justify-between gap-2">
                 <Link href={`/evidence#${e.accession.toLowerCase()}`} className="ea-pill hover:text-ink">{e.accession}</Link>

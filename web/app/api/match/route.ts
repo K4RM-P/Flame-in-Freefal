@@ -45,10 +45,10 @@ export async function POST(req: Request) {
     const allowed = new Set(matches.map(({ accession }) => accession));
     if (comparison.rows.length) allowed.add("PSI-99");
     if (Object.values(ai).some((text) => [...text.matchAll(/\bPSI-\d+\b/gi)].some(([id]) => !allowed.has(id.toUpperCase())))) {
-      return json({ ...base, ai: null, notice: "The AI summary cited an unavailable record. The sourced brief is still available." });
+      return json({ ...base, ai: null, notice: "The SI summary cited an unavailable record. The sourced brief is still available." });
     }
     return json({ ...base, ai });
   } catch {
-    return json({ ...base, ai: null, notice: "The AI summary is unavailable. NASA matches and measured data are still available." });
+    return json({ ...base, ai: null, notice: "The SI summary is unavailable. NASA matches and measured data are still available." });
   }
 }

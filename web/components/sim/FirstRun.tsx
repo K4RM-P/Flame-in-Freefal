@@ -8,7 +8,7 @@ import { lsGet, lsSet } from "@/lib/store";
 
 const KEY = "ea.simHint.v1";
 const STEPS = [
-  ["Pick a scenario", "Load “ISS vs Moon base”, “Moon base: find the gaps” or “Saffire-III replay”, or describe your own cabin with Build with AI."],
+  ["Pick a scenario", "Load “ISS vs Moon base”, “Moon base: find the gaps” or “Saffire-III replay”, or describe your own cabin with Build with SI."],
   ["Burn it", "Press ▶ Play (or R). The engine runs on NASA PSI data; out-of-envelope results carry an EXTRAPOLATED badge."],
   ["Ask and fix", "Open Ask Aster for the why, with citations, and the design review for ranked fixes you can re-run."],
 ] as const;

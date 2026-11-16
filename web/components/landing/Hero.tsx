@@ -4,7 +4,7 @@ import { motion, useReducedMotion } from "motion/react";
 import { ArrowDown } from "lucide-react";
 import { FloatingPaths, HeroCtas, LetterReveal, useOnScreen } from "@/components/ui/background-paths";
 
-export const ONE_LINER = "EmberAtlas shows where and how a fire would start in your spacecraft, and which design change prevents it. Built on NASA's ISS fire data, explained by AI.";
+export const ONE_LINER = "EmberAtlas shows where and how a fire would start in your spacecraft, and which design change prevents it. Built on NASA's ISS fire data, explained by SI.";
 
 export function Hero({ status }: { status: { experiments: number; rows: number; mismatches: number; compared: number } }) {
   const [ref, on] = useOnScreen<HTMLElement>();
