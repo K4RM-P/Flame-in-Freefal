@@ -247,24 +247,28 @@
    "id": "white-vfm",
    "type": "external",
    "title": "White, F. M., Viscous Fluid Flow, 3rd ed., Table 1-2/1-3 (Sutherland constants for air)",
+   "url": "https://www.mheducation.com/highered/product/viscous-fluid-flow-white.html",
    "year": 2006
   },
   {
    "id": "incropera",
    "type": "external",
    "title": "Bergman, Lavine, Incropera, DeWitt, Fundamentals of Heat and Mass Transfer, 7th ed., Table A.4 (gas properties at 1 atm)",
+   "url": "https://bcs.wiley.com/he-bcs/Books?action=index&itemId=0470501979&bcsId=6563",
    "year": 2011
   },
   {
    "id": "kee-chemkin",
    "type": "external",
    "title": "Kee et al., CHEMKIN transport (mixture-averaged conductivity: 0.5(sum x k + 1/sum x/k)); Mathur, Tondon & Saxena (1967) Mol. Phys. 12:569",
+   "url": "https://www.osti.gov/biblio/7157265",
    "year": 1986
   },
   {
    "id": "turns",
    "type": "external",
    "title": "Turns, S. R., An Introduction to Combustion, 3rd ed. (Ch. 10 droplet d2-law; Ch. 9 Burke-Schumann; App. B fuel properties)",
+   "url": "https://www.mheducation.com/highered/product/An-Introduction-to-Combustion-Concepts-and-Applications-Turns.html",
    "year": 2012
   },
   {
@@ -292,12 +296,14 @@
    "id": "sfpe-beyler",
    "type": "external",
    "title": "Beyler, C., Flammability limits of premixed and diffusion flames, SFPE Handbook of Fire Protection Engineering (critical adiabatic flame temperature ~1500-1600 K)",
+   "url": "https://doi.org/10.1007/978-1-4939-2565-0",
    "year": 2016
   },
   {
    "id": "quintiere-ffp",
    "type": "external",
    "title": "Quintiere, J. G., Fundamentals of Fire Phenomena, Wiley (Ch. 7 opposed-flow flame spread; material properties tables)",
+   "url": "https://doi.org/10.1002/0470091150",
    "year": 2006
   },
   {
@@ -409,19 +415,23 @@
    "id": "ices-2024-365",
    "type": "external",
    "title": "Saffire VI results, ICES-2024-365",
+   "url": "https://ntrs.nasa.gov/api/citations/20240007488/downloads/Saffire%20ICES%202024%20Saffire%20presentation072124small.pdf",
    "year": 2024
   },
   {
    "id": "dehghani-bre",
    "type": "external",
    "title": "Dehghani, P., ACME Burning Rate Emulator (BRE), PhD dissertation, University of Maryland; Combust. Flame 228 (2021)",
+   "url": "https://doi.org/10.1016/j.combustflame.2021.01.035",
    "year": 2021
   },
   {
    "id": "same-r",
    "type": "external",
    "title": "Urban, D. L., et al., Smoke Aerosol Measurement Experiment (SAME/SAME-R), AIAA 2013; Aerosol Sci. Tech. 49 (2015)",
-   "year": 2015
+   "url": "https://ntrs.nasa.gov/citations/20130000422",
+   "year": 2015,
+   "doi": "10.1080/02786826.2015.1025124"
   },
   {
    "id": "ntrs-20250010653",
@@ -448,6 +458,7 @@
    "id": "seinfeld-pandis",
    "type": "external",
    "title": "Seinfeld, J. H., Pandis, S. N., Atmospheric Chemistry and Physics, 3rd ed., Ch. 13 (coagulation kernel, Cunningham slip correction)",
+   "url": "https://www.wiley.com/en-us/Atmospheric+Chemistry+and+Physics:+From+Air+Pollution+to+Climate+Change,+3rd+Edition-p-9781118947401",
    "year": 2016
   },
   {
@@ -468,12 +479,15 @@
    "id": "nfpa-2001",
    "type": "external",
    "title": "NFPA 2001, Standard on Clean Agent Fire Extinguishing Systems (cup-burner minimum extinguishing concentrations; n-heptane N2 ~30-34 vol%); Senecal, J. A., Fire Safety J. 40 (2005) 579-591",
+   "url": "https://doi.org/10.1016/j.firesaf.2005.05.008",
    "year": 2022
   },
   {
    "id": "drop-tower-suppressant",
-   "type": "external",
-   "title": "Drop-tower gaseous-suppressant study finding helium most effective (cited in PRD §2; full reference TODO_VERIFY) - OUTSIDE PSI"
+   "type": "ntrs",
+   "title": "Gokoglu, Son & Ronney, drop-tower comparison of CO2 and helium suppression of flame spread in microgravity (helium most effective), NTRS 20040161188 - OUTSIDE PSI",
+   "url": "https://ntrs.nasa.gov/citations/20040161188",
+   "year": 2004
   },
   {
    "id": "psi-combustion-repo",
@@ -967,17 +981,17 @@
   },
   {
    "name": "EmberAtlas 3D simulator screenshot (web/public/media/sim-3d.webp)",
-   "credit": "Team EmberAtlas",
+   "credit": "Team Max Q",
    "license": "MIT",
    "url": "https://github.com/K4RM-P/flame-in-freefal/blob/main/web/public/media/sim-3d.webp",
    "use": "Landing live-demo still (our own render)"
   },
   {
    "name": "EmberAtlas flame logo and Aster mascot",
-   "credit": "Team EmberAtlas",
+   "credit": "Team Max Q (original work by the team)",
    "license": "MIT",
    "url": "https://github.com/K4RM-P/flame-in-freefal/blob/main/web/public/logo.png",
-   "use": "Brand (origin to be confirmed by the team, HUMAN_TASKS)"
+   "use": "Brand: header, footer, favicon and the Aster assistant"
   }
  ],
  "media_guidelines": "https://www.nasa.gov/nasa-brand-center/images-and-media/",

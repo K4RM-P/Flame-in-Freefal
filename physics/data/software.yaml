@@ -25,8 +25,8 @@ images:
   - {name: "Saffire-IV fabric burn in Cygnus (jsc2023e046375)", credit: NASA, license: "NASA media, not copyrighted (NASA Images and Media Usage Guidelines)", url: "https://www.nasa.gov/wp-content/uploads/2023/12/jsc2023e046375medium.jpg", use: "Media registry (web/lib/media.ts)"}
   - {name: "Candle flame in 1 g vs microgravity (GRC-1998-C-00485)", credit: "NASA Glenn Research Center", license: "NASA media, not copyrighted (NASA Images and Media Usage Guidelines)", url: "https://images.nasa.gov/details/GRC-1998-C-00485", use: "Landing story beat 2 (placeholder frame until self-hosted, HUMAN_TASKS #15)"}
   - {name: "BASS-II flame on the ISS (iss040e072900)", credit: NASA, license: "NASA media, not copyrighted (NASA Images and Media Usage Guidelines)", url: "https://images.nasa.gov/details/iss040e072900", use: "Media registry (web/lib/media.ts)"}
-  - {name: "EmberAtlas 3D simulator screenshot (web/public/media/sim-3d.webp)", credit: "Team EmberAtlas", license: MIT, url: "https://github.com/K4RM-P/flame-in-freefal/blob/main/web/public/media/sim-3d.webp", use: "Landing live-demo still (our own render)"}
-  - {name: "EmberAtlas flame logo and Aster mascot", credit: "Team EmberAtlas", license: MIT, url: "https://github.com/K4RM-P/flame-in-freefal/blob/main/web/public/logo.png", use: "Brand (origin to be confirmed by the team, HUMAN_TASKS)"}
+  - {name: "EmberAtlas 3D simulator screenshot (web/public/media/sim-3d.webp)", credit: "Team Max Q", license: MIT, url: "https://github.com/K4RM-P/flame-in-freefal/blob/main/web/public/media/sim-3d.webp", use: "Landing live-demo still (our own render)"}
+  - {name: "EmberAtlas flame logo and Aster mascot", credit: "Team Max Q (original work by the team)", license: MIT, url: "https://github.com/K4RM-P/flame-in-freefal/blob/main/web/public/logo.png", use: "Brand: header, footer, favicon and the Aster assistant"}
 media_guidelines: "https://www.nasa.gov/nasa-brand-center/images-and-media/"
 licenses:
   "openai": Apache-2.0

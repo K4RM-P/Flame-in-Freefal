@@ -95,3 +95,7 @@
 - Partial-gravity evidence comes from FM2/LUCI (outside PSI) and is labelled so; there is no PSI partial-gravity fire data.
 - `LIVE_URL` (metadataBase, README) is `emberatlas-five.vercel.app`: the submitted Vercel project, the only one with the OpenAI key (team confirmation, 2026-11-16). `flame-in-freefal.vercel.app` is a second project that also deploys `main`.
 - Phones get a "best on desktop" notice on `/simulator` rather than a cramped workspace; the visitor can still open it.
+
+## 2026-11-16 (follow-up)
+- Keep only the `emberatlas-five` Vercel project (has the OpenAI key); `flame-in-freefal` is to be deleted (HUMAN_TASKS #20).
+- All references in `sources.yaml` now have public URLs; the logo and Aster mascot are the team's own work.
