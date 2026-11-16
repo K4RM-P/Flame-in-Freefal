@@ -31,7 +31,7 @@
 - `.gitignore` now also ignores `.next/`, `out/`, `*.log`, `.env*.local` at any depth.
 - One Next app in `web/`; root package.json only proxies scripts. `vercel.json` (root and `web/`, since Vercel reads it from the Root Directory) = Next.js, `pnpm install`, `pnpm build`, auto-deploy `main`; Node 22.x via `web/package.json` engines.
 - Added `typecheck` script to web (`tsc --noEmit`); typecheck, lint, 58 tests and `next build` pass locally.
-- Vercel: exactly one project (`flame-in-freefal`, team karm-patels-projects, Git-linked to K4RM-P/flame-in-freefal, Production Branch `main`), no duplicates to remove. It had Root Directory `physics` + Framework Python (production ERROR); fixed via API to Root `web`, Next.js, Node 22.x, `pnpm install`/`pnpm build`. Production: https://flame-in-freefal.vercel.app.
+- Vercel: exactly one project (`flame-in-freefal`, team karm-patels-projects, Git-linked to K4RM-P/flame-in-freefal, Production Branch `main`), no duplicates to remove. It had Root Directory `physics` + Framework Python (production ERROR); fixed via API to Root `web`, Next.js, Node 22.x, `pnpm install`/`pnpm build`. Production at the time: https://flame-in-freefal.vercel.app (the submitted site is now https://emberatlas-five.vercel.app).
 - `OPENAI_API_KEY` is not set on Vercel (no env vars at all); not invented — HUMAN_TASKS #13.
 
 ## 2026-11-15 core fixes (firefighter story)
@@ -93,5 +93,5 @@
 - Demo Numbers removed: the submission rule "no fake or demo data" overrides the earlier team request.
 - Aster uses the simulator's latest run as context automatically when no other context is selected; the run context is built client-side from the engine result with the UI formatter so the guard pool and the visible numbers agree.
 - Partial-gravity evidence comes from FM2/LUCI (outside PSI) and is labelled so; there is no PSI partial-gravity fire data.
-- `LIVE_URL` (metadataBase) is the verified Vercel alias `flame-in-freefal.vercel.app`; README also lists `emberatlas-five.vercel.app` as given by the team (HUMAN_TASKS #20).
+- `LIVE_URL` (metadataBase, README) is `emberatlas-five.vercel.app`: the submitted Vercel project, the only one with the OpenAI key (team confirmation, 2026-11-16). `flame-in-freefal.vercel.app` is a second project that also deploys `main`.
 - Phones get a "best on desktop" notice on `/simulator` rather than a cramped workspace; the visitor can still open it.

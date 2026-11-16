@@ -19,7 +19,7 @@ Numbers in beats 4–5 come from `docs/DEMO_SCRIPT.md` (engine check); re-run `p
 4. **EmberAtlas: Find · Explain · Prevent.** ISS vs Moon run: ISS fire out at 30 s on fan-off; Moon fire outlasts 2 kg CO₂, burnout at 171 s; peak heat 2 580 W vs 4 900 W.
 5. **Prevent:** design review on "Moon base: find the gaps": (1) give the detector an alarm path (the extinguisher never fires); (2) SIBAL untested at 34% O₂; (3) cabin O₂ 29.2% (crew ppO₂ floor) cuts peak heat 4 920 W → 4 040 W.
 6. **Trust + next test:** every value traces to a PSI accession or is a labelled design input; spread validated on n = 1 held-out sample (29.3% error); CO/smoke theory-only; 1/6 g may be non-conservative (FM2). Next test: SIBAL at 34% O₂ and 56.5 kPa.
-7. **Team, use of AI** (Claude Code built it; OpenAI API explains runs, with a numeric guard; the design review works without AI), live app https://flame-in-freefal.vercel.app.
+7. **Team, use of AI** (Claude Code built it; OpenAI API explains runs, with a numeric guard; the design review works without AI), live app https://emberatlas-five.vercel.app.
 
 ## Judge map
 - **Impact:** `/simulator?preset=iss-vs-lunar&run=1` (one-click ISS vs Moon fire) and the *Moon base: find the gaps* design review.

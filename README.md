@@ -3,7 +3,7 @@
 **Describe a spacecraft cabin, burn it with a physics engine calibrated on NASA fire experiments, ask Aster (the AI fire engineer) why, and fix it before launch.**
 NASA Space Apps 2026 · challenge: [Flame in Freefall](https://www.spaceappschallenge.org/) · Team EmberAtlas, Toronto.
 
-- **Live app:** https://emberatlas-five.vercel.app (the Vercel project that auto-deploys `main` is also served at https://flame-in-freefal.vercel.app)
+- **Live app:** https://emberatlas-five.vercel.app
 - **Demo video:** TODO_VIDEO_URL
 - **One-click demo:** `/simulator?preset=iss-vs-lunar&run=1`
 

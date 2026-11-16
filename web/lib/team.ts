@@ -5,5 +5,6 @@ export const TEAM_CITY = "Toronto";
 export const CHALLENGE_NAME = "Flame in Freefall";
 // Space Apps root (the exact 2026 challenge page could not be checked from the build sandbox; see docs/HUMAN_TASKS.md).
 export const CHALLENGE_URL = "https://www.spaceappschallenge.org/";
-// The Vercel project that auto-deploys main (verified via the Vercel API on 2026-11-16).
-export const LIVE_URL = "https://flame-in-freefal.vercel.app";
+// The submitted production site (the Vercel project with the OpenAI key). A second Vercel project,
+// flame-in-freefal.vercel.app, also deploys main but has no key, so it runs in offline mode.
+export const LIVE_URL = "https://emberatlas-five.vercel.app";
