@@ -12,7 +12,8 @@ import { runInWorker } from "@/lib/sim/runInWorker";
 import type { Scenario, SimResult } from "@/lib/sim/types";
 import { AiGlow, Cites, Composer, GuardBadge, OfflineChip, Orb, StreamAnswer, ThinkingTrail, orbOf, type EngineValue } from "@/components/ai/kit";
 import { DesignReview } from "./DesignReview";
-import { compact, evidenceForAI, MC_N } from "./bits";
+import { compact, download, evidenceForAI, MC_N } from "./bits";
+import { nextTestBriefMarkdown } from "@/lib/sim/report";
 import { useSim, type ChatMsg } from "./store";
 
 export const engineValues = (r: SimResult | null): EngineValue[] =>
@@ -108,7 +109,10 @@ function NextTestCard({ sc, r }: { sc: Scenario; r: SimResult }) {
     <section className="glass space-y-2 rounded-[18px] p-3.5 text-[13px]" data-testid="next-test-card">
       <p className="ai-label">The next test to fly</p>
       <p className="font-medium">{nt.condition}</p><p className="text-mute">{nt.reason}</p>
-      <button type="button" className="ai-chip" onClick={() => { void navigator.clipboard?.writeText(spec).then(() => setCopied(true)).catch(() => setCopied(false)); }}>{copied ? "Copied ✓" : "Copy test spec"}</button>
+      <div className="flex flex-wrap gap-1.5">
+        <button type="button" className="ai-chip" onClick={() => { void navigator.clipboard?.writeText(spec).then(() => setCopied(true)).catch(() => setCopied(false)); }}>{copied ? "Copied ✓" : "Copy test spec"}</button>
+        <button type="button" className="ai-chip" data-testid="analyst-brief" onClick={() => { const md = nextTestBriefMarkdown(sc, r); if (md) download(`${sc.name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}_next-test-brief.md`, md, "text/markdown"); }}>Download test brief</button>
+      </div>
     </section>
   );
 }

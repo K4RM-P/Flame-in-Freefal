@@ -9,7 +9,7 @@ import { AskAsterButton } from "@/components/AskAsterButton";
 import {
   Bell, Box, Camera, Check, ChevronDown, ChevronRight, Download, Eye, FileJson, Flame, FlaskConical, Gauge, HelpCircle,
   Image as ImageIcon, Info, Layers, ListChecks, Maximize, MoreHorizontal, PanelLeftClose, PanelLeftOpen, Pause, Play,
-  Printer, RotateCcw, Save, ShieldCheck, Sparkles, Wind, X,
+  Printer, RotateCcw, Save, ShieldCheck, Sparkles, Wind, X, FileText, Link2,
 } from "lucide-react";
 import { PRESETS } from "@/lib/sim/presets";
 import { replayError } from "@/lib/sim/replay";
@@ -17,6 +17,8 @@ import { exportPsiRowsCsv, exportScenarioJson, exportSeriesCsv } from "@/lib/sim
 import { ScenarioSchema, type Scenario, type SimResult } from "@/lib/sim/types";
 import { nextTest, outOfEnvelope } from "@/lib/sim/nextTest";
 import { durationVerdict, fireEnd } from "@/lib/sim/endReason";
+import { nextTestBriefMarkdown, runReportMarkdown } from "@/lib/sim/report";
+import { shareUrl } from "@/lib/sim/share";
 import { buildRunFacts, runFactsText } from "@/lib/ai/runFacts";
 import { followUpsFor } from "@/lib/ai/explain";
 import { useRunContext } from "@/lib/ai/runContextStore";
@@ -266,6 +268,10 @@ function MoreMenu() {
       </Tip>
       <DropdownMenuContent align="end" className="w-60">
         <DropdownMenuItem onSelect={startNewScenario}><Sparkles {...ICON} />New scenario</DropdownMenuItem>
+        <DropdownMenuItem data-testid="copy-link" onSelect={() => {
+          const url = shareUrl(window.location.origin, a, b, presetId);
+          void navigator.clipboard?.writeText(url).then(() => toast.success("Link copied", { description: "Opens this exact scenario and re-runs it." })).catch(() => toast.error("Could not copy", { description: url }));
+        }}><Link2 {...ICON} />Copy link to this run</DropdownMenuItem>
         <DropdownMenuItem onSelect={() => { const p = PRESETS.find((x) => x.id === presetId); if (p) applyPreset(p); else set({ ra: null, rb: null, frame: 0, playing: false }); }}><RotateCcw {...ICON} />Reset</DropdownMenuItem>
         <DropdownMenuSub>
           <DropdownMenuSubTrigger data-testid="view-switch"><Eye {...ICON} />View · {view === "3d" ? "3D" : view === "elevation" ? "Elevation" : "Section"}</DropdownMenuSubTrigger>
@@ -294,6 +300,7 @@ function MoreMenu() {
             <DropdownMenuItem onSelect={() => exp(`${slug}_scenario.json`, exportScenarioJson(a), "application/json")}><FileJson {...ICON} />Scenario (JSON)</DropdownMenuItem>
             <DropdownMenuItem disabled={!ra} onSelect={() => ra && exp(`${slug}_series.csv`, exportSeriesCsv(ra), "text/csv")}><Download {...ICON} />Simulation series (CSV)</DropdownMenuItem>
             <DropdownMenuItem disabled={!ra} onSelect={() => ra && exp(`${slug}_psi_rows.csv`, exportPsiRowsCsv(a, ra), "text/csv")}><Download {...ICON} />PSI test rows (CSV)</DropdownMenuItem>
+            <DropdownMenuItem disabled={!ra} data-testid="export-report" onSelect={() => ra && exp(`${slug}_report.md`, runReportMarkdown(a, ra, b, rb, shareUrl(window.location.origin, a, b, presetId)), "text/markdown")}><FileText {...ICON} />Run report (Markdown)</DropdownMenuItem>
             <DropdownMenuItem onSelect={png}><ImageIcon {...ICON} />3D view (PNG)</DropdownMenuItem>
             <DropdownMenuItem onSelect={() => window.print()}><Printer {...ICON} />Print report</DropdownMenuItem>
             {rb && <DropdownMenuLabel className="normal-case tracking-normal">Exports cover scenario A.</DropdownMenuLabel>}
@@ -524,7 +531,8 @@ function ResultStrip() {
           <p className="ea-meta mb-1">Next test to fly</p>
           {nt ? <p className="text-[13px]"><b>{nt.condition}.</b> <span className="text-mute">{nt.reason}</span></p> : <p className="text-[13px] text-mute">Inside the tested envelope, no new test needed for this scenario</p>}
           <div className="mt-2"><NextTest sc={sc} r={r} /></div>
-          <a className="mt-2 inline-block text-[13px] underline underline-offset-2" data-testid="envelope-link"
+          {nt && <Button variant="secondary" size="sm" className="mt-2 h-7" data-testid="brief-download" onClick={() => { const md = nextTestBriefMarkdown(sc, r); if (md) { download(`${sc.name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}_next-test-brief.md`, md, "text/markdown"); toast.success("Test brief downloaded"); } }}><FileText {...ICON} />Download test brief (.md)</Button>}
+          <a className="mt-2 block text-[13px] underline underline-offset-2" data-testid="envelope-link"
             href={`/evidence?${new URLSearchParams({ o2: String(+(sc.cabin.x_o2 * 100).toFixed(2)), p: String(+(sc.cabin.P_Pa / 1e3).toFixed(2)), u: String(+(sc.cabin.flow_m_s * 100).toFixed(2)), mat: sc.items.find((i) => i.ignite)?.material_key ?? sc.items[0]?.material_key ?? "", label: sc.name.slice(0, 60) })}#envelope`}>See this cabin on NASA&apos;s tested envelope →</a>
         </PopoverContent>
       </Popover>

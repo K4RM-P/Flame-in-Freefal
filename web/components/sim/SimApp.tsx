@@ -8,6 +8,7 @@ import { spring } from "@/lib/ui/motion";
 import { bandSig, fmtBand, sig } from "@/lib/ui/format";
 import { applyPreset, fmtProv } from "./ScenarioPanel";
 import { runAll } from "./bits";
+import { decodeShare } from "@/lib/sim/share";
 import { Workspace } from "./Workspace";
 import { useSim } from "./store";
 import { Onboarding } from "./Onboarding";
@@ -22,10 +23,15 @@ function useDeepLink() {
     if (done.current) return;
     done.current = true;
     const q = new URLSearchParams(window.location.search);
+    // Shared run link (?s=): the exact scenario(s), validated with the scenario schema, then re-run by the engine.
+    const shared = decodeShare(q.get("s"));
     const p = PRESETS.find((x) => x.id === q.get("preset"));
-    if (!p) return;
-    applyPreset(p);
-    if (q.get("run") !== "1" || p.required.length !== 0) return;
+    if (shared) {
+      const pre = PRESETS.find((x) => x.id === shared.preset);
+      useSim.getState().set({ a: shared.a, b: shared.b, editing: "a", presetId: pre ? pre.id : null, replay: false, ra: null, rb: null, frame: 0, interp: { state: "idle" }, runError: null });
+    } else if (p) applyPreset(p);
+    else return;
+    if (q.get("run") !== "1" || (!shared && p!.required.length !== 0)) return;
     void runAll().then(() => {
       // Open on the moment of peak heat release (the fire, not the burned-out last frame), and bring the result into view on narrow screens.
       const { ra, rb, set } = useSim.getState();

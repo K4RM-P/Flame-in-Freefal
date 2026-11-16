@@ -79,3 +79,21 @@ test("U4: the simulator's cabin is plotted on NASA's tested envelope", async ({ 
   await ex.getByTestId("env-cabin").selectOption("ISS");
   await expect(ex.getByTestId("env-verdict")).toContainText("inside the tested range of");
 });
+
+test("U5: copy a run link, open it fresh, same scenario re-runs; the test brief downloads", async ({ page, context }) => {
+  await context.grantPermissions(["clipboard-read", "clipboard-write"]);
+  await page.goto("/simulator?preset=iss-vs-lunar&run=1");
+  await expect(page.getByTestId("result-headline")).toContainText(/longer/, { timeout: 60_000 });
+  const headline = await page.getByTestId("result-headline").textContent();
+  await page.getByTestId("more").click();
+  await page.getByTestId("copy-link").click();
+  const url = await page.evaluate(() => navigator.clipboard.readText());
+  expect(url).toMatch(/\/simulator\?s=[A-Za-z0-9_-]+&run=1$/);
+  const p2 = await context.newPage();
+  await p2.goto(url);
+  await expect(p2.getByTestId("result-headline")).toHaveText(headline!, { timeout: 60_000 });
+  await p2.getByTestId("next-test-btn").click();
+  const dl = p2.waitForEvent("download");
+  await p2.getByTestId("brief-download").click();
+  expect((await dl).suggestedFilename()).toMatch(/next-test-brief\.md$/);
+});
