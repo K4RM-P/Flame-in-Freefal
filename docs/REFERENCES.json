@@ -89,15 +89,15 @@
   {
    "id": "PSI-60",
    "title": "Computational and Experimental Analysis of SPICE Data Sets",
-   "doi": "10.60555/mzjm-yv57",
-   "url": "https://doi.org/10.60555/mzjm-yv57",
+   "doi": null,
+   "url": "https://psi.nasa.gov",
    "files_used": []
   },
   {
    "id": "PSI-62",
    "title": "Concurrent Flame Spread Modeling using Flamelet Generated Manifolds in Microgravity with Comparison to BASS Experiments using Two-Color Tomography",
-   "doi": "10.60555/e9xp-ex83",
-   "url": "https://doi.org/10.60555/e9xp-ex83",
+   "doi": null,
+   "url": "https://psi.nasa.gov",
    "files_used": []
   },
   {
@@ -142,7 +142,6 @@
    "doi": "10.60555/040q-4h36",
    "url": "https://doi.org/10.60555/040q-4h36",
    "files_used": [
-    "PSI-100_Raw Data_Raw telemetry file.csv",
     "PSI-100_Experimental table_SAFFIRE-3.csv"
    ]
   },
@@ -184,15 +183,15 @@
   {
    "id": "PSI-115",
    "title": "Utilization of the Smoke Aerosol Measurement Experiment Data for Advanced Modeling and Simulation of Smoke Generation in Micro-Gravity",
-   "doi": "10.60555/q0v5-1v28",
-   "url": "https://doi.org/10.60555/q0v5-1v28",
+   "doi": null,
+   "url": "https://psi.nasa.gov",
    "files_used": []
   },
   {
    "id": "PSI-117",
    "title": "Effect of External Thermo-Convective Perturbation on Cool Flame Dynamics: A Multidimensional Multi-Physics CFD Analysis",
-   "doi": "10.60555/gz0q-b577",
-   "url": "https://doi.org/10.60555/gz0q-b577",
+   "doi": null,
+   "url": "https://psi.nasa.gov",
    "files_used": []
   },
   {
@@ -436,8 +435,7 @@
    "type": "ntrs",
    "title": "FM2 (Flammability of Materials on the Moon), NTRS 20240015307 - OUTSIDE PSI",
    "url": "https://ntrs.nasa.gov/citations/20240015307",
-   "year": 2024,
-   "note": "FM2 lunar-gravity tests: some materials are more flammable at lunar g than at both 1 g and µg (e.g. SIBAL burns downward at lunar g but extinguishes at 1 g), so µg↔1 g interpolation is not conservative."
+   "year": 2024
   },
   {
    "id": "psi",
@@ -514,242 +512,487 @@
    "name": "@axe-core/playwright",
    "version": "4.10.2",
    "ecosystem": "npm",
-   "license": "MPL-2.0"
+   "license": "MPL-2.0",
+   "url": "https://www.npmjs.com/package/@axe-core/playwright"
+  },
+  {
+   "name": "@fontsource-variable/inter",
+   "version": "5.2.8",
+   "ecosystem": "npm",
+   "license": "OFL-1.1",
+   "url": "https://www.npmjs.com/package/@fontsource-variable/inter"
+  },
+  {
+   "name": "@fontsource-variable/jetbrains-mono",
+   "version": "5.2.8",
+   "ecosystem": "npm",
+   "license": "OFL-1.1",
+   "url": "https://www.npmjs.com/package/@fontsource-variable/jetbrains-mono"
+  },
+  {
+   "name": "@fontsource-variable/space-grotesk",
+   "version": "5.2.10",
+   "ecosystem": "npm",
+   "license": "OFL-1.1",
+   "url": "https://www.npmjs.com/package/@fontsource-variable/space-grotesk"
+  },
+  {
+   "name": "@paper-design/shaders-react",
+   "version": "^0.0.82",
+   "ecosystem": "npm",
+   "license": "Apache-2.0",
+   "url": "https://www.npmjs.com/package/@paper-design/shaders-react"
   },
   {
    "name": "@playwright/test",
    "version": "1.53.1",
    "ecosystem": "npm",
-   "license": "Apache-2.0"
+   "license": "Apache-2.0",
+   "url": "https://www.npmjs.com/package/@playwright/test"
+  },
+  {
+   "name": "@radix-ui/react-collapsible",
+   "version": "^1.2.1",
+   "ecosystem": "npm",
+   "license": "MIT",
+   "url": "https://www.npmjs.com/package/@radix-ui/react-collapsible"
+  },
+  {
+   "name": "@radix-ui/react-dropdown-menu",
+   "version": "^2.2.1",
+   "ecosystem": "npm",
+   "license": "MIT",
+   "url": "https://www.npmjs.com/package/@radix-ui/react-dropdown-menu"
+  },
+  {
+   "name": "@radix-ui/react-popover",
+   "version": "^1.3.1",
+   "ecosystem": "npm",
+   "license": "MIT",
+   "url": "https://www.npmjs.com/package/@radix-ui/react-popover"
+  },
+  {
+   "name": "@radix-ui/react-slot",
+   "version": "^1.5.0",
+   "ecosystem": "npm",
+   "license": "MIT",
+   "url": "https://www.npmjs.com/package/@radix-ui/react-slot"
+  },
+  {
+   "name": "@radix-ui/react-tooltip",
+   "version": "^1.4.1",
+   "ecosystem": "npm",
+   "license": "MIT",
+   "url": "https://www.npmjs.com/package/@radix-ui/react-tooltip"
+  },
+  {
+   "name": "@react-three/drei",
+   "version": "^10.7.9",
+   "ecosystem": "npm",
+   "license": "MIT",
+   "url": "https://www.npmjs.com/package/@react-three/drei"
+  },
+  {
+   "name": "@react-three/fiber",
+   "version": "^9.8.2",
+   "ecosystem": "npm",
+   "license": "MIT",
+   "url": "https://www.npmjs.com/package/@react-three/fiber"
+  },
+  {
+   "name": "@react-three/postprocessing",
+   "version": "^3.2.2",
+   "ecosystem": "npm",
+   "license": "MIT",
+   "url": "https://www.npmjs.com/package/@react-three/postprocessing"
   },
   {
    "name": "@types/katex",
    "version": "0.16.7",
    "ecosystem": "npm",
-   "license": "MIT"
+   "license": "MIT",
+   "url": "https://www.npmjs.com/package/@types/katex"
   },
   {
    "name": "@types/node",
    "version": "22.15.32",
    "ecosystem": "npm",
-   "license": "MIT"
+   "license": "MIT",
+   "url": "https://www.npmjs.com/package/@types/node"
   },
   {
    "name": "@types/react",
    "version": "19.1.8",
    "ecosystem": "npm",
-   "license": "MIT"
+   "license": "MIT",
+   "url": "https://www.npmjs.com/package/@types/react"
   },
   {
    "name": "@types/react-dom",
    "version": "19.1.6",
    "ecosystem": "npm",
-   "license": "MIT"
+   "license": "MIT",
+   "url": "https://www.npmjs.com/package/@types/react-dom"
   },
   {
    "name": "@types/react-plotly.js",
    "version": "2.6.3",
    "ecosystem": "npm",
-   "license": "MIT"
+   "license": "MIT",
+   "url": "https://www.npmjs.com/package/@types/react-plotly.js"
   },
   {
    "name": "@types/three",
    "version": "^0.187.0",
    "ecosystem": "npm",
-   "license": "MIT"
+   "license": "MIT",
+   "url": "https://www.npmjs.com/package/@types/three"
   },
   {
    "name": "autoprefixer",
    "version": "10.4.21",
    "ecosystem": "npm",
-   "license": "MIT"
+   "license": "MIT",
+   "url": "https://www.npmjs.com/package/autoprefixer"
+  },
+  {
+   "name": "class-variance-authority",
+   "version": "^0.7.1",
+   "ecosystem": "npm",
+   "license": "Apache-2.0",
+   "url": "https://www.npmjs.com/package/class-variance-authority"
+  },
+  {
+   "name": "clsx",
+   "version": "^2.1.1",
+   "ecosystem": "npm",
+   "license": "MIT",
+   "url": "https://www.npmjs.com/package/clsx"
   },
   {
    "name": "katex",
    "version": "0.16.22",
    "ecosystem": "npm",
-   "license": "MIT"
+   "license": "MIT",
+   "url": "https://www.npmjs.com/package/katex"
+  },
+  {
+   "name": "lucide-react",
+   "version": "^1.73.0",
+   "ecosystem": "npm",
+   "license": "ISC",
+   "url": "https://www.npmjs.com/package/lucide-react"
   },
   {
    "name": "motion",
    "version": "12.18.1",
    "ecosystem": "npm",
-   "license": "MIT"
+   "license": "MIT",
+   "url": "https://www.npmjs.com/package/motion"
   },
   {
    "name": "next",
    "version": "15.5.29",
    "ecosystem": "npm",
-   "license": "MIT"
+   "license": "MIT",
+   "url": "https://www.npmjs.com/package/next"
   },
   {
    "name": "openai",
    "version": "7.57.0",
    "ecosystem": "npm",
-   "license": "Apache-2.0"
+   "license": "Apache-2.0",
+   "url": "https://www.npmjs.com/package/openai"
   },
   {
    "name": "plotly.js-dist-min",
    "version": "3.0.1",
    "ecosystem": "npm",
-   "license": "MIT"
+   "license": "MIT",
+   "url": "https://www.npmjs.com/package/plotly.js-dist-min"
   },
   {
    "name": "postcss",
    "version": "8.5.6",
    "ecosystem": "npm",
-   "license": "MIT"
+   "license": "MIT",
+   "url": "https://www.npmjs.com/package/postcss"
+  },
+  {
+   "name": "postprocessing",
+   "version": "^6.39.6",
+   "ecosystem": "npm",
+   "license": "Zlib",
+   "url": "https://www.npmjs.com/package/postprocessing"
   },
   {
    "name": "react",
    "version": "19.1.0",
    "ecosystem": "npm",
-   "license": "MIT"
+   "license": "MIT",
+   "url": "https://www.npmjs.com/package/react"
   },
   {
    "name": "react-dom",
    "version": "19.1.0",
    "ecosystem": "npm",
-   "license": "MIT"
+   "license": "MIT",
+   "url": "https://www.npmjs.com/package/react-dom"
   },
   {
    "name": "react-plotly.js",
    "version": "2.6.0",
    "ecosystem": "npm",
-   "license": "MIT"
+   "license": "MIT",
+   "url": "https://www.npmjs.com/package/react-plotly.js"
+  },
+  {
+   "name": "sonner",
+   "version": "^2.0.8",
+   "ecosystem": "npm",
+   "license": "MIT",
+   "url": "https://www.npmjs.com/package/sonner"
+  },
+  {
+   "name": "tailwind-merge",
+   "version": "^3.7.0",
+   "ecosystem": "npm",
+   "license": "MIT",
+   "url": "https://www.npmjs.com/package/tailwind-merge"
   },
   {
    "name": "tailwindcss",
    "version": "3.4.17",
    "ecosystem": "npm",
-   "license": "MIT"
+   "license": "MIT",
+   "url": "https://www.npmjs.com/package/tailwindcss"
   },
   {
    "name": "three",
    "version": "^0.187.0",
    "ecosystem": "npm",
-   "license": "MIT"
+   "license": "MIT",
+   "url": "https://www.npmjs.com/package/three"
   },
   {
    "name": "tsx",
    "version": "4.20.3",
    "ecosystem": "npm",
-   "license": "MIT"
+   "license": "MIT",
+   "url": "https://www.npmjs.com/package/tsx"
   },
   {
    "name": "typescript",
    "version": "5.8.3",
    "ecosystem": "npm",
-   "license": "Apache-2.0"
+   "license": "Apache-2.0",
+   "url": "https://www.npmjs.com/package/typescript"
   },
   {
    "name": "vitest",
    "version": "3.2.4",
    "ecosystem": "npm",
-   "license": "MIT"
+   "license": "MIT",
+   "url": "https://www.npmjs.com/package/vitest"
   },
   {
    "name": "zod",
    "version": "3.25.67",
    "ecosystem": "npm",
-   "license": "MIT"
+   "license": "MIT",
+   "url": "https://www.npmjs.com/package/zod"
   },
   {
    "name": "zustand",
    "version": "5.0.5",
    "ecosystem": "npm",
-   "license": "MIT"
+   "license": "MIT",
+   "url": "https://www.npmjs.com/package/zustand"
   },
   {
    "name": "numpy",
    "version": "1.26.4",
    "ecosystem": "pypi",
-   "license": "BSD-3-Clause"
+   "license": "BSD-3-Clause",
+   "url": "https://pypi.org/project/numpy/"
   },
   {
    "name": "scipy",
    "version": "1.13.1",
    "ecosystem": "pypi",
-   "license": "BSD-3-Clause"
+   "license": "BSD-3-Clause",
+   "url": "https://pypi.org/project/scipy/"
   },
   {
    "name": "pandas",
    "version": "2.2.2",
    "ecosystem": "pypi",
-   "license": "BSD-3-Clause"
+   "license": "BSD-3-Clause",
+   "url": "https://pypi.org/project/pandas/"
   },
   {
    "name": "pyarrow",
    "version": "16.1.0",
    "ecosystem": "pypi",
-   "license": "Apache-2.0"
+   "license": "Apache-2.0",
+   "url": "https://pypi.org/project/pyarrow/"
   },
   {
    "name": "scikit-learn",
    "version": "1.5.0",
    "ecosystem": "pypi",
-   "license": "BSD-3-Clause"
+   "license": "BSD-3-Clause",
+   "url": "https://pypi.org/project/scikit-learn/"
   },
   {
    "name": "pyyaml",
    "version": "6.0.1",
    "ecosystem": "pypi",
-   "license": "MIT"
+   "license": "MIT",
+   "url": "https://pypi.org/project/pyyaml/"
   },
   {
    "name": "pdfplumber",
    "version": "0.11.0",
    "ecosystem": "pypi",
-   "license": "MIT"
+   "license": "MIT",
+   "url": "https://pypi.org/project/pdfplumber/"
   },
   {
    "name": "tabulate",
    "version": "0.9.0",
    "ecosystem": "pypi",
-   "license": "MIT"
+   "license": "MIT",
+   "url": "https://pypi.org/project/tabulate/"
   },
   {
    "name": "openpyxl",
    "version": "3.1.5",
    "ecosystem": "pypi",
-   "license": "MIT"
+   "license": "MIT",
+   "url": "https://pypi.org/project/openpyxl/"
   },
   {
    "name": "xlrd",
    "version": "2.0.1",
    "ecosystem": "pypi",
-   "license": "BSD-3-Clause"
+   "license": "BSD-3-Clause",
+   "url": "https://pypi.org/project/xlrd/"
   },
   {
    "name": "pytest",
    "version": "8.2.2",
    "ecosystem": "pypi",
-   "license": "MIT"
+   "license": "MIT",
+   "url": "https://pypi.org/project/pytest/"
   }
  ],
  "fonts": [
   {
+   "name": "Space Grotesk",
+   "license": "OFL-1.1",
+   "url": "https://fonts.google.com/specimen/Space+Grotesk",
+   "via": "@fontsource-variable/space-grotesk (self-hosted)",
+   "use": "Display headings"
+  },
+  {
    "name": "Inter",
    "license": "OFL-1.1",
-   "via": "next/font/google"
+   "url": "https://fonts.google.com/specimen/Inter",
+   "via": "@fontsource-variable/inter (self-hosted)",
+   "use": "Interface text"
   },
   {
    "name": "JetBrains Mono",
    "license": "OFL-1.1",
-   "via": "next/font/google"
-  },
-  {
-   "name": "Newsreader",
-   "license": "OFL-1.1",
-   "via": "next/font/google"
+   "url": "https://fonts.google.com/specimen/JetBrains+Mono",
+   "via": "@fontsource-variable/jetbrains-mono (self-hosted)",
+   "use": "Numbers, labels, data"
   }
  ],
- "images": [],
+ "component_sources": [
+  {
+   "name": "shadcn/ui",
+   "license": "MIT",
+   "url": "https://ui.shadcn.com",
+   "use": "Structure of web/components/ui/* primitives (button, dropdown, popover, collapsible, tooltip); components.json"
+  },
+  {
+   "name": "Radix UI Primitives",
+   "license": "MIT",
+   "url": "https://www.radix-ui.com/primitives",
+   "use": "Accessible dropdown, popover, collapsible, tooltip, slot"
+  },
+  {
+   "name": "21st.dev BackgroundPaths",
+   "license": "MIT",
+   "url": "https://21st.dev",
+   "use": "Adapted for the landing hero streamlines (web/components/ui/background-paths.tsx)"
+  },
+  {
+   "name": "Lucide icons",
+   "license": "ISC",
+   "url": "https://lucide.dev",
+   "use": "Interface icons"
+  }
+ ],
+ "images": [
+  {
+   "name": "Spherical flame around an acrylic sample in the ISS Combustion Integrated Rack (jsc2023e002281)",
+   "credit": "NASA",
+   "license": "NASA media, not copyrighted (NASA Images and Media Usage Guidelines)",
+   "url": "https://science.nasa.gov/biological-physical/stories/how-and-why-do-nasa-researchers-simulate-microgravity-on-earth/",
+   "use": "Landing hero and OpenGraph image (hot-linked until self-hosted, HUMAN_TASKS #14)"
+  },
+  {
+   "name": "Saffire-IV fabric burn in Cygnus (jsc2023e046375)",
+   "credit": "NASA",
+   "license": "NASA media, not copyrighted (NASA Images and Media Usage Guidelines)",
+   "url": "https://www.nasa.gov/wp-content/uploads/2023/12/jsc2023e046375medium.jpg",
+   "use": "Media registry (web/lib/media.ts)"
+  },
+  {
+   "name": "Candle flame in 1 g vs microgravity (GRC-1998-C-00485)",
+   "credit": "NASA Glenn Research Center",
+   "license": "NASA media, not copyrighted (NASA Images and Media Usage Guidelines)",
+   "url": "https://images.nasa.gov/details/GRC-1998-C-00485",
+   "use": "Landing story beat 2 (placeholder frame until self-hosted, HUMAN_TASKS #15)"
+  },
+  {
+   "name": "BASS-II flame on the ISS (iss040e072900)",
+   "credit": "NASA",
+   "license": "NASA media, not copyrighted (NASA Images and Media Usage Guidelines)",
+   "url": "https://images.nasa.gov/details/iss040e072900",
+   "use": "Media registry (web/lib/media.ts)"
+  },
+  {
+   "name": "EmberAtlas 3D simulator screenshot (web/public/media/sim-3d.webp)",
+   "credit": "Team EmberAtlas",
+   "license": "MIT",
+   "url": "https://github.com/K4RM-P/flame-in-freefal/blob/main/web/public/media/sim-3d.webp",
+   "use": "Landing live-demo still (our own render)"
+  },
+  {
+   "name": "EmberAtlas flame logo and Aster mascot",
+   "credit": "Team EmberAtlas",
+   "license": "MIT",
+   "url": "https://github.com/K4RM-P/flame-in-freefal/blob/main/web/public/logo.png",
+   "use": "Brand (origin to be confirmed by the team, HUMAN_TASKS)"
+  }
+ ],
+ "media_guidelines": "https://www.nasa.gov/nasa-brand-center/images-and-media/",
  "si_tools": [
   {
    "name": "Claude Code (Anthropic), model Claude Opus 5.5",
+   "url": "https://www.anthropic.com/claude-code",
    "use": "Wrote and refactored the codebase, data pipelines (PDF/PSI table extraction and normalization), tests and documentation under human direction. All generated data rows carry source_id + locator and stay verified=false until a human spot-check.",
    "disclosure": "Source files carry the header 'SI-assisted: written with Claude Code (Anthropic)'."
+  },
+  {
+   "name": "Codex (OpenAI)",
+   "url": "https://openai.com/codex/",
+   "use": "Wrote parts of the About page, the Methods equation notes and a landing e2e test under human direction.",
+   "disclosure": "Those files carry the header 'SI-assisted: written with Codex (OpenAI)'."
   },
   {
    "name": "OpenAI API, model from OPENAI_MODEL (default gpt-5.4-mini)",

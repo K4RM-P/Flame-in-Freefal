@@ -97,3 +97,17 @@ test("U5: copy a run link, open it fresh, same scenario re-runs; the test brief 
   await p2.getByTestId("brief-download").click();
   expect((await dl).suggestedFilename()).toMatch(/next-test-brief\.md$/);
 });
+
+test("U6: credits page lists NASA resources, every PSI record, AI tools and libraries with URLs", async ({ page }) => {
+  await page.goto("/credits");
+  const nasa = page.getByTestId("credits-nasa");
+  await expect(nasa).toContainText("https://psi.nasa.gov/physci/repo/search?q=combustion");
+  await expect(nasa).toContainText("PSI-100");
+  await expect(nasa).toContainText("20240015307");
+  await expect(page.getByTestId("credits-ai")).toContainText("Codex (OpenAI)");
+  await expect(page.getByTestId("credits-ai")).toContainText("Claude Code");
+  await expect(page.getByText("@react-three/fiber", { exact: true })).toBeVisible();
+  await expect(page.getByText("Space Grotesk", { exact: true })).toBeVisible();
+  await page.goto("/about");
+  await expect(page.getByRole("link", { name: "Credits & data sources" }).first()).toBeVisible();
+});

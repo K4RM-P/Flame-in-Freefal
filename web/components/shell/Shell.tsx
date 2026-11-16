@@ -82,7 +82,8 @@ export function Shell({ children }: { children: React.ReactNode }) {
       {!landing && <footer className="mx-auto flex max-w-[1600px] flex-wrap items-center gap-x-3 gap-y-1 border-t border-line px-4 pb-20 pt-3 font-mono sm:pb-3 text-[11px] uppercase tracking-[0.06em] text-faint md:px-6" data-noprint>
         <span>NASA PSI Data Repository · Combustion Science</span><span aria-hidden>·</span>
         <span>Partial gravity = estimate (µg ↔ 1 g), may be non-conservative (NASA FM2)</span><span aria-hidden>·</span><span>Not for flight certification</span>
-        <Link className="ml-auto hover:text-ink" href="/about">About EmberAtlas</Link>
+        <Link className="ml-auto hover:text-ink" href="/credits">Credits &amp; data sources</Link>
+        <Link className="hover:text-ink" href="/about">About EmberAtlas</Link>
       </footer>}
       <Aster />
       <Toaster />

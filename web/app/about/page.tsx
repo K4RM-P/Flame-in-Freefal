@@ -2,6 +2,7 @@
 import { CrewCarousel } from "./CrewCarousel";
 import type { Metadata } from "next";
 import Link from "next/link";
+import { VIDEO_URL, hasVideo } from "@/lib/site";
 
 export const metadata: Metadata = { title: "About", description: "Team EmberAtlas (Toronto) and the Flame in Freefall challenge: who built EmberAtlas and how AI was used." };
 const team = [
@@ -38,7 +39,7 @@ export default function About() {
         <p className="label">NASA Space Apps · Flame in Freefall</p>
         <h1 className="display my-3 text-5xl md:text-7xl">EmberAtlas: the firefighter for space</h1>
         <p className="measure text-lg leading-relaxed text-mute">It shows where and how a fire would start in your spacecraft, and which design change prevents it. Built on NASA&apos;s ISS fire data, explained by AI.</p>
-        <p className="mt-3 text-[13px] text-mute">Team EmberAtlas, Toronto: {team.map((t) => t.name).join(", ")}. Challenge: Flame in Freefall (NASA Space Apps).</p>
+        <p className="mt-3 text-[13px] text-mute">Team EmberAtlas, Toronto: {team.map((t) => t.name).join(", ")}. Challenge: Flame in Freefall (NASA Space Apps). Demo video: {hasVideo() ? <a className="underline underline-offset-2" href={VIDEO_URL}>{VIDEO_URL}</a> : <span data-testid="video-pending">to be linked ({VIDEO_URL})</span>}.</p>
       </header>
       <CrewCarousel team={team}>
         {team.map(({ name, initials, focus, bio }) => (
@@ -56,16 +57,16 @@ export default function About() {
       </CrewCarousel>
       <section aria-labelledby="credits-title" className="card space-y-3 md:p-8">
         <h2 id="credits-title" className="display text-2xl">Data credits</h2>
-        <p className="measure leading-relaxed text-mute">Experiment data: NASA Physical Sciences Informatics (PSI) Data Repository, Combustion Science (each value carries its PSI accession, file and line). Flight papers on NASA NTRS; partial-gravity context from NASA&apos;s FM2 lunar-gravity tests (NTRS 20240015307, outside PSI). Images: NASA. Full list in <code>CREDITS.md</code> and <code>docs/REFERENCES.json</code>.</p>
+        <p className="measure leading-relaxed text-mute">Experiment data: NASA Physical Sciences Informatics (PSI) Data Repository, Combustion Science (each value carries its PSI accession, file and line). Flight papers on NASA NTRS; partial-gravity context from NASA&apos;s FM2 lunar-gravity tests (NTRS 20240015307, outside PSI). Images: NASA (public media guidelines, no logos). Every NASA resource, paper, library, font, image and AI tool, with full URLs and licences: <Link className="underline underline-offset-2" href="/credits">Credits &amp; data sources</Link>.</p>
       </section>
       <section aria-labelledby="built-about" className="card space-y-3 md:p-8">
         <h2 id="built-about" className="display text-2xl">Use of AI</h2>
         <dl className="ea-build-list">
-          <div><dt>Code and review</dt><dd>Our team combined human-written code with Claude Code (Anthropic). We wrote and reviewed code, worked through design decisions, and tested the results together.</dd></div>
+          <div><dt>Code and review</dt><dd>Our team combined human-written code with Claude Code (Anthropic) and Codex (OpenAI). We wrote and reviewed code, worked through design decisions, and tested the results together. Files written with AI help carry an “SI-assisted” header.</dd></div>
           <div><dt>Scenario builder</dt><dd>The OpenAI API turns a plain-language description into draft inputs you can review.</dd></div>
           <div><dt>Run interpretation</dt><dd>The OpenAI API explains a run using only the engine output, the ranked design fixes and PSI evidence; a numeric guard removes any number not in those facts. The design review itself is deterministic and works without AI.</dd></div>
           <div><dt>Evidence Brief</dt><dd>OpenAI interprets ranked NASA studies and available measurements, explains gaps, and suggests a follow-up test.</dd></div>
-          <div><dt>Aster research chat</dt><dd>Aster searches the bundled NASA study catalog. When OpenAI is available, it summarizes matching records. Catalog excerpts and source links are available in either mode.</dd></div>
+          <div><dt>Aster, the AI fire engineer</dt><dd>On the simulator, Aster answers from the run on screen: a deterministic explainer composes the answer from engine numbers, end reasons and sourced caveats, and cites the NASA experiments behind it. With OpenAI available the model rewrites that draft and the numeric guard checks it; without a key the engine answer is shown as is. Elsewhere, Aster searches the bundled NASA study catalog.</dd></div>
         </dl>
         <Link className="ea-source-link inline-block underline underline-offset-4" href="/methods">Explore the methods and validation</Link>
       </section>

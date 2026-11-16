@@ -46,7 +46,9 @@ def test_submission_hygiene():
     root = Path(__file__).resolve().parents[2]
     refs = json.loads((root / "docs" / "REFERENCES.json").read_text())
     assert len(refs["psi_records"]) == 25 and refs["nasa_resource_used"]["url"] == "https://psi.nasa.gov/physci/repo/search?q=combustion"
-    assert all(lib["license"] != "UNKNOWN" for lib in refs["software"]) and refs["si_tools"] and refs["images"] == []
+    assert all(lib["license"] != "UNKNOWN" for lib in refs["software"]) and refs["si_tools"]
+    assert all(i.get("url", "").startswith("https://") and i.get("license") and i.get("credit") for i in refs["images"])
+    assert all(f.get("url", "").startswith("https://") for f in refs["fonts"]) and all(lib.get("url") for lib in refs["software"])
     dirs = ["web/app", "web/components", "web/lib", "physics/emberphys", "physics/pipeline", "physics/validate"]
     untagged = [str(p) for d in dirs for p in (root / d).rglob("*") if p.suffix in (".ts", ".tsx", ".py")
                 and "__pycache__" not in p.parts and "SI-assisted" not in p.read_text()]

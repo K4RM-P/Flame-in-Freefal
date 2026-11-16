@@ -27,22 +27,25 @@ def write_references(sources: dict, catalog: dict) -> None:
     pkg = json.loads((ROOT / "web" / "package.json").read_text())
     py = tomllib.loads((ROOT / "physics" / "pyproject.toml").read_text())["project"]
     pins = py["dependencies"] + [d for v in py.get("optional-dependencies", {}).values() for d in v]
-    libs = [{"name": n, "version": v, "ecosystem": "npm", "license": sw["licenses"].get(n, "UNKNOWN")}
+    libs = [{"name": n, "version": v, "ecosystem": "npm", "license": sw["licenses"].get(n, "UNKNOWN"), "url": f"https://www.npmjs.com/package/{n}"}
             for n, v in sorted({**pkg["dependencies"], **pkg["devDependencies"]}.items())]
     for d in pins:
         n, v = re.split(r"==", d)
-        libs.append({"name": n, "version": v, "ecosystem": "pypi", "license": sw["licenses"].get(n.lower(), "UNKNOWN")})
+        libs.append({"name": n, "version": v, "ecosystem": "pypi", "license": sw["licenses"].get(n.lower(), "UNKNOWN"), "url": f"https://pypi.org/project/{n}/"})
     psi = [{"id": acc, "title": c["title"], "doi": c.get("doi"), "url": c["psi_url"], "files_used": [f["file"] for f in c["manifest"]]}
            for acc, c in sorted(catalog["investigations"].items(), key=lambda kv: int(kv[0].split("-")[1]))]
     other = [{"id": k, **{f: v[f] for f in ("type", "title", "url", "year", "doi", "accessed") if v.get(f) is not None}}
              for k, v in sources.items() if not k.startswith("PSI-")]
     refs = {"project": "EmberAtlas", "license": sw["project_license"], "psi_records": psi, "other_sources": other, "apis": sw["apis"],
-            "software": libs, "fonts": sw["fonts"], "images": sw["images"], "si_tools": sw["si_tools"], "si_media": sw["si_media"],
+            "software": libs, "fonts": sw["fonts"], "component_sources": sw.get("component_sources", []), "images": sw["images"],
+            "media_guidelines": sw.get("media_guidelines"), "si_tools": sw["si_tools"], "si_media": sw["si_media"],
             "nasa_resource_used": sources["psi-combustion-repo"]}
     unknown = [lib["name"] for lib in libs if lib["license"] == "UNKNOWN"]
     if unknown:
         raise SystemExit(f"software.yaml is missing licenses for: {unknown}")
-    (ROOT / "docs" / "REFERENCES.json").write_text(json.dumps(refs, indent=1, ensure_ascii=False) + "\n")
+    text = json.dumps(refs, indent=1, ensure_ascii=False) + "\n"
+    (ROOT / "docs" / "REFERENCES.json").write_text(text)
+    (ROOT / "web" / "data" / "references.json").write_text(text)  # the /credits page reads this copy
 
 
 def main() -> None:

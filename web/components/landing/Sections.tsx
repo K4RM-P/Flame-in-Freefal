@@ -136,7 +136,7 @@ export function LandingFooter() {
           <li><Link className="hover:text-ink" href="/simulator">Simulator</Link></li><li><Link className="hover:text-ink" href="/evidence">Evidence</Link></li><li><Link className="hover:text-ink" href="/methods">Methods</Link></li></ul></div>
         <div className="space-y-2"><p className="ea-meta">Team</p><ul className="space-y-1.5 text-mute">
           <li><Link className="hover:text-ink" href="/about">About EmberAtlas</Link></li><li><a className="hover:text-ink" href={REPO_URL} target="_blank" rel="noreferrer">GitHub</a></li>
-          <li><a className="hover:text-ink" href={`${REPO_URL}#use-of-ai-si`} target="_blank" rel="noreferrer">Use of AI</a></li></ul></div>
+          <li><a className="hover:text-ink" href={`${REPO_URL}#use-of-ai-si`} target="_blank" rel="noreferrer">Use of AI</a></li><li><Link className="hover:text-ink" href="/credits">Credits &amp; data sources</Link></li></ul></div>
         <div className="space-y-2"><p className="ea-meta">Data credits</p><p className="text-mute">NASA Physical Sciences Informatics (PSI) Data Repository: Combustion Science. NASA imagery is public domain; no NASA endorsement implied.</p></div>
       </div>
       <p className="mx-auto max-w-6xl border-t border-line px-4 py-4 font-mono text-[11px] uppercase tracking-[0.06em] text-faint md:px-6">NASA Space Apps 2026 · Not for flight certification</p>

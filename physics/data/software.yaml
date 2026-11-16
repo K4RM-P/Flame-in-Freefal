@@ -3,7 +3,8 @@
 # or SIL OFL for fonts). Exported to docs/REFERENCES.json by physics/validate/export.py.
 project_license: MIT
 si_tools:
-  - {name: "Claude Code (Anthropic), model Claude Opus 5.5", use: "Wrote and refactored the codebase, data pipelines (PDF/PSI table extraction and normalization), tests and documentation under human direction. All generated data rows carry source_id + locator and stay verified=false until a human spot-check.", disclosure: "Source files carry the header 'SI-assisted: written with Claude Code (Anthropic)'."}
+  - {name: "Claude Code (Anthropic), model Claude Opus 5.5", url: "https://www.anthropic.com/claude-code", use: "Wrote and refactored the codebase, data pipelines (PDF/PSI table extraction and normalization), tests and documentation under human direction. All generated data rows carry source_id + locator and stay verified=false until a human spot-check.", disclosure: "Source files carry the header 'SI-assisted: written with Claude Code (Anthropic)'."}
+  - {name: "Codex (OpenAI)", url: "https://openai.com/codex/", use: "Wrote parts of the About page, the Methods equation notes and a landing e2e test under human direction.", disclosure: "Those files carry the header 'SI-assisted: written with Codex (OpenAI)'."}
   - {name: "OpenAI API, model from OPENAI_MODEL (default gpt-5.4-mini)", use: "Runtime scenario builder (plain English → scenario fields for human review), run interpretation and the experiment-match explanation; grounded only on engine output and cited PSI evidence, checked by a numeric + citation guard. No key → no AI text (no canned answers)."}
 si_media: "No SI-generated images or video are included. Any added later must carry a visible 'SI-generated using <tool>' watermark and must not use, contain or modify NASA logos, flags or mission identifiers."
 apis:
@@ -11,10 +12,22 @@ apis:
   - {name: "NASA Technical Reports Server (NTRS)", url: "https://ntrs.nasa.gov", use: "FLEX NASA/TP-2015-216046, JSC 20584 Rev C PDFs"}
   - {name: "OpenAI API", url: "https://platform.openai.com/docs", use: "Scenario builder, interpretation and match explanation at runtime"}
 fonts:
-  - {name: Inter, license: OFL-1.1, via: next/font/google}
-  - {name: JetBrains Mono, license: OFL-1.1, via: next/font/google}
-  - {name: Newsreader, license: OFL-1.1, via: next/font/google}
-images: []
+  - {name: Space Grotesk, license: OFL-1.1, url: "https://fonts.google.com/specimen/Space+Grotesk", via: "@fontsource-variable/space-grotesk (self-hosted)", use: "Display headings"}
+  - {name: Inter, license: OFL-1.1, url: "https://fonts.google.com/specimen/Inter", via: "@fontsource-variable/inter (self-hosted)", use: "Interface text"}
+  - {name: JetBrains Mono, license: OFL-1.1, url: "https://fonts.google.com/specimen/JetBrains+Mono", via: "@fontsource-variable/jetbrains-mono (self-hosted)", use: "Numbers, labels, data"}
+component_sources:
+  - {name: "shadcn/ui", license: MIT, url: "https://ui.shadcn.com", use: "Structure of web/components/ui/* primitives (button, dropdown, popover, collapsible, tooltip); components.json"}
+  - {name: "Radix UI Primitives", license: MIT, url: "https://www.radix-ui.com/primitives", use: "Accessible dropdown, popover, collapsible, tooltip, slot"}
+  - {name: "21st.dev BackgroundPaths", license: MIT, url: "https://21st.dev", use: "Adapted for the landing hero streamlines (web/components/ui/background-paths.tsx)"}
+  - {name: "Lucide icons", license: ISC, url: "https://lucide.dev", use: "Interface icons"}
+images:
+  - {name: "Spherical flame around an acrylic sample in the ISS Combustion Integrated Rack (jsc2023e002281)", credit: NASA, license: "NASA media, not copyrighted (NASA Images and Media Usage Guidelines)", url: "https://science.nasa.gov/biological-physical/stories/how-and-why-do-nasa-researchers-simulate-microgravity-on-earth/", use: "Landing hero and OpenGraph image (hot-linked until self-hosted, HUMAN_TASKS #14)"}
+  - {name: "Saffire-IV fabric burn in Cygnus (jsc2023e046375)", credit: NASA, license: "NASA media, not copyrighted (NASA Images and Media Usage Guidelines)", url: "https://www.nasa.gov/wp-content/uploads/2023/12/jsc2023e046375medium.jpg", use: "Media registry (web/lib/media.ts)"}
+  - {name: "Candle flame in 1 g vs microgravity (GRC-1998-C-00485)", credit: "NASA Glenn Research Center", license: "NASA media, not copyrighted (NASA Images and Media Usage Guidelines)", url: "https://images.nasa.gov/details/GRC-1998-C-00485", use: "Landing story beat 2 (placeholder frame until self-hosted, HUMAN_TASKS #15)"}
+  - {name: "BASS-II flame on the ISS (iss040e072900)", credit: NASA, license: "NASA media, not copyrighted (NASA Images and Media Usage Guidelines)", url: "https://images.nasa.gov/details/iss040e072900", use: "Media registry (web/lib/media.ts)"}
+  - {name: "EmberAtlas 3D simulator screenshot (web/public/media/sim-3d.webp)", credit: "Team EmberAtlas", license: MIT, url: "https://github.com/K4RM-P/flame-in-freefal/blob/main/web/public/media/sim-3d.webp", use: "Landing live-demo still (our own render)"}
+  - {name: "EmberAtlas flame logo and Aster mascot", credit: "Team EmberAtlas", license: MIT, url: "https://github.com/K4RM-P/flame-in-freefal/blob/main/web/public/logo.png", use: "Brand (origin to be confirmed by the team, HUMAN_TASKS)"}
+media_guidelines: "https://www.nasa.gov/nasa-brand-center/images-and-media/"
 licenses:
   "openai": Apache-2.0
   katex: MIT
@@ -28,6 +41,20 @@ licenses:
   zustand: MIT
   three: MIT
   "@types/three": MIT
+  "@paper-design/shaders-react": Apache-2.0
+  "@radix-ui/react-collapsible": MIT
+  "@radix-ui/react-dropdown-menu": MIT
+  "@radix-ui/react-popover": MIT
+  "@radix-ui/react-slot": MIT
+  "@radix-ui/react-tooltip": MIT
+  class-variance-authority: Apache-2.0
+  clsx: MIT
+  lucide-react: ISC
+  sonner: MIT
+  tailwind-merge: MIT
+  "@fontsource-variable/inter": OFL-1.1
+  "@fontsource-variable/space-grotesk": OFL-1.1
+  "@fontsource-variable/jetbrains-mono": OFL-1.1
   "@react-three/fiber": MIT
   "@react-three/drei": MIT
   "@react-three/postprocessing": MIT
