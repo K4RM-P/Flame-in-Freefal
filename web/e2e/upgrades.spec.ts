@@ -48,3 +48,18 @@ test("U2: Evidence search finds a PSI dataset by number and deep-links to it", a
   await page.locator("#evidence-search-input").fill("sibal");
   await expect(page.getByTestId("search-hit").first()).toContainText(/Material|Sample/);
 });
+
+test("U3: Apply & re-run shows what changed, before and after, from both engine runs", async ({ page }) => {
+  await page.goto("/simulator?preset=lunar-design-review&run=1");
+  await expect(page.getByTestId("result-headline")).not.toHaveText("No data", { timeout: 60_000 });
+  await page.getByTestId("ask-ai").click();
+  await page.getByTestId("apply-fix").first().click();
+  const diff = page.getByTestId("run-diff").first();
+  await expect(diff).toBeVisible({ timeout: 90_000 });
+  await expect(diff.getByTestId("diff-inputs")).toContainText("Crew detection");
+  await expect(diff.getByTestId("diff-time_to_extinguish")).toContainText(/better|worse|same|no data/);
+  await page.screenshot({ path: shot("apply-diff") });
+  await page.getByRole("button", { name: "Close drawer" }).click().catch(() => {});
+  await page.getByTestId("diff-btn").click();
+  await expect(page.locator("[data-testid=run-diff]").last()).toBeVisible();
+});

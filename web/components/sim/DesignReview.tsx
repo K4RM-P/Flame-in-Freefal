@@ -8,6 +8,7 @@ import { motion, useReducedMotion } from "motion/react";
 import { Button } from "@/components/ui/button";
 import { runAll } from "./bits";
 import { useSim } from "./store";
+import { RunDiffCard } from "./RunDiff";
 import { designReview, metricOf, show } from "@/lib/sim/designReview";
 import type { Scenario, SimResult } from "@/lib/sim/types";
 
@@ -17,6 +18,7 @@ const useApplied = create<{ applied: { id: string; before: number | null; after:
 export function DesignReview({ sc, r, label }: { sc: Scenario; r: SimResult | null; label?: string | null }) {
   const fixes = useMemo(() => (r ? designReview(sc, r) : []), [sc, r]);
   const { applied, set: setApplied } = useApplied();
+  const { a, ra, b, rb } = useSim();
   const reduce = useReducedMotion();
   /** Apply & re-run: the fix's own edited copy becomes Scenario B, both run, and the Compare split opens. */
   async function apply(id: string, fixed: Scenario) {
@@ -42,7 +44,7 @@ export function DesignReview({ sc, r, label }: { sc: Scenario; r: SimResult | nu
                 <span className={`chip ${f.basis === "theory-only" ? "text-warn" : "text-mute"}`}>{f.basis}</span>
                 {!f.inEnvelope && <span className="chip text-warn"> outside PSI envelope</span>}</p>
               <p className="text-mute">{f.detail}</p>
-              {f.scenario && <Button size="sm" variant="secondary" className="mt-1 h-7" data-testid="apply-fix" onClick={() => void apply(f.id, f.scenario!)}>Apply &amp; re-run</Button>}
+              {f.scenario && <Button size="sm" variant="secondary" className="mt-1 h-7" data-testid={f.id.startsWith("lever-") ? "apply-lever" : "apply-fix"} onClick={() => void apply(f.id, f.scenario!)}>Apply &amp; re-run</Button>}
               {applied?.id === f.id && <motion.div data-testid="fix-delta" className="mt-1.5 flex items-center gap-2 rounded-lg border border-line bg-bg px-2.5 py-1.5 text-[13px]"
                 initial={reduce ? false : { opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }} transition={{ type: "spring", stiffness: 320, damping: 24 }}>
                 <span className="text-mute">{f.metric.replace(/_/g, " ")}</span>
@@ -51,6 +53,7 @@ export function DesignReview({ sc, r, label }: { sc: Scenario; r: SimResult | nu
                 <motion.span className="num font-medium text-ink" data-testid="fix-after" initial={reduce ? false : { y: 6, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.3, type: "spring", stiffness: 300, damping: 20 }}>{show(applied.after, f.units)}</motion.span>
                 <span className="ml-auto text-[11px] text-faint">A vs B · Compare open</span>
               </motion.div>}
+              {applied?.id === f.id && a && ra && b && rb && <div className="mt-2 rounded-lg border border-line bg-bg p-2.5"><RunDiffCard a={a} ra={ra} b={b} rb={rb} compact /></div>}
             </li>
           ))}
         </ol>

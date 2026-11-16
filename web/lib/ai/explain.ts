@@ -112,7 +112,8 @@ export function explainRun(question: string, f: RunFacts): Explanation {
   const primary = B ?? A; // with a comparison, the second cabin is usually the design under study
   switch (intent) {
     case "duration": {
-      if (B && f.compare) out.push(`In this run the fire lasts ${s3(f.compare.ratio)}× longer in ${f.compare.longer} than in ${f.compare.shorter}, and the two fires end for different reasons.`);
+      if (B && f.compare && f.compare.ratio < 1.05) out.push(`In this run both fires last about as long (${sides.map((s) => `${s.label} ${secs(s.end.t_s)}`).join(", ")}).`);
+      else if (B && f.compare) out.push(`In this run the fire lasts ${s3(f.compare.ratio)}× longer in ${f.compare.longer} than in ${f.compare.shorter}, and the two fires end for different reasons.`);
       for (const s of sides) out.push(mechanism(s, f) ?? endLine(s));
       if (B) out.push(`Oxygen also matters: ${sides.map((s) => `${s.label} ${s3(s.x_o2_pct)}% O₂ (peak ${kW(s.peak_heat_W)})`).join(" vs ")}.`);
       out.push(SPREAD_NOTE);
@@ -129,7 +130,7 @@ export function explainRun(question: string, f: RunFacts): Explanation {
     case "next-test": out.push(nextTestLine(primary)); break;
     default:
       out.push(...sides.map((s) => `${endLine(s)} Peak heat release ${kW(s.peak_heat_W)}; alarm ${secs(s.alarm_s)}.`));
-      if (B && f.compare) out.push(`The fire lasts ${s3(f.compare.ratio)}× longer in ${f.compare.longer}.`);
+      if (B && f.compare && f.compare.ratio >= 1.05) out.push(`The fire lasts ${s3(f.compare.ratio)}× longer in ${f.compare.longer}.`);
   }
   if (intent === "duration" || intent === "gravity") { const q = quenchCaveat(f); if (q) out.push(q); }
   const pg = partialGCaveat(f);

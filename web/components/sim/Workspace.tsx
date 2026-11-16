@@ -38,6 +38,7 @@ import { CabinView, Legend, runFacts } from "./CabinView";
 import { ScenarioPanel, applyPreset, fmtProv, type ScenarioPart } from "./ScenarioPanel";
 import { TELEMETRY, materialByKey } from "./data";
 import { DesignReview } from "./DesignReview";
+import { RunDiffCard } from "./RunDiff";
 import { BoundedBadge, Evidence, Interpretation, MC_N, NextTest, Outcome, ReplayMetrics, TheoryBadge, Tornado, compact, download, evidenceForAI, missingFields, playPause, runAll, runInputs } from "./bits";
 import { LAYERS, PLAYBACK, loadUi, saveUi, useSim, type ChatMsg } from "./store";
 import { HudExtras, Scene3D } from "./scene3d/Scene3D";
@@ -483,7 +484,11 @@ function ResultStrip() {
   const DELTA = [["peak_T", "peaks at"], ["peak_co", "peaks in CO at"]] as const;
   if (b && rb) {
     const v = durationVerdict(a.name, ra, b.name, rb);
-    if (v.ratio != null && v.longer && v.ea.t_s != null && v.eb.t_s != null) {
+    if (v.ratio != null && v.ratio < 1.05 && v.ea.t_s != null && v.eb.t_s != null) {
+      headline = <>Both fires last about as long
+        <span className="ml-2 font-mono text-[12px] font-normal text-mute">{a.name} out at <span className="num">{withUnit(v.ea.t_s, "s")}</span> ({v.ea.short}) · {b.name} <span className="num">{withUnit(v.eb.t_s, "s")}</span> ({v.eb.short})</span></>;
+      why = `${a.name}: ${v.ea.phrase}. ${b.name}: ${v.eb.phrase}.`;
+    } else if (v.ratio != null && v.longer && v.ea.t_s != null && v.eb.t_s != null) {
       headline = <>Fire lasts <span className="num text-ember-text">{sig(v.ratio, 2)}×</span> longer in {v.longer}
         <span className="ml-2 font-mono text-[12px] font-normal text-mute">{a.name} out at <span className="num">{withUnit(v.ea.t_s, "s")}</span> ({v.ea.short}) · {b.name} <span className="num">{withUnit(v.eb.t_s, "s")}</span> ({v.eb.short})</span></>;
       why = `${a.name}: ${v.ea.phrase}. ${b.name}: ${v.eb.phrase}.`;
@@ -509,6 +514,10 @@ function ResultStrip() {
       {why && <Tip label={why}><span data-testid="end-reason" className="ea-pill cursor-help" tabIndex={0} aria-label={`Why each fire ended: ${why}`}>Why?</span></Tip>}
       {oobText.length > 0 && <Tip label={oobText.join(" · ")}><span data-testid="extrapolated" className="ea-pill" data-tone="warn">Extrapolated</span></Tip>}
       <span className="flex-1" />
+      {b && rb && <Popover>
+        <PopoverTrigger asChild><Button variant="secondary" size="sm" className="h-8" data-testid="diff-btn"><ListChecks {...ICON} />What changed</Button></PopoverTrigger>
+        <PopoverContent side="top" align="end" className="w-[min(440px,calc(100vw-2rem))]"><RunDiffCard a={a} ra={ra} b={b} rb={rb} /></PopoverContent>
+      </Popover>}
       <Popover>
         <PopoverTrigger asChild><Button variant="secondary" size="sm" className="h-8" data-testid="next-test-btn"><FlaskConical {...ICON} />Next test</Button></PopoverTrigger>
         <PopoverContent side="top" align="end" className="w-[380px]">

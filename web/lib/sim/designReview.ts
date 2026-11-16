@@ -6,7 +6,7 @@
 import { simulate } from "./engine";
 import { MATERIALS, insideRange, tolerantRange } from "./params";
 import { CREW_RESPONSE } from "./presets";
-import { sensitivityMulti, type TornadoRow } from "./sensitivity";
+import { sensitivityMulti, variantScenario, type TornadoRow } from "./sensitivity";
 import type { Scenario, SimResult } from "./types";
 import { sig, withUnit } from "@/lib/ui/format";
 
@@ -150,5 +150,6 @@ function leverFix(s: Scenario, row: TornadoRow, side: "low" | "high", input: str
     id: `lever-${row.param}`, title, metric: M.key, before, after, units: M.units, effect, basis, inEnvelope,
     detail: `${M.label[0].toUpperCase()}${M.label.slice(1)} ${show(before, M.units)} → ${show(after, M.units)} (${row.basis}).${inEnvelope ? "" : " Outside the PSI-tested envelope."}${th}${pg}`,
     sources: [row.basis],
+    scenario: variantScenario(s, row.param, side, input) ?? undefined,
   };
 }

@@ -51,6 +51,14 @@ function variants(s: Scenario): { vars: Variant[]; mats: { name: string; s: Scen
   return { vars, mats: matVars };
 }
 
+/** The exact edited scenario behind a tornado bar (so a lever fix can be applied and re-run). */
+export function variantScenario(s: Scenario, param: string, side: "low" | "high", input: string): Scenario | null {
+  const { vars, mats } = variants(s);
+  if (param === "material") return mats.find((m) => m.name === input)?.s ?? null;
+  const v = vars.find((x) => x.param === param);
+  return v ? (side === "low" ? v.lo : v.hi) : null;
+}
+
 /** One set of runs, rows for every metric key (each sorted by swing, largest first). */
 export function sensitivityMulti(s: Scenario, keys: string[], run: Runner = defaultRun, read: Reader = defaultRead): Record<string, TornadoRow[]> {
   const { vars, mats } = variants(s);
