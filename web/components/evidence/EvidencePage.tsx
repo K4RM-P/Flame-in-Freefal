@@ -13,12 +13,13 @@ import { earthVsOrbitSummary, evidenceStops } from "@/lib/sim/evidence";
 import { sig } from "@/lib/ui/format";
 import { ExperimentMatch } from "@/components/match/ExperimentMatch";
 import { PageSearch } from "@/components/search/PageSearch";
+import { EnvelopeExplorer } from "./EnvelopeExplorer";
 
 type Range = [number, number] | null;
 const pct = (x: number | null | undefined) => (x == null ? "—" : sig(x * 100, 3));
 const fmtRange = (r: Range, k: number) => (!r ? "∅ not tested" : r[0] === r[1] ? `${sig(r[0] * k, 3)}` : `${sig(r[0] * k, 3)}–${sig(r[1] * k, 3)}`);
 
-const TOC = [["earth-vs-orbit", "Earth vs. orbit"], ["where-evidence-stops", "Test coverage"], ["psi-datasets", "PSI datasets"], ["experiment-match", "Experiment match"]] as const;
+const TOC = [["earth-vs-orbit", "Earth vs. orbit"], ["where-evidence-stops", "Test coverage"], ["envelope", "Envelope explorer"], ["psi-datasets", "PSI datasets"], ["experiment-match", "Experiment match"]] as const;
 const TOC_IDS = TOC.map(([id]) => id);
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const CAT: Record<string, any> = (catalog as any).investigations ?? {};
@@ -144,6 +145,12 @@ export function EvidencePage() {
           </table>
         </div>
         {stops.bre_note && <p className="text-[12px] text-mute">{stops.bre_note}</p>}
+      </section>
+
+      <section id="envelope" aria-labelledby="env-h" className="ea-evidence-section space-y-4 scroll-mt-24">
+        <h2 id="env-h" className="text-[22px] font-semibold tracking-[-0.02em]">Material envelope explorer<CopyLink id="envelope" label="Envelope explorer" /></h2>
+        <p className="measure text-mute">Every solid NASA burned in PSI, drawn at the oxygen, pressure and air flow it was actually tested at, with mission cabins on the same axes. A cabin outside every bar or box is outside NASA&apos;s data. Open a run&apos;s Next test in the simulator to plot your own cabin here.</p>
+        <EnvelopeExplorer />
       </section>
 
       <section id="psi-datasets" aria-labelledby="psi-h" className="ea-evidence-section space-y-4 scroll-mt-24">

@@ -524,6 +524,8 @@ function ResultStrip() {
           <p className="ea-meta mb-1">Next test to fly</p>
           {nt ? <p className="text-[13px]"><b>{nt.condition}.</b> <span className="text-mute">{nt.reason}</span></p> : <p className="text-[13px] text-mute">Inside the tested envelope, no new test needed for this scenario</p>}
           <div className="mt-2"><NextTest sc={sc} r={r} /></div>
+          <a className="mt-2 inline-block text-[13px] underline underline-offset-2" data-testid="envelope-link"
+            href={`/evidence?${new URLSearchParams({ o2: String(+(sc.cabin.x_o2 * 100).toFixed(2)), p: String(+(sc.cabin.P_Pa / 1e3).toFixed(2)), u: String(+(sc.cabin.flow_m_s * 100).toFixed(2)), mat: sc.items.find((i) => i.ignite)?.material_key ?? sc.items[0]?.material_key ?? "", label: sc.name.slice(0, 60) })}#envelope`}>See this cabin on NASA&apos;s tested envelope →</a>
         </PopoverContent>
       </Popover>
     </section>

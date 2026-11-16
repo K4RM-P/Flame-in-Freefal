@@ -63,3 +63,19 @@ test("U3: Apply & re-run shows what changed, before and after, from both engine 
   await page.getByTestId("diff-btn").click();
   await expect(page.locator("[data-testid=run-diff]").last()).toBeVisible();
 });
+
+test("U4: the simulator's cabin is plotted on NASA's tested envelope", async ({ page }) => {
+  await page.goto("/simulator?preset=iss-vs-lunar&run=1");
+  await expect(page.getByTestId("result-headline")).toContainText(/longer/, { timeout: 60_000 });
+  await page.getByTestId("next-test-btn").click();
+  await page.getByTestId("envelope-link").click();
+  await expect(page).toHaveURL(/\/evidence\?o2=34.*#envelope/);
+  const ex = page.getByTestId("envelope-explorer");
+  await expect(ex.getByTestId("env-verdict")).toContainText("outside the tested range of every PSI solid");
+  await expect(ex.locator(".main-svg").first()).toBeVisible({ timeout: 20_000 });
+  await ex.scrollIntoViewIfNeeded();
+  await page.screenshot({ path: shot("envelope") });
+  await ex.getByTestId("env-axis-flow").click();
+  await ex.getByTestId("env-cabin").selectOption("ISS");
+  await expect(ex.getByTestId("env-verdict")).toContainText("inside the tested range of");
+});
