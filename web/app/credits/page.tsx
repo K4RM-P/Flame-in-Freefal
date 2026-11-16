@@ -5,7 +5,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import refs from "@/data/references.json";
 import { PSI_USES } from "@/lib/data/psiUses";
-import { CHALLENGE_NAME, CHALLENGE_URL, TEAM, TEAM_CITY } from "@/lib/team";
+import { CHALLENGE_NAME, CHALLENGE_URL, TEAM_CITY, TEAM_NAME } from "@/lib/team";
 
 export const metadata: Metadata = { title: "Credits & data sources", description: "Every NASA dataset, paper, library, font and SI tool EmberAtlas uses, with licences." };
 
@@ -32,7 +32,7 @@ export default function Credits() {
       <header className="space-y-3">
         <p className="label">{CHALLENGE_NAME} · NASA Space Apps 2026</p>
         <h1 className="display text-4xl leading-[1.05] md:text-6xl">Credits &amp; data sources</h1>
-        <p className="measure text-mute">Team EmberAtlas, {TEAM_CITY}: {TEAM.join(", ")}. Built for the <a className="underline underline-offset-2" href={CHALLENGE_URL} target="_blank" rel="noreferrer">{CHALLENGE_NAME}</a> challenge. This list is generated from <code>docs/REFERENCES.json</code>. NASA does not endorse this project.</p>
+        <p className="measure text-mute">{TEAM_NAME}, {TEAM_CITY}. Built for the <a className="underline underline-offset-2" href={CHALLENGE_URL} target="_blank" rel="noreferrer">{CHALLENGE_NAME}</a> challenge. This list is generated from <code>docs/REFERENCES.json</code>. NASA does not endorse this project.</p>
       </header>
 
       <Section id="nasa-psi" title={`NASA PSI datasets (${R.psi_records.length})`}>

@@ -1,7 +1,7 @@
 "use client";
 // SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 // Vercel-style top bar: flame logo · Simulator · Evidence · Methods · About · theme toggle · GitHub.
-import { CHALLENGE_NAME, CHALLENGE_URL, TEAM_CITY } from "@/lib/team";
+import { CHALLENGE_NAME, CHALLENGE_URL, TEAM_CITY, TEAM_NAME } from "@/lib/team";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -83,7 +83,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
       {!landing && <footer className="mx-auto flex max-w-[1600px] flex-wrap items-center gap-x-3 gap-y-1 border-t border-line px-4 py-3 font-mono text-[11px] uppercase tracking-[0.06em] text-faint md:px-6" data-noprint>
         <span>NASA PSI Data Repository · Combustion Science</span><span aria-hidden>·</span>
         <span>Partial gravity = estimate (µg ↔ 1 g), may be non-conservative (NASA FM2)</span><span aria-hidden>·</span><span>Not for flight certification</span>
-        <span className="ml-auto">Team EmberAtlas · {TEAM_CITY} · <a className="hover:text-ink underline-offset-2 hover:underline" href={CHALLENGE_URL} target="_blank" rel="noreferrer">NASA Space Apps 2026 · {CHALLENGE_NAME}</a></span>
+        <span className="ml-auto">{TEAM_NAME} · {TEAM_CITY} · <a className="hover:text-ink underline-offset-2 hover:underline" href={CHALLENGE_URL} target="_blank" rel="noreferrer">NASA Space Apps 2026 · {CHALLENGE_NAME}</a></span>
         <Link className="hover:text-ink" href="/credits">Credits</Link>
         <Link className="hover:text-ink" href="/about">About</Link>
       </footer>}

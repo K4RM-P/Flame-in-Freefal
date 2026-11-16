@@ -28,7 +28,7 @@
 - Landing trust strip computes PSI rows from `tables_index.json`, FLEX mismatches/values from `flex_crosscheck.json`, and the held-out FLEX MAPE and n from `web/data/validation/droplet_K.json` (`summary.json` has no `metrics` block; the metrics live in `droplet_K.json`).
 - Landing is a server component (no hooks); the old Aster button, tiles, conceptual SVG, mitigation review and repeated caveat lists were removed.
 - Methods: the Saffire replay is framed as a "Cabin-scale sanity check" next to the held-out SIBAL spread error (read from `spread.json`, n from its test split).
-- About: bios replaced with project roles inferred from each member's previous focus line (Anujan: software and simulation; Karm: combustion research; Aaron: engineering and testing; Xuliang: team member). The team should confirm these.
+- About: team section shows only the team name and its areas of experience (members are minors; no names).
 - `docs/REFERENCES.json` regenerated from `physics/data/software.yaml` (OpenAI API at runtime; the stale Claude API / "Ask agent" / "demo answers" entries are gone).
 - ISS volume: 388 m³ cited to NASA's Space Station Facts and Figures page (URL + locator in `physics/data/missions.yaml` and `web/data/missions.json`); status `cited`.
 - Lunar volumes: the ISS vs Lunar preset holds B's volume equal to A's; the Lunar tune preset uses the ISS volume. Both carry `{source_id: "design input", note: "held equal to Scenario A …"}` provenance.
@@ -53,7 +53,7 @@ Done:
 - P1 timeline: scrubber/playback horizon trimmed to last fire-out / agent-release event + 15 % (`web/lib/sim/horizon.ts`); engine untouched.
 - P1 one-click demo: landing CTA already opens `/simulator?preset=iss-vs-lunar&run=1` (verified in code, not re-run in a browser).
 - P2 metadata: root title/template and descriptions name EmberAtlas and the Flame in Freefall challenge; OG image already uses the brand hero.
-- P2 About: team line "Team EmberAtlas, Toronto: Aaron, Anujan, Karm, Xuliang" + challenge name; existing Use of AI section kept.
+- P2 About: team line + challenge name; existing Use of AI section kept.
 Left undone (time-box):
 - P1 lazy-load Plotly / 3D scene with next/dynamic + skeleton (First Load JS still ~608 kB).
 - P1 placeholder sweep for the NASA candle photo / demo video slots (no "TODO/placeholder/lorem" strings found in app/components; media slots not audited visually).

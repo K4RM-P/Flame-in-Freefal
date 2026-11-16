@@ -16,7 +16,7 @@ export default function OgImage() {
         <div style={{ fontSize: 96, fontWeight: 700, lineHeight: 1, letterSpacing: -3 }}>The firefighter for space.</div>
         <div style={{ fontSize: 34, color: "#A1A1A1", maxWidth: 980 }}>Describe a cabin · burn it with NASA ISS fire data · ask Aster why · fix it before launch.</div>
       </div>
-      <div style={{ fontSize: 24, color: "#737373" }}>NASA Space Apps 2026 · Flame in Freefall · Team EmberAtlas, Toronto</div>
+      <div style={{ fontSize: 24, color: "#737373" }}>NASA Space Apps 2026 · Flame in Freefall · Team Max Q, Toronto</div>
     </div>,
     size,
   );
