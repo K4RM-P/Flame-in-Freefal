@@ -32,7 +32,7 @@ const NAV: { title: string; items: [string, string][] }[] = [
   { title: "Start here", items: [["loop", "How a run works"], ["overview", "Models at a glance"]] },
   { title: "Models", items: [["model-spread", "Flame spread"], ["model-habitat", "Cabin atmosphere"], ["model-smoke", "Smoke"], ["model-suppression", "Suppression"]] },
   { title: "Evidence", items: [["validation", "Validation"], ["data", "NASA data"]] },
-  { title: "Limits & sources", items: [["limitations", "Limitations"], ["use-of-ai", "Use of AI"], ["references", "References"]] },
+  { title: "Limits & sources", items: [["limitations", "Limitations"], ["use-of-ai", "Use of SI"], ["references", "References"]] },
 ];
 
 function Status({ calibrated }: { calibrated: boolean }) {
@@ -202,7 +202,7 @@ export default function Methods() {
           <li><b>Theory-only parts.</b> Every sub-model marked Theory-only above is uncalibrated physics; its numbers carry that label in the simulator too.</li>
           <li><b>Small n.</b> Many ISS results are single tests (SAFFIRE-II has one test per material and thickness). Earth-vs-orbit comparisons are like-for-like only and say nothing about a ground test standard as a whole.</li>
           <li><b>Unsourced inputs are required.</b> Where no sourced value exists (for example a cabin volume or a detector threshold) the field stays empty until you enter it.</li>
-          <li>Not for flight certification. AI text is generated from engine output and cited PSI data and can still be wrong.</li>
+          <li>Not for flight certification. SI text is generated from engine output and cited PSI data and can still be wrong.</li>
         </ul>
       </section>
 
@@ -241,13 +241,13 @@ export default function Methods() {
         </table></div>
       </section>
       <section id="use-of-ai" className="card space-y-1">
-        <h2 className="text-[20px] font-semibold"><span className="methods-num">07</span>Use of AI</h2>
+        <h2 className="text-[20px] font-semibold"><span className="methods-num">07</span>Use of SI</h2>
         <ul className="measure ml-5 list-disc space-y-1">
           <li>Claude Code (Anthropic) and Codex (OpenAI) wrote the code, under human direction and review. Files written with their help carry an &quot;SI-assisted&quot; header.</li>
           <li>The OpenAI API drafts scenario fields for your review, interprets runs in the Simulator, words Aster&apos;s answers and explains experiment matches on Evidence.</li>
           <li>Aster on the Simulator answers from the run on screen. A deterministic explainer (lib/ai/explain.ts) routes the question (why one fire lasts longer, the extinguisher, gravity, oxygen, closest NASA test, fixes, next test) and builds the answer only from engine numbers, how each fire ended, the design review and sourced caveats (the quench limit&apos;s TODO_VERIFY status; NASA FM2, quoted). With a key the model rewrites that draft. Without one, the draft is shown as is.</li>
-          <li>Every AI answer is grounded only on the engine output and the ranked PSI evidence; a numeric guard (lib/ai/guard.ts) rejects any number not present in them, and the answer shows how many numbers were checked.</li>
-          <li>No AI-generated images are used.</li>
+          <li>Every SI answer is grounded only on the engine output and the ranked PSI evidence; a numeric guard (lib/ai/guard.ts) rejects any number not present in them, and the answer shows how many numbers were checked.</li>
+          <li>No SI-generated images are used.</li>
         </ul>
       </section>
 

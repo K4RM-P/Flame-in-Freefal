@@ -148,10 +148,10 @@ const req = (s: Scenario | { a: Scenario; b: Scenario }) => {
 };
 
 export const PRESETS: Preset[] = [
-  { id: "saffire-replay", label: "Saffire replay (real NASA fire)", description: "SAFFIRE-III sample S1 (PSI-100): SIBAL 94 × 40.6 cm, 30 cm/s concurrent flow, in Cygnus. Overlay the real telemetry.", build: buildReplay, provenance: replayProv, get required() { return req(buildReplay()); } },
-  { id: "iss-vs-lunar", label: "Same fabric: ISS vs Lunar Habitat", description: "SAFFIRE-I SIBAL sample under the ISS atmosphere (A) and the lunar exploration atmosphere (B, 34 % O₂ at 56.5 kPa, 0.165 g estimate). Same response in both: crew detects at 30 s, fan off, 2 kg CO₂ 30 s later (design inputs).", build: buildPair, provenance: pairProv, get required() { return req(buildPair()); } },
+  { id: "saffire-replay", label: "Saffire-III replay", description: "SAFFIRE-III sample S1 (PSI-100): SIBAL 94 × 40.6 cm, 30 cm/s concurrent flow, in Cygnus. Overlay the real telemetry.", build: buildReplay, provenance: replayProv, get required() { return req(buildReplay()); } },
+  { id: "iss-vs-lunar", label: "ISS vs Moon base", description: "SAFFIRE-I SIBAL sample under the ISS atmosphere (A) and the lunar exploration atmosphere (B, 34 % O₂ at 56.5 kPa, 0.165 g estimate). Same response in both: crew detects at 30 s, fan off, 2 kg CO₂ 30 s later (design inputs).", build: buildPair, provenance: pairProv, get required() { return req(buildPair()); } },
   { id: "lunar-design-review", label: "Moon base: find the gaps", description: "The unfixed lunar cabin: a CO₂ extinguisher is fitted but no alarm can fire. Open the design review to see the ranked fixes.", build: buildReview, provenance: reviewProv, get required() { return req(buildReview()); } },
-  { id: "lunar-tune", label: "Lunar Habitat: tune the response", description: "Lunar exploration atmosphere with detector, fan-off and a CO₂ release you can tune (design inputs).", build: buildTune, provenance: tuneProv, get required() { return req(buildTune()); } },
+  { id: "lunar-tune", label: "Moon base: tune the response", description: "Lunar exploration atmosphere with detector, fan-off and a CO₂ release you can tune (design inputs).", build: buildTune, provenance: tuneProv, get required() { return req(buildTune()); } },
 ];
 // Build once at load so the provenance maps are populated for hover text before the first click.
 for (const p of PRESETS) { try { p.build(); } catch { /* data not yet available */ } }

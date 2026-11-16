@@ -96,7 +96,7 @@ describe("routes", () => {
     vi.stubEnv("OPENAI_API_KEY", "");
     const r = await interpretPOST(post(REQ, "10.0.0.1"));
     expect(r.status).toBe(503);
-    expect(await r.json()).toEqual({ error: "AI offline: explanations are generated locally from the engine." });
+    expect(await r.json()).toEqual({ error: "SI offline: explanations are generated locally from the engine." });
     const sr = await scenarioPOST(post({ text: "ISS cabin with SIBAL" }, "10.0.0.1")); expect(sr.status).toBe(200); expect((await sr.json()).offline).toBe(true); // offline: rule-based parser, flagged
   });
   it("validates bodies before touching the provider", async () => {

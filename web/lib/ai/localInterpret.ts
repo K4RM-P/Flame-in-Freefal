@@ -18,5 +18,5 @@ export function localInterpret(s: Scenario, r: SimResult): string {
   if (f) out.push(`Biggest fix: ${f.title} (${show(f.before, f.units)} → ${show(f.after, f.units)}; ${f.basis}).`);
   if (r.flags?.partial_g_nonconservative) out.push("Partial-gravity result: an estimate that may be non-conservative (NASA FM2).");
   out.push("CO and smoke values are theory-only.");
-  return `Offline summary (deterministic, no AI): ${out.join(" ")}`;
+  return `Offline summary (deterministic, no SI): ${out.join(" ")}`;
 }

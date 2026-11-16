@@ -1,7 +1,8 @@
 // SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
-// Catalog retrieval for Aster when there is no run on screen: field-weighted BM25 over the bundled PSI catalog
-// (accession/short name/title weighted above the objective) with a small domain synonym table, so "Moon fabric fire"
-// finds SAFFIRE/BASS rather than whatever shares the most common words. Answers quote stated objectives only.
+// Catalog retrieval for Aster: field-weighted BM25 over the bundled PSI catalog (accession/short name/title weighted
+// above the objective), a small domain synonym table and topic boosts, so a question about the Moon or flame spread
+// reaches BASS-II / SAFFIRE and the partial-gravity reports (FM2, LUCI; outside PSI) instead of whichever record shares
+// a stray word. Answers quote stated objectives and report notes only.
 import catalog from "@/data/psi_catalog.json";
 import sourcesJson from "@/data/sources.json";
 
@@ -44,28 +45,42 @@ export function queryTerms(question: string): string[] {
   return [...new Set(base.flatMap((t) => [t, ...(SYNONYMS[t] ?? [])]))];
 }
 
+interface Topic { re: RegExp; boost: Record<string, number>; external?: string[] }
+/** Topic boosts (added to the BM25 score) and NASA reports outside PSI that a topic should surface. */
+const TOPICS: Topic[] = [
+  // Partial gravity: no PSI flight data exists; FM2 and LUCI are the NASA lunar-g reports (outside PSI).
+  { re: /\b(moon|lunar|mars|martian|partial[- ]?g|1\/6|gravity|buoyan\w*|habitat)\b/, boost: { "PSI-25": 3, "PSI-100": 2.5, "PSI-99": 1.5 }, external: ["ntrs-20240015307", "ntrs-20250010653"] },
+  // Solid flame spread / how long a fire lasts.
+  { re: /\b(spread\w*|longer|last\w*|duration|burn\w*|fabric|sibal|solid\w*|textile|cotton|nomex|pmma|acrylic|grow\w*)\b/, boost: { "PSI-25": 3, "PSI-100": 3, "PSI-99": 2, "PSI-98": 1.5, "PSI-26": 1 } },
+  { re: /\b(oxygen|o2|o₂|pressure|atmosphere|exploration)\b/, boost: { "PSI-20": 2.5, "PSI-25": 1.5 } },
+  { re: /\b(droplet\w*|heptane|methanol|liquid|fuel)\b/, boost: { "PSI-69": 3, "PSI-68": 2 } },
+  { re: /\b(extinguish\w*|suppress\w*|co2|co₂|agent|nitrogen|inert\w*)\b/, boost: { "PSI-69": 2, "PSI-26": 2, "PSI-25": 1.5 } },
+  { re: /\b(smoke|aerosol|detector|alarm|particle\w*)\b/, boost: { "PSI-101": 3, "PSI-102": 2.5, "PSI-47": 2 } },
+];
+
 export function rankStudies(question: string, k = 3) {
   const terms = queryTerms(question);
-  return DOCS.map((d) => ({ study: d.study, score: 3 * bm25(terms, d.name, avgName) + bm25(terms, d.body, avgBody) }))
-    .filter((x) => x.score > 0).sort((a, b) => b.score - a.score).slice(0, k);
+  const q = question.toLowerCase();
+  const topics = TOPICS.filter((t) => t.re.test(q));
+  return DOCS.map((d) => ({ study: d.study, score: 3 * bm25(terms, d.name, avgName) + bm25(terms, d.body, avgBody) + topics.reduce((s, t) => s + (t.boost[d.study.accession] ?? 0), 0) }))
+    .filter((x) => x.score > 0.5).sort((a, b) => b.score - a.score).slice(0, k);
 }
 
-const PARTIAL_G = /\b(moon|lunar|mars|partial)\b/i;
+export interface AsterSource { id: string; title: string; url: string; excerpt: string; external?: boolean }
 
-export function answerLocally(question: string) {
+export function answerLocally(question: string): { answer: string; sources: AsterSource[] } {
   const ranked = rankStudies(question, 3);
-  const fm2 = SOURCES["ntrs-20240015307"];
-  const pg = PARTIAL_G.test(question) && fm2?.url
-    ? ` PSI holds microgravity and 1 g tests only; for lunar gravity, NASA's FM2 tests (NTRS 20240015307, outside PSI) are the reference: ${fm2.note ?? ""}`
-    : "";
-  if (!ranked.length) return { answer: `I couldn’t match that question to a study in the local catalog. Try asking about FLEX droplets, BASS-II flame spread, Saffire, or smoke aerosols.${pg}`, sources: [] };
+  const q = question.toLowerCase();
+  const external = [...new Set(TOPICS.filter((t) => t.re.test(q)).flatMap((t) => t.external ?? []))].filter((id) => SOURCES[id]?.url).map((id) => ({
+    id: id.startsWith("ntrs-") ? `NTRS ${id.slice(5)}` : id, title: SOURCES[id].title ?? id, url: SOURCES[id].url!,
+    excerpt: SOURCES[id].note ?? "NASA technical report (outside PSI).", external: true,
+  }));
+  if (!ranked.length && !external.length) return { answer: "I couldn’t match that question to a study in the local catalog. Try asking about FLEX droplets, BASS-II flame spread, Saffire, or smoke aerosols.", sources: [] };
   return {
-    answer: `These NASA records are the closest matches to your question (ranked by catalog search, not by an engine run). Their stated objectives are shown below.${pg}`,
-    sources: ranked.map(({ study }) => ({
-      id: study.accession,
-      title: study.title,
-      url: study.psi_url,
-      excerpt: (study.objective ?? "").trim().split(/\n\s*\n/)[0].slice(0, 420),
-    })),
+    answer: `These NASA records are the closest matches to your question (ranked by catalog search, not by an engine run). Their stated objectives are shown below.${external.length ? " PSI holds microgravity and 1 g tests only; the NTRS reports listed cover partial gravity (outside PSI)." : ""}`,
+    sources: [
+      ...ranked.map(({ study }) => ({ id: study.accession, title: study.title, url: study.psi_url, excerpt: (study.objective ?? "").trim().split(/\n\s*\n/)[0].slice(0, 420) })),
+      ...external,
+    ],
   };
 }

@@ -1,6 +1,7 @@
 "use client";
 // SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 // Vercel-style top bar: flame logo · Simulator · Evidence · Methods · About · theme toggle · GitHub.
+import { CHALLENGE_NAME, CHALLENGE_URL, TEAM_CITY, TEAM_NAME } from "@/lib/team";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -45,10 +46,10 @@ export function Shell({ children }: { children: React.ReactNode }) {
   return (
     <LanguageContext.Provider value={language}>
     <TooltipProvider delayDuration={250}>
-      <header className={cn("sticky top-0 z-40 flex h-14 items-center gap-3 border-b px-4 sm:gap-6 transition-[background-color,border-color] duration-200 md:px-6",
+      <header className={cn("sticky top-0 z-40 flex h-14 items-center gap-x-6 border-b px-4 max-sm:h-auto max-sm:flex-wrap max-sm:gap-y-1 max-sm:pt-2 transition-[background-color,border-color] duration-200 md:px-6",
         scrolled || !landing ? "border-line bg-bg/80 backdrop-blur-md" : "border-transparent bg-transparent")} data-testid="topbar">
         <Link href="/" aria-label="EmberAtlas" className="shrink-0 rounded-md"><Logo /></Link>
-        <nav aria-label="Main" className="flex min-w-0 items-center gap-1 overflow-x-auto">
+        <nav aria-label="Main" className="flex min-w-0 items-center gap-1 overflow-x-auto max-sm:order-last max-sm:-ml-2.5 max-sm:w-full max-sm:pb-1">
           {NAV.map((href, index) => {
             const label = navigationLabels(language)[index];
             const active = path === href;
@@ -82,8 +83,9 @@ export function Shell({ children }: { children: React.ReactNode }) {
       {!landing && <footer className="mx-auto flex max-w-[1600px] flex-wrap items-center gap-x-3 gap-y-1 border-t border-line px-4 pb-20 pt-3 font-mono sm:pb-3 text-[11px] uppercase tracking-[0.06em] text-faint md:px-6" data-noprint>
         <span>NASA PSI Data Repository · Combustion Science</span><span aria-hidden>·</span>
         <span>Partial gravity = estimate (µg ↔ 1 g), may be non-conservative (NASA FM2)</span><span aria-hidden>·</span><span>Not for flight certification</span>
-        <Link className="ml-auto hover:text-ink" href="/credits">Credits &amp; data sources</Link>
-        <Link className="hover:text-ink" href="/about">About EmberAtlas</Link>
+        <span className="ml-auto">{TEAM_NAME} · {TEAM_CITY} · <a className="hover:text-ink underline-offset-2 hover:underline" href={CHALLENGE_URL} target="_blank" rel="noreferrer">NASA Space Apps 2026 · {CHALLENGE_NAME}</a></span>
+        <Link className="hover:text-ink" href="/credits">Credits</Link>
+        <Link className="hover:text-ink" href="/about">About</Link>
       </footer>}
       <Aster />
       <Toaster />

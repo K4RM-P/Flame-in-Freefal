@@ -16,7 +16,7 @@ test("landing renders without console errors or hydration warnings", async ({ pa
   const errors = collect(page);
   await page.goto("/");
   await expect(page.getByRole("heading", { level: 1 })).toHaveAccessibleName("The firefighter for space.");
-  await expect(page.getByTestId("hero-status")).toContainText("NASA spaceflight combustion datasets");
+  await expect(page.getByTestId("hero-status")).toContainText("NASA PSI combustion investigations");
   await page.mouse.wheel(0, 3000); await page.waitForTimeout(500);
   expect(errors).toEqual([]);
 });

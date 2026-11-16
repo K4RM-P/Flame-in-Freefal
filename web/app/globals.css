@@ -241,16 +241,6 @@ table.data th.ea-numeric, table.data td.ea-numeric { text-align: right; }
   .ea-openai-credit { position: absolute; left: clamp(1rem, 4vw, 4rem); bottom: .95rem; }
 }
 
-/* Swipeable About profiles */
-.ea-crew { padding: clamp(.8rem, 3vw, 1.75rem); min-width: 0; }
-.ea-crew__header { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: .6rem; }
-.ea-crew__track { display: flex; margin-block: 1rem; overflow-x: auto; scroll-snap-type: x mandatory; border-radius: .75rem; background: rgb(var(--bg)); }
-.ea-crew__slide { scroll-snap-align: start; flex: 0 0 100%; min-width: 0; display: grid; grid-template-columns: minmax(9rem, .7fr) minmax(0, 1.3fr); align-items: center; gap: clamp(1rem, 4vw, 3.5rem); padding: clamp(1rem, 4vw, 2.75rem); border: 1px solid rgb(var(--line)); border-radius: .75rem; background: linear-gradient(120deg, rgb(var(--accent) / .12), transparent 64%), rgb(var(--panel)); }
-.ea-crew__portrait { width: min(100%, 14rem); aspect-ratio: 1; display: grid; place-items: center; overflow: hidden; border: 1px solid rgb(var(--line)); border-radius: 50%; background: radial-gradient(circle at 28% 25%, rgb(var(--accent) / .27), transparent 73%), rgb(var(--surface2)); color: rgb(var(--accent-text)); font-size: clamp(2rem, 6vw, 4rem); }
-@media (max-width: 640px) {
-  .ea-crew__slide { grid-template-columns: minmax(0, 1fr); align-content: start; }
-  .ea-crew__portrait { width: 6rem; }
-}
 
 /* 3D viewport glass chips (HUD, popovers, tooltips) */
 .glass { background: rgb(var(--panel) / 0.66); border: 1px solid rgb(var(--line) / 0.9); border-radius: 6px; -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); box-shadow: 0 6px 24px rgb(0 0 0 / 0.25); color: rgb(var(--ink)); }
@@ -279,7 +269,7 @@ table.data tbody tr:hover { background: rgb(var(--surface2)); }
 .ea-table-scroll tbody tr:nth-child(even) { background: transparent; }
 .ea-table-scroll thead th { position: sticky; top: 0; background: rgb(var(--panel)); z-index: 1; }
 /* Methods / evidence / about: flatten gradients to surface steps */
-.methods-hero, .ea-research-hero, .ea-about__hero, .ea-about__profile, .ea-mission-console, .ea-crew__slide { background: rgb(var(--panel)) !important; border-radius: var(--radius-panel); }
+.methods-hero, .ea-research-hero, .ea-about__hero, .ea-about__profile, .ea-mission-console { background: rgb(var(--panel)) !important; border-radius: var(--radius-panel); }
 .methods-hero h1, .ea-research-hero h1 { letter-spacing: -0.04em; font-weight: 600; }
 .methods-equation { background: rgb(var(--bg)); border-radius: var(--radius-card); position: relative; }
 .methods-equation:has(.katex)::before { content: "SPEC"; position: absolute; top: -8px; left: 12px; padding: 0 6px; background: rgb(var(--bg)); font: 10px var(--font-mono), monospace; letter-spacing: .1em; color: rgb(var(--faint)); }

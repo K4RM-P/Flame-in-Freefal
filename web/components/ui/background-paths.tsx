@@ -51,7 +51,8 @@ export function LetterReveal({ text, className, accentWord }: { text: string; cl
   const reduce = useReducedMotion();
   const words = text.split(" ");
   return (
-    <span className={className} aria-label={text}>
+    <span className={className}>
+      <span className="sr-only">{text}</span>
       {words.map((word, wi) => (
         word === accentWord ? (
           <motion.span key={wi} aria-hidden
@@ -91,7 +92,7 @@ export function HeroCtas() {
     <div className="flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center">
       <div className="group relative inline-block overflow-hidden rounded-[10px] bg-gradient-to-b from-white/10 to-black/10 p-px backdrop-blur-lg">
         <Button asChild size="lg" className="w-full rounded-[9px] px-6 text-[15px] font-semibold">
-          <Link href="/simulator?preset=iss-vs-lunar&run=1" data-testid="cta-run">Run the Moon-base fire <span aria-hidden className="transition-transform duration-200 group-hover:translate-x-1">→</span></Link>
+          <Link href="/simulator?preset=iss-vs-lunar&run=1" data-testid="cta-run">Try the simulator <span aria-hidden className="transition-transform duration-200 group-hover:translate-x-1">→</span></Link>
         </Button>
       </div>
       <div className="group relative inline-block overflow-hidden rounded-[10px] bg-gradient-to-b from-white/10 to-black/10 p-px backdrop-blur-lg">

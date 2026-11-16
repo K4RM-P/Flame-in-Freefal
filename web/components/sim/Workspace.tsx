@@ -19,7 +19,8 @@ import { nextTest, outOfEnvelope } from "@/lib/sim/nextTest";
 import { durationVerdict, fireEnd } from "@/lib/sim/endReason";
 import { nextTestBriefMarkdown, runReportMarkdown } from "@/lib/sim/report";
 import { shareUrl } from "@/lib/sim/share";
-import { buildRunFacts, runFactsText } from "@/lib/ai/runFacts";
+import { buildRunFacts } from "@/lib/ai/runFacts";
+import { runContext } from "@/lib/ai/runContext";
 import { followUpsFor } from "@/lib/ai/explain";
 import { useRunContext } from "@/lib/ai/runContextStore";
 import { lsGet, lsSet } from "@/lib/store";
@@ -124,7 +125,8 @@ function usePublishRunContext() {
     const id = window.setTimeout(() => {
       try {
         const data = buildRunFacts(a, ra, b && rb ? b : null, b && rb ? rb : null);
-        setCtx({ kind: "run", label: b && rb ? `${a.name} vs ${b.name}` : a.name, facts: runFactsText(data), question: followUpsFor(data)[0], data });
+        const base = runContext(a, ra, b && rb ? b : null, b && rb ? rb : null);
+        setCtx(base ? { ...base, question: followUpsFor(data)[0], data } : null);
       } catch { setCtx(null); }
     }, 50);
     return () => window.clearTimeout(id);
@@ -519,6 +521,9 @@ function ResultStrip() {
     <section data-testid="delta-card" className="flex min-h-12 flex-wrap items-center gap-x-3 gap-y-1.5 border-t border-line bg-bg px-4 py-2" aria-label="Result">
       <p className="min-w-0 text-[16px] font-semibold tracking-[-0.01em]" data-testid="result-headline" title={why ?? undefined}>{headline}{why && <span className="sr-only" data-testid="end-reason">Why each fire ended: {why}</span>}</p>
       {oobText.length > 0 && <Tip label={oobText.join(" · ")}><span data-testid="extrapolated" className="ea-pill" data-tone="warn">Extrapolated</span></Tip>}
+      {(ra.flags?.partial_g_nonconservative || rb?.flags?.partial_g_nonconservative) && <Tip label="Partial gravity is estimated between µg and 1 g, never measured. NASA FM2 lunar-g tests found some materials burn more readily at lunar g than at either, so this may be non-conservative (NTRS 20240015307)."><span data-testid="partial-g" className="ea-pill" data-tone="warn">Partial g: may be non-conservative</span></Tip>}
+      <Tip label="Smoke and CO sub-models are theory-only: not calibrated on PSI data."><span data-testid="smoke-uncal" className="ea-pill">Smoke uncalibrated</span></Tip>
+      <span className="font-mono text-[11px] uppercase tracking-[0.06em] text-faint" data-testid="not-cert">Not for flight certification</span>
       <span className="flex-1" />
       <Popover>
         <PopoverTrigger asChild><Button variant="secondary" size="sm" className="h-8" data-testid="next-test-btn"><FlaskConical {...ICON} />{b && rb ? "What changed · Next test" : "Next test"}</Button></PopoverTrigger>
@@ -647,9 +652,9 @@ function AiDrawer() {
     window.addEventListener("keydown", k); return () => window.removeEventListener("keydown", k);
   }, [drawer, close]);
   if (!a || !drawer) return null;
-  const tabs = [["ai", "AI"], ["outputs", "Results"], ["evidence", "Evidence"]] as const;
+  const tabs = [["ai", "SI"], ["outputs", "Results"], ["evidence", "Evidence"]] as const;
   return (
-    <aside className="ea-drawer absolute inset-y-0 right-0 z-40 flex w-full flex-col border-l border-line bg-panel sm:w-[420px]" aria-label="AI and results" data-testid="ai-drawer">
+    <aside className="ea-drawer absolute inset-y-0 right-0 z-40 flex w-full flex-col border-l border-line bg-panel sm:w-[420px]" aria-label="SI and results" data-testid="ai-drawer">
       <div className="flex items-center gap-1 border-b border-line px-2">
         <div className="flex flex-1 items-center" role="tablist" aria-label="Drawer">
           {tabs.map(([k, l]) => <button key={k} type="button" role="tab" aria-selected={drawer === k} data-testid={`tab-${k}`} className={cn("relative px-3 py-3 text-[13px]", drawer === k ? "text-ink after:absolute after:inset-x-3 after:-bottom-px after:h-px after:bg-ember" : "text-mute hover:text-ink")} onClick={() => set({ drawer: k })}>{l}</button>)}

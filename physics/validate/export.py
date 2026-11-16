@@ -71,6 +71,8 @@ def main() -> None:
         pub = ROOT / "web" / "public" / "psi"
         for f in sorted(psi_dir.glob("*.csv")):
             df = pd.read_csv(f).replace({np.nan: None})
+            if "accession" not in df.columns:  # time-series telemetry (saffire3_telemetry), not a PSI table
+                continue
             save_json(pub / f"{f.stem}.json", df.to_dict(orient="records"))
             index.append({"key": f.stem, "rows": int(len(df)), "accessions": sorted(set(df.accession)), "columns": [c for c in df.columns if c != "raw"],
                           "qc_rows": int((df.qc_flag.fillna("") != "").sum()), "files": sorted({loc.split(", ")[0] for loc in df.locator})})

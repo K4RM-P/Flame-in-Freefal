@@ -6,7 +6,8 @@ import { POST as asterPOST } from "@/app/api/aster/route";
 import { explainRun, intentOf } from "@/lib/ai/explain";
 import { guard, numbersIn } from "@/lib/ai/guard";
 import { answerLocally } from "@/lib/ai/localAster";
-import { buildRunFacts, runFactsText } from "@/lib/ai/runFacts";
+import { buildRunFacts } from "@/lib/ai/runFacts";
+import { runContext } from "@/lib/ai/runContext";
 import { RunFactsSchema } from "@/lib/ai/runFactsSchema";
 import { simulate } from "@/lib/sim/engine";
 import { presetById } from "@/lib/sim/presets";
@@ -20,7 +21,6 @@ describe("run facts", () => {
   it("validate against the wire schema and stay small", () => {
     expect(RunFactsSchema.safeParse(facts).success).toBe(true);
     expect(JSON.stringify(facts).length).toBeLessThan(12_000);
-    expect(runFactsText(facts).length).toBeLessThanOrEqual(6000);
   });
 });
 
@@ -56,8 +56,10 @@ describe("catalog retrieval (no run on screen)", () => {
   it("finds Saffire records for a Saffire question", () => {
     expect(answerLocally("What did Saffire find?").sources.map((s) => s.id)).toEqual(expect.arrayContaining(["PSI-98", "PSI-99"]));
   });
-  it("Moon questions say PSI has no partial-gravity data and point to FM2", () => {
-    expect(answerLocally("Does fabric burn more on the Moon?").answer).toMatch(/NTRS 20240015307/);
+  it("Moon questions say PSI has no partial-gravity data and surface FM2 (outside PSI)", () => {
+    const a = answerLocally("Does fabric burn more on the Moon?");
+    expect(a.answer).toMatch(/PSI holds microgravity and 1 g tests only/);
+    expect(a.sources.map((s) => s.id)).toContain("NTRS 20240015307");
   });
 });
 
@@ -65,7 +67,7 @@ describe("/api/aster with a run context, no key", () => {
   afterEach(() => vi.unstubAllEnvs());
   it("streams an engine answer with citations, links and follow-ups", async () => {
     vi.stubEnv("OPENAI_API_KEY", "");
-    const ctx = { kind: "run", label: "ISS vs Moon base", facts: runFactsText(facts), question: MOON_Q, data: facts };
+    const ctx = { ...runContext(a, simulate(a), b, simulate(b))!, question: MOON_Q, data: facts };
     const r = await asterPOST(new Request("http://x/api", { method: "POST", headers: { "x-forwarded-for": "10.9.9.1" }, body: JSON.stringify({ stream: true, question: MOON_Q, context: ctx }) }));
     const body = await r.text();
     expect(body).not.toContain('"type":"error"');

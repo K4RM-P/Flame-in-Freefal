@@ -19,3 +19,4 @@ web/e2e-results/
 out/
 *.log
 .env*.local
+*.mov

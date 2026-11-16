@@ -109,7 +109,7 @@ output, or a screenshot description (screenshots were taken in headless Chromium
 | Landing | "every claim cites a NASA experiment" | **No.** Aster catalog answers cite records, not claims; design inputs are not NASA experiments. Soften to "every number is checked against the simulation; sources are shown" |
 | README | "Live app: https://flame-in-freefal.vercel.app" | that URL works, but the team URL is `emberatlas-five.vercel.app`; keep both until the team confirms |
 | README | "Type: Geist Sans…" | true for the code; conflicts with the design brief |
-| About | Team bios | inferred by an earlier AI pass; **team must confirm** (STATUS) |
+| About | Team bios | removed on `main` (members are minors; Team Max Q only) |
 | Anywhere | parchment-burn model, "never done before", accuracy % beyond the above | **not found** (`grep -ri parchment|never done|first ever|accura`) |
 
 ## 10. Top problems (worst first)
@@ -180,9 +180,11 @@ Commits on `main`, one per step, each with tests: must-fixes, U1–U6, docs.
 | U5 | Share link `?s=` (schema-validated, re-runs the exact scenario), Markdown run report, one-page next-test brief | `tests/share-report.test.ts`, U5 e2e |
 | U6 | `/credits` with every resource and URL; Codex credited; 15 missing licences added; REFERENCES.json regenerated with library URLs | `tests/credits.test.ts`, `make test`, U6 e2e |
 
-**Final checks (sandbox):** `pnpm lint` ✓ (alias of tsc) · `pnpm typecheck` ✓ · `pnpm test` 144 passed, 3 skipped · `pnpm build` ✓ (`/simulator` First Load 620 kB) · `make test` 21 passed · Playwright 33 tests: 32 passed in the full run; `ai.spec.ts:53` (failed at baseline too) passes alone in about 1.0–1.1 min and is now marked `test.slow()`; the four affected suites then passed 21/21.
+**Merged with the parallel "final polish" session on `main`** (commits `ce17b02`…`70346e3`): kept its decisions (no member names anywhere, the members are minors; "Team Max Q"; "SI" instead of "AI" in user-visible text; emberatlas-five as the live URL; Demo Numbers removed) and combined overlapping work: Aster uses its `runContext()` text plus this audit's run facts and explainer; catalog search = BM25 + its topic boosts and external FM2/LUCI records; `/credits` = this page plus its "used for" column; README = its structure plus the upgrades, limits and full resource list.
 
-**Not done / left for the team:** see `docs/HUMAN_TASKS.md` #7 and #18–#25 (video URL, live domain, OpenAI key on Vercel, quench-limit verification, 12 references without URLs, brand-asset origin, team bios, a material-list duplicate, the pre-existing `make export` table error). A real ESLint setup and lazy-loading the heavy simulator bundle were not attempted (time-box).
+**Final checks on the merged tree (sandbox):** `pnpm lint` ✓ (alias of tsc) · `pnpm typecheck` ✓ · `pnpm test` 145 passed, 3 skipped · `pnpm build` ✓ (`/simulator` First Load 626 kB) · `make test` 21 passed · Playwright 37 tests: 36 passed in the full run, and the one failure (the parallel session's smoke test expected "Geist Sans" and the old heading) was updated and passes.
+
+**Not done / left for the team:** see `docs/HUMAN_TASKS.md` #18–#27 (parchment data if it is ever claimed, video URL, the two Vercel projects, challenge link, quench-limit verification, 12 references without URLs, brand-asset origin, a material-list duplicate, `make export` data drift). A real ESLint setup and lazy-loading the heavy simulator bundle were not attempted (time-box).
 
 ## Expected score change (honest reasoning)
 

@@ -504,7 +504,7 @@
   {
    "name": "OpenAI API",
    "url": "https://platform.openai.com/docs",
-   "use": "Scenario builder, interpretation and match explanation at runtime"
+   "use": "Scenario builder, run interpretation, Aster answers and match explanation at runtime (server-side only)"
   }
  ],
  "software": [
@@ -995,8 +995,9 @@
    "disclosure": "Those files carry the header 'SI-assisted: written with Codex (OpenAI)'."
   },
   {
-   "name": "OpenAI API, model from OPENAI_MODEL (default gpt-5.4-mini)",
-   "use": "Runtime scenario builder (plain English → scenario fields for human review), run interpretation and the experiment-match explanation; grounded only on engine output and cited PSI evidence, checked by a numeric + citation guard. No key → no AI text (no canned answers)."
+   "name": "OpenAI API, model from OPENAI_MODEL (default gpt-4o-mini)",
+   "url": "https://platform.openai.com/docs",
+   "use": "Runtime scenario builder (plain English → scenario fields for human review), run interpretation and the experiment-match explanation; grounded only on engine output and cited PSI evidence, checked by a numeric + citation guard. No key → deterministic offline mode (engine facts and catalog records, labelled offline; no invented text)."
   }
  ],
  "si_media": "No SI-generated images or video are included. Any added later must carry a visible 'SI-generated using <tool>' watermark and must not use, contain or modify NASA logos, flags or mission identifiers.",

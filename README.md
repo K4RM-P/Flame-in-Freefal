@@ -1,76 +1,90 @@
 # EmberAtlas: the firefighter for space
 
-EmberAtlas shows where and how a fire would start in your spacecraft, and which design change prevents it. Built on NASA's ISS fire data, explained by AI.
+**Describe a spacecraft cabin, burn it with a physics engine calibrated on NASA fire experiments, ask Aster (the AI fire engineer) why, and fix it before launch.**
+NASA Space Apps 2026 · challenge: [Flame in Freefall](https://www.spaceappschallenge.org/) · Team Max Q, Toronto.
 
-**NASA Space Apps Challenge 2026 · challenge: Flame in Freefall** (fire behaviour in microgravity and partial gravity, using NASA combustion data to improve spacecraft fire safety). Team EmberAtlas, Toronto: Anujan, Karm, Aaron, Xuliang.
+- **Live app:** https://emberatlas-five.vercel.app
+- **Demo video:** TODO_VIDEO_URL
+- **One-click demo:** `/simulator?preset=iss-vs-lunar&run=1`
+- **Every resource with its URL:** [`/credits`](https://emberatlas-five.vercel.app/credits) · [`docs/REFERENCES.json`](docs/REFERENCES.json) · [full list below](#credits-and-resources-full-list) · audit and plan: [`docs/AUDIT.md`](docs/AUDIT.md)
 
-- **Live app:** https://emberatlas-five.vercel.app (Vercel project alias: https://flame-in-freefal.vercel.app)
-- **Demo video (≤ 30 s):** TODO_VIDEO_URL
-- **One click to the core demo:** `/simulator?preset=iss-vs-lunar&run=1`
-- **Credits and every resource with its URL:** [`/credits`](https://emberatlas-five.vercel.app/credits) · [`docs/REFERENCES.json`](docs/REFERENCES.json) · [full list below](#credits-and-resources-full-list)
+![EmberAtlas simulator: ISS vs Moon base](docs/screenshots/3d-compare.png)
 
-## What it does: Find · Explain · Prevent
-You describe a cabin (or load a preset). AI drafts the scenario from NASA atmospheres and PSI materials only, a physics engine calibrated on NASA ISS fire experiments burns it in 3D, and **Aster**, the AI fire engineer, explains the result from the engine's own numbers, cites the NASA experiments behind it and ranks fixes before launch. All numbers below are printed by `web/scripts/engine-check.ts` (see `docs/DEMO_SCRIPT.md`).
+## The problem
+Fire behaves differently in microgravity: no buoyancy, so flames depend on airflow, and the 1 g tests used to qualify materials do not always predict orbit. Lunar habitats will breathe an exploration atmosphere (34 % O₂ at 56.5 kPa, NTRS 20240003211) where **no solid in NASA's PSI repository has been burned** (highest tested solid O₂: 22.2 %), and at 1/6 g, where NASA's FM2 tests show some materials burn more readily than at either µg or 1 g. Designers need to see where a cabin fire would start, how it would end, and where the evidence stops.
 
-- **Find:** the same SAFFIRE SIBAL fabric burns in an ISS cabin and in a Moon-base cabin (34 % O₂, 56.5 kPa, 0.165 g) with the same response: crew detects at 30 s, fan off, 2 kg CO₂ 30 s later (design inputs, not NASA measurements). **The fire lasts 5.7× longer on the Moon base.** ISS: out at 30 s, *quenched*: in microgravity nothing moves the air once the fan stops, and the flame drops below the 5 cm/s low-flow limit (BASS-II; still `TODO_VERIFY`). Moon base: buoyancy keeps air moving past the flame, so it *burns out* the whole sample at 171 s; the CO₂ does not stop it. Peak heat 4 900 W vs 2 580 W.
-- **Explain:** ask Aster "Why does the Moon fire last longer?" and it answers from the run on screen: 17 numbers checked against the engine, citing PSI-98/99/100 (SAFFIRE), PSI-25 (BASS-II) and NASA FM2 (NTRS 20240015307, which found SIBAL burns downward at lunar g but goes out at 1 g, so 1/6 g may be non-conservative). It works offline with no OpenAI key.
-- **Prevent:** a deterministic design review ranks fixes; *Apply & re-run* shows **what changed** (inputs and outcomes side by side). On the unfixed Moon base, fix #1 is "the extinguisher never fires: give it an alarm path". The app then names the next test to fly and exports it as a one-page brief.
+## What it does (4 steps)
+1. **Describe:** pick a preset or describe the cabin in words; *Build with AI* drafts the scenario from NASA atmospheres and PSI-tested materials only and flags every assumption.
+2. **Burn with NASA data:** a cabin fire engine (one well-mixed zone, 1-D flame front per item, Monte Carlo bands) runs it in 3D. Every result outside the tested PSI envelope carries an **EXTRAPOLATED** badge.
+3. **Ask Aster:** answers from the engine's own numbers and the NASA records, with citations; a numeric guard removes any number not in the tool output and shows how many were checked.
+4. **Fix before launch:** a deterministic design review ranks fixes you can apply and re-run, then names the next test to fly.
+
+**Demo result** (`pnpm -C web exec tsx scripts/engine-check.ts`, see `docs/DEMO_SCRIPT.md`): the same SAFFIRE SIBAL fabric with the same crew response (detect at 30 s, fan off, 2 kg CO₂ 30 s later; design inputs). **The fire lasts 5.7× longer on the Moon base.** **ISS:** out at 30 s, *quenched*: in microgravity nothing moves the air once the fan stops, so the flame falls below the 5 cm/s low-flow limit (BASS-II; still `TODO_VERIFY`). **Moon base:** buoyancy keeps air moving past the flame, so it *burns out* the whole sample at 171 s; the CO₂ does not stop it. Peak heat 4 900 W vs 2 580 W. Ask Aster "Why does the Moon fire last longer?" and the answer comes from this run: 17 numbers checked against the engine, citing PSI-98/99/100, PSI-25 and FM2 (NTRS 20240015307), with or without an OpenAI key. Ranked fixes on the unfixed Moon cabin: give the extinguisher an alarm path; test SIBAL at 34 % O₂ (it was tested only to 22.1 %); lower cabin O₂ to 29.2 % (peak 4 920 W → 4 040 W).
 
 ## New in this version (see `docs/AUDIT.md`)
 | Upgrade | Where |
 |---|---|
-| **Run-aware Aster**: answers from the engine run (offline included), intent-routed, field-weighted catalog search, citation chips that open the Evidence entry or NTRS, follow-up questions | simulator → Ask Aster |
-| **What changed**: before/after diff for Apply & re-run, what-ifs and any A/B compare; sensitivity levers can now be applied too | simulator → result strip / AI analyst |
+| **Run-aware Aster**: a deterministic explainer answers from the engine run (offline included), routed by question type; BM25 + topic-boosted catalog search; citation chips open the Evidence entry or NTRS; follow-up questions | simulator → Ask Aster |
+| **What changed**: before/after diff for Apply & re-run, what-ifs and any A/B compare; sensitivity levers can now be applied too | simulator → AI analyst / result strip |
 | **Material envelope explorer**: every PSI-tested solid's O₂ × pressure (or flow) range with mission cabins and *your* cabin on one chart | `/evidence#envelope`, linked from Next test |
-| **Next-test brief** (Markdown), **run report** (Markdown) and **shareable run links** (`?s=`, re-runs the exact scenario) | Next test · More → Copy link / Export |
-| **Search on Methods and Evidence** (`/` to focus, deep links open the equation card) | `/methods`, `/evidence`, `/credits` |
-| **Credits page** with every resource, licence and URL | `/credits` |
-| Fixes: phone 3D view, honest verdict wording with the reason each fire ended, input validation, claim corrections, Methods limits on gravity and pressure | everywhere |
+| **Next-test brief** and **run report** (Markdown), **shareable run links** (`?s=`, re-runs the exact scenario) | Next test · More → Copy link / Export |
+| **Search** on Methods, Evidence and Credits (`/` to focus; deep links open the equation card) | `/methods`, `/evidence`, `/credits` |
+| Fixes: phone 3D view, verdict says why each fire ended, engine input validation, claim corrections, Methods limits on gravity and pressure, Space Grotesk / Inter / JetBrains Mono | everywhere |
 
-## Findings (computed from `web/data`, shown on `/` and `/evidence`)
-1. **Earth test vs orbit:** in SAFFIRE-II (PSI-99) like-for-like samples, none burned worse in orbit than in the 1 g test (7 samples: 4 less flammable, 3 the same; small n, not a general rule).
-2. **Where the evidence stops:** no solid in PSI was burned above 22.2 % O₂, and all were burned at 101 kPa (`web/data/materials.json`). A lunar habitat breathes 34 % at 56.5 kPa. ACME BRE (PSI-20) is the only flight data at exploration atmospheres, and it is a gas burner emulating solids.
-3. **Beyond it:** the simulator runs the lunar cabin, marks every out-of-envelope result **Extrapolated**, and proposes the next test.
+## How NASA data is used
+- **2,818 PSI table rows from 18 accessions** (`web/data/psi/tables_index.json`), each with accession + file + line and the raw cell string; ambiguous cells are flagged, never filled. The full list with titles, DOIs and what each is used for is on `/evidence#psi-datasets` and `/credits`.
+- Key datasets: BASS / BASS-II (PSI-26, PSI-25) tested envelopes; SAFFIRE-I/II/III (PSI-98/99/100) spread calibration, held-out test, Earth-vs-orbit and the Saffire-III cabin replay; FLEX (PSI-69, cross-checked against NASA/TP-2015-216046) droplet burning rates; ACME BRE (PSI-20) for exploration atmospheres; SAME / SAME-R / DAFT (PSI-102/101/47) smoke evidence.
+- Outside PSI (labelled so): FM2 (NTRS 20240015307) and LUCI (NTRS 20250010653) for partial gravity.
 
-## Data
-2,818 PSI table rows with accession + file + line provenance from 18 accessions (`web/data/psi/tables_index.json`): PSI-10 327 · PSI-20 18 · PSI-22 32 · PSI-23 18 · PSI-25 129 · PSI-26 122 · PSI-39 87 · PSI-47 2 · PSI-68 8 · PSI-69 274 · PSI-98/99/100 13 · PSI-101 109 · PSI-102 8 · PSI-107 469 · PSI-142 8 · PSI-159 1,194. Plus PSI-100 Saffire-III cabin telemetry for the replay. 25 PSI investigation records are catalogued.
+## How the physics works (short)
+Opposed-flow flame spread (de Ris thin-fuel form, calibrated on one SAFFIRE sample), droplet d²-law burning (fit on FLEX), oxygen-consumption heat release, agent dilution and inerting, low-flow quench, smoke transport delay to the detector. Partial gravity is interpolated between µg and 1 g, never measured. Python (`physics/emberphys`) is the source of truth; the TypeScript port matches `shared/golden_vectors.json` to rtol 1e-6. Details, equations and limits: `/methods`.
 
-## Validation (honest, one line each)
-- FLEX cross-check (PSI-69 table vs NASA/TP-2015-216046): 0 mismatches in 1,533 values (`web/data/psi/flex_crosscheck.json`).
-- Held-out FLEX burning-rate constant K: MAPE 13.3 %, n = 66 (`web/data/validation/droplet_K.json`).
-- Flame spread on held-out SIBAL (Saffire-III): 29.3 % error, **n = 1** (`web/data/params/spread.json`). One training sample, one test sample.
-- Published validation targets: 5 pass, 6 fail, 5 await digitized data (`web/data/validation/summary.json`); failures are shown on `/methods#validation`.
-- Saffire replay is a cabin-scale sanity check only (a sample-size fire barely changes the cabin; it does not test flame-spread physics).
+## Validation (real numbers, from the files named)
+| Check | Result | File |
+|---|---|---|
+| FLEX table cross-check (PSI-69 vs NASA/TP-2015-216046) | 0 mismatches in 1,533 values | `web/data/psi/flex_crosscheck.json` |
+| Droplet burning-rate constant K, held-out FLEX tests | ~13 % mean absolute error (MAPE 13.3 %), n = 66 | `web/data/validation/droplet_K.json` |
+| Flame spread, held-out SAFFIRE-III sample III-2 | 29.3 % error, n = 1 (one training, one test sample) | `web/data/params/spread.json` |
+| Saffire-III cabin replay (PSI-100 T, P) | T RMSE ~6 K, P MAPE ~0.2 %: sanity check only (a sample-size fire barely changes the cabin) | computed live, `docs/VALIDATION.md` |
+| Validation targets V1–V10 | 5 pass, 6 fail, 5 pending data (of 16) | `web/data/validation/summary.json`, `docs/VALIDATION.md` |
 
 ## Limitations
-One well-mixed cabin zone; 1D spread per item. **Gravity only switches the low-flow quench:** thin-fuel de Ris spread does not depend on flow speed and the finite-rate correction is not calibrated, so 1/6 g, Mars g and 1 g give the same spread once the flame is above the 5 cm/s limit. **No low-pressure flammability limit** (extinction is a flame-temperature check only). Partial gravity is an estimate between µg and 1 g, never measured, and NASA's FM2 tests show it may be non-conservative. Cabin heat loss and smoke are theory-only. Small n everywhere. Not for flight certification. Details: `/methods#limitations`, `docs/VALIDATION.md`.
+One well-mixed cabin zone; 1-D spread per item; spread calibrated on n = 1; **gravity only switches the low-flow quench** (thin-fuel spread does not depend on flow speed and the finite-rate term is not calibrated, so 1/6 g, Mars g and 1 g give the same spread once the flame is above the limit); **no low-pressure flammability limit** (extinction is a flame-temperature check only); partial gravity is an estimate and **may be non-conservative** (FM2); cabin heat loss and smoke/CO are **theory-only (uncalibrated)**; detector thresholds are unsourced (alarm shows *No data*); small n everywhere. **Not for flight certification.**
 
-## Run it
+## Use of AI (SI)
+Runtime AI is the OpenAI API, called **server-side only** (`web/lib/ai/client.ts`), rate-limited per IP (8/min) with request size caps (`web/lib/ai/http.ts`). Without `OPENAI_API_KEY` the app runs in **offline mode**: a rule-based interview builds scenarios, and Aster answers from the engine's facts and the bundled PSI catalog, marked "offline". Development used Claude Code (Anthropic) and Codex (OpenAI); every source file carries an `SI-assisted` header naming the tool. Offline answers on a run come from `web/lib/ai/explain.ts` (engine facts only); with a key the model rewrites that draft and must pass the numeric guard against it. No AI-generated images.
+
+## Tech stack
+Next.js 15 · React 19 · TypeScript · Tailwind · three.js / React Three Fiber · Plotly · KaTeX · motion · zod / zustand · OpenAI SDK · Vitest + Playwright · Python 3.11 (numpy, scipy, pandas, pdfplumber, pytest). Fonts: Space Grotesk (display), Inter (UI) and JetBrains Mono (numbers), SIL OFL-1.1, self-hosted via @fontsource.
+
+## Run locally
 ```bash
 pnpm -C web install
 ```
 ```bash
+cp web/.env.example web/.env.local   # optional: add OPENAI_API_KEY; leave empty for offline mode
+```
+```bash
 pnpm -C web dev
 ```
-Checks: `pnpm -C web lint && pnpm -C web typecheck && pnpm -C web test && pnpm -C web build`, Python: `make venv && make test`, e2e: `pnpm -C web e2e`. Set `OPENAI_API_KEY` (and optionally `OPENAI_MODEL`) as a **server-side** env var (never `NEXT_PUBLIC_`, never committed). Without it every AI surface still works with deterministic offline answers marked "offline".
+Checks: `pnpm -C web lint && pnpm -C web typecheck && pnpm -C web test && pnpm -C web build`, `pnpm -C web e2e`; Python: `make venv && make test`.
 
-## AI
-- **Build with AI** interviews you (one prompt, ≤ 4 follow-ups, review), builds the cabin from NASA atmospheres and PSI materials only and ignites it in 3D.
-- **Aster** (site-wide; run-aware on the simulator) and the **AI analyst** (briefing, ranked fixes with Apply & re-run, what-ifs that re-run the engine, next test). Thinking steps shown are real server/worker steps.
-- **Guard:** every number in an answer must appear in engine or tool output (`web/lib/ai/guard.ts`); PSI ids must be in the evidence list; failures are stripped and flagged.
-- **Offline fallback:** `web/lib/ai/explain.ts` composes answers from the run facts only; the catalog search runs locally.
+## Project structure
+```
+physics/   emberphys (models, source of truth) · pipeline (PSI fetch/ingest, cache-first) · fit · validate · data/*.yaml (every value with source)
+shared/    golden_vectors.json (Python ↔ TypeScript parity)
+web/       Next.js app: app/ (routes, API) · components/ · lib/sim (engine port) · lib/ai (Aster, guard) · data/ (exported data) · tests/ · e2e/
+docs/      STATUS · DECISIONS · DEMO_SCRIPT · HUMAN_TASKS · VALIDATION · PRD · SUBMISSION · PITCH · REFERENCES.json (generated)
+```
 
-## Design
-Dark theme, ember accent only on the primary action, the mission marker and live flame. Type: **Space Grotesk** (display), **Inter** (UI), **JetBrains Mono** (numbers), self-hosted via `@fontsource` (OFL-1.1). Tokens in `web/styles/tokens.css`; Okabe–Ito chart colours (`web/lib/ui/palette.ts`); `prefers-reduced-motion` respected.
+## Team
+Team Max Q (Toronto). Team members are minors, so their names are not published in the app or this repo.
 
-## Use of AI (SI)
-Claude Code (Anthropic) and Codex (OpenAI) wrote code under human direction and review; files carry an "SI-assisted" header (`physics/tests/test_psi.py` enforces it). At runtime the OpenAI API powers the scenario builder, the run interpretation and Aster's wording, grounded on engine output and PSI rows with a numeric guard. No AI-generated images or video.
-
-## Docs
-`docs/AUDIT.md` (audit + plan) · `docs/STATUS.md` · `docs/DEMO_SCRIPT.md` · `docs/VALIDATION.md` · `docs/SUBMISSION.md` · `docs/HUMAN_TASKS.md` · `CREDITS.md`. **License:** MIT (`LICENSE`).
+## Credits
+NASA Physical Sciences Informatics (PSI) Data Repository, Combustion Science, and NASA NTRS reports (FLEX NASA/TP-2015-216046, SAFFIRE, BASS-II, FM2, LUCI, JSC 20584). Other data and papers: Scientific Reports (BASS-II, 2017), NIST Chemistry WebBook, GRI-Mech 3.0, Incropera, Turns, Quintiere, and the classic flame-spread papers (de Ris 1969; Fernandez-Pello, Ray & Glassman 1981; Olson 1991). Adapted components: BackgroundPaths (21st.dev, MIT) and shadcn/ui primitives (MIT). All libraries with licences: `/credits` and `docs/REFERENCES.json` (generated by `make export`). NASA does not endorse this project. The full list with URLs follows.
 
 ## Credits and resources (full list)
-Generated from `docs/REFERENCES.json` (built by `physics/validate/export.py` from `physics/data/software.yaml` and `sources.yaml`). The same list is on `/credits`. NASA does not endorse this project.
+Generated from `docs/REFERENCES.json`; the same list is on `/credits`.
 
 ### NASA resources
 - NASA PSI Data Repository: Combustion Science (Space Apps 2026 challenge Resources tab): https://psi.nasa.gov/physci/repo/search?q=combustion (accessed 2026-11-14)
@@ -134,24 +148,23 @@ Generated from `docs/REFERENCES.json` (built by `physics/validate/export.py` fro
 - Dietrich, D. L., Nayagam, V., Hicks, M. C., Ferkul, P. V., Dryer, F. L., Farouk, T., Shaw, B. D., Suh, H. K., Choi, M. Y., Liu, Y. C., Avedisian, C. T., Williams, F. A., Droplet Combustion Experiments Aboard the International Space Station, Microgravity Sci. Technol. 26:65-76: https://doi.org/10.1007/s12217-014-9372-2
 - NASA Space Apps Challenge 2026, Flame in Freefall challenge statement (Moon base 30% O2, 70.3 kPa): https://www.spaceappschallenge.org/
 - BASS-II PMMA flame spread and limiting O2 in microgravity vs 1 g, Sci. Rep. (2017): https://doi.org/10.1038/s41598-017-18398-4
-- White, F. M., Viscous Fluid Flow, 3rd ed., Table 1-2/1-3 (Sutherland constants for air) (no public URL on record; see docs/HUMAN_TASKS.md)
-- Bergman, Lavine, Incropera, DeWitt, Fundamentals of Heat and Mass Transfer, 7th ed., Table A.4 (gas properties at 1 atm) (no public URL on record; see docs/HUMAN_TASKS.md)
-- Kee et al., CHEMKIN transport (mixture-averaged conductivity: 0.5(sum x k + 1/sum x/k)); Mathur, Tondon & Saxena (1967) Mol. Phys. 12:569 (no public URL on record; see docs/HUMAN_TASKS.md)
-- Turns, S. R., An Introduction to Combustion, 3rd ed. (Ch. 10 droplet d2-law; Ch. 9 Burke-Schumann; App. B fuel properties) (no public URL on record; see docs/HUMAN_TASKS.md)
-- Beyler, C., Flammability limits of premixed and diffusion flames, SFPE Handbook of Fire Protection Engineering (critical adiabatic flame temperature ~1500-1600 K) (no public URL on record; see docs/HUMAN_TASKS.md)
-- Quintiere, J. G., Fundamentals of Fire Phenomena, Wiley (Ch. 7 opposed-flow flame spread; material properties tables) (no public URL on record; see docs/HUMAN_TASKS.md)
-- Saffire VI results, ICES-2024-365 (no public URL on record; see docs/HUMAN_TASKS.md)
-- Dehghani, P., ACME Burning Rate Emulator (BRE), PhD dissertation, University of Maryland; Combust. Flame 228 (2021) (no public URL on record; see docs/HUMAN_TASKS.md)
-- Urban, D. L., et al., Smoke Aerosol Measurement Experiment (SAME/SAME-R), AIAA 2013; Aerosol Sci. Tech. 49 (2015) (no public URL on record; see docs/HUMAN_TASKS.md)
-- Seinfeld, J. H., Pandis, S. N., Atmospheric Chemistry and Physics, 3rd ed., Ch. 13 (coagulation kernel, Cunningham slip correction) (no public URL on record; see docs/HUMAN_TASKS.md)
-- NFPA 2001, Standard on Clean Agent Fire Extinguishing Systems (cup-burner minimum extinguishing concentrations; n-heptane N2 ~30-34 vol%); Senecal, J. A., Fire Safety J. 40 (2005) 579-591 (no public URL on record; see docs/HUMAN_TASKS.md)
-- Drop-tower gaseous-suppressant study finding helium most effective (cited in PRD §2; full reference TODO_VERIFY) - OUTSIDE PSI (no public URL on record; see docs/HUMAN_TASKS.md)
+- White, F. M., Viscous Fluid Flow, 3rd ed., Table 1-2/1-3 (Sutherland constants for air) (no public URL on record yet; docs/HUMAN_TASKS.md #21)
+- Bergman, Lavine, Incropera, DeWitt, Fundamentals of Heat and Mass Transfer, 7th ed., Table A.4 (gas properties at 1 atm) (no public URL on record yet; docs/HUMAN_TASKS.md #21)
+- Kee et al., CHEMKIN transport (mixture-averaged conductivity: 0.5(sum x k + 1/sum x/k)); Mathur, Tondon & Saxena (1967) Mol. Phys. 12:569 (no public URL on record yet; docs/HUMAN_TASKS.md #21)
+- Turns, S. R., An Introduction to Combustion, 3rd ed. (Ch. 10 droplet d2-law; Ch. 9 Burke-Schumann; App. B fuel properties) (no public URL on record yet; docs/HUMAN_TASKS.md #21)
+- Beyler, C., Flammability limits of premixed and diffusion flames, SFPE Handbook of Fire Protection Engineering (critical adiabatic flame temperature ~1500-1600 K) (no public URL on record yet; docs/HUMAN_TASKS.md #21)
+- Quintiere, J. G., Fundamentals of Fire Phenomena, Wiley (Ch. 7 opposed-flow flame spread; material properties tables) (no public URL on record yet; docs/HUMAN_TASKS.md #21)
+- Saffire VI results, ICES-2024-365 (no public URL on record yet; docs/HUMAN_TASKS.md #21)
+- Dehghani, P., ACME Burning Rate Emulator (BRE), PhD dissertation, University of Maryland; Combust. Flame 228 (2021) (no public URL on record yet; docs/HUMAN_TASKS.md #21)
+- Urban, D. L., et al., Smoke Aerosol Measurement Experiment (SAME/SAME-R), AIAA 2013; Aerosol Sci. Tech. 49 (2015) (no public URL on record yet; docs/HUMAN_TASKS.md #21)
+- Seinfeld, J. H., Pandis, S. N., Atmospheric Chemistry and Physics, 3rd ed., Ch. 13 (coagulation kernel, Cunningham slip correction) (no public URL on record yet; docs/HUMAN_TASKS.md #21)
+- NFPA 2001, Standard on Clean Agent Fire Extinguishing Systems (cup-burner minimum extinguishing concentrations; n-heptane N2 ~30-34 vol%); Senecal, J. A., Fire Safety J. 40 (2005) 579-591 (no public URL on record yet; docs/HUMAN_TASKS.md #21)
+- Drop-tower gaseous-suppressant study finding helium most effective (cited in PRD §2; full reference TODO_VERIFY) - OUTSIDE PSI (no public URL on record yet; docs/HUMAN_TASKS.md #21)
 
-### AI tools
+### SI (AI) tools
 - Claude Code (Anthropic), model Claude Opus 5.5: https://www.anthropic.com/claude-code. Wrote and refactored the codebase, data pipelines (PDF/PSI table extraction and normalization), tests and documentation under human direction. All generated data rows carry source_id + locator and stay verified=false until a human spot-check.
 - Codex (OpenAI): https://openai.com/codex/. Wrote parts of the About page, the Methods equation notes and a landing e2e test under human direction.
-- OpenAI API, model from OPENAI_MODEL (default gpt-5.4-mini). Runtime scenario builder (plain English → scenario fields for human review), run interpretation and the experiment-match explanation; grounded only on engine output and cited PSI evidence, checked by a numeric + citation guard. No key → no AI text (no canned answers).
-- Runtime API: OpenAI API, https://platform.openai.com/docs
+- OpenAI API, model from OPENAI_MODEL (default gpt-4o-mini): https://platform.openai.com/docs. Runtime scenario builder (plain English → scenario fields for human review), run interpretation and the experiment-match explanation; grounded only on engine output and cited PSI evidence, checked by a numeric + citation guard. No key → deterministic offline mode (engine facts and catalog records, labelled offline; no invented text).
 
 ### Fonts, components, images
 - Space Grotesk (OFL-1.1): https://fonts.google.com/specimen/Space+Grotesk
@@ -172,3 +185,6 @@ Generated from `docs/REFERENCES.json` (built by `physics/validate/export.py` fro
 ### Software libraries (54)
 [@axe-core/playwright](https://www.npmjs.com/package/@axe-core/playwright) 4.10.2 (MPL-2.0), [@fontsource-variable/inter](https://www.npmjs.com/package/@fontsource-variable/inter) 5.2.8 (OFL-1.1), [@fontsource-variable/jetbrains-mono](https://www.npmjs.com/package/@fontsource-variable/jetbrains-mono) 5.2.8 (OFL-1.1), [@fontsource-variable/space-grotesk](https://www.npmjs.com/package/@fontsource-variable/space-grotesk) 5.2.10 (OFL-1.1), [@paper-design/shaders-react](https://www.npmjs.com/package/@paper-design/shaders-react) 0.0.82 (Apache-2.0), [@playwright/test](https://www.npmjs.com/package/@playwright/test) 1.53.1 (Apache-2.0), [@radix-ui/react-collapsible](https://www.npmjs.com/package/@radix-ui/react-collapsible) 1.2.1 (MIT), [@radix-ui/react-dropdown-menu](https://www.npmjs.com/package/@radix-ui/react-dropdown-menu) 2.2.1 (MIT), [@radix-ui/react-popover](https://www.npmjs.com/package/@radix-ui/react-popover) 1.3.1 (MIT), [@radix-ui/react-slot](https://www.npmjs.com/package/@radix-ui/react-slot) 1.5.0 (MIT), [@radix-ui/react-tooltip](https://www.npmjs.com/package/@radix-ui/react-tooltip) 1.4.1 (MIT), [@react-three/drei](https://www.npmjs.com/package/@react-three/drei) 10.7.9 (MIT), [@react-three/fiber](https://www.npmjs.com/package/@react-three/fiber) 9.8.2 (MIT), [@react-three/postprocessing](https://www.npmjs.com/package/@react-three/postprocessing) 3.2.2 (MIT), [@types/katex](https://www.npmjs.com/package/@types/katex) 0.16.7 (MIT), [@types/node](https://www.npmjs.com/package/@types/node) 22.15.32 (MIT), [@types/react](https://www.npmjs.com/package/@types/react) 19.1.8 (MIT), [@types/react-dom](https://www.npmjs.com/package/@types/react-dom) 19.1.6 (MIT), [@types/react-plotly.js](https://www.npmjs.com/package/@types/react-plotly.js) 2.6.3 (MIT), [@types/three](https://www.npmjs.com/package/@types/three) 0.187.0 (MIT), [autoprefixer](https://www.npmjs.com/package/autoprefixer) 10.4.21 (MIT), [class-variance-authority](https://www.npmjs.com/package/class-variance-authority) 0.7.1 (Apache-2.0), [clsx](https://www.npmjs.com/package/clsx) 2.1.1 (MIT), [katex](https://www.npmjs.com/package/katex) 0.16.22 (MIT), [lucide-react](https://www.npmjs.com/package/lucide-react) 1.73.0 (ISC), [motion](https://www.npmjs.com/package/motion) 12.18.1 (MIT), [next](https://www.npmjs.com/package/next) 15.5.29 (MIT), [openai](https://www.npmjs.com/package/openai) 7.57.0 (Apache-2.0), [plotly.js-dist-min](https://www.npmjs.com/package/plotly.js-dist-min) 3.0.1 (MIT), [postcss](https://www.npmjs.com/package/postcss) 8.5.6 (MIT), [postprocessing](https://www.npmjs.com/package/postprocessing) 6.39.6 (Zlib), [react](https://www.npmjs.com/package/react) 19.1.0 (MIT), [react-dom](https://www.npmjs.com/package/react-dom) 19.1.0 (MIT), [react-plotly.js](https://www.npmjs.com/package/react-plotly.js) 2.6.0 (MIT), [sonner](https://www.npmjs.com/package/sonner) 2.0.8 (MIT), [tailwind-merge](https://www.npmjs.com/package/tailwind-merge) 3.7.0 (MIT), [tailwindcss](https://www.npmjs.com/package/tailwindcss) 3.4.17 (MIT), [three](https://www.npmjs.com/package/three) 0.187.0 (MIT), [tsx](https://www.npmjs.com/package/tsx) 4.20.3 (MIT), [typescript](https://www.npmjs.com/package/typescript) 5.8.3 (Apache-2.0), [vitest](https://www.npmjs.com/package/vitest) 3.2.4 (MIT), [zod](https://www.npmjs.com/package/zod) 3.25.67 (MIT), [zustand](https://www.npmjs.com/package/zustand) 5.0.5 (MIT), [numpy](https://pypi.org/project/numpy/) 1.26.4 (BSD-3-Clause), [scipy](https://pypi.org/project/scipy/) 1.13.1 (BSD-3-Clause), [pandas](https://pypi.org/project/pandas/) 2.2.2 (BSD-3-Clause), [pyarrow](https://pypi.org/project/pyarrow/) 16.1.0 (Apache-2.0), [scikit-learn](https://pypi.org/project/scikit-learn/) 1.5.0 (BSD-3-Clause), [pyyaml](https://pypi.org/project/pyyaml/) 6.0.1 (MIT), [pdfplumber](https://pypi.org/project/pdfplumber/) 0.11.0 (MIT), [tabulate](https://pypi.org/project/tabulate/) 0.9.0 (MIT), [openpyxl](https://pypi.org/project/openpyxl/) 3.1.5 (MIT), [xlrd](https://pypi.org/project/xlrd/) 2.0.1 (BSD-3-Clause), [pytest](https://pypi.org/project/pytest/) 8.2.2 (MIT)
 
+
+## Licence
+MIT (`LICENSE`). Contributions: `CONTRIBUTING.md`.

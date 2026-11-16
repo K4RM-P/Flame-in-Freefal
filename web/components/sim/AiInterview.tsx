@@ -35,12 +35,12 @@ export async function igniteScenario(s: Scenario) {
 }
 
 const EXAMPLES: [string, string][] = [["ISS module", "ISS module, cotton fabric panel catches fire"], ["Moon base", "Moon base at 34% oxygen with a SIBAL curtain near a hot wire"], ["Cargo ship", "Cygnus cargo ship, fabric bag catches fire"]];
-const SRC: Record<FieldTag["source"], string> = { nasa: "NASA-cited", user: "you said", assumption: "AI assumption" };
+const SRC: Record<FieldTag["source"], string> = { nasa: "NASA-cited", user: "you said", assumption: "SI assumption" };
 const TONE: Record<FieldTag["source"], string> = { nasa: "text-ok", user: "text-blue", assumption: "text-warn" };
 
 export function BuildWithAiButton({ className = "", large = false }: { className?: string; large?: boolean }) {
   const setAi = useAi((s) => s.set);
-  return <button type="button" className={`ai-cta ${className}`} data-size={large ? "lg" : undefined} data-testid="build-ai" onClick={() => setAi({ open: true })}><span className="ai-star" aria-hidden>✦</span>Build with AI</button>;
+  return <button type="button" className={`ai-cta ${className}`} data-size={large ? "lg" : undefined} data-testid="build-ai" onClick={() => setAi({ open: true })}><span className="ai-star" aria-hidden>✦</span>Build with SI</button>;
 }
 
 /** Re-build the draft from the answers on the client (same pure builder as the server; no request, no AI). */
@@ -98,7 +98,7 @@ export function AiInterview() {
       const p = await post({ mode: "parse", text: t });
       setTrail([...parseSteps(p.draft), { id: "q", label: "Choosing follow-up questions…", status: "active" }]);
       const f = await post({ mode: "followups", text: t, answers: p.draft.answers });
-      setTrail([...parseSteps(p.draft), { id: "q", label: f.questions.length ? `${f.questions.length} question${f.questions.length === 1 ? "" : "s"} ${f.offline ? "(fixed set, offline)" : "chosen by the AI"}` : "Nothing left to ask", status: "done" }]);
+      setTrail([...parseSteps(p.draft), { id: "q", label: f.questions.length ? `${f.questions.length} question${f.questions.length === 1 ? "" : "s"} ${f.offline ? "(fixed set, offline)" : "chosen by the SI"}` : "Nothing left to ask", status: "done" }]);
       setDraft(p.draft); setAnswers(p.draft.answers); setOffline(!!p.offline || !!f.offline); setQs(f.questions); setQi(0);
       setStep(f.questions.length ? "ask" : "review");
     } catch (e) { setErr(String((e as Error).message ?? e)); setTrail([]); } finally { setBusy(false); }
@@ -132,7 +132,7 @@ export function AiInterview() {
   const at = step === "prompt" ? 0 : step === "ask" ? qi + 1 : qs.length + 1;
   return (
     <AnimatePresence>
-      {open && <motion.div key="ai-interview" className="fixed inset-0 z-50 grid place-items-center bg-bg/55 p-4 backdrop-blur-xl" role="dialog" aria-modal="true" aria-label="Build with AI" data-testid="ai-interview"
+      {open && <motion.div key="ai-interview" className="fixed inset-0 z-50 grid place-items-center bg-bg/55 p-4 backdrop-blur-xl" role="dialog" aria-modal="true" aria-label="Build with SI" data-testid="ai-interview"
         initial={reduce ? false : { opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0, transition: { duration: 0.28 } }}>
         <div className="ai-screen-edge" data-on={busy} aria-hidden data-testid="ai-screen-edge" />
         <motion.div layoutId="ai-sheet" className="w-full max-w-3xl" initial={reduce ? false : { scale: 0.96, y: 12 }} animate={{ scale: 1, y: 0 }} exit={reduce ? { opacity: 0 } : { scale: 0.7, y: 90, opacity: 0, transition: { duration: 0.28, ease: [0.4, 0, 1, 1] } }} transition={{ type: "spring", stiffness: 260, damping: 28 }}>
@@ -140,7 +140,7 @@ export function AiInterview() {
             <div className="grid gap-6 p-2 md:grid-cols-[1fr_240px]">
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <h2 className="flex items-center gap-2 text-[15px] font-semibold tracking-[-0.01em]"><Orb state={busy ? "thinking" : offline ? "offline" : "speaking"} size={16} />AI fire engineer</h2>
+                  <h2 className="flex items-center gap-2 text-[15px] font-semibold tracking-[-0.01em]"><Orb state={busy ? "thinking" : offline ? "offline" : "speaking"} size={16} />SI fire engineer</h2>
                   <div className="flex items-center gap-2"><OfflineChip on={offline} /><button type="button" className="grid h-7 w-7 place-items-center rounded-full text-faint transition-colors hover:bg-surface2 hover:text-ink" aria-label="Close" onClick={close}>✕</button></div>
                 </div>
                 <div className="ai-steps" aria-label={`Step ${at + 1} of ${dots.length}`} data-testid="ai-progress">{dots.map((k, i) => <span key={k + i} data-done={i <= at} />)}</div>
@@ -163,7 +163,7 @@ export function AiInterview() {
                   <ul className="max-h-52 divide-y divide-line/60 overflow-auto rounded-xl border border-line/70 text-[12px]">{Object.entries(draft.fields).map(([k, f]) => <li key={k} className="flex items-baseline gap-2 px-3 py-1.5"><span className={`w-24 shrink-0 ${TONE[f.source]}`}>{SRC[f.source]}</span><span className="text-mute">{f.note}</span></li>)}</ul>
                   {draft.rejected.map((r, i) => <p key={i} className="text-[12px] text-warn">✕ {r.reason}</p>)}
                   {draft.notes.map((n, i) => <p key={i} className="text-[12px] text-mute">• {n}</p>)}
-                  {assumptions.length > 0 && <label className="flex items-center gap-2 text-[13px] text-warn"><input type="checkbox" className="accent-[rgb(var(--ember))]" checked={confirmed} onChange={(e) => setConfirmed(e.target.checked)} data-testid="ai-confirm" />I confirm the {assumptions.length} AI assumption{assumptions.length === 1 ? "" : "s"} (edit them after in the setup panel)</label>}
+                  {assumptions.length > 0 && <label className="flex items-center gap-2 text-[13px] text-warn"><input type="checkbox" className="accent-[rgb(var(--ember))]" checked={confirmed} onChange={(e) => setConfirmed(e.target.checked)} data-testid="ai-confirm" />I confirm the {assumptions.length} SI assumption{assumptions.length === 1 ? "" : "s"} (edit them after in the setup panel)</label>}
                   <div className="flex gap-2">
                     <button type="button" className="ai-primary" disabled={busy || (assumptions.length > 0 && !confirmed)} onClick={() => void ignite()} data-testid="ai-ignite">Ignite simulation</button>
                     <button type="button" className="ai-chip" onClick={() => { setStep("prompt"); setTrail([]); }}>Edit description</button>

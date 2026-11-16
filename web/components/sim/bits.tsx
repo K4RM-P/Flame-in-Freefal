@@ -225,7 +225,7 @@ export function Outcome({ sc, r, label }: { sc: Scenario; r: SimResult | null; l
 export function Interpretation() {
   const { interp, ra } = useSim();
   return (
-    <Section title="AI interpretation" testid="interpretation">
+    <Section title="SI interpretation" testid="interpretation">
       {!ra && <p className="text-[13px] text-mute">Appears after a run.</p>}
       {interp.state === "loading" && <p className="text-[13px] text-mute">Interpreting the engine results…</p>}
       {interp.state === "error" && <p className="text-[13px] text-warn" role="status">{interp.error}</p>}
@@ -233,7 +233,7 @@ export function Interpretation() {
         <p className="measure whitespace-pre-line text-[14px]">{interp.text}</p>
         {interp.citations?.length ? <p className="text-[12px] text-mute">Cites: {interp.citations.join(" · ")}</p> : null}
       </>}
-      <p className="text-[12px] text-faint">AI-generated from engine results and cited PSI data.</p>
+      <p className="text-[12px] text-faint">SI-generated from engine results and cited PSI data.</p>
     </Section>
   );
 }

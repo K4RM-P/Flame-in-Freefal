@@ -52,13 +52,3 @@ export function buildRunFacts(a: Scenario, ra: SimResult, b?: Scenario | null, r
     fm2: { id: FM2_ID, url: (fm2.url ?? "").slice(0, 120), title: (fm2.title ?? "FM2").slice(0, 160), note: (fm2.note ?? "").slice(0, 400) },
   };
 }
-
-/** Plain-text digest (the AsterContext `facts` field, ≤ 6000 chars). */
-export function runFactsText(f: RunFacts): string {
-  return f.sides.map((s) => [
-    `${s.label}: ${s.material} (${s.thickness_mm} mm) at ${s.x_o2_pct}% O₂, ${s.P_kPa} kPa, ${s.gravity_g} g, flow ${s.flow_cm_s} cm/s.`,
-    `Fire ${s.end.t_s !== null ? `out at ${s.end.t_s} s` : ""} (${s.end.phrase}). Peak heat release ${s.peak_heat_W} W.`,
-    `Alarm ${s.alarm_s ?? "none"} s · fan off ${s.fan_off_s ?? "never"} s · agent ${s.agent_s ?? "never released"} s (${s.agent_kg} kg ${s.agent}).`,
-    s.extrapolated.length ? `Outside the PSI envelope: ${s.extrapolated.join(" · ")}` : "Inside the PSI test envelope.",
-  ].join(" ")).join("\n").slice(0, 6000);
-}

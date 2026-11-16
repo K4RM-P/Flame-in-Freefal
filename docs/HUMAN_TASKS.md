@@ -33,7 +33,7 @@ Open each file from psi.nasa.gov (or `physics/data/raw/psi/`) and compare the li
 
 - [ ] Spot-check the visualization-only flame correlations in `web/data/params/flame_visual.json` (Heskestad 1983 constants 0.235/1.02; puffing c = 1.5 from Cetegen & Ahmed 1993; air α at 800 K from Incropera Table A.4) and set `verified: true`.
 
-13. **Vercel `OPENAI_API_KEY`:** the project (`flame-in-freefal`, https://flame-in-freefal.vercel.app) is linked, builds from `web/` and auto-deploys `main`, but has no env vars. vercel.com → flame-in-freefal → Settings → Environment Variables → add `OPENAI_API_KEY` (and optional `OPENAI_MODEL`) for Production + Preview (never `NEXT_PUBLIC_`) → Deployments → Redeploy the latest production deployment. Until then `/api/scenario` with valid text returns 503 "no key".
+13. **Vercel `OPENAI_API_KEY`:** set on the submitted project (https://emberatlas-five.vercel.app). The second project (`flame-in-freefal`, https://flame-in-freefal.vercel.app) also deploys `main` but has no key, so it runs in offline mode; add the key there too or delete that project so judges only see one site.
 
 14. **Self-host the NASA images (sandbox network blocked the download, proxy 403):** download each file, crop out any NASA logo/insignia (Space Apps rules), save at the exact path, then set `selfHosted: true` for that entry in `web/lib/media.ts` (and fill `width`/`height` where null):
     - `web/public/nasa/jsc2023e002281.jpg` ← https://science.nasa.gov/wp-content/uploads/2024/01/jsc2023e002281orig.jpg?format=jpeg&w=1280 (landing hero + OpenGraph)
@@ -45,11 +45,16 @@ Open each file from psi.nasa.gov (or `physics/data/raw/psi/`) and compare the li
 16. **Demo video:** record a muted 16:10 screen capture of `/simulator?preset=iss-vs-lunar&run=1` (≈15–20 s, H.264, < 8 MB) and save it as `web/public/media/demo.mp4`. The landing picks it up automatically at build time; until then it shows a real screenshot of the simulator (`web/public/media/sim-3d.webp`).
 17. **Artemis II citation:** confirm the Aerospace America (AIAA) article cited in story beat 1 (see `docs/SUBMISSION.md`) supports the "~80,000 miles from home" wording.
 
+## Added in the final polish pass (2026-11-16)
+18. **Parchment model / "99.86 %" claim (blocker for any mention of it):** the team's 150-burn parchment dataset (videos/CSV), its model and the accuracy method are **not in the repo**, so nothing in the app or docs claims 99.86 %. To include it: add the data under `physics/data/raw/parchment/` (with source and licence), the model code under `physics/`, and a Methods note stating which NASA space data it was compared to, how many comparisons, exactly what "99.86 %" measures, and its limits. Then link it from `/methods` and `/evidence`.
+19. **Demo video URL:** replace `TODO_VIDEO_URL` in `README.md` (and add it to `docs/SUBMISSION.md`).
+20. **Two Vercel projects:** `emberatlas-five` (submitted, has the OpenAI key) and `flame-in-freefal` both deploy `main`. Decide whether to keep the second one; if kept, give it the key or it stays in offline mode.
+21. **Challenge link:** the footer/About/Credits link to `https://www.spaceappschallenge.org/` (the exact 2026 "Flame in Freefall" challenge page could not be opened from the build sandbox). Paste the exact challenge URL into `web/lib/team.ts → CHALLENGE_URL`.
+22. **Fonts (resolved 2026-11-16):** the app now uses Space Grotesk / Inter / JetBrains Mono (OFL, self-hosted via @fontsource), as the submission text says.
+
 ## Added by the 2026-11-16 audit (docs/AUDIT.md)
-18. **Live URL:** the brief names https://emberatlas-five.vercel.app, but the Vercel project connected here is `flame-in-freefal` (https://flame-in-freefal.vercel.app). Confirm which domain judges get, make sure it deploys from `main`, and set `NEXT_PUBLIC_SITE_URL` on Vercel to that URL (used for OpenGraph, sitemap and share links).
-19. **`OPENAI_API_KEY` on Vercel (still missing on 2026-11-16):** the project has no environment variables. Everything works offline, but add the key (Production + Preview, never `NEXT_PUBLIC_`) for model-written answers.
-20. **Quench limit (`low_flow_quench_cm_s = 5 cm/s`, TODO_VERIFY):** this value decides the headline ISS result ("quenched at 30 s"). Confirm it against the BASS-II paper (Sci. Rep. 2017, https://doi.org/10.1038/s41598-017-18398-4) and set `status` in `physics/data/properties.yaml`.
-21. **References without a public URL** (Space Apps asks for full URLs): add a publisher, DOI or NTRS URL to each in `physics/data/sources.yaml`, then regenerate `docs/REFERENCES.json` (`make export`, or `write_references` as in the commit for U6):
+23. **Quench limit (`low_flow_quench_cm_s = 5 cm/s`, TODO_VERIFY):** this value decides the headline ISS result ("quenched at 30 s"). Confirm it against the BASS-II paper (Sci. Rep. 2017, https://doi.org/10.1038/s41598-017-18398-4) and set `status` in `physics/data/properties.yaml`.
+24. **References without a public URL** (Space Apps asks for full URLs): add a publisher, DOI or NTRS URL to each in `physics/data/sources.yaml`, then regenerate `docs/REFERENCES.json` (`make export`, or `write_references` as in the commit for U6):
     - White, F. M., Viscous Fluid Flow, 3rd ed., Table 1-2/1-3 (Sutherland constants for air)
     - Bergman, Lavine, Incropera, DeWitt, Fundamentals of Heat and Mass Transfer, 7th ed., Table
     - Kee et al., CHEMKIN transport (mixture-averaged conductivity: 0.5(sum x k + 1/sum x/k)); M
@@ -62,8 +67,7 @@ Open each file from psi.nasa.gov (or `physics/data/raw/psi/`) and compare the li
     - Seinfeld, J. H., Pandis, S. N., Atmospheric Chemistry and Physics, 3rd ed., Ch. 13 (coagul
     - NFPA 2001, Standard on Clean Agent Fire Extinguishing Systems (cup-burner minimum extingui
     - Drop-tower gaseous-suppressant study finding helium most effective (cited in PRD §2; full
-22. **Brand assets:** confirm who made the flame logo (`web/public/logo.png`) and the Aster mascot, and that the team owns them (listed as "Team EmberAtlas, MIT" in `software.yaml → images`).
-23. **Team bios on /about** were drafted by an AI pass from each member's focus line: each member should read and approve their own.
-24. **Materials list:** `web/data/materials.json` has both "PMMA & Nomex" and "Nomex" as separate materials (they show as two bars on the envelope explorer). A science checker should confirm whether they should be merged.
-25. **Pre-existing `make export` failure:** `physics/validate/export.py` stops with `'DataFrame' object has no attribute 'accession'` after writing references (the PSI table export step). The web data in the repo is the last good export; fix before the next `make data`.
-- No parchment-burn model or "never done before" claim exists anywhere in the repo (checked 2026-11-16), so nothing needs backing there.
+25. **Brand assets:** confirm who made the flame logo (`web/public/logo.png`) and the Aster mascot, and that the team owns them (listed as "Team EmberAtlas, MIT" in `software.yaml → images`).
+26. **Materials list:** `web/data/materials.json` has both "PMMA & Nomex" and "Nomex" as separate materials (they show as two bars on the envelope explorer). A science checker should confirm whether they should be merged.
+27. **`make export` now runs, but changes committed data:** after the final-polish fix it completes, yet it rewrites `web/data/psi/tables_index.json` (e.g. BASS-II `qc_rows` 57 → 67), `web/public/psi/same_r.json`, `sources.json` and `psi_catalog.json` from `physics/data/processed`. The 2026-11-16 audit did not commit those changes (unverified). A science checker should diff them and decide; only `docs/REFERENCES.json` / `web/data/references.json` were regenerated (via `write_references`).
+- The audit found no parchment-burn model, accuracy figure or "never done before" claim anywhere in the repo or the app (checked 2026-11-16); keep it that way unless #18 is resolved.

@@ -50,7 +50,7 @@ export function ThinkingTrail({ steps }: { steps: Trail[] }) {
   const reduce = useReducedMotion();
   if (!steps.length) return null;
   return (
-    <ol className="space-y-1.5 text-[12.5px]" aria-label="What the AI is doing" data-testid="thinking-trail">
+    <ol className="space-y-1.5 text-[12.5px]" aria-label="What the SI is doing" data-testid="thinking-trail">
       <AnimatePresence initial={false}>
         {steps.map((s) => (
           <motion.li key={s.id} className="flex items-center gap-2" data-step={s.id} data-status={s.status}
@@ -67,19 +67,20 @@ export function ThinkingTrail({ steps }: { steps: Trail[] }) {
   );
 }
 
-/** Citation chips: PSI accessions open their Evidence entry; other sources (FM2, papers) open their public URL. */
+/** Citation chips: PSI accessions open their Evidence entry; NTRS ids and other sources (FM2, papers) open their URL. */
 export function Cites({ ids, links }: { ids?: string[]; links?: { id: string; label: string; url: string }[] }) {
   if (!ids?.length && !links?.length) return null;
+  const href = (c: string) => (/^NTRS \d+$/.test(c) ? `https://ntrs.nasa.gov/citations/${c.slice(5)}` : `/evidence#${c.toLowerCase()}`);
   return <div className="flex flex-wrap gap-1.5" data-testid="cites">
-    {(ids ?? []).map((c) => <a key={c} href={`/evidence#${c.toLowerCase()}`} title={`Open ${c} on the Evidence page`} className="ai-chip !px-2.5 !py-0.5 font-mono !text-[11px]">{c}</a>)}
-    {(links ?? []).map((l) => <a key={l.id} href={l.url} target="_blank" rel="noreferrer" title={l.label} className="ai-chip !px-2.5 !py-0.5 font-mono !text-[11px]" data-testid="cite-link">{l.id.startsWith("ntrs-") ? `NTRS ${l.id.slice(5)}` : l.label.split(/[,(]/)[0].slice(0, 28)} ↗</a>)}
+    {(ids ?? []).map((c) => <a key={c} href={href(c)} title={c.startsWith("NTRS") ? `Open ${c} on NASA NTRS` : `Open ${c} on the Evidence page`} className="ai-chip !px-2.5 !py-0.5 font-mono !text-[11px]" {...(c.startsWith("NTRS") ? { target: "_blank", rel: "noreferrer" } : {})}>{c}</a>)}
+    {(links ?? []).filter((l) => !(ids ?? []).includes(`NTRS ${l.id.slice(5)}`)).map((l) => <a key={l.id} href={l.url} target="_blank" rel="noreferrer" title={l.label} className="ai-chip !px-2.5 !py-0.5 font-mono !text-[11px]" data-testid="cite-link">{l.id.startsWith("ntrs-") ? `NTRS ${l.id.slice(5)}` : l.label.split(/[,(]/)[0].slice(0, 28)} ↗</a>)}
   </div>;
 }
 
-export function GuardBadge({ ok, stripped, checked }: { ok: boolean; stripped?: boolean; checked?: number }) {
-  if (ok && !stripped && checked === 0) return <p className="flex items-center gap-1.5 text-[11.5px] text-faint" data-testid="guard"><ShieldCheck size={13} strokeWidth={1.5} className="text-faint" />No numbers in this answer</p>;
+export function GuardBadge({ ok, stripped, checked, against = "the engine" }: { ok: boolean; stripped?: boolean; checked?: number; against?: string }) {
+  const label = checked === undefined ? "Every number checked against the engine" : checked === 0 ? "No numbers in this answer" : `${checked} number${checked === 1 ? "" : "s"} checked against ${against}`;
   return ok && !stripped
-    ? <p className="flex items-center gap-1.5 text-[11.5px] text-faint" data-testid="guard"><ShieldCheck size={13} strokeWidth={1.5} className="text-ok" />{checked ? `${checked} number${checked === 1 ? "" : "s"} checked against the engine` : "Every number checked against the engine"}</p>
+    ? <p className="flex items-center gap-1.5 text-[11.5px] text-faint" data-testid="guard"><ShieldCheck size={13} strokeWidth={1.5} className="text-ok" />{label}</p>
     : <p className="flex items-center gap-1.5 text-[12px] text-warn" data-testid="guard"><ShieldAlert size={13} strokeWidth={1.5} />Unsupported numbers removed</p>;
 }
 
@@ -127,7 +128,7 @@ export function useAiStream() {
       const res = await fetch(url, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ...(body as object), stream: true }) });
       await readEvents(res, apply);
       if (cur.streaming) apply({ type: "done", data: { text: cur.text } });
-    } catch (e) { apply({ type: "error", error: `The AI could not be reached (${String((e as Error)?.message ?? e)}).` }); }
+    } catch (e) { apply({ type: "error", error: `The SI could not be reached (${String((e as Error)?.message ?? e)}).` }); }
     return cur;
   }, []);
   return { run, start, setRun };

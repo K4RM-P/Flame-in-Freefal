@@ -1,5 +1,5 @@
-"use client";
 // SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
+"use client";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -10,9 +10,9 @@ import type { answerLocally } from "@/lib/ai/localAster";
 import { emptyRun, readEvents, reduceRun, type AiRun } from "@/lib/ai/stream";
 import { AiGlow, Cites, GuardBadge, OfflineChip, Orb, StreamAnswer, ThinkingTrail, orbOf } from "@/components/ai/kit";
 import { ThinkingOrb } from "@/components/ai/ThinkingOrb";
+import { BUILD_AI_EVENT } from "@/components/sim/AiInterview";
 import { useRunContext } from "@/lib/ai/runContextStore";
 import { followUpsFor, type SourceLink } from "@/lib/ai/explain";
-import { BUILD_AI_EVENT } from "@/components/sim/AiInterview";
 
 type LocalAnswer = ReturnType<typeof answerLocally>;
 type Mode = "catalog" | "openai";
@@ -185,11 +185,11 @@ export function Aster() {
                 </div>}
                 {error && <p className="text-warn">{error}</p>}
                 {run && <AiGlow thinking={run.streaming}>
-                  <div className="mb-1.5 flex items-center gap-2"><Orb state={orbOf(run)} size={12} /><p className="ai-label flex-1" role="status">{run.streaming ? "Thinking…" : run.error ? "Aster" : run.done?.mode === "openai" ? "AI answer" : run.done?.mode === "engine" ? "From the engine run" : "Catalog search"}</p><OfflineChip on={!!run.done?.offline} /></div>
+                  <div className="mb-1.5 flex items-center gap-2"><Orb state={orbOf(run)} size={12} /><p className="ai-label flex-1" role="status">{run.streaming ? "Thinking…" : run.error ? "Aster" : run.done?.mode === "openai" ? "SI answer" : run.done?.mode === "engine" ? "From the engine run" : "Catalog search"}</p><OfflineChip on={!!run.done?.offline} /></div>
                   <ThinkingOrb run={run} />
                   <ThinkingTrail steps={run.steps} />
                   {(!run.streaming || run.text) && <div className="mt-1.5"><StreamAnswer run={run} /></div>}
-                  {!run.streaming && !run.error && <div className="mt-1.5 space-y-1.5"><Cites ids={run.done?.citations as string[] | undefined} links={run.done?.links as SourceLink[] | undefined} /><GuardBadge ok={(run.done?.guard as { ok?: boolean } | undefined)?.ok !== false} checked={(run.done?.guard as { checked?: number } | undefined)?.checked} /></div>}
+                  {!run.streaming && !run.error && <div className="mt-1.5 space-y-1.5"><Cites ids={run.done?.citations as string[] | undefined} links={run.done?.links as SourceLink[] | undefined} /><GuardBadge ok={(run.done?.guard as { ok?: boolean } | undefined)?.ok !== false} checked={(run.done?.guard as { checked?: number } | undefined)?.checked} against={(run.done?.guard as { against?: string } | undefined)?.against} /></div>}
                   {!run.streaming && index === thread.length - 1 && ((run.done?.followUps as string[] | undefined) ?? []).length > 0 && <div className="mt-2 flex flex-wrap gap-1.5" data-testid="aster-followups">{(run.done!.followUps as string[]).map((q) => <button key={q} type="button" className="ai-chip !py-1 !text-[12px]" disabled={busy} onClick={() => void ask(q)}>{q}</button>)}</div>}
                 </AiGlow>}
                 <SourcePreviews sources={run?.done?.sources as LocalAnswer["sources"] | undefined} />

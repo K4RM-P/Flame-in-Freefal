@@ -34,7 +34,7 @@ async function aiAnswers(text: string): Promise<{ answers: Answers; materials: s
     const s = r.scenario as { cabin?: { x_o2?: number | null; P_Pa?: number | null }; items?: { material_key: string; ignite?: boolean }[] };
     const materials = (s.items ?? []).map((i) => i.material_key);
     return { answers: { o2_percent: s.cabin?.x_o2 != null ? s.cabin.x_o2 * 100 : null, pressure_kPa: s.cabin?.P_Pa != null ? s.cabin.P_Pa / 1e3 : null, ignition: (s.items ?? []).some((i) => i.ignite) ? "item" : null }, materials };
-  } catch (e) { console.error("scenario AI failed; using the local parser:", (e as Error)?.message); return null; }
+  } catch (e) { console.error("scenario SI failed; using the local parser:", (e as Error)?.message); return null; }
 }
 
 export async function POST(req: Request) {
@@ -87,5 +87,5 @@ async function aiQuestions(text: string, missing: string[]): Promise<Question[] 
       return { ...q, options: options.length ? options : fixed.options, allowOther: fixed.allowOther };
     }).filter((q, i, arr) => arr.findIndex((x) => x.id === q.id) === i).slice(0, MAX_QUESTIONS);
     return clean.length ? QuestionsSchema.parse({ questions: clean }).questions : null;
-  } catch (e) { console.error("followups AI failed; fixed questions:", (e as Error)?.message); return null; }
+  } catch (e) { console.error("followups SI failed; fixed questions:", (e as Error)?.message); return null; }
 }
