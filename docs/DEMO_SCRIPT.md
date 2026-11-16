@@ -2,17 +2,17 @@
 
 All numbers below are printed by `pnpm -C web exec tsx scripts/engine-check.ts` (engine 1.0.0, nominal run, seed 20261114). Re-run it after any data or engine change and update this file; the pitch deck copies from here.
 
-## Script (20 s)
+## Script (30 s, the Space Apps limit)
 
 1. **(0–8 s) `/simulator?preset=iss-vs-lunar&run=1`: same SIBAL fabric, same response** (crew detects at t = 30 s, fan off, 2 kg CO₂ 30 s later; all design inputs, not NASA measurements).
-   - **ISS:** alarm 30 s → fan off 30 s → **fire out at 30 s** (no airflow in µg: the flame quenches as soon as the fan stops) → CO₂ released 60 s, after the fire is already out. Peak heat 2 580 W; burnt area 0.0355 m².
-   - **Moon base (34 % O₂, 56.5 kPa, 1/6 g):** alarm 30 s → fan off 30 s → CO₂ released 60 s → **the fire keeps burning and only stops when the fabric is used up, at 171 s.** Peak heat 4 900 W; burnt area 0.382 m² (all of it). The 2 kg CO₂ charge does not put it out.
-   - Say: "Same fabric, same crew response. On the ISS, cutting the fan puts the fire out. On the Moon, buoyancy keeps it going and the extinguisher fails. And 1/6 g is an estimate that may be non-conservative: NASA's FM2 tests found lunar gravity can be worse than both."
-2. **(8–16 s) preset `lunar-design-review` ("Moon base: find the gaps") → Design review · ranked fixes:**
-   1. **Give the detector an alarm level / detection path:** agent release never → 60 s. Today the CO₂ extinguisher never fires (no sourced smoke yield for SIBAL, no detector threshold, no crew-detection input). Even with it, time to extinguish 170 s → 171 s: the 2 kg charge does not put this fire out, so size the agent next.
-   2. **SIBAL Fabric is untested at this O₂:** cabin 34 % O₂ vs tested 16.4–22.1 % O₂. Every prediction here is an extrapolation.
-   3. **Set cabin O₂ to 29.2 %** (the lowest O₂ that keeps the crew above the 16.5 kPa ppO₂ floor at 56.5 kPa): peak heat 4 920 W → 4 040 W. Calibrated spread model, but outside the PSI envelope and a partial-gravity estimate.
-3. **(16–20 s) Next test to fly:** open the next-test line: fly SIBAL at 34 % O₂ and 56.5 kPa; 1/6 g needs a partial-gravity platform.
+   - The verdict strip reads **"Fire lasts 5.7× longer in Lunar Habitat · ISS out at 30 s (quenched) · Lunar Habitat 171 s (burned out)"**; *Why?* explains each end.
+   - **ISS:** alarm 30 s → fan off 30 s → **fire out at 30 s**: in µg nothing moves the air once the fan stops, so the flame drops below the 5 cm/s low-flow quench limit (BASS-II, still TODO_VERIFY) → CO₂ released at 60 s, after the fire is already out. Peak heat 2 580 W.
+   - **Moon base (34 % O₂, 56.5 kPa, 0.165 g):** buoyancy keeps air moving past the flame, so it **burns the whole sample by 171 s**; the 2 kg CO₂ does not put it out. Peak heat 4 900 W.
+2. **(8–14 s) Ask Aster: "Why does the Moon fire last longer?"** The answer comes from the run (*This run: ISS vs Lunar Habitat*), with 17 numbers checked against the engine and citations PSI-98 / PSI-99 / PSI-100 (SAFFIRE, the fabric), PSI-25 (BASS-II, the quench limit) and NTRS 20240015307 (FM2, quoted: SIBAL burns downward at lunar g but extinguishes at 1 g, so 1/6 g may be non-conservative). Works with no OpenAI key.
+3. **(14–22 s) Preset `lunar-design-review` → AI analyst → Design review · Apply & re-run on fix #1** (*Give the detector an alarm path*: agent release never → 60 s). The **What changed** card lists the change (crew detection not set → t = 30 s) and the outcomes side by side: time to extinguish 170 s → 171 s, still burned out, so the 2 kg charge is too small. Size the agent next.
+4. **(22–30 s) Next test → "See this cabin on NASA's tested envelope"**: the Evidence chart shows every PSI solid tested at 101 kPa and 14–22 % O₂, and the lunar cabin star far outside all of them ("outside the tested range of every PSI solid"). *Download test brief* gives the one-page proposal: fly SIBAL at 34 % O₂ and 56.5 kPa on SoFIE; 1/6 g needs a partial-gravity platform.
+
+Also worth showing if there is time: *More → Copy link to this run* (the link re-runs the exact scenario), Methods search (press `/`, type "quench"), and `/credits`.
 
 ## Engine check output (verbatim)
 

@@ -163,3 +163,33 @@ output, or a screenshot description (screenshots were taken in headless Chromium
 7. `robots.ts`, `sitemap.ts`, `metadataBase`; `TODO_VIDEO_URL` placeholder in README and About; README live URL(s).
 8. Fonts: Space Grotesk (display) / Inter (UI) / JetBrains Mono (numbers), self-hosted via `@fontsource` (OFL), replacing Geist.
 9. `software.yaml` + `REFERENCES.json` + `CREDITS.md` complete with URLs and licences.
+
+---
+
+# Phase 3: what was built (2026-11-16)
+
+Commits on `main`, one per step, each with tests: must-fixes, U1–U6, docs.
+
+| # | Shipped | Evidence |
+|---|---|---|
+| Must-fix | Phone 3D canvas fills the viewport (was 358×150 → 358×506); phone nav fits; verdict "Fire lasts 5.7× longer in Lunar Habitat · ISS out at 30 s (quenched) · Lunar Habitat 171 s (burned out)", with the reason each fire ended and the quench limit's source and TODO_VERIFY status in the hover/screen-reader text; "about as long" below a 5 % difference; claims fixed (datasets wording, 5 pass / 6 fail / 5 pending, n = 1 chip, softened "every claim"); `InvalidScenario` input guard; Methods limits on gravity and pressure; Space Grotesk / Inter / JetBrains Mono; metadataBase, robots, sitemap; SI headers; Evidence row count 2,844 → 2,818 (shared table was counted 3×) | `tests/audit-fixes.test.ts`, `e2e/ui-v2.spec.ts`, `e2e/final.spec.ts` |
+| U1 | Run-aware Aster. "Why does the Moon fire last longer?" → engine answer, **17 numbers checked**, cites PSI-98/99/100, PSI-25, PSI-26 and NTRS 20240015307 (was: PSI-26 only, 0 numbers). Offline-first; with a key the model rewrites the draft and must pass the guard against it. BM25 catalog search ("What did Saffire find?" now returns PSI-98/99/100; before: nothing). Analyst offline answers are question-aware | `tests/aster-run.test.ts`, `e2e/upgrades.spec.ts` U1 |
+| U2 | Search on Methods, Evidence, Credits: indexes the rendered page, `/` to focus, highlighted matches, `?q=`, deep links open collapsed equation cards | `tests/search.test.ts`, U2 e2e |
+| U3 | "What changed" diff (inputs + outcomes, colour-blind-safe verdicts) after Apply & re-run, what-ifs and A/B compare; lever fixes now appliable (each re-run reproduces the printed "after" value) | `tests/diff.test.ts`, U3 e2e |
+| U4 | Material envelope explorer on `/evidence#envelope` (O₂ × pressure or flow, missions, your cabin from the simulator, coverage table with the gap in words) | `tests/envelope.test.ts`, U4 e2e |
+| U5 | Share link `?s=` (schema-validated, re-runs the exact scenario), Markdown run report, one-page next-test brief | `tests/share-report.test.ts`, U5 e2e |
+| U6 | `/credits` with every resource and URL; Codex credited; 15 missing licences added; REFERENCES.json regenerated with library URLs | `tests/credits.test.ts`, `make test`, U6 e2e |
+
+**Final checks (sandbox):** `pnpm lint` ✓ (alias of tsc) · `pnpm typecheck` ✓ · `pnpm test` 144 passed, 3 skipped · `pnpm build` ✓ (`/simulator` First Load 620 kB) · `make test` 21 passed · Playwright 33 tests: 32 passed in the full run; `ai.spec.ts:53` (failed at baseline too) passes alone in about 1.0–1.1 min and is now marked `test.slow()`; the four affected suites then passed 21/21.
+
+**Not done / left for the team:** see `docs/HUMAN_TASKS.md` #7 and #18–#25 (video URL, live domain, OpenAI key on Vercel, quench-limit verification, 12 references without URLs, brand-asset origin, team bios, a material-list duplicate, the pre-existing `make export` table error). A real ESLint setup and lazy-loading the heavy simulator bundle were not attempted (time-box).
+
+## Expected score change (honest reasoning)
+
+| Criterion | Before | After | Why it moves (or not) |
+|---|---|---|---|
+| Impact | 3 | 3–4 | The next-test brief and envelope explorer turn the gap in NASA data into something a mission team can act on. Still a hackathon tool (not for certification), so "4" depends on the video telling that story. |
+| Creativity | 4 | 4 | Same concept; run-aware Aster and the envelope explorer are good executions, not a new idea. |
+| Validity | 3 | 4 | The biggest gain: the AI now answers from the run with checked numbers and correct citations; the verdict says why each fire ended; the gravity/quench and low-pressure limits are stated; claims match the data; invalid inputs are rejected. It stays below 5 because spread is calibrated on n = 1 and the headline rests on a TODO_VERIFY quench limit. |
+| Relevance | 4 | 5 | Every PSI-tested solid's envelope is now visible next to mission atmospheres, FM2 partial-gravity evidence is quoted where it matters, and every NASA resource is listed with its URL. |
+| Presentation | 3 | 4 | Phone view works, search, credits page, clearer verdict, shareable links. A 5 needs the demo video, which only the team can record (HUMAN_TASKS #7). |

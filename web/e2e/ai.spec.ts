@@ -51,6 +51,7 @@ test("thinking trail is driven by real steps (delayed parse request)", async ({ 
 });
 
 test("briefing streams after a run; Apply & re-run on fix #1 updates the result", async ({ page }) => {
+  test.slow(); // two 200-run Monte Carlo passes + the design review under SwiftShader: ~60–70 s alone, more under suite load
   await page.goto("/simulator?preset=lunar-design-review");
   await page.getByTestId("run").click();
   await page.getByTestId("ask-ai").click();

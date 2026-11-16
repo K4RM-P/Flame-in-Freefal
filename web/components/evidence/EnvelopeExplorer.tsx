@@ -66,8 +66,8 @@ export function EnvelopeExplorer() {
           {(["P", "flow"] as const).map((a) => <button key={a} type="button" role="radio" aria-checked={axis === a} data-testid={`env-axis-${a}`} onClick={() => setAxis(a)}
             className={`h-8 rounded-[6px] border px-3 ${axis === a ? "border-mute bg-surface2 text-ink" : "border-line text-mute"}`}>{a === "P" ? "Pressure (kPa)" : "Air flow (cm/s)"}</button>)}
         </div>
-        <label className="ml-auto flex items-center gap-2"><span className="ea-meta">Cabin</span>
-          <select value={sel} onChange={(e) => setSel(e.target.value)} className="h-8 text-[13px]" data-testid="env-cabin">
+        <label className="flex w-full min-w-0 items-center gap-2 sm:ml-auto sm:w-auto"><span className="ea-meta">Cabin</span>
+          <select value={sel} onChange={(e) => setSel(e.target.value)} className="h-8 min-w-0 max-w-full flex-1 text-[13px] sm:max-w-[22rem]" data-testid="env-cabin">
             {user && <option value="user">{user.label} (from simulator)</option>}
             {missions.map((m) => <option key={m.id} value={m.id}>{m.name}</option>)}
           </select>

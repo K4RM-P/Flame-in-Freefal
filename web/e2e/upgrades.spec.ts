@@ -60,7 +60,7 @@ test("U3: Apply & re-run shows what changed, before and after, from both engine 
   await expect(diff.getByTestId("diff-time_to_extinguish")).toContainText(/better|worse|same|no data/);
   await page.screenshot({ path: shot("apply-diff") });
   await page.getByRole("button", { name: "Close drawer" }).click().catch(() => {});
-  await page.getByTestId("diff-btn").click();
+  await page.getByTestId("next-test-btn").click();
   await expect(page.locator("[data-testid=run-diff]").last()).toBeVisible();
 });
 

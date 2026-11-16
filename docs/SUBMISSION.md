@@ -7,8 +7,8 @@
 ## Summary (150 words)
 On Artemis II, a smoke alarm went off in Orion. Fire in space is hard to see and impossible to escape. Maya approves cabin fabrics for a Moon base that will breathe 34% oxygen at 56.5 kPa and one-sixth gravity, and nobody can tell her if they are safe: no solid in NASA's PSI data was ever burned above 22.2% oxygen. EmberAtlas is the firefighter for space. Find: it burns the same NASA-tested fabric in an ISS cabin and a Moon cabin. Explain: on the ISS, cutting the fan puts the fire out at 30 s; on the Moon the fire outlasts a 2 kg CO₂ extinguisher and burns out at 171 s. Prevent: a deterministic design review ranks the fixes, starting with the gap that the extinguisher never fires. Then it names the next test. Every number traces to a PSI accession or is labelled a design input.
 
-- **Demo link:** TODO
-- **Project link:** TODO
+- **Demo link:** TODO_VIDEO_URL
+- **Project link:** https://emberatlas-five.vercel.app · repository https://github.com/K4RM-P/flame-in-freefal · all resources: https://emberatlas-five.vercel.app/credits
 
 ## Detailed description
 EmberAtlas follows one story: (1) the Artemis II smoke alarm; (2) fire in space is hard to see and impossible to escape; (3) Maya approves fabrics for a 34% O₂ Moon base; (4) nobody can tell her if it is safe; (5) EmberAtlas: **Find · Explain · Prevent**; (6) the next test to fly. It has three surfaces: `/simulator`, `/evidence` and `/methods` (plus `/` and `/about`). The simulator ships four presets: *Saffire replay*, *Same fabric: ISS vs Lunar Habitat* (same crew-detection, fan-off and CO₂ response in both cabins, all design inputs), *Moon base: find the gaps* (the unfixed cabin for the design review) and *Lunar Habitat: tune the response*. `/simulator?preset=iss-vs-lunar&run=1` loads and runs the comparison in one click. Exact demo numbers: `docs/DEMO_SCRIPT.md`.
@@ -26,7 +26,7 @@ Every run exports CSV of the PSI rows it used (accession, file, line) and the si
 Earth test vs orbit (SAFFIRE-II, PSI-99, counts computed from data); where the evidence stops (highest tested O₂, pressure and flow per material vs the mission); and the next test, ranked by how far each out-of-envelope input sits from the tested range. Inside the envelope, the app says no new test is needed.
 
 ### SI
-The OpenAI API drafts scenario fields from a plain-language description (you review every field before running), interprets a finished run, and explains experiment matches. Each call is grounded only on engine output and ranked PSI rows, and a numeric guard (`web/lib/ai/guard.ts`) rejects any number not present in that context. Without an API key the app says so; nothing is faked.
+The OpenAI API drafts scenario fields from a plain-language description (you review every field before running), interprets a finished run, and explains experiment matches. Each call is grounded only on engine output and ranked PSI rows, and a numeric guard (`web/lib/ai/guard.ts`) rejects any number not present in that context. Without an API key every AI surface answers deterministically from the engine output (`web/lib/ai/explain.ts`), marked offline; nothing is faked.
 
 ## NASA data
 NASA PSI Data Repository, Combustion Science (https://psi.nasa.gov/physci/repo/search?q=combustion), accessed 2026-11-14 via the public PSI API (GET only). Experimental tables used (row counts in `web/data/psi/tables_index.json`, processed copies in `web/public/psi/*.json`):
@@ -55,7 +55,7 @@ NASA PSI Data Repository, Combustion Science (https://psi.nasa.gov/physci/repo/s
 None.
 
 ## Use of AI
-- Claude Code (Anthropic) wrote and refactored the code, data pipelines, tests and docs under human direction and review. Source files carry an "SI-assisted" header.
+- Claude Code (Anthropic) and Codex (OpenAI) wrote and refactored the code, data pipelines, tests and docs under human direction and review. Source files carry an "SI-assisted" header naming the tool.
 - At runtime the OpenAI API powers the scenario builder, run interpretation and the match explanation (grounded, numeric guard).
 - No SI-generated images or video. The landing image is NASA's (SoFIE-GEL, NASA/JSC).
 

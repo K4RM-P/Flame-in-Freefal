@@ -517,17 +517,13 @@ function ResultStrip() {
   }
   return (
     <section data-testid="delta-card" className="flex min-h-12 flex-wrap items-center gap-x-3 gap-y-1.5 border-t border-line bg-bg px-4 py-2" aria-label="Result">
-      <p className="min-w-0 text-[16px] font-semibold tracking-[-0.01em]" data-testid="result-headline">{headline}</p>
-      {why && <Tip label={why}><span data-testid="end-reason" className="ea-pill cursor-help" tabIndex={0} aria-label={`Why each fire ended: ${why}`}>Why?</span></Tip>}
+      <p className="min-w-0 text-[16px] font-semibold tracking-[-0.01em]" data-testid="result-headline" title={why ?? undefined}>{headline}{why && <span className="sr-only" data-testid="end-reason">Why each fire ended: {why}</span>}</p>
       {oobText.length > 0 && <Tip label={oobText.join(" · ")}><span data-testid="extrapolated" className="ea-pill" data-tone="warn">Extrapolated</span></Tip>}
       <span className="flex-1" />
-      {b && rb && <Popover>
-        <PopoverTrigger asChild><Button variant="secondary" size="sm" className="h-8" data-testid="diff-btn"><ListChecks {...ICON} />What changed</Button></PopoverTrigger>
-        <PopoverContent side="top" align="end" className="w-[min(440px,calc(100vw-2rem))]"><RunDiffCard a={a} ra={ra} b={b} rb={rb} /></PopoverContent>
-      </Popover>}
       <Popover>
-        <PopoverTrigger asChild><Button variant="secondary" size="sm" className="h-8" data-testid="next-test-btn"><FlaskConical {...ICON} />Next test</Button></PopoverTrigger>
-        <PopoverContent side="top" align="end" className="w-[380px]">
+        <PopoverTrigger asChild><Button variant="secondary" size="sm" className="h-8" data-testid="next-test-btn"><FlaskConical {...ICON} />{b && rb ? "What changed · Next test" : "Next test"}</Button></PopoverTrigger>
+        <PopoverContent side="top" align="end" className={`${b && rb ? "max-h-[70vh] w-[min(460px,calc(100vw-2rem))] overflow-auto" : "w-[min(380px,calc(100vw-2rem))]"}`}>
+          {b && rb && <div className="mb-3 border-b border-line pb-3"><RunDiffCard a={a} ra={ra} b={b} rb={rb} /></div>}
           <p className="ea-meta mb-1">Next test to fly</p>
           {nt ? <p className="text-[13px]"><b>{nt.condition}.</b> <span className="text-mute">{nt.reason}</span></p> : <p className="text-[13px] text-mute">Inside the tested envelope, no new test needed for this scenario</p>}
           <div className="mt-2"><NextTest sc={sc} r={r} /></div>
