@@ -10,6 +10,8 @@ import type { answerLocally } from "@/lib/ai/localAster";
 import { emptyRun, readEvents, reduceRun, type AiRun } from "@/lib/ai/stream";
 import { AiGlow, Cites, GuardBadge, OfflineChip, Orb, StreamAnswer, ThinkingTrail, orbOf } from "@/components/ai/kit";
 import { ThinkingOrb } from "@/components/ai/ThinkingOrb";
+import { useRunContext } from "@/lib/ai/runContextStore";
+import { followUpsFor, type SourceLink } from "@/lib/ai/explain";
 import { BUILD_AI_EVENT } from "@/components/sim/AiInterview";
 
 type LocalAnswer = ReturnType<typeof answerLocally>;
@@ -67,6 +69,12 @@ export function Aster() {
   const [thread, setThread] = useState<Exchange[]>([]);
   const [busy, setBusy] = useState(false);
   const [context, setContext] = useState<AsterContext | null>(null);
+  // On the simulator, the run on screen is the default context (Aster answers from the engine, not page text).
+  const runCtx = useRunContext((s) => s.ctx);
+  const [ignoreRun, setIgnoreRun] = useState(false);
+  useEffect(() => setIgnoreRun(false), [runCtx]);
+  const active = context ?? (path === "/simulator" && runCtx && !ignoreRun ? runCtx : null);
+  const starters = active?.data ? followUpsFor(active.data) : [];
 
   function openChat() {
     if (!dialog.current || dialog.current.open) return;
@@ -87,7 +95,10 @@ export function Aster() {
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const question = draft.trim();
+    await ask(draft.trim());
+  }
+
+  async function ask(question: string) {
     if (!question || busy) return;
     setDraft("");
     const destination = navigationRequest(question);
@@ -100,14 +111,14 @@ export function Aster() {
     setBusy(true);
     const idx = thread.length;
     let run = emptyRun();
-    const base: Exchange = { question, contextLabel: context?.label, run };
+    const base: Exchange = { question, contextLabel: active?.label, run };
     setThread((current) => [...current, base]);
     const put = (r: AiRun) => setThread((current) => current.map((x, i) => (i === idx ? { ...x, run: r } : x)));
     try {
       const response = await fetch("/api/aster", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ stream: true, question, path, language, context: context ?? document.body.innerText.slice(0, 12000) }),
+        body: JSON.stringify({ stream: true, question, path, language, context: active ?? document.body.innerText.slice(0, 12000) }),
       });
       await readEvents(response, (e) => { run = reduceRun(run, e); put(run); scrollTranscript(); });
       if (run.streaming) { run = reduceRun(run, { type: "done", data: { text: run.text } }); put(run); }
@@ -144,9 +155,9 @@ export function Aster() {
             <h2 id="aster-title" className="flex items-center gap-2 text-[15px] font-semibold tracking-tight"><Orb state={busy ? "thinking" : thread.at(-1)?.run?.done?.offline ? "offline" : "speaking"} size={38} interactive={chatOpen} /> Aster <span className="text-[12px] font-normal text-faint">NASA research</span></h2>
             <button type="button" className="grid h-7 w-7 place-items-center rounded-full text-faint transition-colors hover:bg-surface2 hover:text-ink" aria-label="Close" autoFocus onClick={() => dialog.current?.close()}>✕</button>
           </header>
-          {context && <div className="flex items-center justify-between gap-2 border-b border-line px-4 py-2 text-sm">
-            <span className="min-w-0 break-words"><strong>Context:</strong> {context.label}</span>
-            <button className="btn shrink-0" type="button" onClick={() => setContext(null)}>Clear</button>
+          {active && <div className="flex items-center justify-between gap-2 border-b border-line px-4 py-2 text-sm" data-testid="aster-context">
+            <span className="min-w-0 break-words"><strong>{active.data ? "This run:" : "Context:"}</strong> {active.label}{active.data && <span className="block text-xs text-mute">Answers come from the engine result on screen.</span>}</span>
+            <button className="btn shrink-0" type="button" onClick={() => (context ? setContext(null) : setIgnoreRun(true))}>{active.data ? "Ask without it" : "Clear"}</button>
           </div>}
           <div ref={transcript} role="log" aria-label="Aster conversation" className="min-h-0 flex-1 space-y-4 overflow-auto break-words p-4 text-sm">
             {guide && <div className="space-y-2 rounded-md border border-line bg-panel p-3">
@@ -162,6 +173,8 @@ export function Aster() {
               <button type="button" className="ai-cta" data-testid="aster-build" onClick={buildScenario}><span className="ai-star" aria-hidden>✦</span>Build this scenario</button>
               <div className="flex flex-wrap gap-1.5">{PRESET_LINKS.map(([id, label]) => <a key={id} className="ai-chip !py-1 !text-[12px]" href={`/simulator?preset=${id}`}>{label}</a>)}</div>
             </div>
+            {starters.length > 0 && thread.length === 0 && <div className="space-y-1.5" data-testid="aster-starters"><p className="ai-label">Ask about this run</p>
+              {starters.map((q) => <button key={q} type="button" className="ai-chip w-full justify-start text-left" disabled={busy} onClick={() => void ask(q)}>{q}</button>)}</div>}
             {!guide && thread.length === 0 && <p className="text-mute">Ask about a NASA fire experiment. Aster searches EmberAtlas’s bundled study catalog.</p>}
             {thread.map(({ question, error, destination, contextLabel, run }, index) => (
               <div key={index} className="space-y-2">
@@ -172,11 +185,12 @@ export function Aster() {
                 </div>}
                 {error && <p className="text-warn">{error}</p>}
                 {run && <AiGlow thinking={run.streaming}>
-                  <div className="mb-1.5 flex items-center gap-2"><Orb state={orbOf(run)} size={12} /><p className="ai-label flex-1" role="status">{run.streaming ? "Thinking…" : run.error ? "Aster" : run.done?.mode === "openai" ? "AI answer" : "Catalog search"}</p><OfflineChip on={!!run.done?.offline} /></div>
+                  <div className="mb-1.5 flex items-center gap-2"><Orb state={orbOf(run)} size={12} /><p className="ai-label flex-1" role="status">{run.streaming ? "Thinking…" : run.error ? "Aster" : run.done?.mode === "openai" ? "AI answer" : run.done?.mode === "engine" ? "From the engine run" : "Catalog search"}</p><OfflineChip on={!!run.done?.offline} /></div>
                   <ThinkingOrb run={run} />
                   <ThinkingTrail steps={run.steps} />
                   {(!run.streaming || run.text) && <div className="mt-1.5"><StreamAnswer run={run} /></div>}
-                  {!run.streaming && !run.error && <div className="mt-1.5 space-y-1.5"><Cites ids={run.done?.citations as string[] | undefined} /><GuardBadge ok={(run.done?.guard as { ok?: boolean } | undefined)?.ok !== false} /></div>}
+                  {!run.streaming && !run.error && <div className="mt-1.5 space-y-1.5"><Cites ids={run.done?.citations as string[] | undefined} links={run.done?.links as SourceLink[] | undefined} /><GuardBadge ok={(run.done?.guard as { ok?: boolean } | undefined)?.ok !== false} checked={(run.done?.guard as { checked?: number } | undefined)?.checked} /></div>}
+                  {!run.streaming && index === thread.length - 1 && ((run.done?.followUps as string[] | undefined) ?? []).length > 0 && <div className="mt-2 flex flex-wrap gap-1.5" data-testid="aster-followups">{(run.done!.followUps as string[]).map((q) => <button key={q} type="button" className="ai-chip !py-1 !text-[12px]" disabled={busy} onClick={() => void ask(q)}>{q}</button>)}</div>}
                 </AiGlow>}
                 <SourcePreviews sources={run?.done?.sources as LocalAnswer["sources"] | undefined} />
               </div>

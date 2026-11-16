@@ -9,6 +9,8 @@ import { gate, json, readJson } from "@/lib/ai/http";
 import { BRIEF_INSTRUCTIONS, INSTRUCTIONS, InterpretRequestSchema, buildFacts, checkAnswer, citationCheck, interpret, stripAnswer } from "@/lib/ai/interpret";
 import { numbersIn } from "@/lib/ai/guard";
 import { localInterpret } from "@/lib/ai/localInterpret";
+import { explainRun } from "@/lib/ai/explain";
+import { buildRunFacts } from "@/lib/ai/runFacts";
 import { sseResponse, step } from "@/lib/ai/stream";
 import { simulate } from "@/lib/sim/engine";
 import { ScenarioSchema } from "@/lib/sim/types";
@@ -53,7 +55,13 @@ function streamed(data: Parameters<typeof buildFacts>[0], client: ReturnType<typ
     }
     if (offline) {
       if (!run || !sc.success) { emit({ type: "error", error: "No engine result to summarise." }); return; }
-      text = await step(emit, "model", "Writing the offline summary from engine numbers…", () => localInterpret(sc.data, run));
+      const q = !data.brief && data.question?.trim();
+      text = await step(emit, "model", q ? "Answering from the engine run (offline)…" : "Writing the offline summary from engine numbers…", () => {
+        if (!q) return localInterpret(sc.data, run);
+        const cmp = data.compare ? ScenarioSchema.safeParse(data.compare.scenario) : null;
+        let rb = null; try { rb = cmp?.success ? simulate(cmp.data) : null; } catch { rb = null; }
+        return `Offline answer (deterministic, no AI): ${explainRun(q, buildRunFacts(sc.data, run, cmp?.success ? cmp.data : null, rb)).text}`;
+      });
       emit({ type: "token", text });
     }
     const k = numbersIn(text).length;

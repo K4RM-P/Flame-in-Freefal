@@ -67,14 +67,19 @@ export function ThinkingTrail({ steps }: { steps: Trail[] }) {
   );
 }
 
-export function Cites({ ids }: { ids?: string[] }) {
-  if (!ids?.length) return null;
-  return <div className="flex flex-wrap gap-1.5" data-testid="cites">{ids.map((c) => <a key={c} href={`/evidence#${c.toLowerCase()}`} className="ai-chip !px-2.5 !py-0.5 font-mono !text-[11px]">{c}</a>)}</div>;
+/** Citation chips: PSI accessions open their Evidence entry; other sources (FM2, papers) open their public URL. */
+export function Cites({ ids, links }: { ids?: string[]; links?: { id: string; label: string; url: string }[] }) {
+  if (!ids?.length && !links?.length) return null;
+  return <div className="flex flex-wrap gap-1.5" data-testid="cites">
+    {(ids ?? []).map((c) => <a key={c} href={`/evidence#${c.toLowerCase()}`} title={`Open ${c} on the Evidence page`} className="ai-chip !px-2.5 !py-0.5 font-mono !text-[11px]">{c}</a>)}
+    {(links ?? []).map((l) => <a key={l.id} href={l.url} target="_blank" rel="noreferrer" title={l.label} className="ai-chip !px-2.5 !py-0.5 font-mono !text-[11px]" data-testid="cite-link">{l.id.startsWith("ntrs-") ? `NTRS ${l.id.slice(5)}` : l.label.split(/[,(]/)[0].slice(0, 28)} ↗</a>)}
+  </div>;
 }
 
-export function GuardBadge({ ok, stripped }: { ok: boolean; stripped?: boolean }) {
+export function GuardBadge({ ok, stripped, checked }: { ok: boolean; stripped?: boolean; checked?: number }) {
+  if (ok && !stripped && checked === 0) return <p className="flex items-center gap-1.5 text-[11.5px] text-faint" data-testid="guard"><ShieldCheck size={13} strokeWidth={1.5} className="text-faint" />No numbers in this answer</p>;
   return ok && !stripped
-    ? <p className="flex items-center gap-1.5 text-[11.5px] text-faint" data-testid="guard"><ShieldCheck size={13} strokeWidth={1.5} className="text-ok" />Every number checked against the engine</p>
+    ? <p className="flex items-center gap-1.5 text-[11.5px] text-faint" data-testid="guard"><ShieldCheck size={13} strokeWidth={1.5} className="text-ok" />{checked ? `${checked} number${checked === 1 ? "" : "s"} checked against the engine` : "Every number checked against the engine"}</p>
     : <p className="flex items-center gap-1.5 text-[12px] text-warn" data-testid="guard"><ShieldAlert size={13} strokeWidth={1.5} />Unsupported numbers removed</p>;
 }
 

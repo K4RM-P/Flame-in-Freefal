@@ -28,6 +28,8 @@ export const InterpretRequestSchema = z.object({
   design_review: z.array(z.record(z.unknown())).max(20).optional(),
   stream: z.boolean().optional(),
   brief: z.boolean().optional(),
+  /** Scenario B when the simulator shows an A/B compare (the offline explainer re-runs it server-side). */
+  compare: z.object({ scenario: z.record(z.unknown()) }).passthrough().optional(),
 });
 export type InterpretRequest = z.infer<typeof InterpretRequestSchema>;
 

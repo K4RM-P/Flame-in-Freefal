@@ -17,6 +17,9 @@ import { exportPsiRowsCsv, exportScenarioJson, exportSeriesCsv } from "@/lib/sim
 import { ScenarioSchema, type Scenario, type SimResult } from "@/lib/sim/types";
 import { nextTest, outOfEnvelope } from "@/lib/sim/nextTest";
 import { durationVerdict, fireEnd } from "@/lib/sim/endReason";
+import { buildRunFacts, runFactsText } from "@/lib/ai/runFacts";
+import { followUpsFor } from "@/lib/ai/explain";
+import { useRunContext } from "@/lib/ai/runContextStore";
 import { lsGet, lsSet } from "@/lib/store";
 import { sig, withUnit } from "@/lib/ui/format";
 import { cn } from "@/lib/utils";
@@ -56,6 +59,7 @@ export function Workspace() {
   }, [set]);
   usePresentAutoRun();
   useShortcuts();
+  usePublishRunContext();
   if (present) return <PresentMode />;
   return (
     <div className="flex flex-col lg:fixed lg:inset-x-0 lg:bottom-0 lg:top-14 lg:z-30 lg:bg-bg print:static" data-testid="workspace">
@@ -107,6 +111,24 @@ function revealMissing(label: string) {
 
 /* ---------- playback: advances the playhead through engine frames (data-driven, not decorative) ---------- */
 const BASE_S = 24;
+/** Publish the run on screen to Aster (lib/ai/runContextStore): Aster then answers from the engine, not the page text. */
+function usePublishRunContext() {
+  const { a, b, ra, rb } = useSim();
+  useEffect(() => {
+    const setCtx = useRunContext.getState().set;
+    if (!a || !ra) { setCtx(null); return; }
+    // The design review inside runs extra engine passes; yield first so the result paints before it.
+    const id = window.setTimeout(() => {
+      try {
+        const data = buildRunFacts(a, ra, b && rb ? b : null, b && rb ? rb : null);
+        setCtx({ kind: "run", label: b && rb ? `${a.name} vs ${b.name}` : a.name, facts: runFactsText(data), question: followUpsFor(data)[0], data });
+      } catch { setCtx(null); }
+    }, 50);
+    return () => window.clearTimeout(id);
+  }, [a, b, ra, rb]);
+  useEffect(() => () => useRunContext.getState().set(null), []);
+}
+
 function usePlayback() {
   const { playing, ra, rb, set, present, speed } = useSim();
   useEffect(() => {
