@@ -22,3 +22,29 @@ test("U1: Aster answers the Moon question from the run, with numbers and NASA ci
   await expect(page.getByTestId("aster-followups")).toBeVisible();
   await page.screenshot({ path: shot("aster-run") });
 });
+
+test("U2: Methods search finds an equation, highlights it and opens the collapsed card", async ({ page }) => {
+  await page.goto("/methods");
+  await page.keyboard.press("/");
+  await expect(page.locator("#methods-search-input")).toBeFocused();
+  await page.keyboard.type("thin fuel spread");
+  const hits = page.getByTestId("search-hit");
+  await expect(hits.first()).toContainText("Equation");
+  await expect(hits.first().locator("mark").first()).toBeVisible();
+  await page.screenshot({ path: shot("methods-search") });
+  await page.keyboard.press("Enter");
+  await expect(page).toHaveURL(/#eq-SP1/);
+  await expect(page.locator("details#eq-SP1")).toHaveAttribute("open", "");
+  await page.goto("/methods?q=quench");
+  await expect(page.getByTestId("search-hit").first()).toBeVisible();
+});
+
+test("U2: Evidence search finds a PSI dataset by number and deep-links to it", async ({ page }) => {
+  await page.goto("/evidence");
+  await page.locator("#evidence-search-input").fill("psi 25");
+  await expect(page.getByTestId("search-hit").first()).toContainText("PSI-25");
+  await page.keyboard.press("Enter");
+  await expect(page).toHaveURL(/#psi-25/);
+  await page.locator("#evidence-search-input").fill("sibal");
+  await expect(page.getByTestId("search-hit").first()).toContainText(/Material|Sample/);
+});

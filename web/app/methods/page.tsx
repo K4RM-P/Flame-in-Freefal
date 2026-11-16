@@ -1,6 +1,7 @@
 // SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 // Plain-language methods: engine loop, sub-models + calibration source, validation, limitations, data, use of AI.
 import { AskAsterButton } from "@/components/AskAsterButton";
+import { PageSearch } from "@/components/search/PageSearch";
 import fs from "node:fs";
 import path from "node:path";
 import { EQUATIONS } from "@/lib/equations";
@@ -77,6 +78,7 @@ export default function Methods() {
         <h1 className="display mt-3 text-4xl md:text-7xl">Methods &amp; validation</h1>
         <p className="measure mt-4 text-lg leading-relaxed text-mute">Follow a simulation from its equations to the NASA experiments and validation checks behind it.</p>
         <p className="next-step mt-4"><span className="next-step__tag">Next step</span><span>Pick a model in <a className="underline underline-offset-2" href="#overview">Models at a glance</a>, then open one of its formula cards.</span></p>
+        <div className="mt-5"><PageSearch placeholder="Search equations, assumptions, limits, sources…" testid="methods-search" /></div>
         <nav className="ea-jumps mt-5" aria-label="Methods shortcuts">
           <a href="#overview">Browse models</a>
           <a href="#models">Find a formula</a>
@@ -98,7 +100,7 @@ export default function Methods() {
       <section id="loop" className="card space-y-2">
         <h2 className="text-[20px] font-semibold"><span className="methods-num">01</span>How a run works</h2>
         <p className="measure text-mute">You describe a cabin (or load a preset). The engine then repeats these steps every half second. The same inputs and seed always give the same result.</p>
-        <ol className="methods-steps">{LOOP.map((s, i) => <li key={i}>{s}</li>)}</ol>
+        <ol className="methods-steps" data-search-items="Section">{LOOP.map((s, i) => <li key={i}>{s}</li>)}</ol>
       </section>
 
       <section id="overview" className="card space-y-3">

@@ -539,3 +539,8 @@ select { height: 2rem; background: rgb(var(--panel)); }
   .ea-thinking-stage__orb::after { animation: ea-thinking-orbit 1.8s linear infinite; }
 }
 @keyframes ea-thinking-orbit { to { transform: rotate(360deg); } }
+
+/* In-page search (Methods, Evidence) */
+.ea-mark { background: rgb(var(--ember) / .22); color: rgb(var(--ink)); border-radius: 2px; padding: 0 1px; }
+.ea-search-target { outline: 1px solid rgb(var(--mute)); outline-offset: 4px; border-radius: 8px; }
+.ea-search-input, .ea-search-input:focus, .ea-search-input:focus-visible { outline: none !important; box-shadow: none !important; border: 0 !important; background: transparent !important; }

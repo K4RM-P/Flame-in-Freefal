@@ -12,6 +12,7 @@ import { cn } from "@/lib/utils";
 import { earthVsOrbitSummary, evidenceStops } from "@/lib/sim/evidence";
 import { sig } from "@/lib/ui/format";
 import { ExperimentMatch } from "@/components/match/ExperimentMatch";
+import { PageSearch } from "@/components/search/PageSearch";
 
 type Range = [number, number] | null;
 const pct = (x: number | null | undefined) => (x == null ? "—" : sig(x * 100, 3));
@@ -61,6 +62,7 @@ export function EvidencePage() {
         <p className="label">NASA PSI evidence</p>
         <h1 className="display mt-2 text-[clamp(2rem,5vw,3.6rem)] leading-none">What NASA has tested, and where it stops.</h1>
         <p className="measure mt-3 text-base text-mute">Compare flight results, see where test coverage ends, or find an experiment for your mission.</p>
+        <div className="mt-5"><PageSearch placeholder="Search NASA datasets, materials, samples, PSI numbers…" testid="evidence-search" /></div>
         <nav className="ea-jumps mt-5 lg:hidden" aria-label="Evidence jump links">
           {TOC.map(([id, l]) => <a key={id} href={`#${id}`}>{l}</a>)}
         </nav>
@@ -93,7 +95,7 @@ export function EvidencePage() {
             <tbody>
               {rows.map((r, i) => (
                 <Fragment key={`${r.sample}-${i}`}>
-                <tr className="cursor-pointer" aria-expanded={open === i} tabIndex={0} onClick={() => setOpen(open === i ? null : i)} onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && (e.preventDefault(), setOpen(open === i ? null : i))}>
+                <tr data-search-item data-search-kind="Sample" data-search-title={`SAFFIRE-II sample ${r.sample}`} className="cursor-pointer" aria-expanded={open === i} tabIndex={0} onClick={() => setOpen(open === i ? null : i)} onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && (e.preventDefault(), setOpen(open === i ? null : i))}>
                   <td className="text-faint"><ChevronRight size={12} strokeWidth={1.5} className={cn("transition-transform", open === i && "rotate-90")} /></td>
                   <td className="num">{r.sample}</td><td>{r.material}</td><td className="num ea-numeric">{r.thickness}{/^0\d/.test(String(r.thickness)) && <span className="text-warn" title="Raw PSI-99 cell, shown as written (decimal point likely missing)"> †</span>}</td>
                   <td className="num ea-numeric">{r.x_o2_lo === r.x_o2_hi || r.x_o2_hi == null ? pct(r.x_o2_lo) : `${pct(r.x_o2_lo)}–${pct(r.x_o2_hi)}`}%</td>
@@ -127,7 +129,7 @@ export function EvidencePage() {
         <div className="ea-table-scroll ea-research-table overflow-x-auto" tabIndex={0} role="region" aria-labelledby="stops-h">
           <table className="data">
             <thead><tr><th>material</th><th className="ea-numeric">tested O₂ %</th><th className="ea-numeric">tested pressure kPa</th><th className="ea-numeric">tested flow cm/s</th><th>investigations</th></tr></thead>
-            <tbody>
+            <tbody data-search-items="Material">
               {stops.rows.map((r) => (
                 <tr key={r.material_key}>
                   <td>{r.display_name}</td>
@@ -146,7 +148,7 @@ export function EvidencePage() {
 
       <section id="psi-datasets" aria-labelledby="psi-h" className="ea-evidence-section space-y-4 scroll-mt-24">
         <h2 id="psi-h" className="text-[22px] font-semibold tracking-[-0.02em]">NASA PSI datasets in EmberAtlas<CopyLink id="psi-datasets" label="PSI datasets" /></h2>
-        <p className="measure text-mute"><span className="num">{psi.length}</span> accessions, <span className="num">{psi.reduce((s, p) => s + p.rows, 0).toLocaleString("en-US")}</span> rows with provenance. Click a dataset for its source files.</p>
+        <p className="measure text-mute"><span className="num">{psi.length}</span> accessions, <span className="num">{(tablesIndex as Table[]).reduce((s, t) => s + t.rows, 0).toLocaleString("en-US")}</span> rows with provenance (a table shared by several accessions is counted once). Click a dataset for its source files.</p>
         <div className="ea-table-scroll overflow-x-auto" role="region" aria-labelledby="psi-h" tabIndex={0}>
           <table className="data">
             <thead><tr><th className="w-6" aria-label="Expand" /><th>accession</th><th>investigation</th><th className="ea-numeric">rows</th></tr></thead>
