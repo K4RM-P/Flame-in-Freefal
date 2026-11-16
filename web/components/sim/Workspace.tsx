@@ -474,6 +474,9 @@ function ResultStrip() {
     <section data-testid="delta-card" className="flex min-h-12 flex-wrap items-center gap-x-3 gap-y-1.5 border-t border-line bg-bg px-4 py-2" aria-label="Result">
       <p className="min-w-0 text-[16px] font-semibold tracking-[-0.01em]" data-testid="result-headline">{headline}</p>
       {oobText.length > 0 && <Tip label={oobText.join(" · ")}><span data-testid="extrapolated" className="ea-pill" data-tone="warn">Extrapolated</span></Tip>}
+      {(ra.flags?.partial_g_nonconservative || rb?.flags?.partial_g_nonconservative) && <Tip label="Partial gravity is estimated between µg and 1 g, never measured. NASA FM2 lunar-g tests found some materials burn more readily at lunar g than at either, so this may be non-conservative (NTRS 20240015307)."><span data-testid="partial-g" className="ea-pill" data-tone="warn">Partial g: may be non-conservative</span></Tip>}
+      <Tip label="Smoke and CO sub-models are theory-only: not calibrated on PSI data."><span data-testid="smoke-uncal" className="ea-pill">Smoke uncalibrated</span></Tip>
+      <span className="font-mono text-[11px] uppercase tracking-[0.06em] text-faint" data-testid="not-cert">Not for flight certification</span>
       <span className="flex-1" />
       <Popover>
         <PopoverTrigger asChild><Button variant="secondary" size="sm" className="h-8" data-testid="next-test-btn"><FlaskConical {...ICON} />Next test</Button></PopoverTrigger>

@@ -1,3 +1,4 @@
+// SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 export const TARGET_LANGUAGES = {
   fr: "French",
   es: "Spanish",

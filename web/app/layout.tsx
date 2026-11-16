@@ -5,10 +5,16 @@ import { GeistMono } from "geist/font/mono";
 import "katex/dist/katex.min.css";
 import "./globals.css";
 import { Shell } from "@/components/shell/Shell";
+import { LIVE_URL } from "@/lib/team";
 
+const DESCRIPTION = "Describe a spacecraft cabin, burn it with a physics engine calibrated on NASA fire experiments, ask Aster why, and fix it before launch. NASA Space Apps 2026 · Flame in Freefall.";
 export const metadata: Metadata = {
-  title: { default: "EmberAtlas · Flame in Freefall challenge", template: "%s · EmberAtlas · Flame in Freefall" },
-  description: "EmberAtlas, for the Flame in Freefall challenge, shows where and how a fire would start in your spacecraft, and which design change prevents it. Built on NASA's ISS fire data, explained by AI.",
+  metadataBase: new URL(LIVE_URL),
+  title: { default: "EmberAtlas — The firefighter for space", template: "%s · EmberAtlas" },
+  description: DESCRIPTION,
+  applicationName: "EmberAtlas",
+  openGraph: { title: "EmberAtlas — The firefighter for space", description: DESCRIPTION, type: "website", siteName: "EmberAtlas", url: "/" },
+  twitter: { card: "summary_large_image", title: "EmberAtlas — The firefighter for space", description: DESCRIPTION },
 };
 
 // Dark-first: only an explicit saved "light" choice switches the theme.

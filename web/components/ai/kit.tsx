@@ -72,9 +72,10 @@ export function Cites({ ids }: { ids?: string[] }) {
   return <div className="flex flex-wrap gap-1.5" data-testid="cites">{ids.map((c) => <a key={c} href={`/evidence#${c.toLowerCase()}`} className="ai-chip !px-2.5 !py-0.5 font-mono !text-[11px]">{c}</a>)}</div>;
 }
 
-export function GuardBadge({ ok, stripped }: { ok: boolean; stripped?: boolean }) {
+export function GuardBadge({ ok, stripped, checked, against = "the engine" }: { ok: boolean; stripped?: boolean; checked?: number; against?: string }) {
+  const label = checked === undefined ? "Every number checked against the engine" : checked === 0 ? "No numbers in this answer" : `${checked} number${checked === 1 ? "" : "s"} checked against ${against}`;
   return ok && !stripped
-    ? <p className="flex items-center gap-1.5 text-[11.5px] text-faint" data-testid="guard"><ShieldCheck size={13} strokeWidth={1.5} className="text-ok" />Every number checked against the engine</p>
+    ? <p className="flex items-center gap-1.5 text-[11.5px] text-faint" data-testid="guard"><ShieldCheck size={13} strokeWidth={1.5} className="text-ok" />{label}</p>
     : <p className="flex items-center gap-1.5 text-[12px] text-warn" data-testid="guard"><ShieldAlert size={13} strokeWidth={1.5} />Unsupported numbers removed</p>;
 }
 

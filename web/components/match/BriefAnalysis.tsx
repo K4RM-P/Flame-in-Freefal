@@ -1,3 +1,4 @@
+// SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 import type { measuredComparisons } from "@/lib/ai/evidenceBrief";
 import type { Scenario } from "@/lib/sim/types";
 

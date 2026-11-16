@@ -2,6 +2,7 @@
 import { CrewCarousel } from "./CrewCarousel";
 import type { Metadata } from "next";
 import Link from "next/link";
+import { CHALLENGE_NAME, CHALLENGE_URL, TEAM, TEAM_CITY } from "@/lib/team";
 
 export const metadata: Metadata = { title: "About", description: "Team EmberAtlas (Toronto) and the Flame in Freefall challenge: who built EmberAtlas and how AI was used." };
 const team = [
@@ -38,7 +39,7 @@ export default function About() {
         <p className="label">NASA Space Apps · Flame in Freefall</p>
         <h1 className="display my-3 text-5xl md:text-7xl">EmberAtlas: the firefighter for space</h1>
         <p className="measure text-lg leading-relaxed text-mute">It shows where and how a fire would start in your spacecraft, and which design change prevents it. Built on NASA&apos;s ISS fire data, explained by AI.</p>
-        <p className="mt-3 text-[13px] text-mute">Team EmberAtlas, Toronto: {team.map((t) => t.name).join(", ")}. Challenge: Flame in Freefall (NASA Space Apps).</p>
+        <p className="mt-3 text-[13px] text-mute">Team EmberAtlas, {TEAM_CITY}: {TEAM.join(", ")}. Challenge: <a className="underline underline-offset-2" href={CHALLENGE_URL} target="_blank" rel="noreferrer">{CHALLENGE_NAME}</a> (NASA Space Apps 2026).</p>
       </header>
       <CrewCarousel team={team}>
         {team.map(({ name, initials, focus, bio }) => (
@@ -56,7 +57,7 @@ export default function About() {
       </CrewCarousel>
       <section aria-labelledby="credits-title" className="card space-y-3 md:p-8">
         <h2 id="credits-title" className="display text-2xl">Data credits</h2>
-        <p className="measure leading-relaxed text-mute">Experiment data: NASA Physical Sciences Informatics (PSI) Data Repository, Combustion Science (each value carries its PSI accession, file and line). Flight papers on NASA NTRS; partial-gravity context from NASA&apos;s FM2 lunar-gravity tests (NTRS 20240015307, outside PSI). Images: NASA. Full list in <code>CREDITS.md</code> and <code>docs/REFERENCES.json</code>.</p>
+        <p className="measure leading-relaxed text-mute">Experiment data: NASA Physical Sciences Informatics (PSI) Data Repository, Combustion Science (each value carries its PSI accession, file and line). Flight papers on NASA NTRS; partial-gravity context from NASA&apos;s FM2 lunar-gravity tests (NTRS 20240015307, outside PSI). Images: NASA. Full list, with every library and licence: <Link className="underline underline-offset-2" href="/credits">Credits &amp; data sources</Link>.</p>
       </section>
       <section aria-labelledby="built-about" className="card space-y-3 md:p-8">
         <h2 id="built-about" className="display text-2xl">Use of AI</h2>

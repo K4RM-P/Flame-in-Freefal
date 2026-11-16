@@ -436,8 +436,7 @@
    "type": "ntrs",
    "title": "FM2 (Flammability of Materials on the Moon), NTRS 20240015307 - OUTSIDE PSI",
    "url": "https://ntrs.nasa.gov/citations/20240015307",
-   "year": 2024,
-   "note": "FM2 lunar-gravity tests: some materials are more flammable at lunar g than at both 1 g and µg (e.g. SIBAL burns downward at lunar g but extinguishes at 1 g), so µg↔1 g interpolation is not conservative."
+   "year": 2024
   },
   {
    "id": "psi",
@@ -506,7 +505,7 @@
   {
    "name": "OpenAI API",
    "url": "https://platform.openai.com/docs",
-   "use": "Scenario builder, interpretation and match explanation at runtime"
+   "use": "Scenario builder, run interpretation, Aster answers and match explanation at runtime (server-side only)"
   }
  ],
  "software": [
@@ -517,10 +516,64 @@
    "license": "MPL-2.0"
   },
   {
+   "name": "@paper-design/shaders-react",
+   "version": "^0.0.82",
+   "ecosystem": "npm",
+   "license": "Apache-2.0"
+  },
+  {
    "name": "@playwright/test",
    "version": "1.53.1",
    "ecosystem": "npm",
    "license": "Apache-2.0"
+  },
+  {
+   "name": "@radix-ui/react-collapsible",
+   "version": "^1.2.1",
+   "ecosystem": "npm",
+   "license": "MIT"
+  },
+  {
+   "name": "@radix-ui/react-dropdown-menu",
+   "version": "^2.2.1",
+   "ecosystem": "npm",
+   "license": "MIT"
+  },
+  {
+   "name": "@radix-ui/react-popover",
+   "version": "^1.3.1",
+   "ecosystem": "npm",
+   "license": "MIT"
+  },
+  {
+   "name": "@radix-ui/react-slot",
+   "version": "^1.5.0",
+   "ecosystem": "npm",
+   "license": "MIT"
+  },
+  {
+   "name": "@radix-ui/react-tooltip",
+   "version": "^1.4.1",
+   "ecosystem": "npm",
+   "license": "MIT"
+  },
+  {
+   "name": "@react-three/drei",
+   "version": "^10.7.9",
+   "ecosystem": "npm",
+   "license": "MIT"
+  },
+  {
+   "name": "@react-three/fiber",
+   "version": "^9.8.2",
+   "ecosystem": "npm",
+   "license": "MIT"
+  },
+  {
+   "name": "@react-three/postprocessing",
+   "version": "^3.2.2",
+   "ecosystem": "npm",
+   "license": "MIT"
   },
   {
    "name": "@types/katex",
@@ -565,10 +618,34 @@
    "license": "MIT"
   },
   {
+   "name": "class-variance-authority",
+   "version": "^0.7.1",
+   "ecosystem": "npm",
+   "license": "Apache-2.0"
+  },
+  {
+   "name": "clsx",
+   "version": "^2.1.1",
+   "ecosystem": "npm",
+   "license": "MIT"
+  },
+  {
+   "name": "geist",
+   "version": "^1.9.2",
+   "ecosystem": "npm",
+   "license": "OFL-1.1"
+  },
+  {
    "name": "katex",
    "version": "0.16.22",
    "ecosystem": "npm",
    "license": "MIT"
+  },
+  {
+   "name": "lucide-react",
+   "version": "^1.73.0",
+   "ecosystem": "npm",
+   "license": "ISC"
   },
   {
    "name": "motion",
@@ -601,6 +678,12 @@
    "license": "MIT"
   },
   {
+   "name": "postprocessing",
+   "version": "^6.39.6",
+   "ecosystem": "npm",
+   "license": "Zlib"
+  },
+  {
    "name": "react",
    "version": "19.1.0",
    "ecosystem": "npm",
@@ -615,6 +698,18 @@
   {
    "name": "react-plotly.js",
    "version": "2.6.0",
+   "ecosystem": "npm",
+   "license": "MIT"
+  },
+  {
+   "name": "sonner",
+   "version": "^2.0.8",
+   "ecosystem": "npm",
+   "license": "MIT"
+  },
+  {
+   "name": "tailwind-merge",
+   "version": "^3.7.0",
    "ecosystem": "npm",
    "license": "MIT"
   },
@@ -729,19 +824,26 @@
  ],
  "fonts": [
   {
-   "name": "Inter",
+   "name": "Geist Sans",
    "license": "OFL-1.1",
-   "via": "next/font/google"
+   "via": "geist npm package (Vercel), self-hosted"
   },
   {
-   "name": "JetBrains Mono",
+   "name": "Geist Mono",
    "license": "OFL-1.1",
-   "via": "next/font/google"
+   "via": "geist npm package (Vercel), self-hosted"
+  }
+ ],
+ "components": [
+  {
+   "name": "BackgroundPaths",
+   "origin": "21st.dev community component (BackgroundPaths), adapted in web/components/ui/background-paths.tsx",
+   "license": "MIT"
   },
   {
-   "name": "Newsreader",
-   "license": "OFL-1.1",
-   "via": "next/font/google"
+   "name": "shadcn/ui primitives",
+   "origin": "ui.shadcn.com (button, dropdown, popover, collapsible, tooltip), adapted in web/components/ui/",
+   "license": "MIT"
   }
  ],
  "images": [],
@@ -752,8 +854,8 @@
    "disclosure": "Source files carry the header 'SI-assisted: written with Claude Code (Anthropic)'."
   },
   {
-   "name": "OpenAI API, model from OPENAI_MODEL (default gpt-5.4-mini)",
-   "use": "Runtime scenario builder (plain English → scenario fields for human review), run interpretation and the experiment-match explanation; grounded only on engine output and cited PSI evidence, checked by a numeric + citation guard. No key → no AI text (no canned answers)."
+   "name": "OpenAI API, model from OPENAI_MODEL (default gpt-4o-mini)",
+   "use": "Runtime scenario builder (plain English → scenario fields for human review), run interpretation and the experiment-match explanation; grounded only on engine output and cited PSI evidence, checked by a numeric + citation guard. No key → deterministic offline mode (engine facts and catalog records, labelled offline; no invented text)."
   }
  ],
  "si_media": "No SI-generated images or video are included. Any added later must carry a visible 'SI-generated using <tool>' watermark and must not use, contain or modify NASA logos, flags or mission identifiers.",

@@ -4,16 +4,18 @@
 project_license: MIT
 si_tools:
   - {name: "Claude Code (Anthropic), model Claude Opus 5.5", use: "Wrote and refactored the codebase, data pipelines (PDF/PSI table extraction and normalization), tests and documentation under human direction. All generated data rows carry source_id + locator and stay verified=false until a human spot-check.", disclosure: "Source files carry the header 'SI-assisted: written with Claude Code (Anthropic)'."}
-  - {name: "OpenAI API, model from OPENAI_MODEL (default gpt-5.4-mini)", use: "Runtime scenario builder (plain English → scenario fields for human review), run interpretation and the experiment-match explanation; grounded only on engine output and cited PSI evidence, checked by a numeric + citation guard. No key → no AI text (no canned answers)."}
+  - {name: "OpenAI API, model from OPENAI_MODEL (default gpt-4o-mini)", use: "Runtime scenario builder (plain English → scenario fields for human review), run interpretation and the experiment-match explanation; grounded only on engine output and cited PSI evidence, checked by a numeric + citation guard. No key → deterministic offline mode (engine facts and catalog records, labelled offline; no invented text)."}
 si_media: "No SI-generated images or video are included. Any added later must carry a visible 'SI-generated using <tool>' watermark and must not use, contain or modify NASA logos, flags or mission identifiers."
 apis:
   - {name: "NASA Physical Sciences Informatics (PSI) API", url: "https://psi.nasa.gov/geode-py/ws/api/investigations/metadata", use: "Investigation metadata, DOIs, file listings and Experimental tables (GET only)"}
   - {name: "NASA Technical Reports Server (NTRS)", url: "https://ntrs.nasa.gov", use: "FLEX NASA/TP-2015-216046, JSC 20584 Rev C PDFs"}
-  - {name: "OpenAI API", url: "https://platform.openai.com/docs", use: "Scenario builder, interpretation and match explanation at runtime"}
+  - {name: "OpenAI API", url: "https://platform.openai.com/docs", use: "Scenario builder, run interpretation, Aster answers and match explanation at runtime (server-side only)"}
 fonts:
-  - {name: Inter, license: OFL-1.1, via: next/font/google}
-  - {name: JetBrains Mono, license: OFL-1.1, via: next/font/google}
-  - {name: Newsreader, license: OFL-1.1, via: next/font/google}
+  - {name: Geist Sans, license: OFL-1.1, via: "geist npm package (Vercel), self-hosted"}
+  - {name: Geist Mono, license: OFL-1.1, via: "geist npm package (Vercel), self-hosted"}
+components:
+  - {name: BackgroundPaths, origin: "21st.dev community component (BackgroundPaths), adapted in web/components/ui/background-paths.tsx", license: MIT}
+  - {name: shadcn/ui primitives, origin: "ui.shadcn.com (button, dropdown, popover, collapsible, tooltip), adapted in web/components/ui/", license: MIT}
 images: []
 licenses:
   "openai": Apache-2.0
@@ -26,6 +28,18 @@ licenses:
   react-plotly.js: MIT
   zod: MIT
   zustand: MIT
+  "@paper-design/shaders-react": Apache-2.0
+  "@radix-ui/react-collapsible": MIT
+  "@radix-ui/react-dropdown-menu": MIT
+  "@radix-ui/react-popover": MIT
+  "@radix-ui/react-slot": MIT
+  "@radix-ui/react-tooltip": MIT
+  class-variance-authority: Apache-2.0
+  clsx: MIT
+  geist: OFL-1.1
+  lucide-react: ISC
+  sonner: MIT
+  tailwind-merge: MIT
   three: MIT
   "@types/three": MIT
   "@react-three/fiber": MIT

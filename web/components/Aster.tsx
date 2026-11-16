@@ -1,3 +1,4 @@
+// SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 "use client";
 
 import Link from "next/link";
@@ -10,6 +11,7 @@ import { emptyRun, readEvents, reduceRun, type AiRun } from "@/lib/ai/stream";
 import { AiGlow, Cites, GuardBadge, OfflineChip, Orb, StreamAnswer, ThinkingTrail, orbOf } from "@/components/ai/kit";
 import { ThinkingOrb } from "@/components/ai/ThinkingOrb";
 import { BUILD_AI_EVENT } from "@/components/sim/AiInterview";
+import { useSim } from "@/components/sim/store";
 
 type LocalAnswer = ReturnType<typeof answerLocally>;
 type Mode = "catalog" | "openai";
@@ -84,6 +86,14 @@ export function Aster() {
     return () => window.removeEventListener(ASTER_CONTEXT_EVENT, openContext);
   }, []);
 
+  /** On the simulator, questions without a chosen context are about the latest engine run. */
+  async function simulatorRun() {
+    if (path !== "/simulator" || !useSim.getState().ra) return null;
+    const { runContext } = await import("@/lib/ai/runContext");
+    const st = useSim.getState();
+    return runContext(st.a, st.ra, st.b, st.rb);
+  }
+
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const question = draft.trim();
@@ -99,14 +109,15 @@ export function Aster() {
     setBusy(true);
     const idx = thread.length;
     let run = emptyRun();
-    const base: Exchange = { question, contextLabel: context?.label, run };
+    const runCtx = context ? null : await simulatorRun();
+    const base: Exchange = { question, contextLabel: context?.label ?? runCtx?.label, run };
     setThread((current) => [...current, base]);
     const put = (r: AiRun) => setThread((current) => current.map((x, i) => (i === idx ? { ...x, run: r } : x)));
     try {
       const response = await fetch("/api/aster", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ stream: true, question, path, language, context: context ?? document.body.innerText.slice(0, 12000) }),
+        body: JSON.stringify({ stream: true, question, path, language, context: context ?? runCtx ?? document.body.innerText.slice(0, 12000) }),
       });
       await readEvents(response, (e) => { run = reduceRun(run, e); put(run); scrollTranscript(); });
       if (run.streaming) { run = reduceRun(run, { type: "done", data: { text: run.text } }); put(run); }
@@ -175,7 +186,7 @@ export function Aster() {
                   <ThinkingOrb run={run} />
                   <ThinkingTrail steps={run.steps} />
                   {(!run.streaming || run.text) && <div className="mt-1.5"><StreamAnswer run={run} /></div>}
-                  {!run.streaming && !run.error && <div className="mt-1.5 space-y-1.5"><Cites ids={run.done?.citations as string[] | undefined} /><GuardBadge ok={(run.done?.guard as { ok?: boolean } | undefined)?.ok !== false} /></div>}
+                  {!run.streaming && !run.error && <div className="mt-1.5 space-y-1.5"><Cites ids={run.done?.citations as string[] | undefined} /><GuardBadge ok={(run.done?.guard as { ok?: boolean } | undefined)?.ok !== false} checked={(run.done?.guard as { checked?: number } | undefined)?.checked} against={(run.done?.guard as { against?: string } | undefined)?.against} /></div>}
                 </AiGlow>}
                 <SourcePreviews sources={run?.done?.sources as LocalAnswer["sources"] | undefined} />
               </div>

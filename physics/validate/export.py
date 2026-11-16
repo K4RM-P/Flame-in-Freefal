@@ -37,12 +37,13 @@ def write_references(sources: dict, catalog: dict) -> None:
     other = [{"id": k, **{f: v[f] for f in ("type", "title", "url", "year", "doi", "accessed") if v.get(f) is not None}}
              for k, v in sources.items() if not k.startswith("PSI-")]
     refs = {"project": "EmberAtlas", "license": sw["project_license"], "psi_records": psi, "other_sources": other, "apis": sw["apis"],
-            "software": libs, "fonts": sw["fonts"], "images": sw["images"], "si_tools": sw["si_tools"], "si_media": sw["si_media"],
+            "software": libs, "fonts": sw["fonts"], "components": sw.get("components", []), "images": sw["images"], "si_tools": sw["si_tools"], "si_media": sw["si_media"],
             "nasa_resource_used": sources["psi-combustion-repo"]}
     unknown = [lib["name"] for lib in libs if lib["license"] == "UNKNOWN"]
     if unknown:
         raise SystemExit(f"software.yaml is missing licenses for: {unknown}")
     (ROOT / "docs" / "REFERENCES.json").write_text(json.dumps(refs, indent=1, ensure_ascii=False) + "\n")
+    (ROOT / "web" / "data" / "references.json").write_text(json.dumps(refs, indent=1, ensure_ascii=False) + "\n")  # /credits page
 
 
 def main() -> None:
@@ -68,6 +69,8 @@ def main() -> None:
         pub = ROOT / "web" / "public" / "psi"
         for f in sorted(psi_dir.glob("*.csv")):
             df = pd.read_csv(f).replace({np.nan: None})
+            if "accession" not in df.columns:  # time-series telemetry (saffire3_telemetry), not a PSI table
+                continue
             save_json(pub / f"{f.stem}.json", df.to_dict(orient="records"))
             index.append({"key": f.stem, "rows": int(len(df)), "accessions": sorted(set(df.accession)), "columns": [c for c in df.columns if c != "raw"],
                           "qc_rows": int((df.qc_flag.fillna("") != "").sum()), "files": sorted({loc.split(", ")[0] for loc in df.locator})})

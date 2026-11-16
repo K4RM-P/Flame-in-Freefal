@@ -12,6 +12,7 @@ import { cn } from "@/lib/utils";
 import { earthVsOrbitSummary, evidenceStops } from "@/lib/sim/evidence";
 import { sig } from "@/lib/ui/format";
 import { ExperimentMatch } from "@/components/match/ExperimentMatch";
+import { PSI_USES } from "@/lib/data/psiUses";
 
 type Range = [number, number] | null;
 const pct = (x: number | null | undefined) => (x == null ? "—" : sig(x * 100, 3));
@@ -149,15 +150,15 @@ export function EvidencePage() {
         <p className="measure text-mute"><span className="num">{psi.length}</span> accessions, <span className="num">{psi.reduce((s, p) => s + p.rows, 0).toLocaleString("en-US")}</span> rows with provenance. Click a dataset for its source files.</p>
         <div className="ea-table-scroll overflow-x-auto" role="region" aria-labelledby="psi-h" tabIndex={0}>
           <table className="data">
-            <thead><tr><th className="w-6" aria-label="Expand" /><th>accession</th><th>investigation</th><th className="ea-numeric">rows</th></tr></thead>
+            <thead><tr><th className="w-6" aria-label="Expand" /><th>accession</th><th>investigation</th><th>used for</th><th>DOI</th><th className="ea-numeric">rows</th></tr></thead>
             <tbody>
               {psi.map((p) => (
                 <Fragment key={p.accession}>
                   <tr id={p.accession.toLowerCase()} className="scroll-mt-24 cursor-pointer target:bg-surface2" aria-expanded={openPsi === p.accession} tabIndex={0} onClick={() => setOpenPsi(openPsi === p.accession ? null : p.accession)} onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && (e.preventDefault(), setOpenPsi(openPsi === p.accession ? null : p.accession))}>
                     <td className="text-faint"><ChevronRight size={12} strokeWidth={1.5} className={cn("transition-transform", openPsi === p.accession && "rotate-90")} /></td>
-                    <td className="num text-ember-text">{p.accession}</td><td>{p.name}</td><td className="num ea-numeric">{p.rows.toLocaleString("en-US")}</td>
+                    <td className="num text-ember-text">{p.accession}</td><td>{p.name}<span className="block text-[11px] text-faint">{String(CAT[p.accession]?.title ?? "")}</span></td><td className="min-w-[16rem] text-[12px] text-mute">{PSI_USES[p.accession] ?? "Indexed for the experiment match."}</td><td className="text-[11px]">{CAT[p.accession]?.doi ? <a className="num underline underline-offset-2" href={`https://doi.org/${CAT[p.accession].doi}`} target="_blank" rel="noreferrer" onClick={(e) => e.stopPropagation()}>{String(CAT[p.accession].doi)}</a> : <span className="text-faint">∅ none listed</span>}</td><td className="num ea-numeric">{p.rows.toLocaleString("en-US")}</td>
                   </tr>
-                  {openPsi === p.accession && <tr className="bg-bg"><td /><td colSpan={3} className="font-mono text-[11px] text-mute">{p.files.length ? p.files.join(" · ") : "—"} · <a className="underline underline-offset-2" href={`https://psi.nasa.gov/physci/repo/search?q=${encodeURIComponent(p.accession)}`} target="_blank" rel="noreferrer">PSI record ↗</a></td></tr>}
+                  {openPsi === p.accession && <tr className="bg-bg"><td /><td colSpan={5} className="font-mono text-[11px] text-mute">{p.files.length ? p.files.join(" · ") : "—"} · <a className="underline underline-offset-2" href={`https://psi.nasa.gov/physci/repo/search?q=${encodeURIComponent(p.accession)}`} target="_blank" rel="noreferrer">PSI record ↗</a></td></tr>}
                 </Fragment>
               ))}
             </tbody>

@@ -39,7 +39,7 @@
 - Removed the free-form "Ask" chat (`app/api/ask`, `lib/ai/ask.ts`, Assistant tab) so the simulator keeps one AI surface (scenario builder + interpretation); the Evidence page keeps the match explanation.
 - README states the Earth-vs-orbit counts and max solid O₂ (22.2%) as of today with the source file; the UI computes them live.
 - Deleted `docs/CLAUDE_SIMULATION_HUB_PROMPTS.md`. `docs/HUMAN_TASKS.md` trimmed to still-open human verification tasks.
-- Demo Numbers restored at the team's request (overrides UPGRADE.md P0 #5): manual setup has a "Demo Numbers" button that fills a labelled test case (lunar atmosphere, SAFFIRE SIBAL sample size, illustrative volume, flow, detector distance and threshold). The UI states the values are not NASA measurements; no preset or landing CTA uses them.
+- Demo Numbers restored at the team's request (later removed in the 2026-11-16 pass): manual setup has a "Demo Numbers" button that fills a labelled test case (lunar atmosphere, SAFFIRE SIBAL sample size, illustrative volume, flow, detector distance and threshold). The UI states the values are not NASA measurements; no preset or landing CTA uses them.
 - Final audit (2026-11-14): removed the unreachable Review-flow modules (`lib/review`, `lib/ranking`, `lib/diff`, `lib/ui/console` and others) and the unused Aster, landing and schematic CSS. Fixed the Methods page overflow and the hidden Evidence/Methods links at phone width, and moved the chart legend off the axis title. The next test now names one ISS-flyable condition (e.g. "Fly SIBAL Fabric at 34% O₂ and 56.5 kPa; 1/6 g needs a partial-gravity platform") plus the spec's "x_O₂ 34% is 12 points above…" reason. The one-click run opens at peak heat release and scrolls to the result on mobile. Evidence sections have anchors; the raw PSI-99 "037 mm" thickness cells are flagged, not corrected. Accent was removed from the About cards and Methods step numbers.
 - Not run: `make test` (no Python venv with pytest in this sandbox).
 
@@ -58,3 +58,19 @@ Left undone (time-box):
 - P1 lazy-load Plotly / 3D scene with next/dynamic + skeleton (First Load JS still ~608 kB).
 - P1 placeholder sweep for the NASA candle photo / demo video slots (no "TODO/placeholder/lorem" strings found in app/components; media slots not audited visually).
 - P2 390 px mobile audit, axe run on all five pages, language-switcher fallback audit.
+
+## 2026-11-16 — final polish for submission
+Done:
+- Checks: `pnpm typecheck`, `pnpm test`, `pnpm build` passed at start; `make test` failed (15 source files missing the `SI-assisted` header) → fixed, 21 passed.
+- Truth pass: accuracy numbers (1,533 values / 0 mismatches; MAPE 13.3 %, n = 66; spread 29.3 %, n = 1; 2,818 rows / 18 accessions) match `web/data`; no "99.86 %" anywhere (parchment data not in repo → HUMAN_TASKS #18). Hero "18 ISS fire experiments" relabelled "18 NASA PSI combustion investigations" (several are cool-flame/gas-flame studies and SAFFIRE flew on Cygnus, not the ISS). DEMO_SCRIPT engine output re-run: identical (ISS out 30 s; Moon burnout 171 s; 4 900 W vs 2 580 W; fixes alarm path → test at 34 % O₂ → O₂ 29.2 %).
+- Demo Numbers button removed (illustrative values with no NASA source); `e2e/demo.spec.ts` deleted, `tests/ui.test.ts` now asserts no demo fill exists.
+- Result strip: Extrapolated + "Partial g: may be non-conservative" (FM2) + "Smoke uncalibrated" + "Not for flight certification".
+- Aster: on `/simulator` questions use the latest run (`lib/ai/runContext.ts`, engine numbers only); catalog retrieval adds topic boosts (Moon/partial g → BASS-II, SAFFIRE + FM2/LUCI outside PSI; spread; droplets; smoke); guard step reports "N numbers checked against the engine"; offline answer = engine facts + matched NASA records. Test: `tests/aster-run.test.ts`.
+- Presets renamed: "ISS vs Moon base", "Moon base: find the gaps", "Saffire-III replay", "Moon base: tune the response".
+- Landing hero: audience line, "Try the simulator" CTA, 4-step strip (Describe → Burn → Ask Aster → Fix). Footer/About/Credits: team, Toronto, challenge link.
+- New: `/credits` (generated from `docs/REFERENCES.json` copy in `web/data/references.json`), `/evidence` dataset table gets title, DOI and "used for" (`lib/data/psiUses.ts`), 404 page, route error boundary, generated OG/Twitter image, site title "EmberAtlas — The firefighter for space", simulator first-run 3-step hint (localStorage in try/catch), phone "best on desktop" notice with "open anyway".
+- `software.yaml`: fonts corrected to Geist, 12 missing libraries + licences added, adapted components (BackgroundPaths from 21st.dev, shadcn/ui) listed; OpenAI default model corrected to the code's `gpt-4o-mini`. `export.py` skips the telemetry CSV (crashed on missing `accession`).
+- Repo: README rewritten for judges; `CONTRIBUTING.md`, root `.env.example`; deleted `docs/UPGRADE.md`, `docs/HANDOFF_UI.md` (old prompt/handoff files), unused `components/ui/background-paths-demo.tsx`; `.gitignore` + `*.mov`.
+Not done / known:
+- `make export` also rewrites `web/data/{missions,sources,psi_catalog}.json` and `web/public/psi/*` with older content than the hand-curated web copies (e.g. the FM2 note, ISS volume citation): those were reverted; only REFERENCES was regenerated. The yaml sources need the same edits before the next full export.
+- Lighthouse not run (no Lighthouse in the sandbox).

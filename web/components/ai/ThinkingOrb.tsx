@@ -1,3 +1,4 @@
+// SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 "use client";
 
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";

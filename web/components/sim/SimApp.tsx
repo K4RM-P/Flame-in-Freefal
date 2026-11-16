@@ -1,7 +1,8 @@
 "use client";
 // SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 // The one screen: product line, then Scenario | Run | Result, plus the receipt drawer and the print-only report header.
-import { useEffect, useRef } from "react";
+import { FirstRunHint, PhoneNotice } from "./FirstRun";
+import { useEffect, useRef, useState } from "react";
 import { PRESETS } from "@/lib/sim/presets";
 import { AnimatePresence, motion } from "motion/react";
 import { spring } from "@/lib/ui/motion";
@@ -41,9 +42,13 @@ function useDeepLink() {
 
 export function SimApp() {
   const { a, topOpen, set } = useSim();
+  const [phoneOk, setPhoneOk] = useState(false);
   useDeepLink();
   return (
-    <div className="space-y-4">
+    <>
+    {!phoneOk && <PhoneNotice onContinue={() => setPhoneOk(true)} />}
+    <div className={`space-y-4 ${phoneOk ? "" : "max-md:hidden"}`}>
+      <FirstRunHint />
       {!a && <div className="border-b border-line pb-3" data-noprint>
         <button type="button" className="flex w-full items-start gap-2 text-left" aria-expanded={topOpen} onClick={() => set({ topOpen: !topOpen })}>
           <span aria-hidden className="mt-0.5 text-faint">{topOpen ? "▾" : "▸"}</span>
@@ -57,6 +62,7 @@ export function SimApp() {
       <ReceiptDrawer />
       <AiInterview />
     </div>
+    </>
   );
 }
 

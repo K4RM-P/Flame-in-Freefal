@@ -1,3 +1,4 @@
+// SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 "use client";
 
 import { ASTER_CONTEXT_EVENT, type AsterContext } from "@/lib/ai/asterContext";

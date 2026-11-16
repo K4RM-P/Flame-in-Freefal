@@ -1,0 +1,868 @@
+{
+ "project": "EmberAtlas",
+ "license": "MIT",
+ "psi_records": [
+  {
+   "id": "PSI-10",
+   "title": "Advanced Combustion via Microgravity Experiments / Flame Design",
+   "doi": "10.60555/w4zy-bt45",
+   "url": "https://doi.org/10.60555/w4zy-bt45",
+   "files_used": [
+    "PSI-10_Experimental table_Flame Design_Normal Flame.csv",
+    "PSI-10_Experimental table_Flame Design_Inverse Flame.csv"
+   ]
+  },
+  {
+   "id": "PSI-20",
+   "title": "Advanced Combustion via Microgravity Experiments - Burning Rate Emulator",
+   "doi": "10.60555/vb93-3y72",
+   "url": "https://doi.org/10.60555/vb93-3y72",
+   "files_used": [
+    "PSI-20_Experimental table_ACME BRE.csv"
+   ]
+  },
+  {
+   "id": "PSI-21",
+   "title": "Advanced Combustion via Microgravity Experiments / Coflow Laminar Diffusion Flame",
+   "doi": "10.60555/23e1-9950",
+   "url": "https://doi.org/10.60555/23e1-9950",
+   "files_used": []
+  },
+  {
+   "id": "PSI-22",
+   "title": "Advanced Combustion via Microgravity Experiments Electric-Field Effects on Laminar Diffusion Flames",
+   "doi": "10.60555/se5a-8c73",
+   "url": "https://doi.org/10.60555/se5a-8c73",
+   "files_used": [
+    "PSI-22_Experimental table_ACME E-FIELD Flames.csv"
+   ]
+  },
+  {
+   "id": "PSI-23",
+   "title": "Advanced Combustion via Microgravity Experiments-Structure and Response of Spherical Diffusion Flames",
+   "doi": "10.60555/k57n-p030",
+   "url": "https://doi.org/10.60555/k57n-p030",
+   "files_used": [
+    "PSI-23_Experimental table_ACME s-Flame.csv"
+   ]
+  },
+  {
+   "id": "PSI-25",
+   "title": "Burning and Suppression of Solids - II",
+   "doi": "10.60555/4qc4-de67",
+   "url": "https://doi.org/10.60555/4qc4-de67",
+   "files_used": [
+    "PSI-25_Reference Data_Fan calibration data.xlsx",
+    "PSI-25_Science Documents_BASS-II_Test.Matrices.xlsx",
+    "PSI-25_Experimental table_BASS-II.csv"
+   ]
+  },
+  {
+   "id": "PSI-26",
+   "title": "Burning and Suppression of Solids",
+   "doi": "10.60555/58h4-dy80",
+   "url": "https://doi.org/10.60555/58h4-dy80",
+   "files_used": [
+    "PSI-26_Science Documents_As Run_Test Matrix.xlsx",
+    "PSI-26_Experimental table_BASS.csv"
+   ]
+  },
+  {
+   "id": "PSI-39",
+   "title": "Cool Flames Investigation",
+   "doi": "10.60555/m6pj-a914",
+   "url": "https://doi.org/10.60555/m6pj-a914",
+   "files_used": [
+    "PSI-39_Experimental table_CFI.csv"
+   ]
+  },
+  {
+   "id": "PSI-47",
+   "title": "Dust and Aerosol Measurement Feasibility Test / Dust and Aerosol Measurement Feasibility Test-2",
+   "doi": "10.60555/ztgj-d202",
+   "url": "https://doi.org/10.60555/ztgj-d202",
+   "files_used": [
+    "PSI-47_Analyzed Data_DAFT Retrieved Data Summary.xls",
+    "PSI-47_Experimental table_DAFT.csv"
+   ]
+  },
+  {
+   "id": "PSI-60",
+   "title": "Computational and Experimental Analysis of SPICE Data Sets",
+   "doi": "10.60555/mzjm-yv57",
+   "url": "https://doi.org/10.60555/mzjm-yv57",
+   "files_used": []
+  },
+  {
+   "id": "PSI-62",
+   "title": "Concurrent Flame Spread Modeling using Flamelet Generated Manifolds in Microgravity with Comparison to BASS Experiments using Two-Color Tomography",
+   "doi": "10.60555/e9xp-ex83",
+   "url": "https://doi.org/10.60555/e9xp-ex83",
+   "files_used": []
+  },
+  {
+   "id": "PSI-68",
+   "title": "Flame Extinguishment Experiment - 2",
+   "doi": "10.60555/byp8-h018",
+   "url": "https://doi.org/10.60555/byp8-h018",
+   "files_used": [
+    "PSI-68_Experimental table_Flex2.csv"
+   ]
+  },
+  {
+   "id": "PSI-69",
+   "title": "Flame Extinguishment Experiment",
+   "doi": "10.60555/mbq8-0451",
+   "url": "https://doi.org/10.60555/mbq8-0451",
+   "files_used": [
+    "PSI-69_Experimental table_FLEX.csv"
+   ]
+  },
+  {
+   "id": "PSI-98",
+   "title": "Spacecraft Fire Safety Experiment-I",
+   "doi": "10.60555/0t15-1z43",
+   "url": "https://doi.org/10.60555/0t15-1z43",
+   "files_used": [
+    "PSI-98_Experimental table_SAFFIRE-1.csv"
+   ]
+  },
+  {
+   "id": "PSI-99",
+   "title": "Spacecraft Fire Experiment-II",
+   "doi": "10.60555/2chp-m469",
+   "url": "https://doi.org/10.60555/2chp-m469",
+   "files_used": [
+    "PSI-99_Experimental table_SAFFIRE-2.csv"
+   ]
+  },
+  {
+   "id": "PSI-100",
+   "title": "Spacecraft Fire Experiment-III",
+   "doi": "10.60555/040q-4h36",
+   "url": "https://doi.org/10.60555/040q-4h36",
+   "files_used": [
+    "PSI-100_Raw Data_Raw telemetry file.csv",
+    "PSI-100_Experimental table_SAFFIRE-3.csv"
+   ]
+  },
+  {
+   "id": "PSI-101",
+   "title": "Smoke Aerosol Measurement Experiment-Reflight",
+   "doi": "10.60555/2np7-jv14",
+   "url": "https://doi.org/10.60555/2np7-jv14",
+   "files_used": [
+    "PSI-101_Analyzed Data_SAME, SAME-R_Results.xlsx",
+    "PSI-101_Experimental table_SAME-R.csv"
+   ]
+  },
+  {
+   "id": "PSI-102",
+   "title": "Smoke and Aerosol Measurement Experiment",
+   "doi": "10.60555/gd4k-8h62",
+   "url": "https://doi.org/10.60555/gd4k-8h62",
+   "files_used": [
+    "PSI-102_Experimental table_SAME.csv"
+   ]
+  },
+  {
+   "id": "PSI-106",
+   "title": "Structure and Liftoff In Combustion Experiment",
+   "doi": "10.60555/pm12-rg61",
+   "url": "https://doi.org/10.60555/pm12-rg61",
+   "files_used": []
+  },
+  {
+   "id": "PSI-107",
+   "title": "Smoke Point In Co-flow Experiment",
+   "doi": "10.60555/9kbh-e962",
+   "url": "https://doi.org/10.60555/9kbh-e962",
+   "files_used": [
+    "PSI-107_Experimental table_Spice.csv"
+   ]
+  },
+  {
+   "id": "PSI-115",
+   "title": "Utilization of the Smoke Aerosol Measurement Experiment Data for Advanced Modeling and Simulation of Smoke Generation in Micro-Gravity",
+   "doi": "10.60555/q0v5-1v28",
+   "url": "https://doi.org/10.60555/q0v5-1v28",
+   "files_used": []
+  },
+  {
+   "id": "PSI-117",
+   "title": "Effect of External Thermo-Convective Perturbation on Cool Flame Dynamics: A Multidimensional Multi-Physics CFD Analysis",
+   "doi": "10.60555/gz0q-b577",
+   "url": "https://doi.org/10.60555/gz0q-b577",
+   "files_used": []
+  },
+  {
+   "id": "PSI-142",
+   "title": "Quantitative Studies of Cool Flame Transitions at Radiation / Stretch Extinction Using Counterflow Flames",
+   "doi": "10.60555/80qf-vj95",
+   "url": "https://doi.org/10.60555/80qf-vj95",
+   "files_used": [
+    "PSI-142_Experimental table_Data Summary Table.csv"
+   ]
+  },
+  {
+   "id": "PSI-159",
+   "title": "Advanced Combustion via Microgravity Experiments / Cool Flames Investigation with Gases",
+   "doi": "10.60555/cyt1-kh64",
+   "url": "https://doi.org/10.60555/cyt1-kh64",
+   "files_used": [
+    "PSI-159_Experimental table_CFI-G_Normal Flames.csv",
+    "PSI-159_Experimental table_CFI-G_Inverse Flames.csv"
+   ]
+  },
+  {
+   "id": "PSI-179",
+   "title": "Aerosol Sampling Experiment",
+   "doi": "10.60555/pdgr-c961",
+   "url": "https://doi.org/10.60555/pdgr-c961",
+   "files_used": []
+  }
+ ],
+ "other_sources": [
+  {
+   "id": "gri30",
+   "type": "external",
+   "title": "GRI-Mech 3.0 thermodynamic data (thermo30.dat), NASA 7-coefficient polynomials",
+   "url": "http://combustion.berkeley.edu/gri-mech/version30/files30/thermo30.dat",
+   "year": 1999
+  },
+  {
+   "id": "nist-webbook-he",
+   "type": "nist",
+   "title": "NIST Chemistry WebBook, Helium: ideal-gas Cp = 20.786 J/mol/K (monatomic, 5/2 R)",
+   "url": "https://webbook.nist.gov/cgi/cbook.cgi?ID=C7440597",
+   "year": 2023
+  },
+  {
+   "id": "iupac-2021",
+   "type": "external",
+   "title": "IUPAC Standard atomic weights (abridged, 2021)",
+   "url": "https://iupac.qmul.ac.uk/AtWt/",
+   "year": 2021
+  },
+  {
+   "id": "white-vfm",
+   "type": "external",
+   "title": "White, F. M., Viscous Fluid Flow, 3rd ed., Table 1-2/1-3 (Sutherland constants for air)",
+   "year": 2006
+  },
+  {
+   "id": "incropera",
+   "type": "external",
+   "title": "Bergman, Lavine, Incropera, DeWitt, Fundamentals of Heat and Mass Transfer, 7th ed., Table A.4 (gas properties at 1 atm)",
+   "year": 2011
+  },
+  {
+   "id": "kee-chemkin",
+   "type": "external",
+   "title": "Kee et al., CHEMKIN transport (mixture-averaged conductivity: 0.5(sum x k + 1/sum x/k)); Mathur, Tondon & Saxena (1967) Mol. Phys. 12:569",
+   "year": 1986
+  },
+  {
+   "id": "turns",
+   "type": "external",
+   "title": "Turns, S. R., An Introduction to Combustion, 3rd ed. (Ch. 10 droplet d2-law; Ch. 9 Burke-Schumann; App. B fuel properties)",
+   "year": 2012
+  },
+  {
+   "id": "nist-webbook-meoh",
+   "type": "nist",
+   "title": "NIST Chemistry WebBook, Methanol: enthalpy of vaporization near Tb (~35.2 kJ/mol)",
+   "url": "https://webbook.nist.gov/cgi/cbook.cgi?ID=C67561",
+   "year": 2023
+  },
+  {
+   "id": "westbrook-dryer-1981",
+   "type": "doi",
+   "title": "Westbrook, C. K., Dryer, F. L., Simplified reaction mechanisms for the oxidation of hydrocarbon fuels in flames, Combust. Sci. Tech. 27:31-43 (Table 2)",
+   "url": "https://doi.org/10.1080/00102208108946970",
+   "year": 1981
+  },
+  {
+   "id": "huggett-1980",
+   "type": "doi",
+   "title": "Huggett, C., Estimation of rate of heat release by means of oxygen consumption measurements, Fire and Materials 4(2):61-65",
+   "url": "https://doi.org/10.1002/fam.810040202",
+   "year": 1980
+  },
+  {
+   "id": "sfpe-beyler",
+   "type": "external",
+   "title": "Beyler, C., Flammability limits of premixed and diffusion flames, SFPE Handbook of Fire Protection Engineering (critical adiabatic flame temperature ~1500-1600 K)",
+   "year": 2016
+  },
+  {
+   "id": "quintiere-ffp",
+   "type": "external",
+   "title": "Quintiere, J. G., Fundamentals of Fire Phenomena, Wiley (Ch. 7 opposed-flow flame spread; material properties tables)",
+   "year": 2006
+  },
+  {
+   "id": "de-ris-1969",
+   "type": "doi",
+   "title": "de Ris, J. N., Spread of a laminar diffusion flame, Proc. Combust. Inst. 12:241-252",
+   "url": "https://doi.org/10.1016/S0082-0784(69)80407-8",
+   "year": 1969
+  },
+  {
+   "id": "fernandez-pello-1981",
+   "type": "doi",
+   "title": "Fernandez-Pello, A. C., Ray, S. R., Glassman, I., Flame spread in an opposed forced flow: the effect of ambient oxygen concentration, Proc. Combust. Inst. 18:579-589",
+   "url": "https://doi.org/10.1016/S0082-0784(81)80063-X",
+   "year": 1981
+  },
+  {
+   "id": "olson-1991",
+   "type": "doi",
+   "title": "Olson, S. L., Mechanisms of microgravity flame spread over a thin solid fuel: oxygen and opposed flow effects, Combust. Sci. Tech. 76:233-249",
+   "url": "https://doi.org/10.1080/00102209108951711",
+   "year": 1991
+  },
+  {
+   "id": "chao-law-tien-1990",
+   "type": "doi",
+   "title": "Chao, B. H., Law, C. K., T'ien, J. S., Structure and extinction of diffusion flames with flame radiation, Proc. Combust. Inst. 23:523-531",
+   "url": "https://doi.org/10.1016/S0082-0784(06)80299-1",
+   "year": 1990
+  },
+  {
+   "id": "ntrs-20150023456",
+   "type": "ntrs",
+   "title": "Dietrich, D. L., et al., Flame Extinguishment Experiment (FLEX) results, NASA/TP-2015-216046 (Appendix A Table IX; Appendix B per-test captions)",
+   "url": "https://ntrs.nasa.gov/citations/20150023456",
+   "year": 2015
+  },
+  {
+   "id": "dietrich-2014",
+   "type": "doi",
+   "title": "Dietrich, D. L., Nayagam, V., Hicks, M. C., Ferkul, P. V., Dryer, F. L., Farouk, T., Shaw, B. D., Suh, H. K., Choi, M. Y., Liu, Y. C., Avedisian, C. T., Williams, F. A., Droplet Combustion Experiments Aboard the International Space Station, Microgravity Sci. Technol. 26:65-76",
+   "url": "https://doi.org/10.1007/s12217-014-9372-2",
+   "year": 2014
+  },
+  {
+   "id": "jsc-20584-revC",
+   "type": "ntrs",
+   "title": "NASA JSC 20584 Rev C, Spacecraft Maximum Allowable Concentrations (SMACs), 6/13/2024 (CO2 SMACs deleted in this revision)",
+   "url": "https://ntrs.nasa.gov/citations/20240007713",
+   "year": 2024
+  },
+  {
+   "id": "nasa-std-3001-v2",
+   "type": "external",
+   "title": "NASA-STD-3001 Vol. 2, Human Factors, Habitability, and Environmental Health (CO2 limits; under revision per JSC 20584 Rev C)",
+   "url": "https://standards.nasa.gov/standard/NASA/NASA-STD-3001-VOL-2",
+   "year": 2023
+  },
+  {
+   "id": "ntrs-20240003211",
+   "type": "ntrs",
+   "title": "Exploration atmosphere (34% O2, 8.2 psia) for lunar surface habitats, NTRS 20240003211",
+   "url": "https://ntrs.nasa.gov/citations/20240003211",
+   "year": 2024
+  },
+  {
+   "id": "space-apps-2026",
+   "type": "external",
+   "title": "NASA Space Apps Challenge 2026, Flame in Freefall challenge statement (Moon base 30% O2, 70.3 kPa)",
+   "url": "https://www.spaceappschallenge.org/",
+   "year": 2026
+  },
+  {
+   "id": "bass2-sci-rep-2017",
+   "type": "doi",
+   "title": "BASS-II PMMA flame spread and limiting O2 in microgravity vs 1 g, Sci. Rep. (2017)",
+   "url": "https://doi.org/10.1038/s41598-017-18398-4",
+   "year": 2017
+  },
+  {
+   "id": "ntrs-20160000593",
+   "type": "ntrs",
+   "title": "BASS-II results, NTRS 20160000593",
+   "url": "https://ntrs.nasa.gov/citations/20160000593",
+   "year": 2016
+  },
+  {
+   "id": "ntrs-20150008962",
+   "type": "ntrs",
+   "title": "BASS-II SIBAL concurrent flame spread, NTRS 20150008962",
+   "url": "https://ntrs.nasa.gov/citations/20150008962",
+   "year": 2015
+  },
+  {
+   "id": "ntrs-20180005168",
+   "type": "ntrs",
+   "title": "Saffire I-III test matrix and results, NTRS 20180005168",
+   "url": "https://ntrs.nasa.gov/citations/20180005168",
+   "year": 2018
+  },
+  {
+   "id": "ntrs-20210011521",
+   "type": "ntrs",
+   "title": "Saffire IV-V spacecraft vehicle response to a large-scale fire, ICES 2021, NTRS 20210011521",
+   "url": "https://ntrs.nasa.gov/citations/20210011521",
+   "year": 2021
+  },
+  {
+   "id": "ices-2024-365",
+   "type": "external",
+   "title": "Saffire VI results, ICES-2024-365",
+   "year": 2024
+  },
+  {
+   "id": "dehghani-bre",
+   "type": "external",
+   "title": "Dehghani, P., ACME Burning Rate Emulator (BRE), PhD dissertation, University of Maryland; Combust. Flame 228 (2021)",
+   "year": 2021
+  },
+  {
+   "id": "same-r",
+   "type": "external",
+   "title": "Urban, D. L., et al., Smoke Aerosol Measurement Experiment (SAME/SAME-R), AIAA 2013; Aerosol Sci. Tech. 49 (2015)",
+   "year": 2015
+  },
+  {
+   "id": "ntrs-20250010653",
+   "type": "ntrs",
+   "title": "LUCI (lunar-gravity combustion), NTRS 20250010653 - OUTSIDE PSI",
+   "url": "https://ntrs.nasa.gov/citations/20250010653",
+   "year": 2025
+  },
+  {
+   "id": "ntrs-20240015307",
+   "type": "ntrs",
+   "title": "FM2 (Flammability of Materials on the Moon), NTRS 20240015307 - OUTSIDE PSI",
+   "url": "https://ntrs.nasa.gov/citations/20240015307",
+   "year": 2024
+  },
+  {
+   "id": "psi",
+   "type": "psi",
+   "title": "NASA Physical Sciences Informatics (PSI) system, Combustion Science",
+   "url": "https://psi.nasa.gov",
+   "year": 2026
+  },
+  {
+   "id": "seinfeld-pandis",
+   "type": "external",
+   "title": "Seinfeld, J. H., Pandis, S. N., Atmospheric Chemistry and Physics, 3rd ed., Ch. 13 (coagulation kernel, Cunningham slip correction)",
+   "year": 2016
+  },
+  {
+   "id": "nasa-orion",
+   "type": "external",
+   "title": "NASA Orion reference guide (habitable volume ~316 ft3 / 9 m3)",
+   "url": "https://www.nasa.gov/reference/orion-reference-guide/",
+   "year": 2022
+  },
+  {
+   "id": "nasa-iss-facts",
+   "type": "external",
+   "title": "NASA ISS facts and figures (habitable volume 388 m3)",
+   "url": "https://www.nasa.gov/international-space-station/space-station-facts-and-figures/",
+   "year": 2023
+  },
+  {
+   "id": "nfpa-2001",
+   "type": "external",
+   "title": "NFPA 2001, Standard on Clean Agent Fire Extinguishing Systems (cup-burner minimum extinguishing concentrations; n-heptane N2 ~30-34 vol%); Senecal, J. A., Fire Safety J. 40 (2005) 579-591",
+   "year": 2022
+  },
+  {
+   "id": "drop-tower-suppressant",
+   "type": "external",
+   "title": "Drop-tower gaseous-suppressant study finding helium most effective (cited in PRD §2; full reference TODO_VERIFY) - OUTSIDE PSI"
+  },
+  {
+   "id": "psi-combustion-repo",
+   "type": "psi",
+   "title": "NASA PSI Data Repository: Combustion Science (Space Apps 2026 challenge Resources tab)",
+   "url": "https://psi.nasa.gov/physci/repo/search?q=combustion",
+   "accessed": "2026-11-14"
+  },
+  {
+   "id": "nasa-iss-combustion-guide",
+   "type": "nasa",
+   "title": "A Researcher's Guide to International Space Station Combustion Science (challenge Resources tab)",
+   "url": "https://www.nasa.gov/missions/station/a-researchers-guide-to-combustion-science/",
+   "accessed": "2026-11-14"
+  }
+ ],
+ "apis": [
+  {
+   "name": "NASA Physical Sciences Informatics (PSI) API",
+   "url": "https://psi.nasa.gov/geode-py/ws/api/investigations/metadata",
+   "use": "Investigation metadata, DOIs, file listings and Experimental tables (GET only)"
+  },
+  {
+   "name": "NASA Technical Reports Server (NTRS)",
+   "url": "https://ntrs.nasa.gov",
+   "use": "FLEX NASA/TP-2015-216046, JSC 20584 Rev C PDFs"
+  },
+  {
+   "name": "OpenAI API",
+   "url": "https://platform.openai.com/docs",
+   "use": "Scenario builder, run interpretation, Aster answers and match explanation at runtime (server-side only)"
+  }
+ ],
+ "software": [
+  {
+   "name": "@axe-core/playwright",
+   "version": "4.10.2",
+   "ecosystem": "npm",
+   "license": "MPL-2.0"
+  },
+  {
+   "name": "@paper-design/shaders-react",
+   "version": "^0.0.82",
+   "ecosystem": "npm",
+   "license": "Apache-2.0"
+  },
+  {
+   "name": "@playwright/test",
+   "version": "1.53.1",
+   "ecosystem": "npm",
+   "license": "Apache-2.0"
+  },
+  {
+   "name": "@radix-ui/react-collapsible",
+   "version": "^1.2.1",
+   "ecosystem": "npm",
+   "license": "MIT"
+  },
+  {
+   "name": "@radix-ui/react-dropdown-menu",
+   "version": "^2.2.1",
+   "ecosystem": "npm",
+   "license": "MIT"
+  },
+  {
+   "name": "@radix-ui/react-popover",
+   "version": "^1.3.1",
+   "ecosystem": "npm",
+   "license": "MIT"
+  },
+  {
+   "name": "@radix-ui/react-slot",
+   "version": "^1.5.0",
+   "ecosystem": "npm",
+   "license": "MIT"
+  },
+  {
+   "name": "@radix-ui/react-tooltip",
+   "version": "^1.4.1",
+   "ecosystem": "npm",
+   "license": "MIT"
+  },
+  {
+   "name": "@react-three/drei",
+   "version": "^10.7.9",
+   "ecosystem": "npm",
+   "license": "MIT"
+  },
+  {
+   "name": "@react-three/fiber",
+   "version": "^9.8.2",
+   "ecosystem": "npm",
+   "license": "MIT"
+  },
+  {
+   "name": "@react-three/postprocessing",
+   "version": "^3.2.2",
+   "ecosystem": "npm",
+   "license": "MIT"
+  },
+  {
+   "name": "@types/katex",
+   "version": "0.16.7",
+   "ecosystem": "npm",
+   "license": "MIT"
+  },
+  {
+   "name": "@types/node",
+   "version": "22.15.32",
+   "ecosystem": "npm",
+   "license": "MIT"
+  },
+  {
+   "name": "@types/react",
+   "version": "19.1.8",
+   "ecosystem": "npm",
+   "license": "MIT"
+  },
+  {
+   "name": "@types/react-dom",
+   "version": "19.1.6",
+   "ecosystem": "npm",
+   "license": "MIT"
+  },
+  {
+   "name": "@types/react-plotly.js",
+   "version": "2.6.3",
+   "ecosystem": "npm",
+   "license": "MIT"
+  },
+  {
+   "name": "@types/three",
+   "version": "^0.187.0",
+   "ecosystem": "npm",
+   "license": "MIT"
+  },
+  {
+   "name": "autoprefixer",
+   "version": "10.4.21",
+   "ecosystem": "npm",
+   "license": "MIT"
+  },
+  {
+   "name": "class-variance-authority",
+   "version": "^0.7.1",
+   "ecosystem": "npm",
+   "license": "Apache-2.0"
+  },
+  {
+   "name": "clsx",
+   "version": "^2.1.1",
+   "ecosystem": "npm",
+   "license": "MIT"
+  },
+  {
+   "name": "geist",
+   "version": "^1.9.2",
+   "ecosystem": "npm",
+   "license": "OFL-1.1"
+  },
+  {
+   "name": "katex",
+   "version": "0.16.22",
+   "ecosystem": "npm",
+   "license": "MIT"
+  },
+  {
+   "name": "lucide-react",
+   "version": "^1.73.0",
+   "ecosystem": "npm",
+   "license": "ISC"
+  },
+  {
+   "name": "motion",
+   "version": "12.18.1",
+   "ecosystem": "npm",
+   "license": "MIT"
+  },
+  {
+   "name": "next",
+   "version": "15.5.29",
+   "ecosystem": "npm",
+   "license": "MIT"
+  },
+  {
+   "name": "openai",
+   "version": "7.57.0",
+   "ecosystem": "npm",
+   "license": "Apache-2.0"
+  },
+  {
+   "name": "plotly.js-dist-min",
+   "version": "3.0.1",
+   "ecosystem": "npm",
+   "license": "MIT"
+  },
+  {
+   "name": "postcss",
+   "version": "8.5.6",
+   "ecosystem": "npm",
+   "license": "MIT"
+  },
+  {
+   "name": "postprocessing",
+   "version": "^6.39.6",
+   "ecosystem": "npm",
+   "license": "Zlib"
+  },
+  {
+   "name": "react",
+   "version": "19.1.0",
+   "ecosystem": "npm",
+   "license": "MIT"
+  },
+  {
+   "name": "react-dom",
+   "version": "19.1.0",
+   "ecosystem": "npm",
+   "license": "MIT"
+  },
+  {
+   "name": "react-plotly.js",
+   "version": "2.6.0",
+   "ecosystem": "npm",
+   "license": "MIT"
+  },
+  {
+   "name": "sonner",
+   "version": "^2.0.8",
+   "ecosystem": "npm",
+   "license": "MIT"
+  },
+  {
+   "name": "tailwind-merge",
+   "version": "^3.7.0",
+   "ecosystem": "npm",
+   "license": "MIT"
+  },
+  {
+   "name": "tailwindcss",
+   "version": "3.4.17",
+   "ecosystem": "npm",
+   "license": "MIT"
+  },
+  {
+   "name": "three",
+   "version": "^0.187.0",
+   "ecosystem": "npm",
+   "license": "MIT"
+  },
+  {
+   "name": "tsx",
+   "version": "4.20.3",
+   "ecosystem": "npm",
+   "license": "MIT"
+  },
+  {
+   "name": "typescript",
+   "version": "5.8.3",
+   "ecosystem": "npm",
+   "license": "Apache-2.0"
+  },
+  {
+   "name": "vitest",
+   "version": "3.2.4",
+   "ecosystem": "npm",
+   "license": "MIT"
+  },
+  {
+   "name": "zod",
+   "version": "3.25.67",
+   "ecosystem": "npm",
+   "license": "MIT"
+  },
+  {
+   "name": "zustand",
+   "version": "5.0.5",
+   "ecosystem": "npm",
+   "license": "MIT"
+  },
+  {
+   "name": "numpy",
+   "version": "1.26.4",
+   "ecosystem": "pypi",
+   "license": "BSD-3-Clause"
+  },
+  {
+   "name": "scipy",
+   "version": "1.13.1",
+   "ecosystem": "pypi",
+   "license": "BSD-3-Clause"
+  },
+  {
+   "name": "pandas",
+   "version": "2.2.2",
+   "ecosystem": "pypi",
+   "license": "BSD-3-Clause"
+  },
+  {
+   "name": "pyarrow",
+   "version": "16.1.0",
+   "ecosystem": "pypi",
+   "license": "Apache-2.0"
+  },
+  {
+   "name": "scikit-learn",
+   "version": "1.5.0",
+   "ecosystem": "pypi",
+   "license": "BSD-3-Clause"
+  },
+  {
+   "name": "pyyaml",
+   "version": "6.0.1",
+   "ecosystem": "pypi",
+   "license": "MIT"
+  },
+  {
+   "name": "pdfplumber",
+   "version": "0.11.0",
+   "ecosystem": "pypi",
+   "license": "MIT"
+  },
+  {
+   "name": "tabulate",
+   "version": "0.9.0",
+   "ecosystem": "pypi",
+   "license": "MIT"
+  },
+  {
+   "name": "openpyxl",
+   "version": "3.1.5",
+   "ecosystem": "pypi",
+   "license": "MIT"
+  },
+  {
+   "name": "xlrd",
+   "version": "2.0.1",
+   "ecosystem": "pypi",
+   "license": "BSD-3-Clause"
+  },
+  {
+   "name": "pytest",
+   "version": "8.2.2",
+   "ecosystem": "pypi",
+   "license": "MIT"
+  }
+ ],
+ "fonts": [
+  {
+   "name": "Geist Sans",
+   "license": "OFL-1.1",
+   "via": "geist npm package (Vercel), self-hosted"
+  },
+  {
+   "name": "Geist Mono",
+   "license": "OFL-1.1",
+   "via": "geist npm package (Vercel), self-hosted"
+  }
+ ],
+ "components": [
+  {
+   "name": "BackgroundPaths",
+   "origin": "21st.dev community component (BackgroundPaths), adapted in web/components/ui/background-paths.tsx",
+   "license": "MIT"
+  },
+  {
+   "name": "shadcn/ui primitives",
+   "origin": "ui.shadcn.com (button, dropdown, popover, collapsible, tooltip), adapted in web/components/ui/",
+   "license": "MIT"
+  }
+ ],
+ "images": [],
+ "si_tools": [
+  {
+   "name": "Claude Code (Anthropic), model Claude Opus 5.5",
+   "use": "Wrote and refactored the codebase, data pipelines (PDF/PSI table extraction and normalization), tests and documentation under human direction. All generated data rows carry source_id + locator and stay verified=false until a human spot-check.",
+   "disclosure": "Source files carry the header 'SI-assisted: written with Claude Code (Anthropic)'."
+  },
+  {
+   "name": "OpenAI API, model from OPENAI_MODEL (default gpt-4o-mini)",
+   "use": "Runtime scenario builder (plain English → scenario fields for human review), run interpretation and the experiment-match explanation; grounded only on engine output and cited PSI evidence, checked by a numeric + citation guard. No key → deterministic offline mode (engine facts and catalog records, labelled offline; no invented text)."
+  }
+ ],
+ "si_media": "No SI-generated images or video are included. Any added later must carry a visible 'SI-generated using <tool>' watermark and must not use, contain or modify NASA logos, flags or mission identifiers.",
+ "nasa_resource_used": {
+  "type": "psi",
+  "title": "NASA PSI Data Repository: Combustion Science (Space Apps 2026 challenge Resources tab)",
+  "url": "https://psi.nasa.gov/physci/repo/search?q=combustion",
+  "accessed": "2026-11-14"
+ }
+}

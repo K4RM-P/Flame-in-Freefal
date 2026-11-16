@@ -88,3 +88,10 @@
 - What-if answers quote peak_Q from the state trace, so the guard pool includes whatIfFacts() (engine metric values).
 - Added --ai-pink / --ai-violet tokens (tokens.css) for the Apple-Intelligence-style iridescent gradient (AI surfaces only: glow, orb, launcher pill, screen-edge glow); /api/scenario spends a rate-limit token only on OpenAI calls, answers refine on the client (an interview used to hit the 8/min limit).
 - AI UI v3: warm liquid glass (red/orange/yellow only: --ai-red, --ai-yellow replace pink/violet), star mark replaces the orb (no orb on Build with AI), turning-arc + drawn-check thinking trail, flow line, pill composer with round send; no gradient text.
+
+## Final polish (2026-11-16)
+- Demo Numbers removed: the submission rule "no fake or demo data" overrides the earlier team request.
+- Aster uses the simulator's latest run as context automatically when no other context is selected; the run context is built client-side from the engine result with the UI formatter so the guard pool and the visible numbers agree.
+- Partial-gravity evidence comes from FM2/LUCI (outside PSI) and is labelled so; there is no PSI partial-gravity fire data.
+- `LIVE_URL` (metadataBase) is the verified Vercel alias `flame-in-freefal.vercel.app`; README also lists `emberatlas-five.vercel.app` as given by the team (HUMAN_TASKS #20).
+- Phones get a "best on desktop" notice on `/simulator` rather than a cramped workspace; the visitor can still open it.

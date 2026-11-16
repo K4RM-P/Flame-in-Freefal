@@ -1,52 +1,76 @@
 # EmberAtlas: the firefighter for space
-It shows where and how a fire would start in your spacecraft, and which design change prevents it. Built on NASA's ISS fire data, explained by AI. NASA Space Apps 2026 · Flame in Freefall.
 
-**Live app: https://flame-in-freefal.vercel.app**
+**Describe a spacecraft cabin, burn it with a physics engine calibrated on NASA fire experiments, ask Aster (the AI fire engineer) why, and fix it before launch.**
+NASA Space Apps 2026 · challenge: [Flame in Freefall](https://www.spaceappschallenge.org/) · Team EmberAtlas, Toronto.
 
-**Find · Explain · Prevent** (numbers from `web/scripts/engine-check.ts`, see `docs/DEMO_SCRIPT.md`): the same SAFFIRE SIBAL fabric burns in an ISS cabin and a 34 % O₂ / 56.5 kPa / 1/6 g Moon-base cabin with the same response (crew detects at 30 s, fan off, 2 kg CO₂ 30 s later: design inputs, not NASA measurements). **ISS:** cutting the fan puts the fire out at 30 s. **Moon:** the fire outlasts the CO₂ and burns the whole sample by 171 s (peak heat 4 900 W vs 2 580 W). **Prevent:** a deterministic design review ranks the fixes (no AI needed); on the unfixed Moon cabin (`lunar-design-review`) fix #1 is "the extinguisher never fires: give it an alarm path". Then the app names the next test to fly. Earth test vs orbit: in SAFFIRE-II (PSI-99) like-for-like samples, none burned worse in orbit than in the 1 g test (7 samples, small n); no solid in PSI was burned above 22.2 % O₂.
-**Findings** (all computed from `web/data`, shown on `/` and `/evidence`): 1. **Earth test vs orbit:** in SAFFIRE-II (PSI-99) like-for-like samples, none burned worse in orbit than in the 1 g test (currently 7 samples: 4 less flammable, 3 the same; small n). 2. **Where the evidence stops:** no solid in PSI was burned above 22.2% O₂ (`web/data/materials.json`); a lunar habitat breathes 34% at 56.5 kPa. ACME BRE (PSI-20) is the only flight data at exploration atmospheres, and it is a gas burner emulating solids. 3. **Beyond it:** the simulator runs the lunar cabin; every out-of-envelope result carries an EXTRAPOLATED badge and the app proposes the next test to fly.
+- **Live app:** https://emberatlas-five.vercel.app (the Vercel project that auto-deploys `main` is also served at https://flame-in-freefal.vercel.app)
+- **Demo video:** TODO_VIDEO_URL
+- **One-click demo:** `/simulator?preset=iss-vs-lunar&run=1`
 
-**Simulator (3D):** the cabin view is a procedural, illustrative lab-module interior in which every fire-related visual (flame, char, fire light, smoke, alarm, fan, agent) is driven only by the engine frame via `web/components/sim/scene3d/frame.ts`; Elevation and Section remain as the 2D schematic, and the SVG is the fallback without WebGL. Keys: R run · C charts · F fullscreen · 1–4 camera presets · `?present=1` for a chrome-less demo run.
+![EmberAtlas simulator: ISS vs Moon base](docs/screenshots/3d-compare.png)
 
-![3D overview](docs/screenshots/3d-overview.png) ![Sample close-up](docs/screenshots/3d-closeup.png) ![Compare ISS vs Lunar Habitat](docs/screenshots/3d-compare.png)
+## The problem
+Fire behaves differently in microgravity: no buoyancy, so flames depend on airflow, and the 1 g tests used to qualify materials do not always predict orbit. Lunar habitats will breathe an exploration atmosphere (34 % O₂ at 56.5 kPa, NTRS 20240003211) where **no solid in NASA's PSI repository has been burned** (highest tested solid O₂: 22.2 %), and at 1/6 g, where NASA's FM2 tests show some materials burn more readily than at either µg or 1 g. Designers need to see where a cabin fire would start, how it would end, and where the evidence stops.
 
-**Routes:** `/` story · `/simulator` (presets: Saffire replay; Same fabric: ISS vs Lunar Habitat; Moon base: find the gaps; Lunar Habitat: tune the response) · `/evidence` (Earth vs orbit, where the evidence stops, mission-to-experiment match) · `/methods` · `/about`.
+## What it does (4 steps)
+1. **Describe:** pick a preset or describe the cabin in words; *Build with AI* drafts the scenario from NASA atmospheres and PSI-tested materials only and flags every assumption.
+2. **Burn with NASA data:** a cabin fire engine (one well-mixed zone, 1-D flame front per item, Monte Carlo bands) runs it in 3D. Every result outside the tested PSI envelope carries an **EXTRAPOLATED** badge.
+3. **Ask Aster:** answers from the engine's own numbers and the NASA records, with citations; a numeric guard removes any number not in the tool output and shows how many were checked.
+4. **Fix before launch:** a deterministic design review ranks fixes you can apply and re-run, then names the next test to fly.
 
-**Run:** `pnpm -C web install` · `pnpm -C web dev` · `pnpm -C web test` · `pnpm -C web build`. Set `OPENAI_API_KEY` as a server-side env var (never `NEXT_PUBLIC_`, never committed); without it the AI panels say so and everything else works.
+**Demo result** (`pnpm -C web exec tsx scripts/engine-check.ts`, see `docs/DEMO_SCRIPT.md`): the same SAFFIRE SIBAL fabric with the same crew response (detect at 30 s, fan off, 2 kg CO₂ 30 s later; design inputs). **ISS:** the fire goes out at 30 s when the fan stops. **Moon base:** it burns the whole sample by 171 s; peak heat 4 900 W vs 2 580 W. Ranked fixes on the unfixed Moon cabin: give the extinguisher an alarm path; test SIBAL at 34 % O₂ (it was tested only to 22.1 %); lower cabin O₂ to 29.2 % (peak 4 920 W → 4 040 W).
 
-**Data:** 2,818 PSI table rows with accession + file + line provenance from 18 accessions (`web/data/psi/tables_index.json`): PSI-10 327 · PSI-20 18 · PSI-22 32 · PSI-23 18 · PSI-25 129 · PSI-26 122 · PSI-39 87 · PSI-47 2 · PSI-68 8 · PSI-69 274 · PSI-98/99/100 13 · PSI-101 109 · PSI-102 8 · PSI-107 469 · PSI-142 8 · PSI-159 1,194. Plus PSI-100 Saffire-III cabin telemetry for the replay.
+## How NASA data is used
+- **2,818 PSI table rows from 18 accessions** (`web/data/psi/tables_index.json`), each with accession + file + line and the raw cell string; ambiguous cells are flagged, never filled. The full list with titles, DOIs and what each is used for is on `/evidence#psi-datasets` and `/credits`.
+- Key datasets: BASS / BASS-II (PSI-26, PSI-25) tested envelopes; SAFFIRE-I/II/III (PSI-98/99/100) spread calibration, held-out test, Earth-vs-orbit and the Saffire-III cabin replay; FLEX (PSI-69, cross-checked against NASA/TP-2015-216046) droplet burning rates; ACME BRE (PSI-20) for exploration atmospheres; SAME / SAME-R / DAFT (PSI-102/101/47) smoke evidence.
+- Outside PSI (labelled so): FM2 (NTRS 20240015307) and LUCI (NTRS 20250010653) for partial gravity.
 
-**Validation (honest, one line each):**
-- FLEX cross-check (PSI-69 table vs NASA/TP-2015-216046): 0 mismatches in 1,533 values (`web/data/psi/flex_crosscheck.json`).
-- Held-out FLEX burning-rate constant K: MAPE 13.3%, n = 66 (`web/data/validation/droplet_K.json`).
-- Flame spread on held-out SIBAL (Saffire-III): 29.3% error, n = 1 (`web/data/params/spread.json`). One training sample, one test sample.
-- Saffire replay is a cabin-scale sanity check only (T RMSE ~6 K, P MAPE ~0.2%): a sample-size fire barely changes the cabin; it does not test flame-spread physics.
+## How the physics works (short)
+Opposed-flow flame spread (de Ris thin-fuel form, calibrated on one SAFFIRE sample), droplet d²-law burning (fit on FLEX), oxygen-consumption heat release, agent dilution and inerting, low-flow quench, smoke transport delay to the detector. Partial gravity is interpolated between µg and 1 g, never measured. Python (`physics/emberphys`) is the source of truth; the TypeScript port matches `shared/golden_vectors.json` to rtol 1e-6. Details, equations and limits: `/methods`.
 
-**Limitations:** one well-mixed cabin zone; 1D spread per item; partial gravity (1/6 g) is estimated between µg and 1 g, never measured, and NASA's FM2 lunar-gravity tests show some materials burn more readily at lunar g than at either, so it may be non-conservative; cabin heat loss and smoke are theory-only; small n everywhere. Not for flight certification. Details: `/methods#limitations`, `docs/VALIDATION.md`.
-
-**Use of AI:** Claude Code (Anthropic) wrote the code under human direction and review. At runtime the OpenAI API powers the scenario builder, run interpretation and the experiment-match explanation, grounded on engine output and PSI rows, with a numeric guard (`web/lib/ai/guard.ts`). No AI-generated images.
-
-**Docs:** `docs/SUBMISSION.md` · `docs/PITCH.md` · `docs/STATUS.md` · `docs/VALIDATION.md` · `CREDITS.md`. **License:** MIT (`LICENSE`).
-
-## AI
-- **The AI fire engineer:** *Build with AI* (simulator) interviews you (one prompt, ≤ 4 follow-ups, review), builds the cabin from NASA atmospheres and PSI materials only, ignites it in 3D; after each run it streams a 3-sentence briefing, ranks fixes you can *Apply & re-run* (A/B compare), and answers questions; what-ifs (“O₂ to 21 %?”) re-run the engine. Aster is the same AI site-wide.
-- **Thinking you can trust:** the trail shows only real server/worker steps (reading evidence, engine run, fix ranking, numeric check, citations), streamed over SSE; no timers.
-- **Guard:** every number in an answer must appear in engine/tool output (`web/lib/ai/guard.ts`), PSI ids must be in the evidence list; failures are stripped and flagged.
-- **Offline fallback:** with no `OPENAI_API_KEY` (server-side only) the rule-based parser, fixed questions, engine summary and catalog search run the same UX, marked “offline mode”; runs with no flame show why (`web/lib/sim/noFire.ts`) with a one-click fix.
-- Screenshots: [interview](docs/screenshots/ai-interview.png) · [thinking](docs/screenshots/ai-thinking.png) · [briefing](docs/screenshots/ai-briefing.png) · [fix](docs/screenshots/ai-fix.png)
-
-## Design
-
-- **Type:** Geist Sans for UI/headings (600, −0.04em at display sizes) and Geist Mono for numbers, labels and data (`tabular-nums`), loaded locally from the `geist` package.
-- **Tokens:** dark-first palette in `web/styles/tokens.css` (#0A0A0A / #111 / #171717 surfaces, #262626 hairlines, ember #FF6B2C for the one primary action and live state, oxygen blue #5AA9FF for ISS/baseline series), mapped to shadcn variables and Tailwind colours.
-- **Structure:** shadcn layout (`web/components.json`, `cn()` in `web/lib/utils.ts`); primitives live in `web/components/ui/*`, product components in `sim/`, `landing/`, `evidence/`.
-- **Motion:** `motion/react`, 150–250 ms ease-out for UI, 600–900 ms scroll reveals on the landing, springs for emphasis; sticky sections use plain `position: sticky` with explicit heights.
-- **Reduced motion:** `prefers-reduced-motion` renders final states (no letter reveal, static streamlines, no marquee or loops).
-
-| Landing hero | Sticky story | How it works |
+## Validation (real numbers, from the files named)
+| Check | Result | File |
 |---|---|---|
-| ![Hero](docs/screenshots/ui-hero.png) | ![Story](docs/screenshots/ui-story.png) | ![How it works](docs/screenshots/ui-how.png) |
+| FLEX table cross-check (PSI-69 vs NASA/TP-2015-216046) | 0 mismatches in 1,533 values | `web/data/psi/flex_crosscheck.json` |
+| Droplet burning-rate constant K, held-out FLEX tests | ~13 % mean absolute error (MAPE 13.3 %), n = 66 | `web/data/validation/droplet_K.json` |
+| Flame spread, held-out SAFFIRE-III sample III-2 | 29.3 % error, n = 1 (one training, one test sample) | `web/data/params/spread.json` |
+| Saffire-III cabin replay (PSI-100 T, P) | T RMSE ~6 K, P MAPE ~0.2 %: sanity check only (a sample-size fire barely changes the cabin) | computed live, `docs/VALIDATION.md` |
+| Validation targets V1–V10 | 5 pass, 6 fail, 5 pending data (of 16) | `web/data/validation/summary.json`, `docs/VALIDATION.md` |
 
-| Simulator | Evidence |
-|---|---|
-| ![Simulator](docs/screenshots/ui-simulator.png) | ![Evidence](docs/screenshots/ui-evidence.png) |
+## Limitations
+One well-mixed cabin zone; 1-D spread per item; spread calibrated on n = 1; partial gravity is an estimate and **may be non-conservative** (FM2); cabin heat loss and smoke/CO are **theory-only (uncalibrated)**; detector thresholds are unsourced (alarm shows *No data*); small n everywhere. **Not for flight certification.**
+
+## Use of AI (SI)
+Runtime AI is the OpenAI API, called **server-side only** (`web/lib/ai/client.ts`), rate-limited per IP (8/min) with request size caps (`web/lib/ai/http.ts`). Without `OPENAI_API_KEY` the app runs in **offline mode**: a rule-based interview builds scenarios, and Aster answers from the engine's facts and the bundled PSI catalog, marked "offline". Development used Claude Code (Anthropic); every source file carries an `SI-assisted` header. No AI-generated images.
+
+## Tech stack
+Next.js 15 · React 19 · TypeScript · Tailwind · three.js / React Three Fiber · Plotly · KaTeX · motion · zod / zustand · OpenAI SDK · Vitest + Playwright · Python 3.11 (numpy, scipy, pandas, pdfplumber, pytest). Fonts: Geist Sans and Geist Mono (OFL).
+
+## Run locally
+```bash
+pnpm -C web install
+```
+```bash
+cp web/.env.example web/.env.local   # optional: add OPENAI_API_KEY; leave empty for offline mode
+```
+```bash
+pnpm -C web dev
+```
+Checks: `pnpm -C web lint && pnpm -C web typecheck && pnpm -C web test && pnpm -C web build`, `pnpm -C web e2e`; Python: `make venv && make test`.
+
+## Project structure
+```
+physics/   emberphys (models, source of truth) · pipeline (PSI fetch/ingest, cache-first) · fit · validate · data/*.yaml (every value with source)
+shared/    golden_vectors.json (Python ↔ TypeScript parity)
+web/       Next.js app: app/ (routes, API) · components/ · lib/sim (engine port) · lib/ai (Aster, guard) · data/ (exported data) · tests/ · e2e/
+docs/      STATUS · DECISIONS · DEMO_SCRIPT · HUMAN_TASKS · VALIDATION · PRD · SUBMISSION · PITCH · REFERENCES.json (generated)
+```
+
+## Team
+Anujan, Karm, Aaron, Xuliang (Toronto).
+
+## Credits
+NASA Physical Sciences Informatics (PSI) Data Repository, Combustion Science, and NASA NTRS reports (FLEX NASA/TP-2015-216046, SAFFIRE, BASS-II, FM2, LUCI, JSC 20584). Other data and papers: Scientific Reports (BASS-II, 2017), NIST Chemistry WebBook, GRI-Mech 3.0, Incropera, Turns, Quintiere, and the classic flame-spread papers (de Ris 1969; Fernandez-Pello, Ray & Glassman 1981; Olson 1991). Adapted components: BackgroundPaths (21st.dev, MIT) and shadcn/ui primitives (MIT). All libraries with licences: `/credits` and `docs/REFERENCES.json` (generated by `make export`). NASA does not endorse this project.
+
+## Licence
+MIT (`LICENSE`). Contributions: `CONTRIBUTING.md`.
