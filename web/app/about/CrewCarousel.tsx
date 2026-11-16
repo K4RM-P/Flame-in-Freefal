@@ -1,4 +1,5 @@
 "use client";
+// SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 
 import { useLanguage } from "@/components/shell/Language";
 import { useRef, useState, type ReactNode } from "react";

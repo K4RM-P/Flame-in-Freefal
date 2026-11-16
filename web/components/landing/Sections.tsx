@@ -31,9 +31,9 @@ export function LiveDemo({ run, video }: { run: LandingFacts["run"]; video: bool
               // eslint-disable-next-line @next/next/no-img-element
               : <img className="absolute inset-0 h-full w-full object-cover" src="/media/sim-3d.webp" alt="EmberAtlas 3D simulator: overview of a cabin module with a burning fabric sample" width={1440} height={900} loading="lazy" decoding="async" />}
             {run && <div className="absolute inset-x-3 bottom-3 flex flex-wrap gap-2" data-testid="demo-chips">
-              <span className="ea-pill bg-panel/90 backdrop-blur">Burnout · {run.aName} <b className="num text-ink">{sig(run.burnA, 3)} {run.units}</b></span>
-              <span className="ea-pill bg-panel/90 backdrop-blur">{run.bName} <b className="num text-ink">{sig(run.burnB, 3)} {run.units}</b></span>
-              {run.ratio != null && <span className="ea-pill bg-panel/90 backdrop-blur" data-tone="ember"><b className="num">{sig(run.ratio, 2)}×</b> {run.faster ? "faster" : "slower"}</span>}
+              <span className="ea-pill bg-panel/90 backdrop-blur">Fire out · {run.aName} <b className="num text-ink">{sig(run.burnA, 3)} {run.units}</b> ({run.endA})</span>
+              <span className="ea-pill bg-panel/90 backdrop-blur">{run.bName} <b className="num text-ink">{sig(run.burnB, 3)} {run.units}</b> ({run.endB})</span>
+              {run.ratio != null && run.longer && <span className="ea-pill bg-panel/90 backdrop-blur" data-tone="ember"><b className="num">{sig(run.ratio, 2)}×</b> longer in {run.longer}</span>}
               {run.extrapolated.length > 0 && <span className="ea-pill bg-panel/90 backdrop-blur" data-tone="warn" title={run.extrapolated.join(" · ")}>Extrapolated</span>}
             </div>}
           </div>
@@ -65,9 +65,9 @@ export function Findings({ f }: { f: LandingFacts }) {
             <p className="mt-4 font-mono text-[11px] uppercase tracking-[0.06em] text-faint">PSI materials index · ACME BRE PSI-20</p>
           </Reveal>
           <Reveal delay={stagger(2)} className="bg-bg p-6 md:p-8">
-            <p className="ea-meta">Moon-base burnout</p>
+            <p className="ea-meta">Moon-base fire duration</p>
             <p className="mt-4 text-[48px] font-semibold tracking-[-0.04em] text-ember-text">{r?.ratio == null ? "∅" : <Stat value={r.ratio} digits={2} suffix="×" />}</p>
-            <p className="mt-2 text-[14px] text-mute">{r ? <>{r.bName} burns out {r.faster ? "faster" : "slower"} than {r.aName}: <span className="num">{sig(r.burnB, 3)}</span> vs <span className="num">{sig(r.burnA, 3)} {r.units}</span>. <span className="ea-pill ml-1 align-middle" data-tone="warn">Extrapolated</span></> : "No engine result"}</p>
+            <p className="mt-2 text-[14px] text-mute">{r ? <>The fire lasts longer in {r.longer ?? r.bName}: <span className="num">{sig(r.burnB, 3)} {r.units}</span> ({r.endB}) vs <span className="num">{sig(r.burnA, 3)} {r.units}</span> on the {r.aName} ({r.endA}, after the fan stopped). <span className="ea-pill ml-1 align-middle" data-tone="warn">Extrapolated</span></> : "No engine result"}</p>
             <p className="mt-4 font-mono text-[11px] uppercase tracking-[0.06em] text-faint">Engine · PSI-98 SAFFIRE-I fabric · seed-fixed MC</p>
           </Reveal>
         </div>
@@ -94,12 +94,12 @@ export function Marquee({ chips }: { chips: LandingFacts["psi"]["chips"] }) {
   );
 }
 
-export function Trust({ f, pass, total }: { f: LandingFacts; pass: number; total: number }) {
+export function Trust({ f, pass, fail, pending }: { f: LandingFacts; pass: number; fail: number; pending: number }) {
   const rows: [string, React.ReactNode, string][] = [
     ["FLEX cross-check vs NTRS", <><span className="num">{f.flex.mismatches}</span> mismatches in <span className="num">{f.flex.compared.toLocaleString("en-US")}</span> values</>, "PSI-69 · NTRS"],
     ["Held-out droplet burning rate", <>MAPE <span className="num">{sig(f.flex.mape, 3)}%</span> (n = <span className="num">{f.flex.n}</span>)</>, "PSI-69 FLEX · test split"],
     ["SIBAL flame-spread error", f.spread.mape == null ? "No data" : <><span className="num">{sig(f.spread.mape, 3)}%</span> (n = <span className="num">{f.spread.n}</span>, a single held-out flight test)</>, "PSI-98/100 SAFFIRE"],
-    ["Published validation targets", <><span className="num">{pass}</span> of <span className="num">{total}</span> pass; failures are shown, not hidden</>, "data/validation/summary.json"],
+    ["Published validation targets", <><span className="num">{pass}</span> of <span className="num">{pass + fail}</span> checked targets pass, <span className="num">{fail}</span> fail (shown, not hidden); <span className="num">{pending}</span> await digitized data</>, "data/validation/summary.json"],
     ["Limitations", <>Partial gravity is an estimate (µg ↔ 1 g) that may be non-conservative (NASA FM2). Not for flight certification. <Link href="/methods#limitations" className="text-ember-text underline-offset-4 hover:underline">Read the limits</Link></>, "Methods"],
   ];
   return (

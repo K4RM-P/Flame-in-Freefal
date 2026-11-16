@@ -1,3 +1,4 @@
+// SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 import { isTargetLanguage, TARGET_LANGUAGES, type TargetLanguage } from "@/lib/languages";
 import { z } from "zod";
 import { gate, json, readJson } from "@/lib/ai/http";

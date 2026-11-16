@@ -1,4 +1,5 @@
 "use client";
+// SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 
 import type { TargetLanguage } from "@/lib/languages";
 import { createContext, useContext } from "react";

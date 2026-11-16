@@ -14,7 +14,7 @@ import { runSummary, visualState } from "./frame";
 import { layoutOf } from "./vis";
 
 function Loader({ text = "Loading 3D cabin…" }: { text?: string }) {
-  return <div className="grid h-full w-full place-items-center bg-[radial-gradient(ellipse_at_center,rgb(var(--surface2)),rgb(var(--bg)))]" data-testid="scene3d-loading">
+  return <div className="absolute inset-0 grid place-items-center bg-[radial-gradient(ellipse_at_center,rgb(var(--surface2)),rgb(var(--bg)))]" data-testid="scene3d-loading">
     <span className="glass px-3 py-1.5 text-[13px] text-mute">{text}</span>
   </div>;
 }
@@ -45,9 +45,9 @@ export function Scene3D({ views, frame }: { views: SceneView[]; frame: number })
   </div>;
   const specs = useMemo(() => views.map((v) => ({ sc: v.sc, r: v.r })), [views]);
   if (gl === "checking") return <Loader />;
-  if (gl === "none") return <div className="relative h-full">{fallback}<p className="glass absolute left-2 top-2 px-2 py-1 text-[12px] text-warn">WebGL unavailable: showing the 2D elevation view</p></div>;
+  if (gl === "none") return <div className="absolute inset-0">{fallback}<p className="glass absolute left-2 top-2 px-2 py-1 text-[12px] text-warn">WebGL unavailable: showing the 2D elevation view</p></div>;
   return (
-    <div className="relative h-full w-full overflow-hidden" data-testid="scene3d">
+    <div className="absolute inset-0 overflow-hidden" data-testid="scene3d">
       <Boundary fallback={fallback}>
         <Canvas3D views={specs} present={present} lowfx={lowfx} />
       </Boundary>

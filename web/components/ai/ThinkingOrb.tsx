@@ -1,4 +1,5 @@
 "use client";
+// SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import type { AiRun } from "@/lib/ai/stream";

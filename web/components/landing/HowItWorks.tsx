@@ -8,7 +8,7 @@ import { Box, Cpu, MessageSquareText, ShieldCheck, RefreshCw } from "lucide-reac
 
 const STEPS = [
   { k: "Describe", t: "AI builds the cabin", d: "Describe the module in plain words. The AI drafts a scenario from the material library; anything unsourced stays empty for you to fill.", icon: Box },
-  { k: "Simulate", t: "NASA-calibrated engine", d: "A well-mixed cabin zone with a flame front per item, calibrated on PSI flight tests, run 200× for uncertainty bands.", icon: Cpu },
+  { k: "Simulate", t: "NASA-calibrated engine", d: "A well-mixed cabin zone with a flame front per item, its spread rate calibrated on a SAFFIRE flight test (n = 1, so small n) and run 200× for uncertainty bands.", icon: Cpu },
   { k: "Interpret", t: "AI explains, cites PSI", d: "The AI reads only the engine output and the ranked NASA evidence, and cites the experiment behind each claim.", icon: MessageSquareText },
   { k: "Prevent", t: "Biggest design change", d: "Sensitivity runs rank the inputs that move the outcome most, and the next test names the condition to fly.", icon: ShieldCheck },
   { k: "Ask & improve", t: "Loop back", d: "Ask a follow-up, change the cabin, re-run. Every answer stays tied to a run you can export.", icon: RefreshCw },
@@ -51,7 +51,7 @@ export function HowItWorks() {
         </div>
         <p className="mx-auto mt-10 w-full max-w-6xl px-4 pb-24 text-[15px] text-mute md:px-6 md:pb-0">
           <ShieldCheck size={16} strokeWidth={1.5} className="mr-1.5 inline text-ok" />
-          The AI can&apos;t make things up: every number is checked against the simulation; every claim cites a NASA experiment.
+          The AI can&apos;t make things up: every number is checked against the simulation, and every source is shown, from the PSI file and line to the design inputs that are not NASA data.
         </p>
       </div>
     </section>

@@ -22,7 +22,7 @@ export default {
         card: { DEFAULT: c("card"), foreground: c("card-foreground") },
       },
       borderRadius: { lg: "12px", md: "6px", sm: "4px" },
-      fontFamily: { sans: ["var(--font-geist-sans)", "system-ui", "sans-serif"], mono: ["var(--font-geist-mono)", "ui-monospace", "monospace"] },
+      fontFamily: { sans: ["var(--font-sans)", "system-ui", "sans-serif"], display: ["var(--font-display)", "var(--font-sans)", "system-ui", "sans-serif"], mono: ["var(--font-mono)", "ui-monospace", "monospace"] },
       fontSize: { "2xs": "12px", xs: "13px", sm: "14px", base: "16px", lg: "20px", xl: "24px", "2xl": "32px", "3xl": "48px", "4xl": "64px" },
       letterSpacing: { display: "-0.04em", label: "0.08em" },
       transitionTimingFunction: { out: "cubic-bezier(.16,1,.3,1)" },

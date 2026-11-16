@@ -11,7 +11,7 @@ test("Run ISS vs Lunar Habitat from the landing page, then open the evidence", a
   await expect(page.getByTestId("delta-card")).toBeVisible({ timeout: 60_000 });
   await expect(page.getByTestId("extrapolated")).toBeVisible({ timeout: 60_000 });
   await expect(page.getByTestId("delta-card")).toContainText("Next test");
-  await expect(page.getByTestId("result-headline")).toContainText(/faster|slower|same/);
+  await expect(page.getByTestId("result-headline")).toContainText(/longer|quenched|burned out|still burning/);
   await page.goto("/evidence");
   await expect(page.getByTestId("evo-counts")).toContainText("like-for-like");
 });

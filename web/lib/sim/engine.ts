@@ -25,6 +25,31 @@ export class CabinVolumeRequired extends Error {
   constructor() { super("cabin volume required: no sourced value for this cabin — enter V (m³)"); }
 }
 
+export class InvalidScenario extends Error {
+  code = "invalid_scenario" as const;
+  constructor(public issues: string[]) { super(`invalid scenario: ${issues.join("; ")}`); }
+}
+
+/** Physical-range check on the numbers the engine integrates (the zod schema's bounds, without requiring ≥ 1 item). */
+export function scenarioIssues(s: Scenario): string[] {
+  const out: string[] = [];
+  const fin = (v: unknown) => typeof v === "number" && Number.isFinite(v);
+  const c = s.cabin;
+  if (!fin(c.x_o2) || c.x_o2 < 0 || c.x_o2 > 1) out.push("cabin O₂ mole fraction must be between 0 and 1");
+  if (!fin(c.P_Pa) || c.P_Pa <= 0) out.push("cabin pressure must be above 0");
+  if (!fin(c.gravity_g) || c.gravity_g < 0 || c.gravity_g > 1) out.push("gravity must be between 0 and 1 g");
+  if (!fin(c.flow_m_s) || c.flow_m_s < 0) out.push("air flow speed must be 0 or more");
+  for (const it of s.items) {
+    if (!fin(it.thickness_m) || it.thickness_m <= 0) out.push(`${it.id}: thickness must be above 0`);
+    if (!fin(it.length_m) || it.length_m <= 0) out.push(`${it.id}: length must be above 0`);
+    if (!fin(it.width_m) || it.width_m <= 0) out.push(`${it.id}: width must be above 0`);
+    if (!fin(it.t_ignite_s) || it.t_ignite_s < 0) out.push(`${it.id}: ignition time must be 0 s or later`);
+  }
+  if (!fin(s.detection.distance_m) || s.detection.distance_m <= 0) out.push("detector distance must be above 0");
+  if (!fin(s.suppression.mass_kg) || s.suppression.mass_kg < 0 || !fin(s.suppression.delay_s) || s.suppression.delay_s < 0) out.push("extinguisher mass and delay must be 0 or more");
+  return out;
+}
+
 /** Per-run draws (nominal run = central values; MC run = sampled). */
 export interface Draws {
   solid: Record<string, SP.SolidProps>; y_CO: Record<string, number>; dHc: Record<string, number>;
@@ -103,6 +128,8 @@ export interface SimOptions { mc?: number; seed?: number; draws?: Draws; collect
 
 /** Deterministic single run (nominal draws unless `draws` given). */
 export function simulate(scenario: Scenario, opts: SimOptions = {}): SimResult {
+  const issues = scenarioIssues(scenario);
+  if (issues.length) throw new InvalidScenario(issues);
   const base = runOnce(scenario, opts.draws ?? nominalDraws(scenario), opts.seed ?? DEFAULT_SEED);
   if (opts.mc && opts.mc > 1) return attachMC(base, scenario, opts.mc, opts.seed ?? DEFAULT_SEED);
   return base;

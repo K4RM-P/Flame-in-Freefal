@@ -16,6 +16,7 @@ import { replayError } from "@/lib/sim/replay";
 import { exportPsiRowsCsv, exportScenarioJson, exportSeriesCsv } from "@/lib/sim/export";
 import { ScenarioSchema, type Scenario, type SimResult } from "@/lib/sim/types";
 import { nextTest, outOfEnvelope } from "@/lib/sim/nextTest";
+import { durationVerdict, fireEnd } from "@/lib/sim/endReason";
 import { lsGet, lsSet } from "@/lib/store";
 import { sig, withUnit } from "@/lib/ui/format";
 import { cn } from "@/lib/utils";
@@ -398,9 +399,9 @@ function Center() {
   const views = [{ sc: a, r: ra, label: b ? `A · ${a.name}` : a.name }, ...(b ? [{ sc: b, r: rb, label: `B · ${b.name}` }] : [])];
   return (
     <section className="flex min-h-0 min-w-0 flex-1 flex-col" aria-label="Simulation viewport">
-      <div className="viewport3d relative min-h-[60vh] flex-1 bg-bg lg:min-h-0" data-testid="viewport">
+      <div className="viewport3d relative h-[60vh] min-h-[320px] flex-none bg-bg lg:h-auto lg:min-h-0 lg:flex-1" data-testid="viewport">
         {view === "3d" ? <Scene3D views={views} frame={frame} />
-          : <div className={`grid h-full ${b ? "grid-cols-2 divide-x divide-line" : ""}`}>
+          : <div className={`absolute inset-0 grid ${b ? "grid-cols-2 divide-x divide-line" : ""}`}>
               <CabinView sc={a} r={ra} frame={frame} label={b ? `A · ${a.name}` : a.name} compact={!!b} />
               {b && <CabinView sc={b} r={rb} frame={frame} label={`B · ${b.name}`} compact />}
             </div>}
@@ -456,23 +457,34 @@ function ResultStrip() {
   const sc = b && rb ? b : a, r = b && rb ? rb : ra;
   const nt = nextTest(sc, r);
   let headline: React.ReactNode = "No data";
-  const DELTA = [["time_to_extinguish", "burns out"], ["peak_T", "peaks at"], ["peak_co", "peaks in CO at"]] as const;
+  let why: string | null = null;
+  const DELTA = [["peak_T", "peaks at"], ["peak_co", "peaks in CO at"]] as const;
   if (b && rb) {
-    const pick = DELTA.find(([k]) => metric(ra, k)?.value != null && metric(rb, k)?.value != null);
-    if (pick) {
-      const [k, verb] = pick, va = metric(ra, k)!.value as number, vb = metric(rb, k)!.value as number, u = metric(ra, k)!.units;
-      const time = k === "time_to_extinguish";
-      const ratio = time && va > 0 && vb > 0 ? Math.max(va, vb) / Math.min(va, vb) : null;
-      headline = <>{b.name} {verb} {ratio != null ? <><span className="num text-ember-text">{sig(ratio, 2)}×</span> {vb < va ? "faster" : vb > va ? "slower" : "the same"}</> : <span className="num">{withUnit(vb, u)}</span>}
-        <span className="ml-2 font-mono text-[12px] font-normal text-mute">{a.name} <span className="num">{withUnit(va, u)}</span> → {b.name} <span className="num">{withUnit(vb, u)}</span></span></>;
+    const v = durationVerdict(a.name, ra, b.name, rb);
+    if (v.ratio != null && v.longer && v.ea.t_s != null && v.eb.t_s != null) {
+      headline = <>Fire lasts <span className="num text-ember-text">{sig(v.ratio, 2)}×</span> longer in {v.longer}
+        <span className="ml-2 font-mono text-[12px] font-normal text-mute">{a.name} out at <span className="num">{withUnit(v.ea.t_s, "s")}</span> ({v.ea.short}) · {b.name} <span className="num">{withUnit(v.eb.t_s, "s")}</span> ({v.eb.short})</span></>;
+      why = `${a.name}: ${v.ea.phrase}. ${b.name}: ${v.eb.phrase}.`;
+    } else if (v.ea.kind !== v.eb.kind && (v.ea.t_s === null || v.eb.t_s === null)) {
+      headline = <>{a.name}: {v.ea.short}{v.ea.t_s != null && <> at <span className="num">{withUnit(v.ea.t_s, "s")}</span></>} · {b.name}: {v.eb.short}{v.eb.t_s != null && <> at <span className="num">{withUnit(v.eb.t_s, "s")}</span></>}</>;
+      why = `${a.name}: ${v.ea.phrase}. ${b.name}: ${v.eb.phrase}.`;
+    } else {
+      const pick = DELTA.find(([k]) => metric(ra, k)?.value != null && metric(rb, k)?.value != null);
+      if (pick) {
+        const [k, verb] = pick, va = metric(ra, k)!.value as number, vb = metric(rb, k)!.value as number, u = metric(ra, k)!.units;
+        headline = <>{b.name} {verb} <span className="num">{withUnit(vb, u)}</span><span className="ml-2 font-mono text-[12px] font-normal text-mute">{a.name} <span className="num">{withUnit(va, u)}</span></span></>;
+      }
     }
   } else {
+    const e = fireEnd(ra);
     const m = metric(ra, "time_to_extinguish")?.value != null ? metric(ra, "time_to_extinguish") : metric(ra, "peak_T");
-    if (m?.value != null) headline = <>{m.label} <span className="num text-ember-text">{withUnit(m.value, m.units)}</span></>;
+    if (m?.value != null) headline = <>{m.label} <span className="num text-ember-text">{withUnit(m.value, m.units)}</span>{e.t_s != null && <span className="ml-2 font-mono text-[12px] font-normal text-mute">({e.short})</span>}</>;
+    if (e.kind !== "no-fire") why = `${a.name}: ${e.phrase}.`;
   }
   return (
     <section data-testid="delta-card" className="flex min-h-12 flex-wrap items-center gap-x-3 gap-y-1.5 border-t border-line bg-bg px-4 py-2" aria-label="Result">
       <p className="min-w-0 text-[16px] font-semibold tracking-[-0.01em]" data-testid="result-headline">{headline}</p>
+      {why && <Tip label={why}><span data-testid="end-reason" className="ea-pill cursor-help" tabIndex={0} aria-label={`Why each fire ended: ${why}`}>Why?</span></Tip>}
       {oobText.length > 0 && <Tip label={oobText.join(" · ")}><span data-testid="extrapolated" className="ea-pill" data-tone="warn">Extrapolated</span></Tip>}
       <span className="flex-1" />
       <Popover>

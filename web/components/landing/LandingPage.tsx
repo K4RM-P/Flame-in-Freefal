@@ -20,12 +20,12 @@ export function LandingPage() {
     <div className="bg-bg">
       <Hero status={{ experiments: f.psi.accessions, rows: f.psi.rows, mismatches: f.flex.mismatches, compared: f.flex.compared }} />
       <Story f={f.stops} />
-      <Bento f={{ front: f.run?.front ?? null, aName: f.run?.aName ?? "A", bName: f.run?.bName ?? "B", evidence: f.run?.evidence ?? [], fixes: f.run?.fixes ?? [], next: f.run?.next ?? null }} />
+      <Bento f={{ front: f.run?.front ?? null, aName: f.run?.aName ?? "A", bName: f.run?.bName ?? "B", evidence: f.run?.evidence ?? [], fixes: f.run?.fixes ?? [], next: f.run?.next ?? null, spreadN: f.spread.n }} />
       <HowItWorks />
       <LiveDemo run={f.run} video={video} />
       <Findings f={f} />
       <Marquee chips={f.psi.chips} />
-      <Trust f={f} pass={targets.filter((t) => t.status === "pass").length} total={targets.length} />
+      <Trust f={f} pass={targets.filter((t) => t.status === "pass").length} fail={targets.filter((t) => t.status === "fail").length} pending={targets.filter((t) => t.status !== "pass" && t.status !== "fail").length} />
       <FinalCta />
       <LandingFooter />
     </div>

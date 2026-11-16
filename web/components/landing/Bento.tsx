@@ -12,7 +12,7 @@ const stagger = (i: number) => i * 0.06; // 60 ms reveal stagger
 export interface BentoFacts {
   front: { t: number[]; a: number[]; b: number[] } | null; aName: string; bName: string;
   evidence: { accession: string; title: string; role: string }[];
-  fixes: { title: string; before: string; after: string; basis: string; effect: number }[]; next: { condition: string } | null;
+  fixes: { title: string; before: string; after: string; basis: string; effect: number }[]; next: { condition: string } | null; spreadN?: number;
 }
 
 function Card({ children, className = "", i }: { children: React.ReactNode; className?: string; i: number }) {
@@ -69,7 +69,7 @@ export function Bento({ f }: { f: BentoFacts }) {
                   <span className="num text-faint">{i + 1}</span><span className="truncate">{x.title}</span>
                   <span className="num whitespace-nowrap text-mute">{x.before} → {x.after}</span>
                   <span /><span className="h-1 rounded-full bg-surface2"><span className="ea-bar block h-full origin-left rounded-full bg-ember transition-transform duration-500 group-hover:scale-x-100 md:scale-x-[.35]" style={{ width: `${(x.effect / top) * 100}%` }} /></span>
-                  <span className="font-mono text-[11px] uppercase text-faint">{x.basis}</span>
+                  <span className="font-mono text-[11px] uppercase text-faint">{x.basis}{x.basis === "calibrated" && f.spreadN ? ` · n = ${f.spreadN}` : ""}</span>
                 </li>
               );
             })}

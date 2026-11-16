@@ -1,3 +1,4 @@
+// SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 export const asterDestinations = {
   overview: { label: "Overview", href: "/" },
   simulator: { label: "Simulator", href: "/simulator" },

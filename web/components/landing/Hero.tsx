@@ -23,7 +23,7 @@ export function Hero({ status }: { status: { experiments: number; rows: number; 
         <motion.p {...fade(0.9)} className="mt-6 max-w-[58ch] text-[16px] leading-relaxed text-mute md:text-[18px]">{ONE_LINER}</motion.p>
         <motion.div {...fade(1.05)} className="mt-8 w-full sm:w-auto"><HeroCtas /></motion.div>
         <motion.ul {...fade(1.2)} className="mt-10 flex flex-wrap justify-center gap-x-4 gap-y-1 font-mono text-[11px] uppercase tracking-[0.08em] text-faint" aria-label="Data status" data-testid="hero-status">
-          <li><span className="tabular-nums text-ink">{status.experiments}</span> ISS fire experiments</li>
+          <li><span className="tabular-nums text-ink">{status.experiments}</span> NASA spaceflight combustion datasets</li>
           <li aria-hidden>·</li>
           <li><span className="tabular-nums text-ink">{status.rows.toLocaleString("en-US")}</span> NASA data rows</li>
           <li aria-hidden>·</li>

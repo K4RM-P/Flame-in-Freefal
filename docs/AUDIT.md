@@ -57,7 +57,7 @@ output, or a screenshot description (screenshots were taken in headless Chromium
 
 ## 4. AI: Build with AI, Analyst, Aster (I 3 · C 4 · V 2 · R 3 · P 3)
 
-- **Aster is not run-aware.** `AskAsterButton` (the only dispatcher of `ASTER_CONTEXT_EVENT`) is imported nowhere, so Aster always posts `document.body.innerText` as a *string* context, and `/api/aster` then does catalog keyword search (`lib/ai/localAster.ts`).
+- **Aster is not run-aware.** `AskAsterButton` (the only dispatcher of `ASTER_CONTEXT_EVENT`) is used on Methods formula cards and the Evidence match, but the simulator imports it and never renders it (`Workspace.tsx:8`). So on the simulator Aster posts `document.body.innerText` as a *string* context, and `/api/aster` then does catalog keyword search (`lib/ai/localAster.ts`).
   - Reproduced: "Why does the Moon fire last longer?" → **PSI-26 BASS only**. The answer is "These NASA records are the closest matches…" with no run numbers, so the guard reports **"0 numbers checked"**. Saffire (PSI-98, the fabric that burned), BASS-II (PSI-25, the quench limit) and FM2 (NTRS 20240015307) are never cited. This is exactly the failure named in the brief.
   - Ranking is term overlap with a stop-word list. "fabric … lunar gravity" → PSI-20/25. "moon", "lunar", "partial gravity" and "extinguisher" have no synonyms.
 - The Analyst drawer *is* run-aware (`/api/interpret`), but offline it returns the same generic summary for every non-what-if question (`lib/ai/localInterpret.ts`). It ignores the question.

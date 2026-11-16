@@ -13,7 +13,7 @@ import { useSim } from "./store";
 import { Onboarding } from "./Onboarding";
 import { AiInterview } from "./AiInterview";
 
-export const PRODUCT = "EmberAtlas is an SI-powered cabin fire simulator for spacecraft and lunar habitats. It's built from, ranks, and is checked against NASA's ISS fire experiments in PSI, so engineers can test a cabin design before flight and see exactly which NASA evidence backs every result.";
+export const PRODUCT = "EmberAtlas is an SI-powered cabin fire simulator for spacecraft and lunar habitats. It's built from, ranks, and is checked against NASA's spaceflight combustion experiments in PSI, so engineers can test a cabin design before flight and see exactly which NASA evidence backs every result.";
 
 /** Deep link from the landing CTA: /simulator?preset=<id>&run=1 loads the preset (A and B for a pair) and runs it once. */
 function useDeepLink() {

@@ -10,6 +10,9 @@ import { Tex } from "@/components/Tex";
 import spreadFit from "@/data/params/spread.json";
 import catalogJson from "@/data/psi_catalog.json";
 import summary from "@/data/validation/summary.json";
+import { quenchLimit } from "@/lib/sim/endReason";
+
+const quench = quenchLimit();
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // Read at build time so a missing or not-yet-calibrated file shows as "Theory-only", never as an invented value.
@@ -192,6 +195,8 @@ export default function Methods() {
           <li><b>One well-mixed zone.</b> The cabin is a single zone with instant mixing, like a simplified form of NIST&apos;s CFAST zone model. Real cabins have hot layers, plumes and dead spots.</li>
           <li><b>1D flame spread per item.</b> Each item has one flame front moving along its length; there is no flame-to-item heat transfer.</li>
           <li><b>Partial gravity may be non-conservative.</b> Partial gravity (1/6 g) is estimated between µg and 1 g. NASA's FM2 lunar-gravity tests show some materials burn more readily at lunar g than at either, so this estimate may be non-conservative. PSI holds microgravity and 1 g tests only (FM2: NTRS 20240015307, outside PSI); Moon and Mars values are never measurements.</li>
+          <li data-testid="limit-gravity"><b>Gravity only switches the low-flow quench.</b> For a thin fuel, the de Ris spread rate does not depend on the opposed-flow speed, and the finite-rate (Damköhler) correction is not calibrated (no held-out PSI data for it). So gravity enters only through the buoyant flow that keeps a flame above the {quench.cm_s} cm/s low-flow quench limit ({quench.source}, status {quench.status}: BASS-II flames were flow-sensitive below 5 cm/s, and some survived below 1 cm/s). As a result, 1/6 g, Mars g and 1 g give the same spread once the flame is above the limit. The ISS fire in the demo goes out because the fan stops and nothing else moves the air.</li>
+          <li data-testid="limit-pressure"><b>No low-pressure flammability limit.</b> Extinction is a flame-temperature (inerting) check only. There is no pressure or ppO₂ flammability limit, so a run far below the tested pressure range can still burn. Such runs are flagged Extrapolated; do not read them as a result.</li>
           <li><b>Theory-only parts.</b> Every sub-model marked Theory-only above is uncalibrated physics; its numbers carry that label in the simulator too.</li>
           <li><b>Small n.</b> Many ISS results are single tests (SAFFIRE-II has one test per material and thickness). Earth-vs-orbit comparisons are like-for-like only and say nothing about a ground test standard as a whole.</li>
           <li><b>Unsourced inputs are required.</b> Where no sourced value exists (for example a cabin volume or a detector threshold) the field stays empty until you enter it.</li>

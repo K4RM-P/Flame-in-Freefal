@@ -1,3 +1,4 @@
+// SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 import { z } from "zod";
 import authoredCopy from "@/data/interface-copy.json";
 import { isTargetLanguage, TARGET_LANGUAGES, type TargetLanguage } from "@/lib/languages";

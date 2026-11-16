@@ -1,6 +1,7 @@
 // SI-assisted: written with Claude Code (Anthropic); see README "Use of AI (SI)".
 // Every number on the landing page comes from here: shipped data files (web/data) or a real engine run of the
 // "iss-vs-lunar" preset (same seed and Monte Carlo size as the simulator). Presentation layer only — no constants.
+import { durationVerdict } from "@/lib/sim/endReason";
 import tablesIndex from "@/data/psi/tables_index.json";
 import flexCrosscheck from "@/data/psi/flex_crosscheck.json";
 import dropletK from "@/data/validation/droplet_K.json";
@@ -29,7 +30,7 @@ export interface LandingFacts {
   stops: { maxSolid: number | null; mission: number; P_kPa: number; gravity: number; note: string; materials: { name: string; max: number | null }[] };
   run: {
     aName: string; bName: string;
-    burnA: number | null; burnB: number | null; units: string; ratio: number | null; faster: boolean | null;
+    burnA: number | null; burnB: number | null; units: string; ratio: number | null; longer: string | null; endA: string; endB: string;
     extrapolated: string[];
     next: { condition: string; reason: string } | null;
     front: { t: number[]; a: number[]; b: number[] } | null;
@@ -61,7 +62,8 @@ function engineRun(): LandingFacts["run"] {
   const ra = simulate(a, { mc: MC_N }), rb = simulate(b, { mc: MC_N });
   const ma = metric(ra, "time_to_extinguish"), mb = metric(rb, "time_to_extinguish");
   const va = ma?.value ?? null, vb = mb?.value ?? null;
-  const ratio = va != null && vb != null && va > 0 && vb > 0 ? Math.max(va, vb) / Math.min(va, vb) : null;
+  const dv = durationVerdict(a.name, ra, b.name, rb);
+  const ratio = dv.ratio;
   const seen = new Set<string>();
   const extrapolated = [...outOfEnvelope(b), ...outOfEnvelope(a)].map((o) => o.text).filter((t) => (seen.has(t) ? false : (seen.add(t), true)));
   const nt = nextTest(b, rb);
@@ -73,7 +75,7 @@ function engineRun(): LandingFacts["run"] {
   // "Prevent": the deterministic design review (rule-based gaps + largest sensitivity swings), top 3.
   const fixes = designReview(b, rb).slice(0, 3).map((x) => ({ title: x.title, before: show(x.before, x.units), after: show(x.after, x.units), basis: x.basis, effect: Math.abs(x.effect) }));
   return {
-    aName: a.name, bName: b.name, burnA: va, burnB: vb, units: ma?.units ?? "s", ratio, faster: va != null && vb != null ? vb < va : null,
+    aName: a.name, bName: b.name, burnA: va, burnB: vb, units: ma?.units ?? "s", ratio, longer: dv.longer, endA: dv.ea.short, endB: dv.eb.short,
     extrapolated, next: nt ? { condition: nt.condition, reason: nt.reason } : null, front,
     ignitionS: ev("ignition"), alarmS: ev("alarm"),
     evidence: rankEvidence(b).slice(0, 3).map((e) => ({ accession: e.accession, title: e.short_name || e.title, role: e.role[0] ?? "" })),
